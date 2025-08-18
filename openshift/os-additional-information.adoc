@@ -1,0 +1,25 @@
+---
+sidebar: sidebar 
+permalink: openshift/os-additional-information.html 
+keywords:  
+summary:  
+---
+= 了解有关 Red Hat OpenShift 虚拟化与NetApp存储集成的其他资源
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+访问其他资源，这些资源提供有关在各种平台和技术上支持使用ONTAP部署、管理和优化 Red Hat OpenShift Virtualization 的更多信息。
+
+* https://docs.netapp.com/["NetApp文档"^]
+* https://docs.netapp.com/us-en/trident/index.html["Trident文档"^]
+* https://access.redhat.com/documentation/en-us/openshift_container_platform/4.7/["Red Hat OpenShift 文档"^]
+* https://access.redhat.com/documentation/en-us/red_hat_openstack_platform/16.1/["Red Hat OpenStack 平台文档"^]
+* https://access.redhat.com/documentation/en-us/red_hat_virtualization/4.4/["Red Hat 虚拟化文档"^]
+* https://docs.vmware.com["VMware vSphere 文档"^]
+

@@ -1,0 +1,161 @@
+---
+sidebar: sidebar 
+permalink: migration/shift-toolkit-summary.html 
+keywords: netapp, vmware, esxi, vm, migration, openshift, virtualization, hyper-v, proxmox 
+summary:  
+---
+= 使用 Shift Toolkit 转换或迁移虚拟机后的后续步骤
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+使用 Shift Toolkit 转换或迁移虚拟机后，请查看关键的迁移后任务以验证新环境。您可以使用详细的示例来验证系统健康状况、执行清理步骤以及排除常见问题。
+
+
+
+== 结束语
+
+NetApp Shift 工具包可帮助管理员快速无缝地将虚拟机从 VMware 转换为 Hyper-V。它还可以在不同的虚拟机管理程序之间转换虚拟磁盘。因此，每次您想要将工作负载从一个虚拟机管理程序移动到另一个虚拟机管理程序时，Shift 工具包都可以为您节省数小时的精力。组织现在可以托管多虚拟机管理程序环境，而不必担心工作负载是否绑定到单个虚拟机管理程序。此功能提高了灵活性并降低了许可成本、锁定和对单一供应商的承诺。
+
+
+
+== 后续步骤
+
+通过下载 Shift 工具包释放Data ONTAP的潜力并开始迁移或转换虚拟机或磁盘文件以简化和优化迁移。
+
+要了解有关此过程的更多信息，请随意遵循详细的演练：
+
+.Shift Toolkit 演练
+video::6bf11896-3219-4ba7-9a00-b2d800d47144[panopto,width=360]
+
+
+== 故障排除和已知问题
+
+. 用于设置 IP 地址和删除 VMware 工具的触发脚本在 Windows VM 上失败，并出现以下错误：凭据无效
++
+[listing]
+----
+Error message:
+
+Enter-PSSession : The credential is invalid.
+
+Potential causes:
+
+The guest credentials couldn't be validated
+
+a. The supplied credentials were incorrect
+b. There are no user accounts in the guest
+----
+. Windows 虚拟机遇到 BSOD 错误
++
+*注意：*这不是 Shift 工具包的问题，而是与环境有关。
+
++
+[listing]
+----
+Error message:
+
+Bluescreen error during initial boot after migration.
+
+Potential cause:
+
+Local group policy setup to block the installation of applications including new drivers for Microsoft Hyper-V.
+
+a. Update the policy to allow installation of drivers.
+----
+. 尝试创建资源组时未列出数据存储
++
+[listing]
+----
+Error message:
+
+Mount paths are empty while getting volumes for mountpaths for site.
+
+Potential causes:
+
+The NFS volume used as a datastore is using v4.1
+
+a. Shift toolkit filters out NFS v3 datastores during the resource group creation. NFS 4.1 or 4.2 is not supported in the current release.
+----
+. 启用 SSL 后无法访问 Shift 工具包 UI。
++
+[listing]
+----
+Error message:
+
+Login failed, Network error
+
+Potential causes:
+
+MongoDB service not running
+Using Firefox browser to access Shift UI
+
+a. Ensure Mongo service is running
+b. Use Google Chrome or IE to access Shift UI.
+----
+. 无法迁移启用了加密的虚拟机。
++
+[listing]
+----
+Error message:
+
+Boot failure on Hyper-V side
+
+Potential causes:
+
+VMDK encrytped using vSphere encryption
+
+a. Decrypt the VMDK inside VMware and retry the operation.
+----
+
+
+
+
+== 附录
+
+
+
+=== Shift 工具包的自定义ONTAP角色
+
+创建具有最小权限的ONTAP角色，这样就无需使用ONTAP管理员角色在 Shift 工具包中执行操作。  ONTAP存储端的 SVM 级别需要这些最低角色。
+
+
+NOTE: vsadmin 也可以使用。
+
+image:shift-toolkit-084.png["该图显示输入/输出对话框或表示书面内容"]
+
+使用ONTAP系统管理器创建角色。
+
+在ONTAP系统管理器中执行以下步骤：
+
+*创建自定义角色：*
+
+* 要在 SVM 级别创建自定义角色，请选择“存储”>“存储虚拟机”>“所需的 SVM”>“设置”>“用户和角色”。
+* 选择“用户和角色”旁边的箭头图标 (→)。
+* 在角色下选择 +添加。
+* 定义角色的规则并单击保存。
+
+
+*将角色映射到 Shift 工具包用户：*
+
+在“用户和角色”页面上执行以下步骤：
+
+* 选择“用户”下的“添加图标 +”。
+* 选择所需的用户名，并在角色的下拉菜单中选择上一步创建的角色。
+* 单击“Save”。
+
+
+完成后，在 Shift 工具包 UI 中配置源站点和目标站点时使用上面创建的用户。
+
+
+
+=== VMware 上所需的最低权限角色
+
+要使用 Shift 工具包从 VMware vSphere 迁移虚拟机，请使用管理 > 访问控制 > 角色创建具有以下权限的 RBAC 用户。
+
+image:shift-toolkit-085.png["该图显示输入/输出对话框或表示书面内容"]

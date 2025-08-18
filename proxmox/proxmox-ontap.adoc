@@ -1,0 +1,416 @@
+---
+sidebar: sidebar 
+permalink: proxmox/proxmox-ontap.html 
+keywords: netapp, proxmox, proxmox ve, all-flash, nfs, iscsi, ontap, storage, aff 
+summary: 'Proxmox 虚拟环境 (VE) 中的共享存储减少了 VM 实时迁移的时间，并为整个环境中的备份和一致模板提供了更好的目标。  ONTAP存储可以满足 Proxmox VE 主机环境以及客户文件、块和对象存储需求。' 
+---
+= 为 Proxmox 虚拟环境配置ONTAP存储
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+使用 NAS、SAN 和 SMB/CIFS 协议通过 Proxmox 虚拟环境 (VE) 配置ONTAP存储。  Proxmox VE 中的共享存储减少了实时 VM 迁移的时间，并为整个环境中的备份和一致模板提供了更好的目标。
+
+Proxmox VE 主机需要将 FC、以太网或其他受支持的接口连接到交换机，并与ONTAP逻辑接口进行通信。始终检查 https://mysupport.netapp.com/matrix/#welcome["互操作性表工具"]了解支持的配置。
+
+
+
+== 高级ONTAP功能
+
+*共同特征*
+
+* 扩展集群
+* 安全身份验证和 RBAC 支持
+* 零信任多管理员支持
+* 安全多租户
+* 使用SnapMirror复制数据。
+* 使用快照进行时间点复制。
+* 节省空间的克隆。
+* 存储效率功能，如重复数据删除、压缩等。
+* Trident CSI 对 Kubernetes 的支持
+* Snaplock
+* 防篡改快照副本锁定
+* 加密支持
+* FabricPool将冷数据分层到对象存储。
+* BlueXP和 CloudInsights 集成。
+* Microsoft 卸载数据传输 (ODX)
+
+
+*NAS*
+
+* FlexGroup卷是一个横向扩展 NAS 容器，提供高性能以及负载分配和可扩展性。
+* FlexCache允许数据在全球范围内分发，同时仍提供对数据的本地读写访问。
+* 多协议支持使得相同的数据可以通过 SMB 和 NFS 访问。
+* NFS nConnect 允许每个 TCP 连接建立多个 TCP 会话，从而增加网络吞吐量。这增加了现代服务器上可用的高速网卡的利用率。
+* NFS 会话中继提供了更高的数据传输速度、高可用性和容错能力。
+* SMB 多通道提供了更高的数据传输速度、高可用性和容错能力。
+* 与 Active Directory/LDAP 集成以获得文件权限。
+* 通过 TLS 与 NFS 建立安全连接。
+* NFS Kerberos 支持。
+* 通过 RDMA 实现的 NFS。
+* Windows 和 Unix 身份之间的名称映射。
+* 自主勒索软件保护。
+* 文件系统分析。
+
+
+*SAN*
+
+* 使用SnapMirror主动同步跨故障域扩展集群。
+* ASA模型提供主动/主动多路径和快速路径故障转移。
+* 支持FC、iSCSI、NVMe-oF协议。
+* 支持 iSCSI CHAP 相互认证。
+* 选择性 LUN 映射和端口集。
+
+
+
+
+== ONTAP支持的 Proxmox VE 存储类型
+
+NAS 协议（NFS/SMB）支持 Proxmox VE 的所有内容类型，并且通常在数据中心级别配置一次。客户虚拟机可以使用 NAS 存储上的 raw、qcow2 或 VMDK 类型的磁盘。 ONTAP快照可见，以便从客户端访问数据的时间点副本。采用 SAN 协议（FC/iSCSI/NVMe-oF）的块存储通常按主机配置，并且仅限于 Proxmox VE 支持的 VM 磁盘和容器映像内容类型。客户虚拟机和容器将块存储作为原始设备使用。
+
+[cols="25% 15% 15% 15% 15% 15%"]
+|===
+| 内容类型 | NFS | SMB/CIFS | FC | iSCSI | NVMe-oF 
+
+
+| 备份 | 是 | 是  a| 
+否^1^
+ a| 
+否^1^
+ a| 
+否^1^
+
+
+
+| VM 磁盘 | 是 | 是  a| 
+是的^2^
+ a| 
+是的^2^
+ a| 
+是的^2^
+
+
+
+| CT体积 | 是 | 是  a| 
+是的^2^
+ a| 
+是的^2^
+ a| 
+是的^2^
+
+
+
+| ISO 映像 | 是 | 是  a| 
+否^1^
+ a| 
+否^1^
+ a| 
+否^1^
+
+
+
+| CT模板 | 是 | 是  a| 
+否^1^
+ a| 
+否^1^
+ a| 
+否^1^
+
+
+
+| 片段 | 是 | 是  a| 
+否^1^
+ a| 
+否^1^
+ a| 
+否^1^
+
+|===
+*注释：* 1 - 需要集群文件系统来创建共享文件夹并使用目录存储类型。  2——使用 LVM 存储类型。
+
+
+
+== SMB/CIFS存储
+
+要利用 SMB/CIFS 文件共享，存储管理员需要执行某些任务，虚拟化管理员可以使用 Proxmox VE UI 或从 shell 挂载共享。 SMB 多通道提供容错功能并提高性能。有关详细信息，请参阅link:https://www.netapp.com/pdf.html?item=/media/17136-tr4740.pdf["TR4740 - SMB 3.0 多通道"]
+
+
+NOTE: 密码将保存在明文文件中，只有 root 用户可以访问。请参阅link:https://pve.proxmox.com/pve-docs/chapter-pvesm.html#storage_cifs["Proxmox VE 文档"] 。
+
+.采用ONTAP 的SMB 共享存储池
+video::5b4ae54a-08d2-4f7d-95ec-b22d015f6035[panopto,width=360]
+.<strong>存储管理任务</strong>
+[%collapsible%open]
+====
+如果是ONTAP新手，请使用系统管理器界面完成这些任务以获得更好的体验。
+
+. 确保 SVM 已启用 SMB。跟随link:https://docs.netapp.com/us-en/ontap/smb-config/configure-access-svm-task.html["ONTAP 9 文档"]了解更多信息。
+. 每个控制器至少有两个生命。按照上述链接中的步骤操作。作为参考，这是此解决方案中使用的 lifs 的屏幕截图。
++
+image:proxmox-ontap-001.png["nas接口详情"]
+
+. 使用基于 Active Directory 或工作组的身份验证。按照上述链接中的步骤操作。
++
+image:proxmox-ontap-002.png["加入域信息"]
+
+. 创建卷。请记住选中跨集群分发数据的选项以使用FlexGroup。
++
+image:proxmox-ontap-023.png["FlexGroup选项"]
+
+. 创建 SMB 共享并调整权限。跟随link:https://docs.netapp.com/us-en/ontap/smb-config/configure-client-access-shared-storage-concept.html["ONTAP 9 文档"]了解更多信息。
++
+image:proxmox-ontap-003.png["SMB 共享信息"]
+
+. 向虚拟化管理员提供 SMB 服务器、共享名称和凭据，以便他们完成任务。
+
+
+====
+.<strong>虚拟化管理任务</strong>
+[%collapsible%open]
+====
+. 收集用于共享身份验证的 SMB 服务器、共享名称和凭据。
+. 确保至少两个接口配置在不同的 VLAN 中（以实现容错）并且 NIC 支持 RSS。
+. 如果使用管理 UI `https:<proxmox-node>:8006` ，点击数据中心，选择存储，点击添加，选择SMB/CIFS。
++
+image:proxmox-ontap-004.png["SMB存储导航"]
+
+. 填写详细信息，共享名称将自动填充。确保选择了所有内容。单击“添加”。
++
+image:proxmox-ontap-005.png["SMB 存储添加"]
+
+. 要启用多通道选项，请转到集群中任意一个节点上的 shell，然后键入 pvesm set pvesmb01 --options multichannel,max_channels=4
++
+image:proxmox-ontap-006.png["多通道设置"]
+
+. 以下是 /etc/pve/storage.cfg 中针对上述任务的内容。
++
+image:proxmox-ontap-007.png["SMB 的存储配置文件"]
+
+
+
+====
+
+
+== NFS 存储
+
+ONTAP支持 Proxmox VE 支持的所有 NFS 版本。为了提供容错和性能增强，确保link:https://docs.netapp.com/us-en/ontap/nfs-trunking/index.html["会话中继"]被利用。要使用会话中继，至少需要 NFS v4.1。
+
+如果是ONTAP新手，请使用系统管理器界面完成这些任务以获得更好的体验。
+
+.ONTAP的 NFS nconnect 选项
+video::f6c9aba3-b070-45d6-8048-b22e001acfd4[panopto,width=360]
+.<strong>存储管理任务</strong>
+[%collapsible%open]
+====
+. 确保 SVM 已启用 NFS。请参阅link:https://docs.netapp.com/us-en/ontap/nfs-config/verify-protocol-enabled-svm-task.html["ONTAP 9 文档"]
+. 每个控制器至少有两个生命。按照上述链接中的步骤操作。作为参考，这是我们在实验室中使用的 lifs 的屏幕截图。
++
+image:proxmox-ontap-001.png["nas接口详情"]
+
+. 创建或更新 NFS 导出策略，提供对 Proxmox VE 主机 IP 地址或子网的访问。参考link:https://docs.netapp.com/us-en/ontap/nfs-config/create-export-policy-task.html["出口政策制定"]和link:https://docs.netapp.com/us-en/ontap/nfs-config/add-rule-export-policy-task.html["向导出策略添加规则"]。
+. link:https://docs.netapp.com/us-en/ontap/nfs-config/create-volume-task.html["创建卷"] 。请记住选中跨集群分发数据的选项以使用FlexGroup。
++
+image:proxmox-ontap-023.png["FlexGroup选项"]
+
+. link:https://docs.netapp.com/us-en/ontap/nfs-config/associate-export-policy-flexvol-task.html["为卷分配导出策略"]
++
+image:proxmox-ontap-008.png["NFS 卷信息"]
+
+. 通知虚拟化管理员 NFS 卷已准备就绪。
+
+
+====
+.<strong>虚拟化管理任务</strong>
+[%collapsible%open]
+====
+. 确保至少两个接口配置在不同的 VLAN 中（以实现容错）。使用 NIC 绑定。
+. 如果使用管理 UI `https:<proxmox-node>:8006` ，点击数据中心，选择存储，点击添加，选择NFS。
++
+image:proxmox-ontap-009.png["NFS存储导航"]
+
+. 填写详细信息，提供服务器信息后，NFS 导出应填充并从列表中选择。记得选择内容选项。
++
+image:proxmox-ontap-010.png["NFS 存储添加"]
+
+. 对于会话中继，在每个 Proxmox VE 主机上，更新 /etc/fstab 文件以使用不同的 lif 地址以及 max_connect 和 NFS 版本选项挂载相同的 NFS 导出。
++
+image:proxmox-ontap-011.png["会话主干的 fstab 条目"]
+
+. 这是 NFS 的 /etc/pve/storage.cfg 中的内容。
++
+image:proxmox-ontap-012.png["NFS 的存储配置文件"]
+
+
+
+====
+
+
+== 带有 iSCSI 的 LVM
+
+.使用ONTAP 的iSCSI LVM 共享池
+video::d66ef67f-bcc2-4ced-848e-b22e01588e8c[panopto,width=360]
+要为 Proxmox 主机之间的共享存储配置逻辑卷管理器，请完成以下任务：
+
+.<strong>虚拟化管理任务</strong>
+[%collapsible%open]
+====
+. 确保有两个 Linux Vlan 接口可用。
+. 确保所有 Proxmox VE 主机上都安装了多路径工具。确保它在启动时启动。
++
+[source, shell]
+----
+apt list | grep multipath-tools
+# If need to install, execute the following line.
+apt-get install multipath-tools
+systemctl enable multipathd
+----
+. 收集所有 Proxmox VE 主机的 iscsi 主机 iqn 并将其提供给存储管理员。
++
+[source, shell]
+----
+cat /etc/iscsi/initiator.name
+----
+
+
+====
+.<strong>存储管理任务</strong>
+[%collapsible%open]
+====
+如果是ONTAP新手，请使用系统管理器以获得更好的体验。
+
+. 确保 SVM 可用且启用了 iSCSI 协议。跟随link:https://docs.netapp.com/us-en/ontap/san-admin/provision-storage.html["ONTAP 9 文档"]
+. 每个控制器有两个专用于 iSCSI 的 lif。
++
+image:proxmox-ontap-013.png["iSCSI接口详细信息"]
+
+. 创建 igroup 并填充主机 iscsi 启动器。
+. 在 SVM 上创建具有所需大小的 LUN，并将其呈现给上述步骤中创建的 igroup。
++
+image:proxmox-ontap-014.png["iscsi lun 详细信息"]
+
+. 通知虚拟化管理员 lun 已创建。
+
+
+====
+.<strong>虚拟化管理任务</strong>
+[%collapsible%open]
+====
+. 进入管理界面 `https:<proxmox node>:8006`，点击数据中心，选择存储，点击添加，选择iSCSI。
++
+image:proxmox-ontap-015.png["iscsi存储导航"]
+
+. 提供存储 ID 名称。当没有通信问题时， ONTAP的 iSCSI lif 地址应该能够选择目标。由于我们的目的不是直接向来宾虚拟机提供 LUN 访问，因此请取消选中该选项。
++
+image:proxmox-ontap-016.png["iscsi存储类型创建"]
+
+. 现在，单击添加并选择 LVM。
++
+image:proxmox-ontap-017.png["lvm存储导航"]
+
+. 提供存储 ID 名称，选择与我们在上一步中创建的 iSCSI 存储匹配的基本存储。选择基本卷的 LUN。提供卷组名称。确保已选择共享。
++
+image:proxmox-ontap-018.png["lvm存储创建"]
+
+. 这是使用 iSCSI 卷的 LVM 的示例存储配置文件。
++
+image:proxmox-ontap-019.png["lvm iscsi配置"]
+
+
+
+====
+
+
+== 带有 NVMe/TCP 的 LVM
+
+.使用ONTAP 的具有 NVMe/TCP 的 LVM 共享池
+video::80164fe4-06db-4c21-a25d-b22e0179c3d2[panopto,width=360]
+要为 Proxmox 主机之间的共享存储配置逻辑卷管理器，请完成以下任务：
+
+.<strong>虚拟化管理任务</strong>
+[%collapsible%open]
+====
+. 确保有两个 Linux Vlan 接口可用。
+. 在集群上的每个 Proxmox 主机上，执行以下命令来收集主机启动器信息。
++
+[source, shell]
+----
+nvme show-hostnqn
+----
+. 向存储管理员提供收集到的主机 nqn 信息并请求所需大小的 nvme 命名空间。
+
+
+====
+.<strong>存储管理任务</strong>
+[%collapsible%open]
+====
+如果是ONTAP新手，请使用系统管理器以获得更好的体验。
+
+. 确保 SVM 可用且启用了 NVMe 协议。参考link:https://docs.netapp.com/us-en/ontap/san-admin/create-nvme-namespace-subsystem-task.html["ONTAP 9 上的 NVMe 任务文档"]。
+. 创建 NVMe 命名空间。
++
+image:proxmox-ontap-020.png["nvme 命名空间创建"]
+
+. 创建子系统并分配主机 nqns（如果使用 CLI）。按照上面的参考链接。
+. 通知虚拟化管理员 nvme 命名空间已创建。
+
+
+====
+.<strong>虚拟化管理任务</strong>
+[%collapsible%open]
+====
+. 导航到集群中每个 Proxmox VE 主机上的 shell 并创建 /etc/nvme/discovery.conf 文件并更新特定于您的环境的内容。
++
+[source, shell]
+----
+root@pxmox01:~# cat /etc/nvme/discovery.conf
+# Used for extracting default parameters for discovery
+#
+# Example:
+# --transport=<trtype> --traddr=<traddr> --trsvcid=<trsvcid> --host-traddr=<host-traddr> --host-iface=<host-iface>
+
+-t tcp -l 1800 -a 172.21.118.153
+-t tcp -l 1800 -a 172.21.118.154
+-t tcp -l 1800 -a 172.21.119.153
+-t tcp -l 1800 -a 172.21.119.154
+----
+. 登录 nvme 子系统
++
+[source, shell]
+----
+nvme connect-all
+----
+. 检查并收集设备详细信息。
++
+[source, shell]
+----
+nvme list
+nvme netapp ontapdevices
+nvme list-subsys
+lsblk -l
+----
+. 创建卷组
++
+[source, shell]
+----
+vgcreate pvens02 /dev/mapper/<device id>
+----
+. 进入管理界面 `https:<proxmox node>:8006`，点击数据中心，选择存储，点击添加，选择LVM。
++
+image:proxmox-ontap-017.png["lvm存储导航"]
+
+. 提供存储 ID 名称，选择现有卷组并选择刚刚使用 cli 创建的卷组。记得检查共享选项。
++
+image:proxmox-ontap-021.png["现有 vg 上的 lvm"]
+
+. 这是使用 NVMe/TCP 的 LVM 的示例存储配置文件
++
+image:proxmox-ontap-022.png["NVM 上的 LVM TCP 配置"]
+
+
+
+====

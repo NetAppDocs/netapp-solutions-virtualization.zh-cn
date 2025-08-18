@@ -1,0 +1,399 @@
+---
+sidebar: sidebar 
+permalink: vmware/vmw-nfs-vlsr.html 
+keywords: netapp, vmware, cloud, foundation, vcf, aff, all-flash, nfs, vvol, vvols, array, ontap tools, otv, sddc 
+summary:  
+---
+= 使用 VMware Site Recovery Manager 配置 NFS 数据存储区的灾难恢复
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+使用 VMware Site Recovery Manager (SRM) 和ONTAP tools for VMware vSphere为 NFS 数据存储区实施灾难恢复。此过程包括在主站点和辅助站点使用 vCenter 服务器配置 SRM、安装ONTAP存储复制适配器 (SRA)、在ONTAP存储系统之间建立SnapMirror关系以及为 SRM 设置站点恢复。
+
+将适用ONTAP tools for VMware vSphere和站点复制适配器 (SRA) 与 VMware 站点恢复管理器 (SRM) 结合使用，可以为灾难恢复工作带来巨大价值。 ONTAP工具 10 提供强大的存储功能，包括 VASA 提供程序的本机高可用性和可扩展性，支持 iSCSI 和 NFS vVols。这确保了数据可用性并简化了多个 VMware vCenter 服务器和ONTAP集群的管理。通过将 SRA 与 VMware Site Recovery Manager 结合使用，组织可以实现站点之间虚拟机和数据的无缝复制和故障转移，从而实现高效的灾难恢复流程。  ONTAP工具和 SRA 的结合使企业能够保护关键工作负载、最大限度地减少停机时间并在发生不可预见的事件或灾难时保持业务连续性。
+
+无论您使用的是 SAN 还是 NAS， ONTAP工具 10 都可以简化存储管理和效率功能、提高可用性并降低存储成本和运营开销。它使用最佳实践来配置数据存储并优化 NFS 和块存储环境的 ESXi 主机设置。由于具有这些优势， NetApp建议在将 vSphere 与运行ONTAP软件的系统结合使用时使用此插件。
+
+SRA 与 SRM 一起使用，用于管理传统 VMFS 和 NFS 数据存储的生产和灾难恢复站点之间的 VM 数据复制，以及 DR 副本的无中断测试。它有助于自动执行发现、恢复和重新保护的任务。
+
+在这种情况下，我们将演示如何部署和使用 VMWare Site Recovery 管理器来保护数据存储并运行测试和最终故障转移到辅助站点。还讨论了重新保护和故障恢复。
+
+
+
+== 场景概述
+
+此场景涵盖以下高级步骤：
+
+* 在主站点和辅助站点上使用 vCenter 服务器配置 SRM。
+* ONTAP tools for VMware vSphere的 SRA 适配器并向 vCenter 注册。
+* 在源和目标ONTAP存储系统之间创建SnapMirror关系
+* 为 SRM 配置站点恢复。
+* 进行测试和最终的故障转移。
+* 讨论重新保护和故障恢复。
+
+
+
+
+== 架构
+
+下图显示了典型的 VMware Site Recovery 架构，其中配置了适用于ONTAP tools for VMware vSphere，采用 3 节点高可用性配置。
+
+image:vmware-nfs-srm-005.png["配置设备"]{nbsp}
+
+
+
+== 前提条件
+
+此场景需要以下组件和配置：
+
+* vSphere 8 集群安装在主位置和次位置，并具有适合环境之间通信的网络。
+* 主位置和辅助位置均有ONTAP存储系统，以太网交换机上的物理数据端口专用于 NFS 存储流量。
+* 已安装ONTAP tools for VMware vSphere，并且已注册两个 vCenter 服务器。
+* 已为主站点和辅助站点安装 VMware Site Replication Manager 设备。
++
+** 已为 SRM 配置库存映射（网络、文件夹、资源、存储策略）。
+
+
+
+
+NetApp建议为 NFS 采用冗余网络设计，为存储系统、交换机、网络适配器和主机系统提供容错功能。根据架构要求，通常使用单个子网或多个子网部署 NFS。
+
+参考 https://www.vmware.com/docs/vmw-best-practices-running-nfs-vmware-vsphere["使用 VMware vSphere 运行 NFS 的最佳实践"]有关 VMware vSphere 的详细信息。
+
+有关使用ONTAP与 VMware vSphere 的网络指导，请参阅 https://docs.netapp.com/us-en/ontap-apps-dbs/vmware/vmware-vsphere-network.html#nfs["网络配置 - NFS"]NetApp企业应用程序文档的部分。
+
+有关将ONTAP存储与 VMware SRM 结合使用的NetApp文档，请参阅 https://docs.netapp.com/us-en/ontap-apps-dbs/vmware/vmware-srm-overview.html#why-use-ontap-with-srm["搭载ONTAP 的VMware Site Recovery Manager"]
+
+
+
+== 部署步骤
+
+以下部分概述了使用ONTAP存储系统实施和测试 VMware Site Recovery Manager 配置的部署步骤。
+
+
+
+=== 在ONTAP存储系统之间创建SnapMirror关系
+
+必须在源 ONTAP 存储系统和目标ONTAP存储系统之间建立SnapMirror关系，以保护数据存储卷。
+
+请参阅ONTAP文档，从 https://docs.netapp.com/us-en/ontap/data-protection/snapmirror-replication-workflow-concept.html["这里"]有关为ONTAP卷创建SnapMirror关系的完整信息。
+
+以下文档概述了分步说明，位于link:https://docs.netapp.com/us-en/netapp-solutions-cloud/vmware/vmw-aws-vmc-guest-storage-dr.html#assumptions-pre-requisites-and-component-overview["这里"^]。以下步骤概述了如何为每个卷创建集群对等关系和 SVM 对等关系以及SnapMirror关系。这些步骤可以在ONTAP系统管理器中或使用ONTAP CLI 执行。
+
+
+
+=== 配置 SRM 设备
+
+完成以下步骤来配置 SRM 设备和 SRA 适配器。
+
+.连接主站点和辅助站点的 SRM 设备
+[%collapsible%open]
+====
+主站点和辅助站点都必须完成以下步骤。
+
+. 在 Web 浏览器中，导航至 `https://<SRM_appliance_IP>:5480`并登录。单击“配置设备”即可开始。
++
+image:vmware-nfs-srm-001.png["配置设备"]
+
++
+{nbsp}
+
+. 在配置站点恢复管理器向导的“平台服务控制器”页面上，填写将注册 SRM 的 vCenter 服务器的凭据。单击“*下一步*”继续。
++
+image:vmware-nfs-srm-002.png["平台服务控制器"]
+
++
+{nbsp}
+
+. 在*vCenter Server*页面，查看已经连接的vServer，点击*Next*继续。
+. 在*名称和扩展名*页面上，填写 SRM 站点的名称、管理员的电子邮件地址以及 SRM 要使用的本地主机。单击“*下一步*”继续。
++
+image:vmware-nfs-srm-003.png["配置设备"]
+
++
+{nbsp}
+
+. 在“准备完成”页面上查看更改摘要
+
+
+====
+.在 SRM 设备上配置 SRA
+[%collapsible%open]
+====
+完成以下步骤以在 SRM 设备上配置 SRA：
+
+. 下载适用于ONTAP 的SRA 工具 10 https://mysupport.netapp.com/site/products/all/details/otv10/downloads-tab["NetApp支持站点"]并将 tar.gz 文件保存到本地文件夹。
+. 从 SRM 管理设备中单击左侧菜单中的“*存储复制适配器*”，然后单击“*新适配器*”。
++
+image:vmware-nfs-srm-004.png["添加新的 SRM 适配器"]
+
++
+{nbsp}
+
+. 按照ONTAP工具 10 文档站点上概述的步骤操作 https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere-10/protect/configure-on-srm-appliance.html["在 SRM 设备上配置 SRA"]。完成后，SRA 可以使用 vCenter 服务器提供的 IP 地址和凭据与 SRA 通信。
+
+
+====
+
+
+=== 为 SRM 配置站点恢复
+
+完成以下步骤来配置站点配对、创建保护组、
+
+.为 SRM 配置站点配对
+[%collapsible%open]
+====
+以下步骤在主站点的 vCenter 客户端中完成。
+
+. 在 vSphere 客户端中，单击左侧菜单中的“*Site Recovery*”。新的浏览器窗口将打开，显示主站点上的 SRM 管理 UI。
++
+image:vmware-nfs-srm-006.png["站点恢复"]
+
++
+{nbsp}
+
+. 在*站点恢复*页面上，单击*新站点对*。
++
+image:vmware-nfs-srm-007.png["站点恢复"]
+
++
+{nbsp}
+
+. 在*新建对向导*的*对类型*页面上，验证是否选择了本地 vCenter 服务器并选择*对类型*。单击“*下一步*”继续。
++
+image:vmware-nfs-srm-008.png["配对类型"]
+
++
+{nbsp}
+
+. 在*Peer vCenter*页面上填写辅助站点的 vCenter 的凭据，然后单击*Find vCenter Instances*。验证 vCenter 实例是否已被发现，然后单击“下一步”继续。
++
+image:vmware-nfs-srm-009.png["对等 vCenter"]
+
++
+{nbsp}
+
+. 在*服务*页面上，选中建议的站点配对旁边的复选框。单击“*下一步*”继续。
++
+image:vmware-nfs-srm-010.png["服务"]
+
++
+{nbsp}
+
+. 在“准备完成”页面上，查看建议的配置，然后单击“完成”按钮以创建站点配对
+. 您可以在“摘要”页面上查看新的站点对及其摘要。
++
+image:vmware-nfs-srm-011.png["站点对摘要"]
+
+
+
+====
+.为 SRM 添加阵列对
+[%collapsible%open]
+====
+以下步骤在主站点的Site Recovery界面中完成。
+
+. 在站点恢复界面中，导航到左侧菜单中的“配置”>“基于阵列的复制”>“阵列对”。单击*ADD*开始。
++
+image:vmware-nfs-srm-012.png["数组对"]
+
++
+{nbsp}
+
+. 在“添加阵列对”向导的“存储复制适配器”页面上，验证主站点是否存在 SRA 适配器，然后单击“下一步”继续。
++
+image:vmware-nfs-srm-013.png["添加数组对"]
+
++
+{nbsp}
+
+. 在“本地阵列管理器”页面上，输入主站点阵列的名称、存储系统的 FQDN、为 NFS 提供服务的 SVM IP 地址，以及（可选）要发现的特定卷的名称。单击“*下一步*”继续。
++
+image:vmware-nfs-srm-014.png["本地阵列管理器"]
+
++
+{nbsp}
+
+. 在*远程阵列管理器*上填写与辅助站点的ONTAP存储系统最后一步相同的信息。
++
+image:vmware-nfs-srm-015.png["远程阵列管理器"]
+
++
+{nbsp}
+
+. 在*阵列对*页面上，选择要启用的阵列对，然后单击*下一步*继续。
++
+image:vmware-nfs-srm-016.png["数组对"]
+
++
+{nbsp}
+
+. 查看“准备完成”页面上的信息，然后单击“完成”以创建阵列对。
+
+
+====
+.为 SRM 配置保护组
+[%collapsible%open]
+====
+以下步骤在主站点的Site Recovery界面中完成。
+
+. 在站点恢复界面中单击“*保护组*”选项卡，然后单击“*新建保护组*”开始。
++
+image:vmware-nfs-srm-017.png["站点恢复"]
+
++
+{nbsp}
+
+. 在“新建保护组”向导的“名称和方向”页面上，为组提供一个名称并选择数据保护的站点方向。
++
+image:vmware-nfs-srm-018.png["名称和方向"]
+
++
+{nbsp}
+
+. 在*类型*页面上，选择保护组类型（数据存储、VM 或 vVol）并选择阵列对。单击“*下一步*”继续。
++
+image:vmware-nfs-srm-019.png["类型"]
+
++
+{nbsp}
+
+. 在“数据存储组”页面上，选择要包含在保护组中的数据存储。对于每个选定的数据存储，将显示当前驻留在数据存储上的虚拟机。单击“*下一步*”继续。
++
+image:vmware-nfs-srm-020.png["数据存储组"]
+
++
+{nbsp}
+
+. 在“恢复计划”页面上，可选择将保护组添加到恢复计划。在这种情况下，恢复计划尚未创建，因此选择“*不添加到恢复计划*”。单击“*下一步*”继续。
++
+image:vmware-nfs-srm-021.png["恢复计划"]
+
++
+{nbsp}
+
+. 在“准备完成”页面上，检查新的保护组参数，然后单击“完成”以创建该组。
++
+image:vmware-nfs-srm-022.png["恢复计划"]
+
+
+
+====
+.为 SRM 配置恢复计划
+[%collapsible%open]
+====
+以下步骤在主站点的Site Recovery界面中完成。
+
+. 在站点恢复界面中单击“*恢复计划*”选项卡，然后单击“*新建恢复计划*”开始。
++
+image:vmware-nfs-srm-023.png["新的复苏计划"]
+
++
+{nbsp}
+
+. 在“创建恢复计划”向导的“名称和方向”页面上，提供恢复计划的名称并选择源站点和目标站点之间的方向。单击“*下一步*”继续。
++
+image:vmware-nfs-srm-024.png["名称和方向"]
+
++
+{nbsp}
+
+. 在“保护组”页面上，选择要包含在恢复计划中的先前创建的保护组。单击“*下一步*”继续。
++
+image:vmware-nfs-srm-025.png["保护组"]
+
++
+{nbsp}
+
+. 在*测试网络*上配置将在计划测试期间使用的特定网络。如果不存在映射或者未选择网络，则会创建一个隔离的测试网络。单击“*下一步*”继续。
++
+image:vmware-nfs-srm-026.png["测试网络"]
+
++
+{nbsp}
+
+. 在*准备完成*页面上，检查所选参数，然后单击*完成*以创建恢复计划。
+
+
+====
+
+
+== 使用 SRM 进行灾难恢复操作
+
+本节将介绍使用 SRM 进行灾难恢复的各种功能，包括测试故障转移、执行故障转移、执行重新保护和故障恢复。
+
+参考 https://docs.netapp.com/us-en/ontap-apps-dbs/vmware/vmware-srm-operational_best_practices.html["运营最佳实践"]有关将ONTAP存储与 SRM 灾难恢复操作结合使用的更多信息。
+
+.使用 SRM 测试故障转移
+[%collapsible%open]
+====
+以下步骤在Site Recovery界面中完成。
+
+. 在站点恢复界面中单击“恢复计划”选项卡，然后选择一个恢复计划。单击“*测试*”按钮开始测试到辅助站点的故障转移。
++
+image:vmware-nfs-srm-027.png["测试故障转移"]
+
++
+{nbsp}
+
+. 您可以从站点恢复任务窗格以及 vCenter 任务窗格查看测试的进度。
++
+image:vmware-nfs-srm-028.png["在任务窗格中测试故障转移"]
+
++
+{nbsp}
+
+. SRM 通过 SRA 将命令发送到辅助ONTAP存储系统。在辅助 vSphere 集群上创建并安装最新快照的FlexClone 。您可以在存储清单中查看新安装的数据存储。
++
+image:vmware-nfs-srm-029.png["新挂载的数据存储"]
+
++
+{nbsp}
+
+. 测试完成后，单击“*清理*”以卸载数据存储并恢复到原始环境。
++
+image:vmware-nfs-srm-030.png["新挂载的数据存储"]
+
+
+
+====
+.使用 SRM 运行恢复计划
+[%collapsible%open]
+====
+执行完整恢复并故障转移到辅助站点。
+
+. 在站点恢复界面中单击“恢复计划”选项卡，然后选择一个恢复计划。单击“*运行*”按钮开始故障转移到辅助站点。
++
+image:vmware-nfs-srm-031.png["运行故障转移"]
+
++
+{nbsp}
+
+. 故障转移完成后，您可以看到数据存储已安装并且虚拟机已在辅助站点注册。
++
+image:vmware-nfs-srm-032.png["Filover 已完成"]
+
+
+
+====
+故障转移完成后，SRM 中可以实现其他功能。
+
+*重新保护*：恢复过程完成后，先前指定的恢复站点将承担新生产站点的角色。然而，值得注意的是， SnapMirror复制在恢复操作期间会中断，导致新的生产站点容易受到未来灾难的影响。为了确保持续保护，建议通过将新生产站点复制到另一个站点来建立新的保护。如果原始生产站点仍可正常运行，VMware 管理员可以将其重新用作新的恢复站点，从而有效地扭转保护的方向。必须强调的是，重新保护仅在非灾难性故障中才可行，这需要最终恢复原始 vCenter Server、ESXi 服务器、SRM 服务器及其各自的数据库。如果这些组件不可用，则需要创建新的保护组和新的恢复计划。
+
+*故障恢复*：故障恢复操作是一种反向故障转移，将操作返回到原始站点。在启动故障恢复过程之前，确保原始站点已恢复功能至关重要。为了确保顺利进行故障恢复，建议在完成重新保护过程之后和执行最终故障恢复之前进行测试故障转移。此做法作为验证步骤，确认原始站点的系统完全有能力处理该操作。通过遵循这种方法，您可以最大限度地降低风险并确保更可靠地过渡回原始生产环境。
+
+
+
+== 追加信息
+
+有关将ONTAP存储与 VMware SRM 结合使用的NetApp文档，请参阅 https://docs.netapp.com/us-en/ontap-apps-dbs/vmware/vmware-srm-overview.html#why-use-ontap-with-srm["搭载ONTAP 的VMware Site Recovery Manager"]
+
+有关配置ONTAP存储系统的信息，请参阅link:https://docs.netapp.com/us-en/ontap["ONTAP 9 文档"]中心。
+
+有关配置 VCF 的信息，请参阅link:https://techdocs.broadcom.com/us/en/vmware-cis/vcf.html["VMware 云基础文档"]。

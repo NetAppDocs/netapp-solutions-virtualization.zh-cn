@@ -1,0 +1,26 @@
+---
+sidebar: sidebar 
+permalink: vmware/vmw-vsphere8.html 
+keywords: netapp, vmware, getting, started 
+summary:  
+---
+= 了解NetApp对 VMware vSphere 8 的支持
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+NetApp和 VMware 的合作伙伴关系是唯一一个通过单一存储系统解决 VMware 定义的所有关键用例的合作伙伴关系。
+
+
+
+== 适用于 vSphere 8 的现代云连接全闪存
+
+ONTAP实施可在各种平台上运行，包括NetApp设计的设备、商用硬件和公共云。无论您通过 SAN 还是 NAS 协议访问， ONTAP都能提供统一存储，配置范围从高速闪存到低成本介质再到基于云的存储。 NetApp还提供专用闪存平台，以简化和细分您的存储需求，而不会产生孤岛。此外， NetApp还提供软件，可轻松实现本地和云端之间的数据移动。最后， NetApp BlueXP提供了一个单一的仪表板来管理所有这些关系和您的存储空间。
+
+* link:https://docs.netapp.com/us-en/ontap-systems-family/intro-family.html["NetApp平台"^]
+

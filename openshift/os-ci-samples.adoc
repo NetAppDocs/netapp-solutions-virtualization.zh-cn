@@ -1,0 +1,63 @@
+---
+sidebar: sidebar 
+permalink: openshift/os-ci-samples.html 
+keywords: OpenShift, OCP, Trident, NetApp ONTAP, Red Hat OpenShift, OpenShift Virtualization, CNV, Container Native Virtualization, Red Hat OpenShift Virtualization, cloud Insights 
+summary: 使用 Red Hat OpenShift 虚拟化中的Cloud Insights对虚拟机进行监控 
+---
+= 使用Data Infrastructure Insights监控 Red Hat OpenShift 虚拟化中的虚拟机
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+NetApp Data Infrastructure Insights （以前称为Cloud Insights）为 OpenShift Virtualization 中的虚拟机提供了强大的监控功能，包括基于事件的监控、警报创建和后端存储映射。它还提供变化分析来跟踪集群变化并协助进行故障排除。
+
+
+
+== **基于事件的监控并创建警报**
+
+下面是一个示例，其中包含 OpenShift Virtualization 中的 VM 的命名空间根据事件进行监控。本示例中，基于**logs.kubernetes**.event为集群中的指定命名空间创建一个监视器。
+
+image:redhat-openshift-ci-samples-001.png["Cloud Insights示例"]
+
+此查询提供命名空间中虚拟机的所有事件。 （命名空间中只有一个虚拟机）。还可以构建高级查询，根据原因为“失败”或“FailedMount”的事件进行过滤。这些事件通常是在创建 PV 或将 PV 安装到 pod 时出现问题时创建的，这表明动态配置程序在为 VM 创建持久卷时存在问题。在创建如上所示的警报监视器时，您还可以配置对收件人的通知。您还可以提供有助于解决错误的纠正措施或其他信息。在上面的例子中，可以通过查看Trident后端配置和存储类定义来获取更多信息以解决问题。
+
+
+
+== **变更分析**
+
+通过变更分析，您可以了解集群状态的变化，包括谁进行了变更，这有助于解决问题。
+
+image:redhat-openshift-ci-samples-002.png["Cloud Insights示例"]
+
+在上面的示例中，在 OpenShift 集群上为包含 OpenShift 虚拟化 VM 的命名空间配置了变更分析。仪表板显示时间线上的变化。您可以深入了解发生了什么变化，然后单击“所有变化差异”来查看清单的差异。从清单中，您可以看到已创建持久磁盘的新备份。
+
+image:redhat-openshift-ci-samples-003.png["Cloud Insights示例"]
+
+image:redhat-openshift-ci-samples-004.png["Cloud Insights示例"]
+
+
+
+== 后端存储映射
+
+通过Cloud Insights，您可以轻松查看 VM 磁盘的后端存储以及有关 PVC 的几个统计信息。
+
+image:redhat-openshift-ci-samples-005.png["Cloud Insights示例"]
+
+您可以点击后端列下的链接，它将直接从后端ONTAP存储中提取数据。
+
+image:redhat-openshift-ci-samples-006.png["Cloud Insights示例"]
+
+查看所有 pod 到存储映射的另一种方法是从“探索”下的“可观察性”菜单创建“所有指标”查询。
+
+image:redhat-openshift-ci-samples-007.png["Cloud Insights示例"]
+
+单击任意链接都会为您提供来自 ONTP 存储的相应详细信息。例如，单击 storageVirtualMachine 列中的 SVM 名称将从ONTAP中提取有关该 SVM 的详细信息。单击内部卷名称将会提取有关ONTAP中该卷的详细信息。
+
+image:redhat-openshift-ci-samples-008.png["Cloud Insights示例"]
+
+image:redhat-openshift-ci-samples-009.png["Cloud Insights示例"]

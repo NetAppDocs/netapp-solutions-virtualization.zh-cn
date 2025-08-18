@@ -1,0 +1,162 @@
+---
+sidebar: sidebar 
+permalink: openshift/osv-rosa-overview.html 
+keywords: OpenShift, OCP, Trident, NetApp ONTAP, Red Hat OpenShift, OpenShift Virtualization, ROSA, CNV, Container Native Virtualization, Red Hat OpenShift Virtualization 
+summary: ROSA 上的 Red Hat OpenShift 虚拟化 
+---
+= 在 ROSA 集群上部署带有 FSx for ONTAP 的Red Hat OpenShift 虚拟化
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+将Amazon FSx for NetApp ONTAP设置为 ROSA（AWS 上的 Red Hat OpenShift 服务）集群的默认 StorageClass。此过程包括创建利用 FSx ONTAP存储作为其卷的 VM、检查为 VM 创建的所有对象以及使用来宾凭据连接到 VM。
+
+我们还将研究使用来宾凭据连接到虚拟机，并重新启动虚拟机。最后，我们将虚拟机从当前节点实时迁移到新节点。我们将检查虚拟机重启和实时迁移后的磁盘存储内容。
+
+
+
+== 前提条件
+
+* link:https://signin.aws.amazon.com/signin?redirect_uri=https://portal.aws.amazon.com/billing/signup/resume&client_id=signup["AWS 账户"]
+* link:https://console.redhat.com/["Red Hat 帐户"]
+* IAM 用户link:https://www.rosaworkshop.io/rosa/1-account_setup/["具有适当的权限"]创建并访问ROSA集群
+* link:https://aws.amazon.com/cli/["AWS CLI"]
+* link:https://console.redhat.com/openshift/downloads["ROSA CLI"]
+* link:https://console.redhat.com/openshift/downloads["OpenShift 命令行界面"]（oc）
+* link:https://docs.aws.amazon.com/eks/latest/userguide/helm.html["Helm 3 文档"]
+* link:https://docs.openshift.com/rosa/rosa_hcp/rosa-hcp-sts-creating-a-cluster-quickly.html["HCP ROSA 集群"]（至少有 3 个裸机工作节点）
+* link:https://console.redhat.com/openshift/overview["访问 Red Hat OpenShift Web 控制台"]
+* Trident 25.02 或更高版本 有关上述Trident先决条件，请参阅link:osv-trident-install.html["Trident安装部分"]了解详情。
+* link:https://docs.redhat.com/en/documentation/openshift_container_platform/4.17/html/virtualization/installing#virt-aws-bm_preparing-cluster-for-virt["在 ROSA 集群上安装 OpenShift 虚拟化"]
+
+
+从Trident 25.02 版本开始，您可以轻松准备 ROSA 集群（或任何 OpenShift 集群）的工作节点以在 FSxN 存储上执行 iSCSI 操作。有两种简单的方法可以安装Trident 25.02（或更高版本），以自动为 iSCSI 准备工作节点。在安装 OpenShift Virtualization 之前，您应该已经创建了 trident 后端、存储类和卷快照类对象并将它们设置为默认值。您可以参考link:osv-trident-install.html["Trident安装部分"]了解详情。
+
+
+
+== 初始设置
+
+设置 trident 后端、存储类和 VolumeSnapshotClass。您可以参考link:osv-trident-install.html["Trident安装部分"]了解详情。
+
+创建 Trident 后端对象的示例 yaml
+
+[source, yaml]
+----
+cat tbc.yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: backend-tbc-ontap-san-secret
+type: Opaque
+stringData:
+  username: fsxadmin
+  password: <password for the fsxN filesystem>
+---
+apiVersion: trident.netapp.io/v1
+kind: TridentBackendConfig
+metadata:
+  name: backend-tbc-ontap-san
+spec:
+  version: 1
+  storageDriverName: ontap-san
+  managementLIF: <management lif of fsxN filesystem>
+  backendName: backend-tbc-ontap-san
+  svm: svm_FSxNForROSAiSCSI
+  credentials:
+    name: backend-tbc-ontap-san-secret
+
+cat sc.yaml
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: trident-csi
+provisioner: csi.trident.netapp.io
+parameters:
+  backendType: "ontap-san"
+  media: "ssd"
+  provisioningType: "thin"
+  snapshots: "true"
+allowVolumeExpansion: true
+
+cat snapshot-class.yaml
+apiVersion: snapshot.storage.k8s.io/v1
+kind: VolumeSnapshotClass
+metadata:
+  name: fsx-snapclass
+driver: csi.trident.netapp.io
+deletionPolicy: Retain
+
+#oc create -f tbc,yaml -n trident
+#oc create -f sc.yaml
+#oc create -f snapshot-class.yaml
+----
+在安装 OpenShift Virtualization 之前，请确保存储类和卷快照类已配置为默认值。有关如何设置默认值的详细信息，您可以参考link:osv-trident-install.html["使用Trident存储和快照类设置默认值部分"]了解详情。
+
+
+
+=== **从模板创建虚拟机**
+
+使用 Web 控制台从模板创建 VM。从 AWS 控制台上的 RedHat OpenShiftService 创建一个虚拟机。集群上有可用的模板可用于创建虚拟机。在下面的屏幕截图中，我们从这个列表中选择了 fedora VM。为虚拟机命名，然后单击**自定义虚拟机**。选择**磁盘**选项卡并单击**添加磁盘**。最好将磁盘名称更改为有意义的名称，确保选择 **trident-csi** 作为存储类。点击**保存**。点击**创建虚拟机**
+
+几分钟后，虚拟机处于运行状态image:redhat-openshift-ocpv-rosa-003.png["OCP-v 从模板创建虚拟机"]
+
+image:redhat-openshift-ocpv-rosa-004.png["OCP-v 模板源可用"]
+
+image:redhat-openshift-ocpv-rosa-005.png["OCP-v 自定义虚拟机"]
+
+image:redhat-openshift-ocpv-rosa-006.png["OCP-v 磁盘选项卡"]
+
+image:redhat-openshift-ocpv-rosa-007.png["OCP-v 添加磁盘"]
+
+image:redhat-openshift-ocpv-rosa-008.png["OCP-v VM 正在运行"]
+
+
+
+=== **检查为虚拟机创建的所有对象**
+
+存储磁盘。image:redhat-openshift-ocpv-rosa-009.png["OCP-v 存储磁盘"]
+
+VM 的文件系统将显示分区、文件系统类型和挂载点。image:redhat-openshift-ocpv-rosa-010.png["OCP-v 文件系统"]
+
+为虚拟机创建 2 个 PVC，一个来自启动磁盘，一个来自热插拔磁盘。image:redhat-openshift-ocpv-rosa-011.png["OCP-v 虚拟机 PVC"]
+
+启动磁盘的 PVC 显示访问模式为 ReadWriteMany，存储类为 trident-csi。image:redhat-openshift-ocpv-rosa-012.png["OCP-v VM启动盘PVC"]
+
+类似地，热插拔磁盘的 PVC 显示访问模式为 ReadWriteMany，存储类为 trident-csi。image:redhat-openshift-ocpv-rosa-013.png["OCP-v VM热插拔磁盘PVC"]
+
+在下面的屏幕截图中，我们可以看到虚拟机的 pod 状态为正在运行。image:redhat-openshift-ocpv-rosa-014.png["OCP-v VM 正在运行"]
+
+在这里我们可以看到与 VM pod 关联的两个卷以及与它们关联的 2 个 PVC。image:redhat-openshift-ocpv-rosa-015.png["OCP-v VM PVC 和 PV"]
+
+
+
+=== **连接到虚拟机**
+
+单击“打开 Web 控制台”按钮，然后使用来宾凭证登录image:redhat-openshift-ocpv-rosa-016.png["OCP-v VM 连接"]
+
+image:redhat-openshift-ocpv-rosa-017.png["OCP-v 登录"]
+
+发出以下命令
+
+[source]
+----
+$ df (to display information about the disk space usage on a file system).
+----
+[source]
+----
+$ dd if=/dev/urandom of=random.dat bs=1M count=10240 (to create a file called random.dat in the home dir and fill it with random data).
+----
+磁盘上存有 11 GB 的数据。image:redhat-openshift-ocpv-rosa-018.png["OCP-v VM 填充磁盘"]
+
+使用 vi 创建我们将用于测试的示例文本文件。image:redhat-openshift-ocpv-rosa-019.png["OCP-v创建文件"]
+
+**相关博客**
+
+link:https://community.netapp.com/t5/Tech-ONTAP-Blogs/Unlock-Seamless-iSCSI-Storage-Integration-A-Guide-to-FSxN-on-ROSA-Clusters-for/ba-p/459124["解锁无缝 iSCSI 存储集成：iSCSI ROSA 集群上的 FSxN 指南"]
+
+link:https://community.netapp.com/t5/Tech-ONTAP-Blogs/Simplifying-Trident-Installation-on-Red-Hat-OpenShift-with-the-New-Certified/ba-p/459710["使用新认证的Trident Operator 简化 Red Hat OpenShift 上的Trident安装"]

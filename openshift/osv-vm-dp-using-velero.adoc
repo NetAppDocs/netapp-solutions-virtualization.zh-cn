@@ -1,0 +1,82 @@
+---
+sidebar: sidebar 
+permalink: openshift/osv-vm-dp-using-velero.html 
+keywords: OpenShift, OCP, Trident, NetApp ONTAP, Red Hat OpenShift, OpenShift Virtualization, CNV, Container Native Virtualization, Red Hat OpenShift Virtualization, OADP operator, Openshift Data Protection Application operator, velero 
+summary: 搭载NetApp ONTAP 的Red Hat OpenShift 虚拟化 
+---
+= 使用 Velero 为 Red Hat OpenShift Virtualization 中的虚拟机创建按需备份
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+使用 Velero 和NetApp ONTAP S3 或StorageGRID在 OpenShift Virtualization 中备份虚拟机。此过程包括为按需备份创建备份自定义资源 (CR) 和为计划备份创建计划 CR。每个备份都会捕获虚拟机元数据和持久卷，并将它们存储在指定的对象存储位置以用于恢复或合规目的。
+
+
+
+== 创建虚拟机备份的步骤
+
+要创建整个 VM（VM 元数据和 VM 磁盘）的按需备份，请单击“备份”选项卡。这将创建一个备份自定义资源 (CR)。提供了一个示例 yaml 来创建备份 CR。使用此 yaml，将备份指定命名空间中的 VM 及其磁盘。可以设置其他参数，如下所示link:https://docs.openshift.com/container-platform/4.14/backup_and_restore/application_backup_and_restore/backing_up_and_restoring/oadp-creating-backup-cr.html["文档"]。
+
+CSI 将创建支持磁盘的持久卷的快照。创建虚拟机的备份及其磁盘的快照，并将其存储在 yaml 中指定的备份位置。备份将按照 ttl 的规定在系统中保留 30 天。
+
+....
+apiVersion: velero.io/v1
+kind: Backup
+metadata:
+  name: backup1
+  namespace: openshift-adp
+spec:
+  includedNamespaces:
+  - virtual-machines-demo
+  snapshotVolumes: true
+  storageLocation: velero-demo-1 -->this is the backupStorageLocation previously created
+                                    when Velero is configured.
+  ttl: 720h0m0s
+....
+备份完成后，其阶段将显示为已完成。
+
+image:redhat-openshift-oadp-backup-001.png["备份完成"]
+
+您可以借助 S3 浏览器应用程序检查对象存储中的备份。备份路径显示在配置的存储桶中，前缀名称为（velero/demobackup）。您可以看到备份的内容包括虚拟机的卷快照、日志和其他元数据。
+
+
+NOTE: 在 StorageGrid 中，您还可以使用租户管理器提供的 S3 控制台来查看备份对象。
+
+image:redhat-openshift-oadp-backup-002.png["S3 中的备份对象"]
+
+
+
+== 在 OpenShift 虚拟化中为虚拟机创建计划备份
+
+要按计划创建备份，您需要创建计划 CR。该计划只是一个 Cron 表达式，允许您指定要创建备份的时间。用于创建 Schedule CR 的示例 yaml。
+
+....
+apiVersion: velero.io/v1
+kind: Schedule
+metadata:
+  name: <schedule>
+  namespace: openshift-adp
+spec:
+  schedule: 0 7 * * *
+  template:
+    hooks: {}
+    includedNamespaces:
+    - <namespace>
+    storageLocation: velero-demo-1
+    defaultVolumesToFsBackup: true
+    ttl: 720h0m0s
+....
+Cron表达式 0 7 * * * 表示每天7:00创建备份。还指定了要包含在备份中的命名空间和备份的存储位置。因此，不是使用备份 CR，而是使用计划 CR 在指定的时间和频率创建备份。
+
+一旦创建了计划，它将被启用。
+
+image:redhat-openshift-oadp-backup-003.png["已创建计划"]
+
+备份将根据此计划创建，并可从“备份”选项卡中查看。
+
+image:redhat-openshift-oadp-backup-004.png["已创建计划"]

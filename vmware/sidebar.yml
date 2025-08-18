@@ -1,0 +1,158 @@
+---
+section: vmware
+title: VMware虚拟化
+url: "/vmware/index.html"
+entries:
+- title: 开始使用
+  pdf-filename: NetApp和 VMware 入门
+  entries:
+  - title: 核心概念
+    entries:
+    - title: 关于适用于 VMware vSphere 的ONTAP
+      url: "/vmware/vmw-getting-started-overview.html"
+    - title: 关于适用于 VMware 的NetApp平台
+      url: "/vmware/vmw-getting-started-ntap-options.html"
+    - title: 关于混合多云环境
+      url: "/vmware/vmw-getting-started-hmc.html"
+  - title: 管理工具和解决方案
+    entries:
+    - title: 适用于 VMware vSphere 的 ONTAP 工具
+      url: "/vmware/vmw-getting-started-otv.html"
+    - title: 用于管理的ONTAP和 VMware API
+      url: "/vmware/vmw-getting-started-automation.html"
+    - title: 用于监控的Data Infrastructure Insights
+      url: "/vmware/vmw-getting-started-dii.html"
+    - title: 虚拟机工作负载迁移以提高效率
+      url: "/vmware/vmw-getting-started-migration.html"
+  - title: 数据保护解决方案
+    entries:
+    - title: 使用MetroCluster和SnapMirror主动同步进行保护
+      url: "/vmware/vmw-getting-started-vmsc.html"
+    - title: 使用ONTAP进行安全和勒索软件防护
+      url: "/vmware/vmw-getting-started-security.html"
+  - title: 备份和灾难恢复解决方案
+    entries:
+    - title: 适用于 VMware vSphere 的 SnapCenter 插件
+      url: "/vmware/vmw-getting-started-snapcenter.html"
+    - title: BlueXP disaster recovery
+      url: "/vmware/vmw-dr-gs.html"
+- title: NetApp上的 VMware 云基础
+  pdf-filename: NetApp上的 VMware 云基础
+  entries:
+  - title: 关于 VMware Cloud Foundation 和ONTAP
+    url: "/vmware/vmw-vcf-overview.html"
+  - title: 将现有 vSphere 集群转换为 VCF
+    entries:
+    - title: 关于将现有 vSphere 群集转换为 VCF
+      url: "/vmware/vmw-vcf-migrate.html"
+    - title: 使用 NFS 数据存储转换现有的 vSphere 集群
+      url: "/vmware/vmw-vcf-mgmt-nfs.html"
+    - title: 使用 FC 数据存储转换现有的 vSphere 群集
+      url: "/vmware/vmw-vcf-mgmt-fc.html"
+  - title: 为 VCF 提供主要存储
+    entries:
+    - title: 关于配置主体存储
+      url: "/vmware/vmw-vcf-provision.html"
+    - title: 使用 FC 配置管理域
+      url: "/vmware/vmw-vcf-mgmt-principal-fc.html"
+    - title: 使用 NFS 配置管理域
+      url: "/vmware/vmw-vcf-mgmt-principal-nfs.html"
+    - title: 使用 FC 调配 VI 工作负载域
+      url: "/vmware/vmw-vcf-viwld-principal-fc.html"
+    - title: 使用 NFS 预配 VI 工作负载域
+      url: "/vmware/vmw-vcf-viwld-principal-nfs.html"
+  - title: 使用补充存储扩展 VCF
+    entries:
+    - title: 关于扩展存储
+      url: "/vmware/vmw-vcf-expand.html"
+    - title: 使用 iSCSI 扩展管理域
+      url: "/vmware/vmw-vcf-mgmt-supplemental-iscsi.html"
+    - title: 利用FC扩展管理域
+      url: "/vmware/vmw-vcf-mgmt-supplemental-fc.html"
+    - title: 使用vVols iSCSI 扩展 VI 工作负载域
+      url: "/vmware/vmw-vcf-viwld-supp-iscsi-vvols.html"
+    - title: 使用vVols NFS 扩展 VI 工作负载域
+      url: "/vmware/vmw-vcf-viwld-supp-nfs-vvols.html"
+    - title: 使用 NVMe/TCP 扩展 VI 工作负载域
+      url: "/vmware/vmw-vcf-viwld-supp-nvme.html"
+    - title: 使用 FC 扩展 VI 工作负载域
+      url: "/vmware/vmw-vcf-viwld-supp-fc.html"
+  - title: 使用SnapCenter保护 VCF
+    entries:
+    - title: 关于使用SnapCenter保护 VCF 工作负载
+      url: "/vmware/vmw-vcf-protect-sc.html"
+    - title: 保护单个 VCF 工作负载域
+      url: "/vmware/vmw-vcf-scv-viwld.html"
+    - title: 保护多个 VCF 工作负载域
+      url: "/vmware/vmw-vcf-scv-multiwkld-protection.html"
+    - title: 使用 NVMe 保护 VCF 工作负载域
+      url: "/vmware/vmw-vcf-scv-nvme.html"
+  - title: 使用BlueXP保护 VMware 数据存储
+    entries:
+    - title: 关于使用BlueXP保护 VMware 数据存储区
+      url: "/vmware/vmw-vcf-disaster-recovery.html"
+    - title: 使用SnapCenter和BlueXP配置数据保护
+      url: "/vmware/vmw-vcf-321-data-protection.html"
+    - title: 为 VMFS 数据存储设置灾难恢复
+      url: "/vmware/vmw-disaster-recovery-vmfs.html"
+    - title: 为 NFS 数据存储设置灾难恢复
+      url: "/vmware/vmw-disaster-recovery-nfs.html"
+  - title: 使用 vSphere Metro Storage Cluster 保护工作负载
+    entries:
+    - title: 关于集成ONTAP高可用性
+      url: "/vmware/vmw-vcf-protect-vmsc.html"
+    - title: 使用MetroCluster配置管理域
+      url: "/vmware/vmw-vcf-vmsc-mgmt-mcc.html"
+    - title: 使用MetroCluster配置 VI 工作负载域
+      url: "/vmware/vmw-vcf-vmsc-viwld-mcc.html"
+    - title: 使用SnapMirror Active Sync 配置管理域
+      url: "/vmware/vmw-vcf-vmsc-mgmt-smas.html"
+    - title: 使用SnapMirror Active Sync 配置 VI 工作负载域
+      url: "/vmware/vmw-vcf-vmsc-viwld-smas.html"
+  - title: 从 vSphere 迁移虚拟机
+    url: "/vmware/migrate-vms-to-ontap-datastore.html"
+  - title: 保护并恢复数据以抵御勒索软件
+    url: "/vmware/vmw-nfs-arp.html"
+  - title: 使用 DII 监控本地存储
+    url: "/vmware/vmw-dii.html"
+- title: NetApp上的 VMware vSphere 基础
+  pdf-filename: NetApp上的 VMware vSphere 基础
+  entries:
+  - title: 开始使用
+    entries:
+    - title: 关于NetApp上的 VMware vSphere Foundation
+      url: "/vmware/vmw-vvf-overview.html"
+    - title: 关于NetApp对 VMware vSphere 8 的支持
+      url: "/vmware/vmw-vsphere8.html"
+    - title: 关于将 VMware vSphere 8 与ONTAP存储结合使用
+      url: "/vmware/vmw-vsphere-with-ontap.html"
+    - title: VMware vSphere 8 的新增功能
+      url: "/vmware/vmw-vsphere8-overview.html"
+  - title: 为 vSphere 8 部署 VMFS
+    url: "/vmware/vmw-vmfs-deploy.html"
+  - title: 使用 NFS nConnect 功能
+    url: "/vmware/vmw-vsphere8-nfs-nconnect.html"
+  - title: 配置 NFS 数据存储
+    url: "/vmware/vmw-nfs-otv10.html"
+  - title: 配置灾难恢复
+    url: "/vmware/vmw-nfs-vlsr.html"
+  - title: 使用SnapMirror Active Sync 设置 vMSC
+    url: "/vmware/vmw-vmsc-with-smas.html"
+  - title: 使用 VMSC 转换SnapMirror Active Sync
+    url: "/vmware/vmware-smbc-cvt-smas.html"
+  - title: 将vVols与ONTAP结合使用
+    url: "/vmware/vmw-vvol-overview.html"
+  - title: 使用虚拟机数据收集器收集数据
+    pdf-filename: 虚拟机数据收集器
+    entries:
+    - title: 关于VMDC
+      url: "/vmware/vmw-getting-started-vmdc.html"
+    - title: 使用 VMDC 收集数据
+      url: "/assess/vmw-vmdc.html"
+- title: VMware 主权云
+  pdf-filename: NetApp和 VMware Sovereign Cloud
+  entries:
+  - title: 关于 Sovereign Cloud
+    url: "/vmware/vmw-sovereign-cloud.html"
+  - title: NetApp与 Sovereign Cloud 的集成
+    url: "/vmware/vmw-sovereign-cloud-use-cases.html"

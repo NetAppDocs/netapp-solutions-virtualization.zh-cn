@@ -1,0 +1,19 @@
+---
+sidebar: sidebar 
+permalink: vmware/vmw-vsphere-with-ontap.html 
+keywords:  
+summary:  
+---
+= 了解如何将 VMware vSphere 8 与ONTAP存储结合使用
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+近二十年来， ONTAP一直是 VMware vSphere 环境的领先存储解决方案，并不断添加创新功能以简化管理并降低成本。本文档介绍了适用于 vSphere 的ONTAP解决方案，包括最新的产品信息和最佳实践，以简化部署、降低风险并简化管理。
+
+欲了解更多信息，请访问link:https://docs.netapp.com/us-en/ontap-apps-dbs/vmware/vmware-vsphere-overview.html["搭载ONTAP 的VMware vSphere"]

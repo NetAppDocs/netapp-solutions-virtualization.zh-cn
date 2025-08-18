@@ -1,0 +1,46 @@
+---
+sidebar: sidebar 
+permalink: vmware/vmw-dr-gs.html 
+keywords: vmware, getting, started, overview, netapp, bluexp, disaster, recovery, draas 
+summary:  
+---
+= 了解使用BlueXP disaster recovery
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+BlueXP disaster recovery使用ONTAP存储自动复制和恢复 VMware 虚拟机。它支持使用Amazon FSx for NetApp ONTAP或其他本地 VMware 环境从本地设置恢复到 AWS 上的 VMware Cloud。
+
+
+
+== 简介
+
+成功的计划和技术组合可确保关键数据、应用程序和虚拟机的保护。  DR 的挑战在于确定适当的保护级别和相关成本。
+
+ONTAP阵列提供内置复制功能，用于将卷数据（以及驻留在指定数据存储 LUN 上的虚拟机）从一个站点传输到另一个站点。BlueXP DRaaS 与 vSphere 集成并自动化整个工作流程，以便在发生灾难时实现无缝故障转移和故障恢复。
+
+有关BlueXP DRaaS 的更多信息，请参阅link:https://docs.netapp.com/us-en/netapp-solutions-cloud/vmware/vmw-hybrid-dr-overview.html["BlueXP DRaaS 概述"^]。
+
+
+
+== 注意事项
+
+VMware vSphere 环境中 DR 故障转移最耗时的部分是在 DR 站点执行清点、注册、重新配置和启动虚拟机所需的步骤。理想的解决方案既具有低 RPO（以分钟为单位），又具有低 RTO（以分钟到小时为单位）。DR 解决方案中经常被忽视的一个因素是定期有效地测试 DR 解决方案的能力。
+
+要构建 DR 解决方案，请牢记以下因素：
+
+* 恢复时间目标 (RTO)。RTO 是指企业从灾难中恢复的速度，或者更具体地说，是执行恢复过程以使业务服务再次可用所需的时间。
+* 恢复点目标 (RPO)。RPO 是指恢复的数据相对于灾难发生的时间而言，可供使用的时间。
+* 可扩展性和适应性。该因素包括随着需求的增加而逐步增加存储资源的能力。
+
+
+有关可用解决方案的更多技术信息，请参阅：
+
+* link:https://docs.netapp.com/us-en/netapp-solutions-cloud/vmware/vmw-hybrid-dr-nfs.html["使用BlueXP DRaaS 对 NFS 数据存储进行灾难恢复"^]
+* link:https://docs.netapp.com/us-en/netapp-solutions-cloud/vmware/vmw-hybrid-dr-vmfs.html["使用BlueXP DRaaS 对 VMFS 数据存储进行灾难恢复"^]
+

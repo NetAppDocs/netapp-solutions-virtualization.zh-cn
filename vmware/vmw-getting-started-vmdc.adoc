@@ -1,0 +1,65 @@
+---
+sidebar: sidebar 
+permalink: vmware/vmw-getting-started-vmdc.html 
+keywords: vmware, getting, started, overview, netapp, vm, data, collector, vmdc 
+summary:  
+---
+= 了解如何使用虚拟机数据收集器评估您的 VMware 基础架构
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+虚拟机数据收集器 (VMDC) 是一款免费的轻量级工具，其 GUI 专为 VMware 环境设计。它收集虚拟机、主机、存储和网络的库存和性能数据，为资源优化和容量规划提供见解。
+
+
+
+== 简介
+
+虚拟机数据收集器 (VMDC) 是一款免费、轻量级、基于简单 GUI 的 VMware 环境工具包，允许用户收集有关其虚拟机 (VM)、主机、存储和网络的详细库存信息。
+
+有关虚拟机数据收集器的更多信息，请参阅link:../assess/vmw-vmdc.html["虚拟机数据收集器文档"]。
+
+
+
+== VMDC 功能
+
+VMDC 只是收集快速即时统计数据的垫脚石，用于预测 VMWare 核心许可以及 vCPU 和 RAM 的优化可能性。  NetAppData Infrastructure Insights需要安装 AU 和数据收集器，这显然是了解详细 VM 拓扑、使用注释对 VM 进行分组的下一步，以便正确调整工作负载大小并确保基础设施的未来发展。
+
+使用 VMDC 收集的指标采样：
+
+* VM 信息
++
+** VM 名称
+** 虚拟机电源状态
+** 虚拟机 CPU 信息
+** 虚拟机内存信息
+** 虚拟机位置
+** 虚拟机网络信息
+** 等
+
+
+* 虚拟机性能
++
+** 选定时间间隔内的虚拟机性能数据
+** VM 读/写信息
+** 虚拟机 IOPS 信息
+** 虚拟机延迟
+** 等
+
+
+* ESXi 主机信息
++
+** 主机数据中心信息
+** 主机集群信息
+** 主机型号信息
+** 主机 CPU 信息
+** 主机内存信息
+** 等
+
+
+

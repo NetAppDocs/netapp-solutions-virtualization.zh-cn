@@ -1,0 +1,118 @@
+---
+sidebar: sidebar 
+permalink: vmware/vmw-demos-videos.html 
+keywords: vSphere, cloud, hybrid cloud, AWS, Azure, Google cloud, snapmirror cloud, cloud backup service, BlueXP Copy and Sync, FabricPool, ONTAP 
+summary: 本页面提供视频和教程的介绍。 
+---
+= 观看有关使用NetApp进行虚拟化的视频和演示
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+观看视频和演示，了解混合云、虚拟化和容器解决方案的重要功能。了解如何使用适用于 VMware vSphere 的NetApp ONTAP tools for VMware vSphere、SnapCenter Plug-in for VMware vSphere、3-2-1 数据保护以及NetApp如何与 AWS 和 Azure 协同工作。获取有关设置和管理这些技术的有用提示。
+
+.适用于 VMware vSphere 的NetApp ONTAP工具
+[%collapsible%open]
+====
+.适用于 VMware 的ONTAP工具 - 概述
+video::e8071955-f6f1-45a0-a868-b12a010bba44[panopto]
+.使用ONTAP配置 VMware iSCSI 数据存储
+video::5c047271-aecc-437c-a444-b01200f9671a[panopto]
+.使用ONTAP配置 VMware NFS 数据存储
+video::a34bcd1c-3aaa-4917-9a5d-b01200f97f08[panopto]
+====
+.适用于 VMware vSphere 的 SnapCenter 插件
+[%collapsible%open]
+====
+NetApp SnapCenter software是一个易于使用的企业平台，可以安全地协调和管理跨应用程序、数据库和文件系统的数据保护。
+
+SnapCenter Plug-in for VMware vSphere允许您对虚拟机执行备份、还原和连接操作，并对直接在 VMware vCenter 中使用SnapCenter注册的数据存储执行备份和挂载操作。
+
+有关适用于 VMware vSphere 的NetApp SnapCenter Plug-in for VMware vSphere的更多信息，请参阅link:https://docs.netapp.com/ocsc-42/index.jsp?topic=%2Fcom.netapp.doc.ocsc-con%2FGUID-29BABBA7-B15F-452F-B137-2E5B269084B9.html["适用于 VMware vSphere 的NetApp SnapCenter Plug-in for VMware vSphere概述"]。
+
+.SnapCenter Plug-in for VMware vSphere- 解决方案先决条件
+video::38881de9-9ab5-4a8e-a17d-b01200fade6a[panopto,width=360]
+.SnapCenter Plug-in for VMware vSphere- 部署
+video::10cbcf2c-9964-41aa-ad7f-b01200faca01[panopto,width=360]
+.SnapCenter Plug-in for VMware vSphere- 备份工作流
+video::b7272f18-c424-4cc3-bc0d-b01200faaf25[panopto,width=360]
+.SnapCenter Plug-in for VMware vSphere- 还原工作流
+video::ed41002e-585c-445d-a60c-b01200fb1188[panopto,width=360]
+.SnapCenter - SQL 还原工作流
+video::8df4ad1f-83ad-448b-9405-b01200fb2567[panopto,width=360]
+====
+.3-2-1 数据保护解决方案
+[%collapsible%open]
+====
+3-2-1 数据保护解决方案使用SnapMirror技术将内部主备份和二级备份与使用BlueXP backup and recovery复制到对象存储的副本相结合。
+
+.使用SnapCenter Plug-in for VMware vSphere以及适用于虚拟机的BlueXP备份和恢复为 VMFS 数据存储提供 3-2-1 数据保护
+video::7c21f3fc-4025-4d8f-b54c-b0e001504c76[panopto,width=360]
+====
+.带有 AWS FSx ONTAP 的VMware Cloud on AWS
+[%collapsible%open]
+====
+.使用 iSCSI 的 Windows 客户机连接存储与 FSx ONTAP
+video::0d03e040-634f-4086-8cb5-b01200fb8515[panopto,width=360]
+.使用 NFS 连接 Linux 客户机和 FSx ONTAP 的存储
+video::c3befe1b-4f32-4839-a031-b01200fb6d60[panopto,width=360]
+.VMware Cloud on AWS 使用Amazon FSx ONTAP节省 TCO
+video::f0fedec5-dc17-47af-8821-b01200f00e08[panopto,width=360]
+.VMware Cloud on AWS 补充数据存储（带有Amazon FSx ONTAP）
+video::2065dcc1-f31a-4e71-a7d5-b01200f01171[panopto,width=360]
+.VMC 的 VMware HCX 部署和配置设置
+video::6132c921-a44c-4c81-aab7-b01200fb5d29[panopto,width=360]
+.使用 VMware HCX for VMC 和 FSx ONTAP进行 vMotion 迁移演示
+video::52661f10-3f90-4f3d-865a-b01200f06d31[panopto,width=360]
+.使用 VMware HCX for VMC 和 FSx ONTAP进行冷迁移演示
+video::685c0dc2-9d8a-42ff-b46d-b01200f056b0[panopto,width=360]
+====
+.Azure 上的 Azure VMware 服务与Azure NetApp Files(ANF)
+[%collapsible%open]
+====
+.Azure VMware 解决方案补充数据存储概述（包含Azure NetApp Files）
+video::8c5ddb30-6c31-4cde-86e2-b01200effbd6[panopto,width=360]
+.带有Cloud Volumes ONTAP、 SnapCenter和 JetStream 的 Azure VMware 解决方案 DR
+video::5cd19888-8314-4cfc-ba30-b01200efff4f[panopto,width=360]
+.使用 VMware HCX 进行 AVS 和 ANF 冷迁移演示
+video::b7ffa5ad-5559-4e56-a166-b01200f025bc[panopto,width=360]
+.使用 VMware HCX 进行 AVS 和 ANF 的 vMotion 演示
+video::986bb505-6f3d-4a5a-b016-b01200f03f18[panopto,width=360]
+.使用 VMware HCX 进行 AVS 和 ANF 批量迁移演示
+video::255640f5-4dff-438c-8d50-b01200f017d1[panopto,width=360]
+====
+.采用NetApp ONTAP 的VMware Cloud Foundation
+[%collapsible%open]
+====
+.NFS 数据存储作为 VCF 工作负载域的主要存储
+video::9b66ac8d-d2b1-4ac4-a33c-b16900f67df6[panopto]
+.iSCSI 数据存储作为 VCF 管理域的补充存储
+video::1d0e1af1-40ae-483a-be6f-b156015507cc[panopto]
+====
+.NetApp与 VMware Tanzu
+[%collapsible%open]
+====
+VMware Tanzu 使客户能够通过 vSphere 或 VMware Cloud Foundation 部署、管理和管理他们的 Kubernetes 环境。  VMware 的这一系列产品允许客户通过选择最适合其需求的 VMware Tanzu 版本，从单个控制平面管理所有相关的 Kubernetes 集群。
+
+有关 VMware Tanzu 的更多信息，请参阅 https://tanzu.vmware.com/tanzu["VMware Tanzu 概述"^]。本评论涵盖了用例、可用的附加功能以及有关 VMware Tanzu 的更多信息。
+
+.如何将vVols与NetApp和 VMware Tanzu Basic 结合使用，第 1 部分
+video::ZtbXeOJKhrc[youtube,width=360]
+.如何将vVols与NetApp和 VMware Tanzu Basic 结合使用，第 2 部分
+video::FVRKjWH7AoE[youtube,width=360]
+.如何将vVols与NetApp和 VMware Tanzu Basic 结合使用，第 3 部分
+video::Y-34SUtTTtU[youtube,width=360]
+====
+.NetAppCloud Insights
+[%collapsible%open]
+====
+NetApp Cloud Insights是一个全面的监控和分析平台，旨在提供对您的内部部署和云基础架构的可见性和控制。
+
+.NetApp Cloud Insights - 现代数据中心的可观察性
+video::1e4da521-3104-4d51-8cde-b0e001502d3d[panopto,width=360]
+====

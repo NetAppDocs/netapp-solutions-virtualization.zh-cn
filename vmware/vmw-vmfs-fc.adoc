@@ -1,0 +1,92 @@
+---
+sidebar: sidebar 
+permalink: vmware/vmw-vmfs-fc.html 
+keywords: vSphere, datastore, VMFS, FC, ONTAP tools, zone, WWPN 
+summary: 本页面提供在 VMware vSphere 环境中部署NetApp ONTAP存储 FC VMFS 数据存储区的步骤。 
+---
+= vSphere VMFS 数据存储区 - 带有ONTAP 的光纤通道存储后端
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+本节介绍如何使用ONTAP光纤通道 (FC) 存储创建 VMFS 数据存储库。
+
+
+
+== 你需要什么
+
+* 管理 vSphere 环境和ONTAP所需的基本技能
+* 运行 {ontap_version} 的ONTAP存储系统 (FAS/ AFF/ CVO / ONTAP Select/ ASA)
+* ONTAP凭据（SVM 名称、用户 ID 和密码）
+* 主机、目标以及 SVM 和 LUN 信息的ONTAP WWPN
+* link:++https://docs.netapp.com/ontap-9/topic/com.netapp.doc.exp-fc-esx-cpg/GUID-429C4DDD-5EC0-4DBD-8EA8-76082AB7ADEC.html++["已完成的 FC 配置工作表"]
+* vCenter Server 凭据
+* vSphere 主机信息
++
+** {vsphere_version}
+
+
+* 光纤交换机
++
+** 连接ONTAP FC 数据端口和 vSphere 主机
+** 启用 N_port ID 虚拟化 (NPIV) 功能
+** 创建单启动器单目标区域。
++
+*** 为每个启动器创建一个区域（单启动器区域）。
+*** 对于每个区域，包括一个目标，即 SVM 的ONTAP FC 逻辑接口 (WWPN)。每个 SVM 每个节点应至少有两个逻辑接口。请勿使用物理端口的 WWPN。
+
+
+
+
+* 已部署、配置并准备使用适用于 VMware vSphere 的ONTAP工具。
+
+
+
+
+== 配置 VMFS 数据存储区
+
+要配置 VMFS 数据存储区，请完成以下步骤：
+
+. 检查与 https://mysupport.netapp.com/matrix["互操作性表工具 (IMT)"]
+. 验证link:++https://docs.netapp.com/ontap-9/topic/com.netapp.doc.exp-fc-esx-cpg/GUID-7D444A0D-02CE-4A21-8017-CB1DC99EFD9A.html++["支持FCP配置"]。
+
+
+
+
+=== ONTAP 任务
+
+. link:https://docs.netapp.com/us-en/ontap-cli-98/system-license-show.html["验证您是否拥有 FCP 的ONTAP许可证。"]
++
+.. 使用 `system license show`命令检查 FCP 是否列出。
+.. 使用 `licen  se add -license-code <license code>`添加许可证。
+
+
+. 确保 SVM 上启用了 FCP 协议。
++
+.. link:++https://docs.netapp.com/ontap-9/topic/com.netapp.doc.exp-fc-esx-cpg/GUID-1C31DF2B-8453-4ED0-952A-DF68C3D8B76F.html++["验证现有 SVM 上的 FCP。"]
+.. link:++https://docs.netapp.com/ontap-9/topic/com.netapp.doc.exp-fc-esx-cpg/GUID-D322649F-0334-4AD7-9700-2A4494544CB9.html++["在现有 SVM 上配置 FCP。"]
+.. link:++https://docs.netapp.com/ontap-9/topic/com.netapp.doc.exp-fc-esx-cpg/GUID-0FCB46AA-DA18-417B-A9EF-B6A665DB77FC.html++["使用 FCP 创建新的 SVM。"]
+
+
+. 确保 SVM 上有 FCP 逻辑接口。
++
+.. 使用 `Network Interface show`验证 FCP 适配器。
+.. 当使用 GUI 创建 SVM 时，逻辑接口是该过程的一部分。
+.. 要重命名网络接口，请使用 `Network Interface modify`。
+
+
+. link:++https://docs.netapp.com/ontap-9/topic/com.netapp.doc.dot-cm-sanag/GUID-D4DAC7DB-A6B0-4696-B972-7327EE99FD72.html++["创建并映射 LUN。"]如果您使用的是适用ONTAP tools for VMware vSphere，请跳过此步骤。
+
+
+
+
+=== VMware vSphere 任务
+
+. 验证 HBA 驱动程序是否已安装。  VMware 支持的 HBA 具有现成的驱动程序，并且应该在link:++https://techdocs.broadcom.com/us/en/vmware-cis/vsphere/vsphere/7-0/vsphere-storage-7-0/getting-started-with-a-traditional-storage-model-in-vsphere-environment/supported-storage-adapters/view-storage-adapters-available-on-an-esxi-host.html++["存储适配器信息"]。
+. link:++https://docs.netapp.com/vapp-98/topic/com.netapp.doc.vsc-iag/GUID-D7CAD8AF-E722-40C2-A4CB-5B4089A14B00.html++["使用ONTAP工具配置 VMFS 数据存储库"] 。
+

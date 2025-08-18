@@ -1,0 +1,239 @@
+---
+sidebar: sidebar 
+permalink: openshift/osv-vm-dr-using-tp.html 
+keywords: OpenShift, OCP, Trident, Trident protect, NetApp ONTAP, Red Hat OpenShift, OpenShift Virtualization, ROSA, Red Hat OpenShift Virtualization 
+summary: ROSA 上的 Red Hat OpenShift 虚拟化 
+---
+= 使用Trident Protect 在 Red Hat OpenShift Virtualization 中为虚拟机设置故障转移和故障恢复
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+使用Trident Protect 为 OpenShift Virtualization 中的虚拟机设置灾难恢复。此过程包括使用ONTAP S3 创建 AppVault、在源和灾难恢复命名空间之间建立 AppMirror 关系、安排复制以及执行故障转移和故障恢复操作以在站点中断期间保持虚拟机可用性。
+
+
+
+== 前提条件
+
+* 必须安装Trident 。在使用 OpenShift Virtualization 操作员在集群上安装 OpenShift Virtualization 之前，必须创建后端和存储类。
+* 必须安装Trident Protect 才能为 OpenShift VM 实现故障转移和故障恢复操作。请参阅此处的说明link:https://docs.netapp.com/us-en/trident/trident-protect/trident-protect-installation.html["安装三叉戟保护"]
+
+
+image:redhat-openshift-ocpv-tp-001.png["OCP-v trident protected 安装在 trident-protect 命名空间中"]
+
+OpenShift Virtualization 中必须有一个可用的 VM。有关部署新 VM 或将现有 VM 迁移到 OpenShift Virtualization 的详细信息，请参阅文档中的相应部分。
+
+image:redhat-openshift-ocpv-tp-003.png["安装在 source-ns 命名空间中的 OCP-v VM"]
+
+
+
+== 使用ONTAP S3 创建 App Vault
+
+本节介绍如何使用 ontap S3 对象存储在 trident protected 中设置应用程序保管库。
+
+使用 oc 命令和下面显示的 yaml 文件为 ontap s3 创建机密和 appvault 自定义资源。确保在 trident protected 命名空间中创建它们。
+
+[source, cli]
+----
+oc create -f app-vault-secret.yaml -n trident-protect
+oc create -f app-vault.yaml -n trident-protect
+----
+[source, yaml]
+----
+apiVersion: v1
+# You can provide the keys either as stringData or base 64 encoded data
+stringData:
+  accessKeyID: "<access key id as obtained from ONTAP>"
+  secretAccessKey: "<secret access key as obtained from ONTAP>"
+#data:
+  #accessKeyID: <base 64 encoded value of access key>
+  #secretAccessKey: <base 64 encoded value of secret access key>
+kind: Secret
+metadata:
+  name: appvault-secret
+  namespace: trident-protect
+type: Opaque
+----
+[source, yaml]
+----
+apiVersion: protect.trident.netapp.io/v1
+kind: AppVault
+metadata:
+  name: ontap-s3-appvault
+  namespace: trident-protect
+spec:
+  providerConfig:
+    azure:
+      accountName: ""
+      bucketName: ""
+      endpoint: ""
+    gcp:
+      bucketName: ""
+      projectID: ""
+    s3:
+      bucketName: trident-protect
+      endpoint: <data lif to use to access S3>
+      secure: "false"
+      skipCertValidation: "true"
+  providerCredentials:
+    accessKeyID:
+      valueFromSecret:
+        key: accessKeyID
+        name: appvault-secret
+    secretAccessKey:
+      valueFromSecret:
+        key: secretAccessKey
+        name: appvault-secret
+  providerType: OntapS3
+----
+确保 ONTAP S3 保管库已创建且处于可用状态
+
+image:redhat-openshift-ocpv-tp-002.png["trident-protect 命名空间中的 OCP-v appvault"]
+
+
+
+== 为虚拟机创建Trident保护应用程序
+
+在虚拟机所在的命名空间中创建应用自定义资源。
+
+image:redhat-openshift-ocpv-tp-004.png["source-ns 命名空间中的 OCP-v 应用程序"]
+
+[source, CLI]
+----
+tridentctl-protect create app source-vm -n source-ns --namespaces source-ns
+----
+image:redhat-openshift-ocpv-tp-004.png["source-ns 命名空间中的 OCP-v 应用程序"]
+
+
+
+== 在新的命名空间中为灾难恢复虚拟机创建Trident保护应用程序
+
+[source, CLI]
+----
+oc create ns dr-ns
+tridentctl-protect create app dr-vm -n dr-ns --namespaces dr-ns
+----
+image:redhat-openshift-ocpv-tp-005.png["source-ns 命名空间中的 OCP-v 应用程序"]
+
+
+
+== 在源命名空间中创建 AppMirror 计划
+
+如下所示，使用 yaml 为 AppMirror 创建一个计划。这将使用计划（每 5 分钟）创建快照并保留 2 个快照
+
+[source, CLI]
+----
+oc create -f appmirror-schedule.yaml -n source-ns
+----
+[source, yaml]
+----
+apiVersion: protect.trident.netapp.io/v1
+kind: Schedule
+metadata:
+  name: appmirror-sched1
+spec:
+  appVaultRef: ontap-s3-appvault
+  applicationRef: source-vm
+  backupRetention: "0"
+  enabled: true
+  granularity: Custom
+  recurrenceRule: |-
+    DTSTART:20240901T000200Z
+    RRULE:FREQ=MINUTELY;INTERVAL=5
+  snapshotRetention: "2"
+----
+image:redhat-openshift-ocpv-tp-006.png["应用程序镜像调度源 ns 命名空间"]
+
+image:redhat-openshift-ocpv-tp-007.png["快照已创建"]
+
+
+
+== 在 DR 命名空间中创建 appMirror 关系
+
+在灾难恢复命名空间中创建 Appmirror 关系。将 desiredState 设置为 Established。
+
+[source, yaml]
+----
+apiVersion: protect.trident.netapp.io/v1
+kind: AppMirrorRelationship
+metadata:
+  name: amr1
+spec:
+  desiredState: Established
+  destinationAppVaultRef: ontap-s3-appvault
+  destinationApplicationRef: dr-vm
+  namespaceMapping:
+  - destination: dr-ns
+    source: source-ns
+  recurrenceRule: |-
+    DTSTART:20240901T000200Z
+    RRULE:FREQ=MINUTELY;INTERVAL=5
+  sourceAppVaultRef: ontap-s3-appvault
+  sourceApplicationName: source-vm
+  sourceApplicationUID: "<application UID of the source VM>"
+  storageClassName: "ontap-nas"
+----
+
+NOTE: 您可以从源应用程序的 json 输出中获取源虚拟机的应用程序 UID，如下所示
+
+image:redhat-openshift-ocpv-tp-008.png["应用程序 UID 已创建"]
+
+image:redhat-openshift-ocpv-tp-009.png["创建应用镜像关系"]
+
+当 AppMirror 关系建立时，最新的快照将传输到目标命名空间。已在 dr 命名空间中为 VM 创建 PVC，但尚未在 dr 命名空间中创建 VM pod。
+
+image:redhat-openshift-ocpv-tp-010.png["创建应用镜像关系已建立"]
+
+image:redhat-openshift-ocpv-tp-011.png["App 镜像状态变更"]
+
+image:redhat-openshift-ocpv-tp-012.png["在目标命名空间中创建 PVC"]
+
+
+
+== 将关系提升到故障转移
+
+将关系的所需状态更改为“已提升”，以在 DR 命名空间中创建 VM。  VM 仍在源命名空间中运行。
+
+[source, CLI]
+----
+oc patch amr amr1 -n dr-ns --type=merge -p '{"spec":{"desiredState":"Promoted"}}'
+----
+image:redhat-openshift-ocpv-tp-013.png["AppMirror 关系应用补丁"]
+
+image:redhat-openshift-ocpv-tp-014.png["AppMirror 关系处于升级状态"]
+
+image:redhat-openshift-ocpv-tp-015.png["在 DR 命名空间中创建的虚拟机"]
+
+image:redhat-openshift-ocpv-tp-016.png["源 ns 中的 VM 仍在运行"]
+
+
+
+== 再次建立关系以进行故障回复
+
+将关系的期望状态更改为“已建立”。该虚拟机已在 DR 命名空间中删除。  pvc 仍然存在于 DR 命名空间中。 VM 仍在源命名空间中运行。从源命名空间到 DR ns 的原始关系已建立。。
+
+[source, CLI]
+----
+oc patch amr amr1 -n dr-ns --type=merge -p '{"spec":{"desiredState":"Established"}}'
+----
+image:redhat-openshift-ocpv-tp-017.png["补丁到已建立状态"]
+
+image:redhat-openshift-ocpv-tp-018.png["应用镜像处于已建立状态"]
+
+image:redhat-openshift-ocpv-tp-019.png["DR ns 中的 PVC 仍然存在"]
+
+image:redhat-openshift-ocpv-tp-020.png["源 ns 中的 POD 和 PVC 仍然存在"]
+
+
+
+== 视频演示
+
+以下视频演示了如何使用Trident Protect 为 OpenShift VM 实现灾难恢复场景
+
+.使用Trident Protect 进行灾难恢复
+video::ae4bdcf7-b344-4f19-89ed-b2d500f94efd[panopto,width=360]

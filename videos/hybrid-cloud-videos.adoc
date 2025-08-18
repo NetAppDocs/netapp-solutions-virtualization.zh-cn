@@ -1,0 +1,36 @@
+---
+sidebar: sidebar 
+permalink: videos/hybrid-cloud-videos.html 
+summary: 展示NetApp混合云虚拟化解决方案的视频和演示 
+keywords: hybrid cloud, rosa, fsx ontap, azure vmware, netapp hci, videos, demos 
+---
+= 观看有关使用NetApp进行混合多云虚拟化的视频
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+了解NetApp如何在主要混合多云平台上实现混合云虚拟化。观看视频，了解使用 FSx ONTAP和NetApp HCI解决方案在 AWS 上实现 Red Hat OpenShift 服务 (ROSA) 以处理虚拟化工作负载。
+
+
+
+== 带有 FSx ONTAP 的AWS 上的 Red Hat OpenShift 服务（ROSA）
+
+.使用托管控制平面在 AWS 上将Amazon FSx for NetApp ONTAP与 Red Hat OpenShift 服务结合使用
+video::213061d2-53e6-4762-a68f-b21401519023[panopto,width=360]
+.FSx ONTAP与Trident的集成
+video::621ae20d-7567-4bbf-809d-b01200fa7a68[panopto,width=360]
+.使用Amazon FSx ONTAP存储为 AWS (ROSA) 集群上的 Red Hat OpenShift Service 应用程序进行快照/还原
+video::36ecf505-5d1d-4e99-a6f8-b11c00341793[panopto,width=360]
+.使用 FSx ONTAP在 ROSA 上实现应用程序的故障转移和故障恢复
+video::e9a07d79-42a1-4480-86be-b01200fa62f5[panopto,width=360]
+
+
+== NetApp HCI 解决方案
+
+.适用于 Red Hat 虚拟化上的 Red Hat OpenShift 的NetApp HCI
+video::13b32159-9ea3-4056-b285-b01200f0873a[panopto,width=360]

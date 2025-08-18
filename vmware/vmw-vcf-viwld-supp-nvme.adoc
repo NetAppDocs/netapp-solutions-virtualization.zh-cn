@@ -1,0 +1,347 @@
+---
+sidebar: sidebar 
+permalink: vmware/vmw-vcf-viwld-supp-nvme.html 
+keywords: netapp, vmware, cloud, foundation, vcf, aff, all-flash, nfs, vvol, vvols, array, ontap tools, otv, sddc, iscsi 
+summary:  
+---
+= 将 NVMe over TCP 作为补充存储添加到 VI 工作负载域
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+在此用例中，我们概述了使用ONTAP Tools for VMware 将 NVMe over TCP (NVMe/TCP) 配置为 VMware Cloud Foundation (VCF) 虚拟基础架构 (VI) 工作负载域的补充存储的过程。此过程总结了设置支持 NVMe/TCP 的存储虚拟机 (SVM)、创建 NVMe 命名空间、配置 ESXi 主机网络以及部署 VMFS 数据存储区。
+
+
+
+== NVMe over TCP 的优势
+
+*高性能：*以低延迟和高数据传输速率提供卓越的性能。这对于要求苛刻的应用程序和大规模数据操作至关重要。
+
+*可扩展性：*支持可扩展配置，允许 IT 管理员随着数据需求的增长无缝扩展其基础设施。
+
+*成本效益：*在标准以太网交换机上运行并封装在 TCP 数据报内。无需特殊设备即可实施。
+
+有关 NVMe 优势的更多信息，请参阅 https://www.netapp.com/data-storage/nvme/what-is-nvme/["什么是 NVME？"]
+
+
+
+== 场景概述
+
+此场景涵盖以下高级步骤：
+
+* 创建具有逻辑接口 (LIF) 的存储虚拟机 (SVM)，用于 NVMe/TCP 流量。
+* 为 VI 工作负载域上的 iSCSI 网络创建分布式端口组。
+* 在 ESXi 主机上为 VI 工作负载域创建 iSCSI 的 vmkernel 适配器。
+* 在 ESXi 主机上添加 NVMe/TCP 适配器。
+* 部署 NVMe/TCP 数据存储。
+
+
+
+
+== 前提条件
+
+此场景需要以下组件和配置：
+
+* ONTAP AFF或ASA存储系统，以太网交换机上具有专用于存储流量的物理数据端口。
+* VCF管理域部署已完成，并且可以访问vSphere客户端。
+* 之前已部署 VI 工作负载域。
+
+
+NetApp建议对 NVMe/TCP 采用完全冗余的网络设计。下图说明了冗余配置的示例，为存储系统、交换机、网络适配器和主机系统提供容错功能。请参阅NetApplink:https://docs.netapp.com/us-en/ontap/san-config/index.html["SAN 配置参考"]了解更多信息。
+
+image:vmware-vcf-asa-074.png["NVMe-tcp网络设计"]
+
+对于跨多路径的多路径和故障转移， NetApp建议在 NVMe/TCP 配置中，所有 SVM 的单独以太网网络中每个存储节点至少有两个 LIF。
+
+本文档演示了创建新 SVM 和指定 IP 地址信息以便为 NVMe/TCP 流量创建多个 LIF 的过程。要将新的 LIF 添加到现有 SVM，请参阅link:https://docs.netapp.com/us-en/ontap/networking/create_a_lif.html["创建 LIF（网络接口）"]。
+
+有关ONTAP存储系统的 NVMe 设计注意事项的更多信息，请参阅link:https://docs.netapp.com/us-en/ontap/nvme/support-limitations.html["NVMe 配置、支持和限制"]。
+
+
+
+== 部署步骤
+
+要使用 NVMe/TCP 在 VCF 工作负载域上创建 VMFS 数据存储，请完成以下步骤。
+
+
+
+=== 在ONTAP存储系统上创建 SVM、LIF 和 NVMe 命名空间
+
+以下步骤在ONTAP系统管理器中执行。
+
+.创建存储虚拟机和 LIF
+[%collapsible%open]
+====
+完成以下步骤，为 NVMe/TCP 流量创建一个 SVM 以及多个 LIF。
+
+. 从ONTAP系统管理器导航到左侧菜单中的 *存储虚拟机*，然后单击 *+ 添加* 开始。
++
+image:vmware-vcf-asa-001.png["单击“+添加”开始创建 SVM"]
+
++
+{nbsp}
+
+. 在“添加存储虚拟机”向导中，为 SVM 提供“名称”，选择“IP 空间”，然后在“访问协议”下单击“NVMe”选项卡并选中“启用 NVMe/TCP”复选框。
++
+image:vmware-vcf-asa-075.png["添加存储虚拟机向导 - 启用 NVMe/TCP"]
+
++
+{nbsp}
+
+. 在 *网络接口* 部分填写第一个 LIF 的 *IP 地址*、*子网掩码* 和 *广播域和端口*。对于后续 LIF，可以启用该复选框以在所有剩余 LIF 中使用通用设置，或使用单独的设置。
++
+
+NOTE: 对于跨多路径的多路径和故障转移， NetApp建议在 NVMe/TCP 配置中，所有 SVM 的单独以太网网络中每个存储节点至少有两个 LIF。
+
++
+image:vmware-vcf-asa-076.png["填写 LIF 的网络信息"]
+
++
+{nbsp}
+
+. 选择是否启用存储虚拟机管理帐户（适用于多租户环境），然后单击“*保存*”以创建 SVM。
++
+image:vmware-vcf-asa-004.png["启用 SVM 帐户并完成"]
+
+
+
+====
+.创建 NVMe 命名空间
+[%collapsible%open]
+====
+NVMe 命名空间类似于 iSCSi 或 FC 的 LUN。必须先创建 NVMe 命名空间，然后才能从 vSphere Client 部署 VMFS 数据存储。要创建 NVMe 命名空间，必须首先从集群中的每个 ESXi 主机获取 NVMe 限定名称 (NQN)。  ONTAP使用 NQN 为命名空间提供访问控制。
+
+完成以下步骤来创建 NVMe 命名空间：
+
+. 打开与集群中的 ESXi 主机的 SSH 会话以获取其 NQN。从 CLI 使用以下命令：
++
+[source, cli]
+----
+esxcli nvme info get
+----
++
+应该显示类似以下内容的输出：
+
++
+[source, cli]
+----
+Host NQN: nqn.2014-08.com.netapp.sddc:nvme:vcf-wkld-esx01
+----
+. 记录集群中每个 ESXi 主机的 NQN
+. 从ONTAP系统管理器导航到左侧菜单中的 *NVMe 命名空间*，然后单击 *+ 添加* 开始。
++
+image:vmware-vcf-asa-093.png["单击“+添加”创建 NVMe 命名空间"]
+
++
+{nbsp}
+
+. 在“添加 NVMe 命名空间”页面上，填写名称前缀、要创建的命名空间数量、命名空间的大小以及将访问命名空间的主机操作系统。在 *Host NQN* 部分中，创建一个以逗号分隔的列表，其中包含先前从将访问命名空间的 ESXi 主机收集的 NQN。
+
+
+单击“更多选项”来配置其他项目，例如快照保护策略。最后，单击“保存”以创建 NVMe 命名空间。
+
++image:vmware-vcf-asa-093.png["单击“+添加”创建 NVMe 命名空间"]
+
+====
+
+
+=== 在 ESXi 主机上设置网络和 NVMe 软件适配器
+
+以下步骤使用 vSphere 客户端在 VI 工作负载域集群上执行。在这种情况下，使用 vCenter Single Sign-On，因此 vSphere 客户端对于管理域和工作负载域都是通用的。
+
+.为 NVME/TCP 流量创建分布式端口组
+[%collapsible%open]
+====
+完成以下步骤为每个 NVMe/TCP 网络创建一个新的分布式端口组：
+
+. 从 vSphere 客户端，导航到工作负载域的 *Inventory > Networking*。导航到现有的分布式交换机并选择创建*新分布式端口组...*的操作。
++
+image:vmware-vcf-asa-022.png["选择创建新的端口组"]
+
++
+{nbsp}
+
+. 在“新建分布式端口组”向导中填写新端口组的名称，然后单击“下一步”继续。
+. 在*配置设置*页面上填写所有设置。如果正在使用 VLAN，请确保提供正确的 VLAN ID。单击“*下一步*”继续。
++
+image:vmware-vcf-asa-023.png["填写VLAN ID"]
+
++
+{nbsp}
+
+. 在*准备完成*页面上，检查更改并单击*完成*以创建新的分布式端口组。
+. 重复此过程为正在使用的第二个 NVMe/TCP 网络创建分布式端口组，并确保输入了正确的 *VLAN ID*。
+. 创建两个端口组后，导航到第一个端口组并选择操作*编辑设置...*。
++
+image:vmware-vcf-asa-077.png["DPG——编辑设置"]
+
++
+{nbsp}
+
+. 在*分布式端口组 - 编辑设置*页面上，导航到左侧菜单中的*组合和故障转移*，然后单击*上行链路 2* 将其下移至*未使用的上行链路*。
++
+image:vmware-vcf-asa-078.png["将上行链路 2 移至未使用状态"]
+
+. 对第二个 NVMe/TCP 端口组重复此步骤。但是，这次将 *uplink1* 下移至 *Unused uplinks*。
++
+image:vmware-vcf-asa-079.png["将上行链路 1 移至未使用状态"]
+
+
+
+====
+.在每个 ESXi 主机上创建 VMkernel 适配器
+[%collapsible%open]
+====
+在工作负载域中的每个 ESXi 主机上重复此过程。
+
+. 从 vSphere 客户端导航到工作负载域清单中的其中一个 ESXi 主机。从*配置*选项卡中选择*VMkernel 适配器*，然后单击*添加网络...*开始。
++
+image:vmware-vcf-asa-030.png["启动添加网络向导"]
+
++
+{nbsp}
+
+. 在*选择连接类型*窗口中选择*VMkernel 网络适配器*，然后单击*下一步*继续。
++
+image:vmware-vcf-asa-008.png["选择 VMkernel 网络适配器"]
+
++
+{nbsp}
+
+. 在“选择目标设备”页面上，选择之前创建的 iSCSI 分布式端口组之一。
++
+image:vmware-vcf-asa-095.png["选择目标端口组"]
+
++
+{nbsp}
+
+. 在“*端口属性*”页面上，单击“*NVMe over TCP*”框，然后单击“*下一步*”继续。
++
+image:vmware-vcf-asa-096.png["VMkernel 端口属性"]
+
++
+{nbsp}
+
+. 在 *IPv4 设置* 页面上填写 *IP 地址*、*子网掩码*，并提供新的网关 IP 地址（仅在需要时）。单击“*下一步*”继续。
++
+image:vmware-vcf-asa-097.png["VMkernel IPv4 设置"]
+
++
+{nbsp}
+
+. 在“准备完成”页面上检查您的选择，然后单击“完成”以创建 VMkernel 适配器。
++
+image:vmware-vcf-asa-098.png["检查 VMkernel 选择"]
+
++
+{nbsp}
+
+. 重复此过程为第二个 iSCSI 网络创建 VMkernel 适配器。
+
+
+====
+.添加 NVMe over TCP 适配器
+[%collapsible%open]
+====
+工作负载域集群中的每个 ESXi 主机都必须为每个已建立的专用于存储流量的 NVMe/TCP 网络安装一个 NVMe over TCP 软件适配器。
+
+要安装 NVMe over TCP 适配器并发现 NVMe 控制器，请完成以下步骤：
+
+. 在 vSphere 客户端中导航到工作负载域集群中的一台 ESXi 主机。从*配置*选项卡中单击菜单中的*存储适配器*，然后从*添加软件适配器*下拉菜单中选择*添加 NVMe over TCP 适配器*。
++
+image:vmware-vcf-asa-099.png["添加 NVMe over TCP 适配器"]
+
++
+{nbsp}
+
+. 在*添加软件 NVMe over TCP 适配器*窗口中，访问*物理网络适配器*下拉菜单并选择要启用 NVMe 适配器的正确物理网络适配器。
++
+image:vmware-vcf-asa-100.png["选择物理适配器"]
+
++
+{nbsp}
+
+. 对分配给 NVMe over TCP 流量的第二个网络重复此过程，并分配正确的物理适配器。
+. 选择其中一个新安装的 NVMe over TCP 适配器，然后在“控制器”选项卡上选择“添加控制器”。
++
+image:vmware-vcf-asa-101.png["添加控制器"]
+
++
+{nbsp}
+
+. 在*添加控制器*窗口中，选择*自动*选项卡并完成以下步骤。
++
+** 填写与分配给此 NVMe over TCP 适配器的物理适配器位于同一网络上的其中一个 SVM 逻辑接口的 IP 地址。
+** 单击“发现控制器”按钮。
+** 从发现的控制器列表中，单击网络地址与此 NVMe over TCP 适配器一致的两个控制器的复选框。
+** 单击“*OK*”按钮添加选定的控制器。
++
+image:vmware-vcf-asa-102.png["发现并添加控制器"]
+
++
+{nbsp}
+
+
+
+. 几秒钟后，您应该会看到 NVMe 命名空间出现在“设备”选项卡上。
++
+image:vmware-vcf-asa-103.png["设备下列出的 NVMe 命名空间"]
+
++
+{nbsp}
+
+. 重复此过程为为 NVMe/TCP 流量建立的第二个网络创建 NVMe over TCP 适配器。
+
+
+====
+.部署 NVMe over TCP 数据存储
+[%collapsible%open]
+====
+要在 NVMe 命名空间上创建 VMFS 数据存储，请完成以下步骤：
+
+. 在 vSphere 客户端中导航到工作负载域集群中的一台 ESXi 主机。从*操作*菜单中选择*存储>新建数据存储...*。
++
+image:vmware-vcf-asa-104.png["添加 NVMe over TCP 适配器"]
+
++
+{nbsp}
+
+. 在“新建数据存储”向导中，选择“VMFS”作为类型。单击“*下一步*”继续。
+. 在*名称和设备选择*页面上，提供数据存储的名称，并从可用设备列表中选择 NVMe 命名空间。
++
+image:vmware-vcf-asa-105.png["名称和设备选择"]
+
++
+{nbsp}
+
+. 在 *VMFS 版本* 页面上选择数据存储的 VMFS 版本。
+. 在“分区配置”页面上，对默认分区方案进行任何所需的更改。单击“*下一步*”继续。
++
+image:vmware-vcf-asa-106.png["NVMe 分区配置"]
+
++
+{nbsp}
+
+. 在*准备完成*页面上，查看摘要并单击*完成*以创建数据存储。
+. 导航到清单中的新数据存储并单击“*主机*”选项卡。如果配置正确，则应列出集群中的所有 ESXi 主机并可以访问新的数据存储。
++
+image:vmware-vcf-asa-107.png["连接到数据存储区的主机"]
+
++
+{nbsp}
+
+
+
+====
+
+
+== 追加信息
+
+有关配置ONTAP存储系统的信息，请参阅link:https://docs.netapp.com/us-en/ontap["ONTAP 9 文档"]中心。
+
+有关配置 VCF 的信息，请参阅link:https://techdocs.broadcom.com/us/en/vmware-cis/vcf.html["VMware 云基础文档"]。

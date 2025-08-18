@@ -1,0 +1,29 @@
+---
+sidebar: sidebar 
+permalink: vmware/vmw-vcf-expand.html 
+keywords: vmware, vcf, expand, supplemental, storage 
+summary:  
+---
+= 了解如何使用补充存储扩展 VCF 环境的存储
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+VMware Cloud Foundation (VCF) 支持多种补充存储选项，以扩展 VCF 管理域和虚拟基础架构 (VI) 工作负载域上的存储。
+
+NetApp 的ONTAP Tools for VMware vSphere 通过将NetApp存储无缝集成到 VCF 环境中，为这种扩展提供了有效的解决方案。  ONTAP工具简化了数据存储库的设置和管理，允许管理员直接从 vSphere Client 配置和管理存储。  ONTAP 的快照、克隆和数据保护等高级功能，可增强 VCF 环境内的存储性能、效率和可扩展性。
+
+有关扩展 VCF 环境的技术细节，请参考以下解决方案。
+
+* link:vmw-vcf-mgmt-supplemental-iscsi.html["具有 iSCSI 的管理域"]
+* link:vmw-vcf-mgmt-supplemental-fc.html["带 FC 的管理域"]
+* link:vmw-vcf-viwld-supp-iscsi-vvols.html["带有vVols (iSCSI) 的虚拟基础架构工作负载域"]
+* link:vmw-vcf-viwld-supp-nfs-vvols.html["带有vVols (NFS) 的虚拟基础架构工作负载域"]
+* link:vmw-vcf-viwld-supp-nvme.html["具有 NVMe/TCP 的虚拟基础架构工作负载域"]
+* link:vmw-vcf-viwld-supp-fc.html["带有 FC 的虚拟基础架构工作负载域"]
+

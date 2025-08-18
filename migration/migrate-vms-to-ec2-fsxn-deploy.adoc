@@ -1,0 +1,250 @@
+---
+sidebar: sidebar 
+permalink: migration/migrate-vms-to-ec2-fsxn-deploy.html 
+keywords: netapp, vmware, amazon, ec2, fsxn, migration, iscsi, deploy 
+summary: '本技术报告介绍了如何使用 Cirrus Migrate Cloud (CMC) 的 MigrateOps“数据移动即代码”功能将本地 VMware vSphere VM 迁移到数据磁盘位于 FSx ONTAP iSCSI LUN 上的 Amazon EC2 实例。' 
+---
+= 使用Amazon FSx for ONTAP将虚拟机迁移到 Amazon EC2
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+部署Amazon FSx for NetApp ONTAP以将虚拟机迁移到 Amazon EC2。此过程包括设置 FSx ONTAP环境、配置 iSCSI 连接以及使用 Cirrus Data 的 MigrateOps 进行无缝数据传输。
+
+
+
+== 配置 FSx ONTAP和 Cirrus Data 进行迁移操作
+
+这 https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/getting-started-step1.html["分步部署指南"]展示如何将 FSx ONTAP卷添加到 VPC。由于这些步骤本质上是连续的，因此请确保按顺序涵盖它们。
+
+为了演示的目的，“DRaaSDemo”是创建的文件系统的名称。
+
+image:migrate-ec2-fsxn-002.png["演示文件系统用户界面的图像"]
+
+配置 AWS VPC 并根据您的性能要求配置 FSx ONTAP后，请登录link:http://cloud.cirrusdata.com/["cloud.cirrusdata.com"]和link:https://customer.cirrusdata.com/cdc/kb/articles/get-started-with-cirrus-data-cloud-4eDqjIxQpg["创建新项目"]或访问现有项目。
+
+image:migrate-ec2-fsxn-003.png["Cirrus Data 项目用户界面图片"]
+
+在创建 MigrationOps 配方之前，应将 AWS Cloud 添加为集成。  CMC 提供与 FSx ONTAP和 AWS 的内置集成。  FSx ONTAP集成提供以下自动化功能：
+
+*准备您的 FSx ONTAP文件系统：*
+
+* 创建与源卷匹配的新卷和 LUN
+
+
+*注意*：FSx ONTAP FS 模型中的目标磁盘是在“卷”上创建的“LUN”，该卷具有足够的容量来包含 LUN 以及合理的开销以促进快照和元数据。  CMC 自动化处理所有这些细节，以使用可选的用户定义参数创建适当的卷和 LUN。
+
+* 使用主机启动器 IQN 创建主机实体（在 FSx 中称为 iGroups）
+* 使用映射将新创建的卷映射到适当的主机实体
+* 创建所有其他必要的配置
+
+
+*准备生产主机以进行 iSCSI 连接：*
+
+* 如果需要，安装并配置 iSCSI 功能并设置启动器。
+* 如有必要，请使用适当的供应商标识符安装和配置多路径（Windows 的 MPIO）。
+* 如有必要，请根据供应商的最佳实践调整系统设置，例如使用 Linux 上的 udev 设置。
+* 创建和管理 iSCSI 连接，例如 Windows 上的持久/收藏 iSCSI 目标。
+
+
+要为 FSx ONTAP和 AWS 配置 CMC 集成，请执行以下步骤：
+
+. 登录 Cirrus Data Cloud 门户。
+. 转到您想要启用集成的项目。
+. 导航至集成 -> 好东西。
+. 滚动找到 FSx ONTAP并单击添加集成。
++
+image:migrate-ec2-fsxn-004.png["Cirrus Data“添加集成”用户界面图片"]
+
+. 提供描述性名称（严格用于显示目的）并添加适当的凭据。
++
+image:migrate-ec2-fsxn-005.png["Cirrus Data“添加集成”用户界面图片"]
+
+. 创建集成后，在创建新的迁移会话期间，选择“自动分配目标卷”以在 FSx ONTAP上自动分配新卷。
++
+*注意*：除非为迁移启用了“迁移到较小的卷”，否则将创建与源卷大小相同的新 LUN。
+
++
+*注意*：如果主机实体（iGroup）尚不存在，则将创建一个新的。所有主机 iSCSI 启动器 IQN 都将添加到该新主机实体。
+
++
+*注意*：如果具有任何 iSCSI 启动器的现有主机实体已经存在，则它将被重复使用。
+
+. 完成后，按照屏幕上的步骤添加 AWS 的集成。
++
+image:migrate-ec2-fsxn-006.png["Cirrus Data“添加集成”用户界面图片"]
+
++
+*注意*：在将虚拟机从本地存储迁移到 AWS 时使用此集成以及 FSx ONTAP集成。
+
++
+*注意*：如果要迁移的生产实例没有直接出站连接，请使用管理中继与 Cirrus Data Cloud 进行通信。
+
+
+
+添加集成后，就可以向项目注册主机了。让我们通过一个示例场景来讨论这一点。
+
+
+
+== 主机注册场景
+
+驻留在本地数据中心 vCenter 上的来宾 VMware VM：
+
+* Windows 2016 运行 SQL Server，其中包含三个 VMDK（包括操作系统和数据磁盘）。它正在运行一个活动数据库。数据库位于由两个 VMDK 支持的数据卷上。
+
+
+*注意*：由于源是 VMware 环境并使用 VMDK，因此此来宾 VM 上当前未配置 Windows iSCSI Initiator 软件。要通过 iSCSI 连接到我们的目标存储，必须安装和配置 iSCSI 和 MPIO。  Cirrus Data Cloud 集成将在此过程中自动执行此安装。
+
+*注意*：上一节中配置的集成会自动配置新的目标存储，以创建新磁盘、设置主机实体及其 IQN，甚至修复应用程序 VM（主机）的 iSCSI 和多路径配置。
+
+image:migrate-ec2-fsxn-007.png["将要迁移的 VMware 虚拟机的图像"]
+
+此演示将把应用程序 VMDK 从每个 VM 迁移到 FSx ONTAP自动配置和映射的 iSCSI 卷。在这种情况下，OS VMDK 将迁移到 Amazon EBS 卷，因为 Amazon EC2 实例仅支持将此 Amazon EBS 作为启动磁盘。
+
+*注意*：此迁移方法的比例因素是网络带宽和连接本地到 AWS VPC 的管道。由于每个虚拟机都配置了 1:1 主机会话，因此整体迁移性能取决于两个因素：
+
+* 网络带宽
+* 目标实例类型和 ENI 带宽
+
+
+迁移步骤如下：
+
+. 在指定用于迁移波次的每台主机（Windows 和 Linux）上安装 CMC 代理。这可以通过执行一行安装命令来实现。
++
+为此，请访问数据迁移 > 迁移主机 > 单击“部署 Cirrus Migrate Cloud”，然后单击以选择“Windows”。
+
++
+然后，复制 `iex`命令到主机并使用 PowerShell 运行它。一旦代理部署成功，主机将被添加到“迁移主机”下的项目中。
+
++
+image:migrate-ec2-fsxn-008.png["Cirrus Data 安装界面图片"]
+
++
+image:migrate-ec2-fsxn-009.png["Windows 安装进度图片"]
+
+. 为每个虚拟机准备 YAML。
++
+*注意*：为每个 VM 创建一个 YAML 来指定迁移任务所需的配方或蓝图是至关重要的一步。
+
++
+YAML 提供操作名称、注释（描述）以及配方名称 `MIGRATEOPS_AWS_COMPUTE`，主机名(`system_name`) 和集成名称(`integration_name`）以及源和目标配置。可以将自定义脚本指定为切换操作之前和之后的操作。
+
++
+[source, yaml]
+----
+operations:
+    -   name: Win2016 SQL server to AWS
+        notes: Migrate OS to AWS with EBS and Data to FSx ONTAP
+        recipe: MIGRATEOPS_AWS_COMPUTE
+        config:
+            system_name: Win2016-123
+            integration_name: NimAWShybrid
+            migrateops_aws_compute:
+                region: us-west-2
+                compute:
+                    instance_type: t3.medium
+                    availability_zone: us-west-2b
+                network:
+                    vpc_id: vpc-05596abe79cb653b7
+                    subnet_id: subnet-070aeb9d6b1b804dd
+                    security_group_names:
+                        - default
+                destination:
+                    default_volume_params:
+                        volume_type: GP2
+                    iscsi_data_storage:
+                        integration_name: DemoDRaaS
+                        default_volume_params:
+                            netapp:
+                                qos_policy_name: ""
+                migration:
+                    session_description: Migrate OS to AWS with EBS and Data to FSx ONTAP
+                    qos_level: MODERATE
+                cutover:
+                    stop_applications:
+                        - os_shell:
+                              script:
+                                  - stop-service -name 'MSSQLSERVER' -Force
+                                  - Start-Sleep -Seconds 5
+                                  - Set-Service -Name 'MSSQLSERVER' -StartupType Disabled
+                                  - write-output "SQL service stopped and disabled"
+
+                        - storage_unmount:
+                              mountpoint: e
+                        - storage_unmount:
+                              mountpoint: f
+                    after_cutover:
+                        - os_shell:
+                              script:
+                                  - stop-service -name 'MSSQLSERVER' -Force
+                                  - write-output "Waiting 90 seconds to mount disks..." > log.txt
+                                  - Start-Sleep -Seconds 90
+                                  - write-output "Now re-mounting disks E and F for SQL..." >>log.txt
+                        - storage_unmount:
+                              mountpoint: e
+                        - storage_unmount:
+                              mountpoint: f
+                        - storage_mount_all: {}
+                        - os_shell:
+                              script:
+                                  - write-output "Waiting 60 seconds to restart SQL Services..." >>log.txt
+                                  - Start-Sleep -Seconds 60
+                                  - stop-service -name 'MSSQLSERVER' -Force
+                                  - Start-Sleep -Seconds 3
+                                  - write-output "Start SQL Services..." >>log.txt
+                                  - Set-Service -Name 'MSSQLSERVER' -StartupType Automatic
+                                  - start-service -name 'MSSQLSERVER'
+                                  - write-output "SQL started" >>log.txt
+----
+. 一旦 YAML 到位，就创建 MigrateOps 配置。为此，请转到数据迁移> MigrateOps，单击“开始新操作”并以有效的 YAML 格式输入配置。
+. 单击“创建操作”。
++
+*注意*：为了实现并行，每个主机都需要指定和配置一个 YAML 文件。
+
+. 除非 `scheduled_start_time`字段在配置中指定，操作将立即开始。
+. 该操作现在将执行并继续。您可以从 Cirrus Data Cloud UI 中通过详细消息监控进度。这些步骤自动包括通常手动完成的任务，例如执行自动分配和创建迁移会话。
++
+image:migrate-ec2-fsxn-010.png["Cirrus Data 迁移进度图"]
+
++
+*注意*：在主机到主机迁移期间，将创建一个额外的安全组，其规则允许入站 4996 端口，该安全组将允许所需的端口进行通信，并且在同步完成后将自动删除。
+
++
+image:migrate-ec2-fsxn-011.png["Cirrus Data 迁移所需的入站规则图像"]
+
+. 当此迁移会话正在同步时，第 3 阶段（切换）中有一个带有标签“需要批准”的未来步骤。在 MigrateOps 配方中，关键任务（例如迁移切换）需要用户批准才能执行。项目操作员或管理员可以从 UI 批准这些任务。还可以创建未来的批准窗口。
++
+image:migrate-ec2-fsxn-012.png["Cirrus Data 迁移同步图像"]
+
+. 一旦获得批准，MigrateOps 操作将继续进行切换。
+. 片刻之后，操作就会完成。
++
+image:migrate-ec2-fsxn-013.png["Cirrus Data 迁移完成的图像"]
+
++
+*注意*：借助 Cirrus Data cMotion 技术，目标存储已保持所有最新变化的更新。因此，在获得批准后，整个最终切换过程将花费很短的时间（不到一分钟）即可完成。
+
+
+
+
+
+== 迁移后验证
+
+让我们看一下运行 Windows Server OS 的已迁移 Amazon EC2 实例以及已完成的以下步骤：
+
+. Windows SQL 服务现已启动。
+. 数据库已恢复在线并使用 iSCSI 多路径设备的存储。
+. 迁移期间添加的所有新数据库记录都可以在新迁移的数据库中找到。
+. 旧存储现已离线。
+
+
+*注意*：只需单击一下即可将数据移动操作作为代码提交，并单击一下以批准切换，虚拟机即可使用 FSx ONTAP及其 iSCSI 功能成功从本地 VMware 迁移到 Amazon EC2 实例。
+
+*注意*：由于 AWS API 限制，转换后的虚拟机将显示为“Ubuntu”。这严格来说是一个显示问题，并不影响迁移实例的功能。即将发布的版本将解决此问题。
+
+*注意*：可以使用在本地端使用的凭证访问已迁移的 Amazon EC2 实例。

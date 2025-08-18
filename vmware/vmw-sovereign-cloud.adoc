@@ -1,0 +1,52 @@
+---
+sidebar: sidebar 
+permalink: vmware/vmw-sovereign-cloud.html 
+keywords: NetApp Solutions, vmware, sovereign cloud 
+summary:  
+---
+= 了解 VMware Sovereign Cloud
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+VMware Sovereign Cloud 是一个云计算框架，它优先考虑处理敏感数据的组织的数据主权、司法控制和法规遵从性。这种方法确保数据始终处于收集数据的国家的独家控制和权威之下，同时提供现代云基础设施的灵活性和功能。
+
+对于许多处理和维护高度敏感数据的实体（例如国家和州政府）以及金融和医疗保健等受到严格监管的行业来说，主权概念正在成为云计算的必要组成部分。各国政府也在寻求扩大数字经济能力，减少对跨国公司云服务的依赖。
+
+
+
+== VMware 主权云计划
+
+VMware 将主权云定义为：
+
+* 保护和释放私营和公共部门组织的关键数据（例如国家数据、公司数据和个人数据）的价值
+* 提供国家数字经济能力
+* 通过审计的安全控制保护数据
+* 确保遵守数据隐私法
+* 通过提供数据驻留和数据主权以及完全的司法控制来改善对数据的控制
+
+
+
+
+== 与值得信赖的 VMware 主权云服务提供商合作
+
+为了确保成功，组织必须与他们信任的合作伙伴合作，并且这些合作伙伴能够托管真实且自主的主权云平台。  VMware Sovereign Cloud 计划中认可的 VMware 云提供商致力于基于现代软件定义架构设计和运行云解决方案，这些架构体现了 VMware Sovereign Cloud 框架中概述的关键原则和最佳实践。
+
+* *数据主权和司法控制*——所有数据都属于数据收集地的国家，并受其专属控制和管辖。运营完全在管辖范围内进行管理
+* *数据访问和完整性*——云基础设施具有弹性，在管辖范围内至少有两个数据中心位置可用，并提供安全和私有的连接选项。
+* *数据安全与合规性*——信息安全管理系统控制经过行业认可的全球（或区域）标准认证，并定期接受审核。
+* *数据独立性和移动性*——支持现代应用程序架构，防止供应商云锁定，并实现应用程序的可移植性和独立性
+
+
+如需了解 VMware 的更多信息，请访问：
+
+* link:https://www.vmware.com/content/dam/digitalmarketing/vmware/en/pdf/docs/vmw-sovereign-cloud-solution-brief-customer.pdf["VMware Sovereign Cloud 概述"]
+* link:https://www.vmware.com/topics/glossary/content/sovereign-cloud.html["什么是 VMware Sovereign Cloud？"]
+* link:https://blogs.vmware.com/cloud/2021/10/06/vmware-sovereign-cloud/["推出全新 VMware 主权云计划"]
+* link:https://www.vmware.com/solutions/cloud-infrastructure/sovereign-cloud["VMware 主权云解决方案"]
+

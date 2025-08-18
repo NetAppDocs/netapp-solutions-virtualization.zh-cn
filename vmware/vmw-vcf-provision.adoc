@@ -1,0 +1,25 @@
+---
+sidebar: sidebar 
+permalink: vmware/vmw-vcf-provision.html 
+keywords: vmware, vcf, provision, principal, storage 
+summary:  
+---
+= 配置以ONTAP为主要存储解决方案的 VCF 环境
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+NetApp ONTAP存储是 VMware Cloud Foundation (VCF) 管理和虚拟基础架构 (VI) 工作负载域的理想主存储解决方案。  ONTAP提供高性能、可扩展性、高级数据管理和无缝集成，以提高运营效率和数据保护。
+
+有关在适当的域中并使用适当的协议配置 VCF 环境的技术细节，请参阅以下解决方案。
+
+* link:vmw-vcf-mgmt-principal-fc.html["带 FC 的管理域"]
+* link:vmw-vcf-mgmt-principal-nfs.html["具有 NFS 的管理域"]
+* link:vmw-vcf-viwld-principal-fc.html["带有 FC 的虚拟基础架构工作负载域"]
+* link:vmw-vcf-viwld-principal-nfs.html["具有 NFS 的虚拟基础架构工作负载域"]
+

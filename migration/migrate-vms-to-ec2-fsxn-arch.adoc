@@ -1,0 +1,65 @@
+---
+sidebar: sidebar 
+permalink: migration/migrate-vms-to-ec2-fsxn-arch.html 
+keywords: netapp, vmware, amazon, ec2, fsxn, migration, iscsi, 
+summary: '本技术报告介绍了如何使用 Cirrus Migrate Cloud (CMC) 的 MigrateOps“数据移动即代码”功能将本地 VMware vSphere VM 迁移到数据磁盘位于 FSx ONTAP iSCSI LUN 上的 Amazon EC2 实例。' 
+---
+= 将虚拟机迁移到 Amazon EC2 的架构和要求
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+了解使用Amazon FSx for NetApp ONTAP将虚拟机迁移到 Amazon EC2 的架构和关键先决条件。
+
+
+
+== 高级架构
+
+下图说明了使用 CMC MigrateOps 将 VMware 上的虚拟机磁盘 (VMDK) 数据迁移到 AWS 的高级架构：
+
+image:migrate-ec2-fsxn-001.png["使用 FSx ONTAP将虚拟机迁移到 Amazon EC2 架构图"]
+
+
+
+== 如何使用 Amazon EC2 和 FSx ONTAP iSCSI 将 VMware VM 迁移到 AWS
+
+
+
+=== 前提条件
+
+在开始演练步骤之前，请确保满足以下先决条件：
+
+*在 AWS 上*
+
+* 一个 AWS 账户。这包括子网、VPC 设置、路由表、安全规则迁移、安全组以及负载平衡等网络的其他要求的权限。与任何迁移一样，大部分的精力和考虑应该放在网络方面。
+* 适当的 IAM 角色允许您配置 FSx ONTAP和 Amazon EC2 实例。
+* 允许路由表和安全组与 FSx ONTAP通信。
+* 向适当的安全组添加入站规则（有关更多详细信息，请参阅下文），以允许从本地数据中心到 AWS 的安全数据传输。
+* 可以解析公共互联网域名的有效 DNS。
+* 检查您的 DNS 解析是否正常并且允许您解析主机名。
+* 为了获得最佳性能和适当大小，请使用源环境中的性能数据来适当调整 FSx ONTAP存储的大小。
+* 每个 MigrateOps 会话使用一个 EIP，因此应增加 EIP 的配额以实现更多的并行性。请记住，默认的 EIP 配额是 5。
+* （如果正在迁移基于 Active Directory 的工作负载）Amazon EC2 上的 Windows Active Directory 域。
+
+
+*适用于 Cirrus Migrate Cloud*
+
+* 一个 Cirrus Data Cloud 帐户link:http://cloud.cirrusdata.com/["cloud.cirrusdata.com"]必须在使用 CMC 之前创建。必须允许通过 HTTPS 与 CDN、Cirrus Data 端点和软件存储库进行出站通信。
+* 允许通过 HTTPS 协议（端口 443）与 Cirrus Data Cloud 服务进行通信（出站）。
+* 对于由 CMC 项目管理的主机，部署的 CMC 软件必须启动与 Cirrus Data Cloud 的单向出站 TCP 连接。
+* 允许 TCP 协议、端口 443 访问 portal-gateway.cloud.cirrusdata.com（当前地址为 208.67.222.222）。
+* 允许带有二进制数据有效负载（应用程序/八位字节流）的 HTTP POST 请求（通过 HTTPS 连接）。这类似于文件上传。
+* 确保 portal-gateway.cloud.cirrusdata.com 可以通过您的 DNS（或通过 OS 主机文件）解析。
+* 如果您有严格的规则禁止产品实例进行出站连接，则可以使用 CMC 的“管理中继”功能，其中出站 443 连接来自单个安全的非生产主机。
+
+
+*注意*：没有任何存储数据被发送到 Cirrus Data Cloud 端点。仅发送管理元数据，并且可以选择性地屏蔽它，以便不包含真实的主机名、卷名、网络 IP。
+
+为了将数据从本地存储库迁移到 AWS，MigrateOps 可以自动管理主机到主机 (H2H) 连接。这些是 CMC 用来促进远程迁移的优化的、单向的、基于 TCP 的网络连接。该过程具有始终在线的压缩和加密功能，可将流量减少多达八倍，具体取决于数据的性质。
+
+*注意*：CMC 的设计使得在整个迁移阶段没有生产数据/I/O 离开生产网络。因此，需要源主机和目标主机之间的直接连接。

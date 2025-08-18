@@ -1,0 +1,113 @@
+---
+sidebar: sidebar 
+permalink: vmware/vmw-vcf-viwld-principal-fc.html 
+keywords: netapp, vmware, cloud, foundation, vcf, asa, all-flash, array, ontap tools, otv, sddc, fc 
+summary:  
+---
+= 使用ONTAP上基于 FC 的 VMFS 数据存储库作为 VI 工作负载域的主要存储
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+在此用例中，我们概述了在ONTAP上设置光纤通道 (FC) VMFS 数据存储作为 VMware Cloud Foundation (VCF) 虚拟基础架构 (VI) 工作负载域的主要存储解决方案的过程。此过程总结了所需的组件、配置步骤和部署过程。
+
+
+
+== 光纤通道的优势
+
+*高性能：* FC 提供高速数据传输速率，使其成为需要快速可靠地访问大量数据的应用程序的理想选择。
+
+*低延迟*：非常低的延迟，这对于数据库和虚拟化环境等性能敏感的应用程序至关重要。
+
+*可靠性：*FC 网络以其稳健性和可靠性而闻名，具有内置冗余和纠错等功能。
+
+*专用带宽：* FC 为存储流量提供专用带宽，降低网络拥塞的风险。
+
+有关使用光纤通道与NetApp存储系统的更多信息，请参阅 https://docs.netapp.com/us-en/ontap/san-admin/san-provisioning-fc-concept.html["使用 FC 进行 SAN 配置"]。
+
+
+
+== 场景概述
+
+此场景涵盖以下高级步骤：
+
+* 创建具有逻辑接口 (LIF) 的存储虚拟机 (SVM) 用于 FC 流量。
+* 收集待部署主机的WWPN信息，并在ONTAP存储系统上创建相应的启动器组。
+* 在ONTAP存储系统上创建 FC 卷。
+* 映射启动器组以创建 FC 卷
+* 在 FC 交换机上利用单启动器-目标分区。为每个启动器创建一个区域（单启动器区域）。
++
+** 对于每个区域，包括一个目标，即 SVM 的ONTAP FC 逻辑接口 (WWPN)。每个 SVM 每个节点应至少有两个逻辑接口。请勿使用物理端口的 WWPN。
+
+
+* 在 SDDC Manager 中为 vMotion 流量创建网络池。
+* 委托 VCF 中的主机用于 VI 工作负载域。
+* 使用 FC 数据存储作为主要存储在 VCF 中部署 VI 工作负载域。
+
+
+
+NOTE: 该解决方案适用于支持NFS存储的ONTAP平台，包括NetApp AFF和FAS。
+
+
+
+== 前提条件
+
+此场景中使用以下组件和配置：
+
+* 具有连接到 FC 交换机的 FC 端口的ONTAP AFF或ASA存储系统。
+* 使用 FC lifs 创建的 SVM。
+* 带有 FC HBA 的 vSphere 连接到 FC 交换机。
+* 在 FC 交换机上配置单个启动器-目标分区。
+
+
+
+NOTE: NetApp建议对 FC LUN 使用多路径。
+
+
+
+== 部署步骤
+
+
+
+=== 管理域 - 默认集群
+
+初始集群上的 FC 主存储仅受 VCF 棕地导入工具支持。如果使用 cloudbuilder 工具（直到版本 5.2.x）部署 VCF，则仅支持 VSAN。参考 https://techdocs.broadcom.com/us/en/vmware-cis/vcf/vcf-5-2-and-earlier/5-2/map-for-administering-vcf-5-2/importing-existing-vsphere-environments-admin/convert-or-import-a-vsphere-environment-into-vmware-cloud-foundation-admin.html["将现有 vSphere 环境转换为管理域"]了解更多信息。
+
+
+
+=== 管理域 - 附加集群
+
+管理域上的附加 vSphere 集群可以通过以下选项进行部署：* 在 vSphere 环境中拥有附加集群，并使用 VCF 棕地导入工具将 vSphere 环境转换为管理域。 https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere-10/configure/create-vvols-datastore.html["适用于 VMware vSphere 的 ONTAP 工具"] ， https://docs.netapp.com/us-en/ontap/san-admin/provision-storage.html["系统管理器或ONTAP API"]可用于将 VMFS 数据存储部署到 vSphere 集群。  * 使用 SDDC API 部署额外的集群。 vSphere 主机应该配置 VMFS 数据存储。使用 https://docs.netapp.com/us-en/ontap/san-admin/provision-storage.html["系统管理器或ONTAP API"]将 LUN 部署到 vSphere 主机。 * 使用 SDDC Manager UI 部署额外的集群。但此选项仅创建 VSAN 数据存储至 5.2.x 版本。
+
+
+
+=== VI 工作负载域 - 默认集群
+
+管理域启动并运行后，可以创建 VI Workload 域：
+
+* 使用 SDDC 管理器 UI。 vSphere 主机应该配置 VMFS 数据存储。使用系统管理器或ONTAP API 将 LUN 部署到 vSphere 主机。
+* 将现有的 vSphere 环境导入为新的 VI 工作负载域。可以使用ONTAP tools for VMware vSphere、系统管理器或ONTAP API 将 VMFS 数据存储库部署到 vSphere 集群。
+
+
+
+
+=== VI 工作负载域 - 附加集群
+
+一旦 VI 工作负载启动并运行，就可以使用以下选项在 FC LUN 上使用 VMFS 部署其他集群。
+
+* 使用 VCF 棕地导入工具导入 vSphere 环境中的附加集群。可以使用ONTAP tools for VMware vSphere、系统管理器或ONTAP API 将 VMFS 数据存储库部署到 vSphere 集群。
+* 使用 SDDC Manager UI 或 API 部署额外的集群。 vSphere 主机应该配置 VMFS 数据存储。使用系统管理器或ONTAP API 将 LUN 部署到 vSphere 主机。
+
+
+
+
+== 追加信息
+
+有关配置ONTAP存储系统的信息，请参阅link:https://docs.netapp.com/us-en/ontap["ONTAP 9 文档"]中心。
+
+有关配置 VCF 的信息，请参阅link:https://techdocs.broadcom.com/us/en/vmware-cis/vcf/vcf-5-2-and-earlier/5-2.html["VMware 云基础文档"]。

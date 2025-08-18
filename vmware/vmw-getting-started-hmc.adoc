@@ -1,0 +1,51 @@
+---
+sidebar: sidebar 
+permalink: vmware/vmw-getting-started-hmc.html 
+keywords: vmware, getting, started, overview, netapp, hybrid, multicloud, multi, cloud 
+summary:  
+---
+= 了解NetApp和 VMware 的混合多云环境
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+了解NetApp和 VMware 如何通过将内部基础架构与公共云服务相集成来简化混合多云设置，从而实现工作负载迁移、资源优化和跨环境的一致操作。
+
+
+
+== 简介
+
+这种方法使企业能够轻松迁移工作负载、优化资源使用率并在两个环境中保持一致的操作。
+
+有关 VMware 和NetApp混合云场景的更多信息，请参阅link:https://docs.netapp.com/us-en/netapp-solutions-cloud/vmware/vmw-hybrid-overview.html#vmware-cloud-options-in-public-cloud["NetApp与 VMware 的混合多云概述"^]。
+
+
+
+== NetApp的 VMware 部署场景
+
+本节介绍跨本地和公共云的 VMware 环境的各种部署选项。每个云提供商都在其各自的公共云产品中支持 VMware 软件定义数据中心 (SDDC) 和/或 VMware 云基础 (VCF) 堆栈。
+
+* *VMware 本地部署*
+
+
+将 VMware 与NetApp存储结合使用可提供强大、可扩展且灵活的虚拟化环境。通过将 NetApp 的高级数据管理功能（如重复数据删除、压缩和高效快照）与由ONTAP提供支持的适当存储系统相结合，客户可以选择适合他们的平台。这种组合可确保虚拟化工作负载的高性能、可靠性和简化的管理，从而提高整体数据中心的效率。
+
+* Azure VMware 解决方案
+
+
+Azure VMware 解决方案是一种混合云服务，允许在 Microsoft Azure 公共云中完全运行 VMware SDDC。Azure VMware 解决方案是完全由 Microsoft 管理和支持的第一方解决方案，并由 VMware 利用 Azure 基础架构进行了验证。这意味着，当部署 Azure VMware 解决方案时，客户可以获得 VMware 的 ESXi 用于计算虚拟化、vSAN 用于超融合存储以及 NSX 用于网络和安全，同时利用 Microsoft Azure 的全球影响力、一流的数据中心设施以及靠近丰富的原生 Azure 服务和解决方案生态系统的优势。
+
+* AWS 上的 VMware 云
+
+
+VMware Cloud on AWS 将 VMware 的企业级 SDDC 软件引入 AWS 云，并优化了对原生 AWS 服务的访问。VMware Cloud on AWS 由 VMware Cloud Foundation 提供支持，集成了 VMware 的计算、存储和网络虚拟化产品（VMware vSphere、VMware vSAN 和 VMware NSX）以及 VMware vCenter Server 管理，并针对专用、弹性、裸机 AWS 基础架构上运行进行了优化。
+
+* *Google Cloud VMware 引擎*
+
+
+Google Cloud VMware Engine 是一款基础架构即服务 (IaaS) 产品，它基于 Google Cloud 高性能可扩展基础架构和 VMware Cloud Foundation 堆栈（VMware vSphere、vCenter、vSAN 和 NSX-T）构建。此服务可快速迁移至云端，将现有 VMware 工作负载从本地环境无缝迁移或扩展到 Google Cloud Platform，无需承担重构应用程序或重新调整运维的成本、精力或风险。这是一项由 Google 销售和支持的服务，并与 VMware 密切合作。

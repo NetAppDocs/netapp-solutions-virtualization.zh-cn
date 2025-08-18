@@ -1,0 +1,401 @@
+---
+sidebar: sidebar 
+permalink: vmware/vmw-vcf-viwld-supp-iscsi-vvols.html 
+keywords: netapp, vmware, cloud, foundation, vcf, aff, all-flash, nfs, vvol, vvols, array, ontap tools, otv, sddc, iscsi 
+summary:  
+---
+= 使用适用ONTAP tools for VMware vSphere将vVols作为补充存储添加到 VI 工作负载域
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+在此用例中，我们概述了使用 iSCSI 配置vVols数据存储以在 VMware Cloud Foundation (VCF) 虚拟基础架构 (VI) 工作负载域中提供补充存储的过程。此过程总结了设置 iSCSI 网络、部署适用于 VMware vSphere 的ONTAP工具以及配置vVols数据存储库。
+
+*iSCSI* 用作vVols数据存储的存储协议。
+
+
+
+== iSCSI 的优势
+
+*高性能：*提供高性能，以实现快速、高效的数据传输速率和低延迟。非常适合要求严格的企业应用程序和虚拟化环境。
+
+*易于管理：*通过使用熟悉的基于 IP 的工具和协议简化存储管理。
+
+*成本效益：*利用现有的以太网基础设施，减少对专用硬件的需求，并允许组织实现可靠且可扩展的存储解决方案。
+
+有关将 iSCSI 与NetApp存储系统结合使用的更多信息，请参阅 https://docs.netapp.com/us-en/ontap/san-admin/san-host-provisioning-concept.html["使用 iSCSI 进行 SAN 配置"]。
+
+
+
+== 场景概述
+
+此场景涵盖以下高级步骤：
+
+* 创建具有用于 iSCSI 流量的逻辑接口 (LIF) 的存储虚拟机 (SVM)。
+* 为 VI 工作负载域上的 iSCSI 网络创建分布式端口组。
+* 在 ESXi 主机上为 VI 工作负载域创建 iSCSI 的 vmkernel 适配器。
+* 在 VI 工作负载域上部署ONTAP工具。
+* 在 VI 工作负载域上创建一个新的vVols数据存储。
+
+
+
+
+== 前提条件
+
+此场景需要以下组件和配置：
+
+* ONTAP AFF或ASA存储系统，以太网交换机上具有专用于存储流量的物理数据端口。
+* VCF管理域部署已完成，并且可以访问vSphere客户端。
+* 之前已部署 VI 工作负载域。
+
+
+NetApp建议对 iSCSI 采用完全冗余的网络设计。下图说明了冗余配置的示例，为存储系统、交换机、网络适配器和主机系统提供容错功能。请参阅NetApplink:https://docs.netapp.com/us-en/ontap/san-config/index.html["SAN 配置参考"]了解更多信息。
+
+image:vmware-vcf-asa-074.png["NVMe-tcp网络设计"]
+
+{nbsp}
+
+对于跨多路径的多路径和故障转移， NetApp建议在 iSCSI 配置中，所有 SVM 的单独以太网网络中每个存储节点至少有两个 LIF。
+
+本文档演示了创建新 SVM 和指定 IP 地址信息以便为 iSCSI 流量创建多个 LIF 的过程。要将新的 LIF 添加到现有 SVM，请参阅link:https://docs.netapp.com/us-en/ontap/networking/create_a_lif.html["创建 LIF（网络接口）"]。
+
+
+TIP: 在同一 IP 网络上配置多个 VMkernel 适配器的情况下，建议在 ESXi 主机上使用软件 iSCSI 端口绑定，以确保跨适配器实现负载平衡。请参阅知识库文章link:https://knowledge.broadcom.com/external/article?legacyId=2038869["在 ESX/ESXi 中使用软件 iSCSI 端口绑定的注意事项 (2038869)"]。
+
+有关使用 VMFS iSCSI 数据存储区和 VMware 的更多信息，请参阅link:vmw-vmfs-iscsi.html["vSphere VMFS 数据存储区 - 带有ONTAP 的iSCSI 存储后端"]。
+
+
+
+== 部署步骤
+
+要部署ONTAP工具并使用它在 VCF 管理域上创建vVols数据存储库，请完成以下步骤：
+
+
+
+=== 在ONTAP存储系统上创建 SVM 和 LIF
+
+以下步骤在ONTAP系统管理器中执行。
+
+.创建存储虚拟机和 LIF
+[%collapsible%open]
+====
+完成以下步骤，为 iSCSI 流量创建一个 SVM 以及多个 LIF。
+
+. 从ONTAP系统管理器导航到左侧菜单中的 *存储虚拟机*，然后单击 *+ 添加* 开始。
++
+image:vmware-vcf-asa-001.png["单击“+添加”开始创建 SVM"]
+
++
+{nbsp}
+
+. 在“添加存储虚拟机”向导中，为 SVM 提供“名称”，选择“IP 空间”，然后在“访问协议”下单击“iSCSI”选项卡并选中“启用 iSCSI”复选框。
++
+image:vmware-vcf-asa-002.png["添加存储虚拟机向导 - 启用 iSCSI"]
+
++
+{nbsp}
+
+. 在 *网络接口* 部分填写第一个 LIF 的 *IP 地址*、*子网掩码* 和 *广播域和端口*。对于后续 LIF，可以启用该复选框以在所有剩余 LIF 中使用通用设置或使用单独的设置。
++
+
+NOTE: 对于跨多路径的多路径和故障转移， NetApp建议在 iSCSI 配置中，所有 SVM 在单独的以太网网络中每个存储节点至少配备两个 LIF。
+
++
+image:vmware-vcf-asa-003.png["填写 LIF 的网络信息"]
+
++
+{nbsp}
+
+. 选择是否启用存储虚拟机管理帐户（适用于多租户环境），然后单击“*保存*”以创建 SVM。
++
+image:vmware-vcf-asa-004.png["启用 SVM 帐户并完成"]
+
+
+
+====
+
+
+=== 在 ESXi 主机上设置 iSCSI 网络
+
+以下步骤使用 vSphere 客户端在 VI 工作负载域集群上执行。在这种情况下，使用 vCenter Single Sign-On，因此 vSphere 客户端在管理和工作负载域中是通用的。
+
+.为 iSCSI 流量创建分布式端口组
+[%collapsible%open]
+====
+完成以下步骤为每个 iSCSI 网络创建一个新的分布式端口组：
+
+. 从 vSphere 客户端，导航到工作负载域的 *Inventory > Networking*。导航到现有的分布式交换机并选择创建*新分布式端口组...*的操作。
++
+image:vmware-vcf-asa-022.png["选择创建新的端口组"]
+
++
+{nbsp}
+
+. 在“新建分布式端口组”向导中填写新端口组的名称，然后单击“下一步”继续。
+. 在*配置设置*页面上填写所有设置。如果正在使用 VLAN，请确保提供正确的 VLAN ID。单击“*下一步*”继续。
++
+image:vmware-vcf-asa-023.png["填写VLAN ID"]
+
++
+{nbsp}
+
+. 在*准备完成*页面上，检查更改并单击*完成*以创建新的分布式端口组。
+. 重复此过程为正在使用的第二个 iSCSI 网络创建分布式端口组，并确保输入了正确的 *VLAN ID*。
+. 创建两个端口组后，导航到第一个端口组并选择操作*编辑设置...*。
++
+image:vmware-vcf-asa-024.png["DPG——编辑设置"]
+
++
+{nbsp}
+
+. 在*分布式端口组 - 编辑设置*页面上，导航到左侧菜单中的*组合和故障转移*，然后单击*上行链路 2* 将其下移至*未使用的上行链路*。
++
+image:vmware-vcf-asa-025.png["将上行链路 2 移至未使用状态"]
+
+. 对第二个 iSCSI 端口组重复此步骤。但是，这次将 *uplink1* 下移至 *Unused uplinks*。
++
+image:vmware-vcf-asa-026.png["将上行链路 1 移至未使用状态"]
+
+
+
+====
+.在每个 ESXi 主机上创建 VMkernel 适配器
+[%collapsible%open]
+====
+在工作负载域中的每个 ESXi 主机上重复此过程。
+
+. 从 vSphere 客户端导航到工作负载域清单中的其中一个 ESXi 主机。从*配置*选项卡中选择*VMkernel 适配器*，然后单击*添加网络...*开始。
++
+image:vmware-vcf-asa-030.png["启动添加网络向导"]
+
++
+{nbsp}
+
+. 在*选择连接类型*窗口中选择*VMkernel 网络适配器*，然后单击*下一步*继续。
++
+image:vmware-vcf-asa-008.png["选择 VMkernel 网络适配器"]
+
++
+{nbsp}
+
+. 在“选择目标设备”页面上，选择之前创建的 iSCSI 分布式端口组之一。
++
+image:vmware-vcf-asa-031.png["选择目标端口组"]
+
++
+{nbsp}
+
+. 在“*端口属性*”页面上保留默认设置，然后单击“*下一步*”继续。
++
+image:vmware-vcf-asa-032.png["VMkernel 端口属性"]
+
++
+{nbsp}
+
+. 在 *IPv4 设置* 页面上填写 *IP 地址*、*子网掩码*，并提供新的网关 IP 地址（仅在需要时）。单击“*下一步*”继续。
++
+image:vmware-vcf-asa-033.png["VMkernel IPv4 设置"]
+
++
+{nbsp}
+
+. 在“准备完成”页面上检查您的选择，然后单击“完成”以创建 VMkernel 适配器。
++
+image:vmware-vcf-asa-034.png["检查 VMkernel 选择"]
+
++
+{nbsp}
+
+. 重复此过程为第二个 iSCSI 网络创建 VMkernel 适配器。
+
+
+====
+
+
+=== 部署并使用ONTAP工具配置存储
+
+以下步骤使用 vSphere 客户端在 VCF 管理域集群上执行，包括部署ONTAP工具、创建vVols iSCSI 数据存储库以及将管理 VM 迁移到新的数据存储库。
+
+对于 VI 工作负载域， ONTAP Tools 安装到 VCF 管理集群，但向与 VI 工作负载域关联的 vCenter 注册。
+
+有关在多 vCenter 环境中部署和使用ONTAP工具的更多信息，请参阅link:https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere/configure/concept_requirements_for_registering_vsc_in_multiple_vcenter_servers_environment.html["在多个 vCenter Server 环境中注册ONTAP工具的要求"]。
+
+.ONTAP tools for VMware vSphere
+[%collapsible%open]
+====
+ONTAP tools for VMware vSphere作为 VM 设备部署，并提供用于管理ONTAP存储的集成 vCenter UI。
+
+完成以下步骤以部署ONTAP tools for VMware vSphere：
+
+. ONTAPlink:https://mysupport.netapp.com/site/products/all/details/otv/downloads-tab["NetApp 支持站点"]并下载到本地文件夹。
+. 登录 VCF 管理域的 vCenter 设备。
+. 在 vCenter 设备界面中右键单击管理集群并选择“部署 OVF 模板...”
++
+image:vmware-vcf-aff-021.png["部署 OVF 模板..."]
+
++
+{nbsp}
+
+. 在 *部署 OVF 模板* 向导中，单击 *本地文件* 单选按钮，然后选择上一步下载的ONTAP工具 OVA 文件。
++
+image:vmware-vcf-aff-022.png["选择 OVA 文件"]
+
++
+{nbsp}
+
+. 对于向导的第 2 步到第 5 步，选择 VM 的名称和文件夹，选择计算资源，查看详细信息，然后接受许可协议。
+. 配置和磁盘文件的存储位置选择VCF管理域集群的vSAN数据存储。
++
+image:vmware-vcf-aff-023.png["选择 OVA 文件"]
+
++
+{nbsp}
+
+. 在选择网络页面上选择用于管理流量的网络。
++
+image:vmware-vcf-aff-024.png["选择网络"]
+
++
+{nbsp}
+
+. 在自定义模板页面上填写所有必需的信息：
++
+** 用于对ONTAP工具进行管理访问的密码。
+** NTP 服务器 IP 地址。
+** ONTAP工具维护帐户密码。
+** ONTAP工具 Derby DB 密码。
+** 不要选中“启用 VMware Cloud Foundation (VCF)”复选框。部署补充存储不需要 VCF 模式。
+** *VI 工作负载域* 的 vCenter 设备的 FQDN 或 IP 地址
+** *VI 工作负载域* 的 vCenter 设备的凭证
+** 提供所需的网络属性字段。
++
+单击“*下一步*”继续。
+
++
+image:vmware-vcf-aff-025.png["自定义OTV模板1"]
+
++
+image:vmware-vcf-asa-035.png["自定义OTV模板2"]
+
++
+{nbsp}
+
+
+
+. 查看“准备完成”页面上的所有信息，然后单击“完成”开始部署ONTAP Tools 设备。
+
+
+====
+.向ONTAP工具添加存储系统。
+[%collapsible%open]
+====
+. 通过从 vSphere 客户端的主菜单中选择NetApp ONTAP工具来访问它。
++
+image:vmware-asa-006.png["NetApp ONTAP工具"]
+
++
+{nbsp}
+
+. 从ONTAP Tool 界面中的 *INSTANCE* 下拉菜单中，选择与要管理的工作负载域关联的ONTAP Tools 实例。
++
+image:vmware-vcf-asa-036.png["选择OTV实例"]
+
++
+{nbsp}
+
+. 在ONTAP工具中，从左侧菜单中选择“*存储系统*”，然后按“*添加*”。
++
+image:vmware-vcf-asa-037.png["添加存储系统"]
+
++
+{nbsp}
+
+. 填写存储系统的 IP 地址、凭据和端口号。单击“*添加*”开始发现过程。
++
+
+NOTE: vVol 需要ONTAP集群凭据而不是 SVM 凭据。更多信息请参阅 https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere/configure/task_add_storage_systems.html["添加存储系统"]在ONTAP工具文档中。
+
++
+image:vmware-vcf-asa-038.png["提供存储系统凭证"]
+
+
+
+====
+.在ONTAP工具中创建存储功能配置文件
+[%collapsible%open]
+====
+存储能力配置文件描述了存储阵列或存储系统提供的功能。它们包括服务质量定义，并用于选择符合配置文件中定义的参数的存储系统。您可以使用所提供的配置文件之一，也可以创建新的配置文件。
+
+要在ONTAP工具中创建存储功能配置文件，请完成以下步骤：
+
+. 在ONTAP工具中，从左侧菜单中选择 *存储功能配置文件*，然后按 *创建*。
++
+image:vmware-vcf-asa-039.png["存储功能配置文件"]
+
+. 在“创建存储能力配置文件”向导中提供配置文件的名称和描述，然后单击“下一步”。
++
+image:vmware-asa-010.png["为 SCP 添加名称"]
+
+. 选择平台类型并指定存储系统为全闪存 SAN 阵列，将 *Asymmetric* 设置为 false。
++
+image:vmware-asa-011.png["SCP平台"]
+
+. 接下来，选择协议或*Any*以允许所有可能的协议。单击“*下一步*”继续。
++
+image:vmware-asa-012.png["SCP协议"]
+
+. *性能*页面允许以允许的最小和最大 IOP 的形式设置服务质量。
++
+image:vmware-asa-013.png["SCP 的 QoS"]
+
+. 完成*存储属性*页面，根据需要选择存储效率、空间预留、加密和任何分层策略。
++
+image:vmware-asa-014.png["SCP 的属性"]
+
+. 最后，查看摘要并单击“完成”以创建配置文件。
++
+image:vmware-vcf-asa-040.png["SCP摘要"]
+
+
+
+====
+.在ONTAP工具中创建vVols数据存储
+[%collapsible%open]
+====
+要在ONTAP工具中创建vVols数据存储库，请完成以下步骤：
+
+. 在ONTAP工具中选择 *概览*，然后从 *入门* 选项卡中单击 *配置* 以启动向导。
++
+image:vmware-vcf-asa-041.png["配置数据存储区"]
+
+. 在新建数据存储向导的“常规”页面上，选择 vSphere 数据中心或集群目标。选择* vVols* 作为数据存储类型，填写数据存储的名称，并选择* iSCSI * 作为协议。单击“*下一步*”继续。
++
+image:vmware-vcf-asa-042.png["常规页面"]
+
+. 在*存储系统*页面上选择存储功能配置文件、存储系统和 SVM。单击“*下一步*”继续。
++
+image:vmware-vcf-asa-043.png["存储系统"]
+
+. 在*存储属性*页面上选择为数据存储创建一个新的卷，并填写要创建的卷的存储属性。单击“*添加*”创建卷，然后单击“*下一步*”继续。
++
+image:vmware-vcf-asa-044.png["存储属性"]
+
+. 最后，查看摘要并单击“*完成*”以启动 vVol 数据存储创建过程。
++
+image:vmware-vcf-asa-045.png["摘要页面"]
+
+
+
+====
+
+
+== 追加信息
+
+有关配置ONTAP存储系统的信息，请参阅link:https://docs.netapp.com/us-en/ontap["ONTAP 9 文档"]中心。
+
+有关配置 VCF 的信息，请参阅link:https://techdocs.broadcom.com/us/en/vmware-cis/vcf.html["VMware 云基础文档"]。

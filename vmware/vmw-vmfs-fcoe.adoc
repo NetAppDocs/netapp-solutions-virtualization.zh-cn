@@ -1,0 +1,93 @@
+---
+sidebar: sidebar 
+permalink: vmware/vmw-vmfs-fcoe.html 
+keywords: vSphere, datastore, VMFS, FCoE, ONTAP tools, zone, network interface 
+summary: 本页面提供在 VMware vSphere 环境中部署NetApp ONTAP存储 FCoE VMFS 数据存储区的步骤。 
+---
+= vSphere VMFS 数据存储 - 采用ONTAP 的以太网光纤通道存储协议
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+本节介绍如何使用以太网光纤通道 (FCoE) 传输协议创建 VMFS 数据存储库到ONTAP存储。
+
+
+
+== 你需要什么
+
+* 管理 vSphere 环境和ONTAP所需的基本技能
+* 运行 {ontap_version} 的ONTAP存储系统 (FAS/ AFF/CVO/ ONTAP Select)
+* ONTAP凭据（SVM 名称、用户 ID 和密码）
+* link:++https://docs.netapp.com/ontap-9/topic/com.netapp.doc.dot-cm-sanconf/GUID-CE5218C0-2572-4E12-9C72-BF04D5CE222A.html++["受支持的 FCoE 组合"]
+* link:++https://docs.netapp.com/ontap-9/topic/com.netapp.doc.exp-fc-esx-cpg/GUID-429C4DDD-5EC0-4DBD-8EA8-76082AB7ADEC.html++["已完成的配置工作表"]
+* vCenter Server 凭据
+* vSphere 主机信息
++
+** {vsphere_version}
+
+
+* 光纤交换机
++
+** 连接ONTAP FC 数据端口或 vSphere 主机
+** 启用 N_port ID 虚拟化 (NPIV) 功能
+** 创建单启动器单目标区域。
+** link:++https://docs.netapp.com/ontap-9/topic/com.netapp.doc.dot-cm-sanconf/GUID-374F3D38-43B3-423E-A710-2E2ABAC90D1A.html++["FC/FCoE 分区已配置"]
+
+
+* 网络交换机
++
+** FCoE 支持
+** DCB 支持
+** link:++https://docs.netapp.com/ontap-9/topic/com.netapp.doc.dot-cm-sanag/GUID-16DEF659-E9C8-42B0-9B94-E5C5E2FEFF9C.html++["FCoE 的巨型帧"]
+
+
+* 已部署、配置并准备使用适用于 VMware vSphere 的ONTAP工具
+
+
+
+
+== 配置 VMFS 数据存储区
+
+* 检查与 https://mysupport.netapp.com/matrix["互操作性表工具 (IMT)"]。
+* link:++https://docs.netapp.com/ontap-9/topic/com.netapp.doc.exp-fc-esx-cpg/GUID-7D444A0D-02CE-4A21-8017-CB1DC99EFD9A.html++["验证是否支持 FCoE 配置"] 。
+
+
+
+
+== ONTAP 任务
+
+. link:https://docs.netapp.com/us-en/ontap-cli-98/system-license-show.html["验证 FCP 的ONTAP许可证。"]
++
+.. 使用 `system license show`命令来验证 FCP 是否已列出。
+.. 使用 `license add -license-code <license code>`添加许可证。
+
+
+. 验证 SVM 上是否启用了 FCP 协议。
++
+.. link:++https://docs.netapp.com/ontap-9/topic/com.netapp.doc.exp-fc-esx-cpg/GUID-1C31DF2B-8453-4ED0-952A-DF68C3D8B76F.html++["验证现有 SVM 上的 FCP。"]
+.. link:++https://docs.netapp.com/ontap-9/topic/com.netapp.doc.exp-fc-esx-cpg/GUID-D322649F-0334-4AD7-9700-2A4494544CB9.html++["在现有 SVM 上配置 FCP。"]
+.. link:++https://docs.netapp.com/ontap-9/topic/com.netapp.doc.exp-fc-esx-cpg/GUID-0FCB46AA-DA18-417B-A9EF-B6A665DB77FC.html++["使用 FCP 创建一个新的 SVM。"]
+
+
+. 验证 SVM 上是否有可用的 FCP 逻辑接口。
++
+.. 使用 `Network Interface show`验证 FCP 适配器。
+.. 当使用 GUI 创建 SVM 时，逻辑接口是该过程的一部分。
+.. 要重命名网络接口，请使用 `Network Interface modify`。
+
+
+. link:++https://docs.netapp.com/ontap-9/topic/com.netapp.doc.dot-cm-sanag/GUID-D4DAC7DB-A6B0-4696-B972-7327EE99FD72.html++["创建并映射 LUN"]；如果您使用的是适用ONTAP tools for VMware vSphere，请跳过此步骤。
+
+
+
+
+== VMware vSphere 任务
+
+. 验证 HBA 驱动程序是否已安装。  VMware 支持的 HBA 具有开箱即用的驱动程序，应该在link:++https://techdocs.broadcom.com/us/en/vmware-cis/vsphere/vsphere/7-0/vsphere-storage-7-0/getting-started-with-a-traditional-storage-model-in-vsphere-environment/supported-storage-adapters/view-storage-adapters-available-on-an-esxi-host.html++["存储适配器信息"]。
+. link:++https://docs.netapp.com/vapp-98/topic/com.netapp.doc.vsc-iag/GUID-D7CAD8AF-E722-40C2-A4CB-5B4089A14B00.html++["使用ONTAP工具配置 VMFS 数据存储库"] 。
+

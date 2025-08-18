@@ -1,0 +1,22 @@
+---
+indexpage:
+  title: NetApp Proxmox 虚拟化解决方案
+  summary: NetApp Proxmox VE 解决方案是一组战略和技术功能，展示了使用 Proxmox 进行虚拟化的NetApp存储功能。
+  lead: NetApp Proxmox VE 解决方案是一组战略和技术功能，展示了使用 Proxmox 进行虚拟化的NetApp存储功能。
+  tiles:
+  - title: 开始使用
+    links:
+    - title: 关于 Proxmox VE
+      url: proxmox-overview.html
+    - title: 为 Proxmox VE 配置ONTAP存储
+      url: proxmox-ontap.html
+  - title: 其他资源
+    links:
+    - title: NetApp存储和 NVMe-oF 在 Proxmox 虚拟化环境中实现突破性性能
+      url: https://www.credativ.de/en/blog/credativ-inside/netapp-storage-and-nvme-of-for-breakthrough-performance-in-proxmox-virtualization-environments/
+    - title: Proxmox VE 文档
+      url: https://pve.proxmox.com/pve-docs/chapter-sysadmin.html#external_metric_server
+    - title: 备份和恢复 Proxmox VE
+      url: https://pve.proxmox.com/pve-docs/chapter-vzdump.html
+    - title: Proxmox VE 的存储
+      url: https://pve.proxmox.com/pve-docs/chapter-storage.html

@@ -1,0 +1,25 @@
+---
+sidebar: sidebar 
+permalink: vmware/vmw-vcf-migrate.html 
+keywords: vmware, vcf, migrate, import 
+summary:  
+---
+= 了解如何将具有现有数据存储的 vSphere 环境转换为 VCF
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+将现有数据存储在ONTAP上运行的 vSphere 环境转换为 VMware Cloud Foundation (VCF) 环境涉及将当前基础架构集成到现代私有云架构中。
+
+此过程利用ONTAP存储的灵活性实现无缝数据访问和管理。一旦建立了 VCF 管理域，管理员就可以有效地将其他 vSphere 环境导入 VCF 生态系统。这种集成提高了资源利用率，简化了私有云管理，并确保了平稳过渡，同时最大限度地减少了对现有工作负载的干扰。
+
+有关转换 vCenter 实例的技术细节，请参阅以下解决方案。
+
+* link:vmw-vcf-mgmt-nfs.html["将现有 vCenter 实例转换为 VCF 管理域 (NFS)"]
+* link:vmw-vcf-mgmt-fc.html["将 vCenter 实例（FC 数据存储）转换为 VCF 管理域"]
+

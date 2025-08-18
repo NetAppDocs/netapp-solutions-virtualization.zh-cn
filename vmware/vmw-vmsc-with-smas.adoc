@@ -1,0 +1,123 @@
+---
+sidebar: sidebar 
+permalink: vmware/vmw-vmsc-with-smas.html 
+keywords: NetApp Solutions, vMSC, Metro Storage Cluster, SnapMirror active sync, Business Continuity, SMBC, ONTAP Tools, AFD, SCV, iSCSI, backup, restore 
+summary:  
+---
+= 具有SnapMirror主动同步功能的 VMware vSphere Metro 存储集群
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+link:https://docs.netapp.com/us-en/ontap-apps-dbs/vmware/vmware_vmsc_overview.html["VMware vSphere Metro 存储集群 (vMSC)"]是一种跨不同故障域的延伸集群解决方案，可提供* 跨可用区域或站点的工作负载移动性。  * 避免停机 * 避免灾难 * 快速恢复
+
+本文档提供了 vMSC 实施细节link:https://docs.netapp.com/us-en/ontap/snapmirror-active-sync["SnapMirror主动同步 (SM-as)"]利用系统管理器和ONTAP工具。此外，它还展示了如何通过复制到第三个站点来保护虚拟机并使用 VMware vSphere 的SnapCenter插件进行管理。
+
+image:vmware-vmsc-with-smas-001.png["具有SnapMirror主动同步架构的 vMSC"]
+
+SnapMirror主动同步支持ASA、 AFF和FAS存储阵列。建议在两个故障域上使用相同类型（性能/容量模型）。目前仅支持 FC 和 iSCSI 等块协议。有关进一步的支持指南，请参阅link:https://imt.netapp.com/matrix/["互操作性表工具"]和link:https://hwu.netapp.com/["Hardware Universe"]
+
+vMSC 支持两种不同的部署模型：统一主机访问和非统一主机访问。在统一主机访问配置中，群集上的每个主机都可以访问两个故障域上的 LUN。它通常用于同一数据中心的不同可用区域。
+
+image:vmware-vmsc-with-smas-002.png["vMSC 统一与非统一主机访问模式"]
+
+在非统一主机访问配置中，主机只能访问本地故障域。它通常用于不同的站点，在这些站点中，跨故障域运行多条电缆是一种限制性选择。
+
+
+NOTE: 在非统一主机访问模式下，虚拟机将由 vSphere HA 在其他故障域中重新启动。应用程序可用性将受到其设计的影响。仅ONTAP 9.15 及更高版本支持非统一主机访问模式。
+
+
+
+== 前提条件
+
+* link:vmw-vcf-mgmt-supplemental-iscsi.html["每个主机部署有双存储结构（两个 HBA 或用于 iSCSI 的双 VLAN）的 VMware vSphere 主机"] 。
+* link:https://docs.netapp.com/us-en/ontap/networking/combine_physical_ports_to_create_interface_groups.html["存储阵列部署了数据端口链路聚合（用于 iSCSI）"] 。
+* link:vmw-vcf-mgmt-supplemental-iscsi.html["存储虚拟机和 LIF 可用"]
+* link:https://docs.netapp.com/us-en/ontap/snapmirror-active-sync/prerequisites-reference.html#networking-environment["集群间延迟往返时间必须小于 10 毫秒"] 。
+* link:https://docs.netapp.com/us-en/ontap/mediator/index.html["ONTAP Mediator VM 部署在不同的故障域上"]
+* link:https://docs.netapp.com/us-en/ontap/task_dp_prepare_mirror.html["集群对等关系已建立"]
+* link:https://docs.netapp.com/us-en/ontap/peering/create-intercluster-svm-peer-relationship-93-later-task.html["SVM对等关系已建立"]
+* link:https://docs.netapp.com/us-en/ontap/snapmirror-active-sync/mediator-install-task.html#initialize-the-ontap-mediator["ONTAP调解器已注册到ONTAP集群"]
+
+
+
+TIP: 如果使用自签名证书，则可以从中介虚拟机上的 <安装路径>/ontap_mediator/server_config/ca.crt 中检索 CA 证书。
+
+
+
+== vMSC 与ONTAP系统管理器 UI 的非统一主机访问。
+
+注意： ONTAP Tools 10.2 或更高版本可用于配置具有非统一主机访问模式的延伸数据存储库，而无需切换多个用户界面。如果不使用ONTAP工具，本节仅供参考。
+
+. 记下本地故障域存储阵列中的一个 iSCSI 数据生命周期 IP 地址。image:vmware-vmsc-with-smas-004.png["系统管理器 iSCSI Lifs"]
+. 在 vSphere 主机 iSCSI 存储适配器上，在动态发现选项卡下添加该 iSCSI IP。image:vmware-vmsc-with-smas-003.png["添加用于动态发现的 iSCSI 服务器"]
++
+
+NOTE: 对于统一访问模式，需要提供源和目标故障域 iSCSI 数据 lif 地址。
+
+. 在其他故障域的 vSphere 主机上重复上述步骤，在“动态发现”选项卡上添加其本地 iSCSI 数据 lif IP。
+. 通过适当的网络连接，每个 vSphere 主机应该存在四个 iSCSI 连接，每个存储控制器具有两个 iSCSI VMKernel nic 和两个 iSCSI 数据 lif。image:vmware-vmsc-with-smas-005.png["iSCSI 连接信息"]
+. 使用ONTAP系统管理器创建 LUN，使用复制策略 AutomatedFailOverDuplex 设置SnapMirror ，选择主机启动器并设置主机接近度。image:vmware-vmsc-with-smas-006.png["使用 AutomatedFailOverDuplex 创建 LUN"]
+. 在其他故障域存储阵列上，使用其 vSphere 主机启动器创建 SAN 启动器组并设置主机邻近度。image:vmware-vmsc-with-smas-009.png["SAN 启动器组"]
++
+
+NOTE: 对于统一访问模式，可以从源故障域复制 igroup。
+
+. 使用与源故障域中相同的映射 ID 来映射复制的 LUN。image:vmware-vmsc-with-smas-010.png["LUN映射ID"]
+. 在 vCenter 上，右键单击 vSphere 群集并选择重新扫描存储选项。image:vmware-vmsc-with-smas-007.png["重新扫描存储"]
+. 在群集中的一台 vSphere 主机上，检查新创建的设备是否与显示“未使用”的数据存储一起显示。image:vmware-vmsc-with-smas-008.png["vSphere 主机上的 iSCSI 设备列表"]
+. 在 vCenter 上，右键单击 vSphere 群集并选择新建数据存储选项。image:vmware-vmsc-with-smas-007.png["新建数据存储库"]
+. 在向导中，请记住提供数据存储名称并选择具有正确容量和设备 ID 的设备。image:vmware-vmsc-with-smas-011.png["在 iSCSI 设备上创建数据存储"]
+. 验证数据存储是否已安装在跨两个故障域的群集上的所有主机上。image:vmware-vmsc-with-smas-012.png["源主机上的数据存储"]
++
+image:vmware-vmsc-with-smas-013.png["目标主机上的数据存储"]
+
++
+
+NOTE: 由于我们使用了AFF，所以上面的屏幕截图显示了单个控制器上的活动 I/O。对于ASA，它将在所有路径上具有活动 IO。
+
+. 添加其他数据存储时，需要记住扩展现有的一致性组以使其在整个 vSphere 集群中保持一致。image:vmware-vmsc-with-smas-014.png["CG保护政策"]
+
+
+
+
+== 带有ONTAP工具的 vMSC 统一主机访问模式。
+
+. 确保NetApp ONTAP Tools 已部署并注册到 vCenter。image:vmware-vmsc-with-smas-015.png["ONTAP工具插件已注册到 vCenter"]如果没有，请关注link:https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere-10/deploy/ontap-tools-deployment.html["ONTAP工具部署"]和link:https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere-10/configure/add-vcenter.html["添加 vCenter 服务器实例"]
+. 确保ONTAP存储系统已注册到ONTAP工具。这包括两个故障域存储系统和第三个用于异步远程复制的系统，用于通过 VMware vSphere 的SnapCenter插件进行虚拟机保护。image:vmware-vmsc-with-smas-016.png["注册存储后端"]如果没有，请关注link:https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere-10/configure/add-storage-backend.html#add-storage-backend-using-vsphere-client-ui["使用 vSphere 客户端 UI 添加存储后端"]
+. 更新主机数据以与ONTAP工具同步，然后link:https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere-10/configure/create-vvols-datastore.html#create-a-vmfs-datastore["创建数据存储区"]。image:vmware-vmsc-with-smas-017.png["更新主机数据"]
+. 要启用 SM-as，请右键单击 vSphere 集群，然后在NetApp ONTAP工具上选择“保护集群”（请参阅上面的屏幕截图）
+. 它将显示该集群的现有数据存储以及 SVM 详细信息。默认 CG 名称为 <vSphere 集群名称>_<SVM 名称>。单击添加关系按钮。image:vmware-vmsc-with-smas-018.png["保护集群"]
+. 选择目标 SVM 并将 SM-as 的策略设置为 AutomatedFailOverDuplex。有一个用于统一主机配置的切换开关。设置每个主机的接近度。image:vmware-vmsc-with-smas-019.png["添加SnapMirror关系"]
+. 验证主机有效性信息和其他详细信息。如果需要，使用异步复制策略向第三个站点添加另一个关系。然后，点击保护。image:vmware-vmsc-with-smas-020.png["添加关系"]注意：如果计划使用适用SnapCenter Plug-in for VMware vSphere，则需要在卷级别而不是一致性组级别设置复制。
+. 通过统一主机访问，主机可以与两个容错域存储阵列建立 iSCSI 连接。image:vmware-vmsc-with-smas-021.png["iSCSI 多路径信息"]注意：以上屏幕截图来自AFF。如果是ASA，则 ACTIVE I/O 应该位于具有正确网络连接的所有路径中。
+. ONTAP Tools 插件还可以指示卷是否受到保护。image:vmware-vmsc-with-smas-022.png["卷保护状态"]
+. 如需了解更多详细信息并更新主机邻近度信息，可以使用ONTAP工具下的主机集群关系选项。image:vmware-vmsc-with-smas-023.png["主机集群关系"]
+
+
+
+
+== 使用适用于 VMware vSphere 的SnapCenter插件保护虚拟机。
+
+SnapCenter Plug-in for VMware vSphere支持SnapMirror主动同步，并且还支持与SnapMirror Async 结合使用以复制到第三个故障域。
+
+image:vmware-vmsc-with-smas-033.png["三站点拓扑"]
+
+image:vmware-vmsc-with-smas-024.png["具有异步故障转移的三站点拓扑"]
+
+支持的用例包括：* 使用SnapMirror活动同步从任一故障域备份和恢复虚拟机或数据存储区。  * 从第三个故障域恢复资源。
+
+. 添加计划在 SCV 中使用的所有ONTAP存储系统。image:vmware-vmsc-with-smas-025.png["注册存储阵列"]
+. 创建策略。确保在备份后检查 SM-as 的“更新SnapMirror” ，并在备份后检查SnapVault 的“异步复制”是否到第三个故障域。image:vmware-vmsc-with-smas-026.png["备份策略"]
+. 创建包含需要保护的项目的资源组，并与策略和计划关联。image:vmware-vmsc-with-smas-027.png["资源组"]注意：SM-as 不支持以 _recent 结尾的快照名称。
+. 备份根据与资源组关联的策略在预定的时间进行。可以从仪表板作业监视器或这些资源的备份信息中监视作业。image:vmware-vmsc-with-smas-028.png["SCV 仪表板"] image:vmware-vmsc-with-smas-029.png["数据存储区的资源备份信息"] image:vmware-vmsc-with-smas-030.png["VM 的资源备份信息"]
+. 可以从主故障域上的 SVM 或从其中一个辅助位置将虚拟机还原到相同或备用 vCenter。image:vmware-vmsc-with-smas-031.png["VM 还原位置选项"]
+. 数据存储挂载操作也有类似的选项。image:vmware-vmsc-with-smas-032.png["数据存储区还原位置选项"]
+
+
+如需有关 SCV 附加操作的帮助，请参阅link:https://docs.netapp.com/us-en/sc-plugin-vmware-vsphere/index.html["SnapCenter Plug-in for VMware vSphere文档"]

@@ -1,0 +1,291 @@
+---
+sidebar: sidebar 
+permalink: hyperv/hyperv-smas.html 
+keywords: hyperv, hyper-v, snapmirror, active, sync, stretch, cluster, netapp, virtualization 
+summary: 本文介绍了SnapMirror主动同步技术在 Microsoft 延伸集群之间的同步双向复制，允许在两个站点之间主动访问和同步多站点应用程序数据（例如 MSSQL 和 Oracle）。 
+---
+= 使用NetApp SnapMirror Active Sync 和 Microsoft 延伸集群设置同步复制
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+使用SnapMirror Active Sync 在 Microsoft 延伸故障转移群集之间配置同步、双向复制。此过程包括安装延伸故障转移集群、创建集群间对等连接、使用ONTAP配置中介、启用对称主动/主动保护以及执行集群故障转移验证测试。
+
+
+
+== 简介
+
+从ONTAP 9.15.1 开始， SnapMirror主动同步支持对称主动/主动部署，允许通过双向同步复制从受保护 LUN 的两个副本执行读写 I/O 操作。 Windows Stretch Cluster 是 Windows 故障转移群集功能的扩展，它跨越多个地理位置以提供高可用性和灾难恢复。借助SnapMirror主动同步对称主动/主动和 Windows 故障转移群集等群集应用程序，我们可以实现 Microsoft Hyper-V 关键业务应用程序的持续可用性，从而在意外事件期间实现零 RTO 和 RPO。该解决方案具有以下优势：
+
+* 零数据丢失：确保数据同步复制，实现零恢复点目标 (RPO)。
+* 高可用性和负载平衡：两个站点都可以主动处理请求，提供负载平衡和高可用性。
+* 业务连续性：实施对称主动/主动配置，以确保两个数据中心都在积极地为应用程序提供服务，并且在发生故障时可以无缝接管。
+* 提高性能：使用对称主动/主动配置在多个存储系统之间分配负载，从而提高响应时间和整体系统性能。
+
+
+本文介绍了SnapMirror主动同步技术在 Microsoft 延伸故障转移群集之间的同步双向复制，允许在两个站点之间主动访问和同步多站点应用程序数据（例如 MSSQL 和 Oracle）。如果发生故障，应用程序将立即重定向到剩余的活动站点，不会丢失数据，也不会丢失访问，从而提供高可用性、灾难恢复和地理冗余。
+
+
+
+== 使用案例
+
+一旦发生网络攻击、停电或自然灾害等中断事件，全球互联的商业环境就需要快速恢复业务关键应用程序数据，并且确保零数据丢失。在金融等领域以及遵守《通用数据保护条例》（GDPR）等监管要求的领域，这些要求更加突出。部署对称主动/主动配置，以在地理位置分散的位置之间复制数据，提供对数据的本地访问并确保在发生区域中断时的连续性。
+
+SnapMirror主动同步提供以下用例：
+
+.零恢复时间对象 (RTO) 的应用程序部署
+在SnapMirror主动同步部署中，您有一个主集群和镜像集群。主集群 (L1P) 中的 LUN 在辅助集群上有一个镜像 (L1S)；根据热邻近度设置，读取和写入由主机本地的站点提供。
+
+.实现零 RTO 或 TAF 的应用程序部署
+透明应用程序故障转移 (TAF) 基于主机 MPIO 软件的路径故障转移，实现对存储的无中断访问。两个 LUN 副本（例如主副本 (L1P) 和镜像副本 (L1S)）具有相同的标识（序列号）并向主机报告为可读写。
+
+.集群应用程序
+集群应用程序（包括 VMware vSphere Metro Storage Cluster (vMSC)、Oracle RAC 和带有 SQL 的 Windows 故障转移集群）需要同时访问，以便虚拟机可以故障转移到另一个站点而不会产生任何性能开销。  SnapMirror主动同步对称主动/主动通过双向复制在本地提供 IO 服务，以满足集群应用程序的要求。
+
+.灾难场景
+在分散地理位置的站点之间同步复制应用程序的多个卷。当主副本发生中断时，您可以自动故障转移到辅助副本，从而实现一级应用程序的业务连续性。
+
+.Windows 故障转移
+SnapMirror主动同步通过易于使用的应用程序级粒度和自动故障转移提供了灵活性，从而可以在虚拟和物理环境中为业务关键型应用程序（如 Oracle、Microsoft SQL Server 等）实现高数据可用性和快速数据复制。
+
+
+
+== 解决方案架构
+
+Microsoft 延伸集群在每个站点上都有两个 Hyper-V 节点。这两个节点共享NetApp存储并使用SnapMirror主动同步对称主动-主动在两个站点之间复制卷。一致性组确保数据集的所有卷都处于静止状态，然后在同一时间点进行快照。这为支持数据集的卷提供了数据一致的还原点。  ONTAP调解器接收有关对等ONTAP集群和节点的健康信息，在两者之间进行协调并确定每个节点/集群是否健康且正在运行。
+
+解决方案组件：
+
+* 两个NetApp存储系统ONTAP 9.15.1：第一和第二个故障域
+* 用于ONTAP调解器的 Redhat 8.7 VM
+* Windows 2022 上的三个 Hyper-V 故障转移群集：
++
+** 站点 1、站点 2 用于应用程序
+** 调解员站点 3
+
+
+* Hyper-V 上的虚拟机：Microsoft 域控制器、MSSQL Always On 故障转移集群实例、 ONTAP调解器
+
+
+image:hyperv-smas-001.png["该图显示输入/输出对话框或表示书面内容"]
+
+
+
+=== 安装 Microsoft Stretch 故障转移群集
+
+您可以使用 Windows Admin Center、PowerShell 或服务器管理器控制台来安装故障转移群集功能及其相关的 PowerShell cmdlet。有关先决条件和步骤的详细信息，请查看创建故障转移群集。
+
+以下是设置 Windows Stretch Cluster 的分步指南：
+
+. 在所有四台服务器 hyperv1、hyperv2、hyperv3 和 hyperv4 上安装 Windows 2022
+. 将所有四台服务器加入同一个 Active Directory 域：hyperv.local。
+. 在每台服务器上安装 Windows 功能故障转移群集、Hyper-V、Hyper-V_Powershell 和 MPIO。
++
+[source, shell]
+----
+Install-WindowsFeature –Name "Failover-Clustering", "Hyper-V", "Hyper-V-Powershell", "MPIO" –IncludeManagementTools
+----
+. 配置MPIO，添加对iSCSI设备的支持。
++
+image:hyperv-smas-002.png["该图显示输入/输出对话框或表示书面内容"]
+
+. 在站点 1 和站点 2 ONTAP存储上，创建两个 iSCSI LUN（SQLdata 和 SQLlog）并映射到 Windows 服务器 iqn 组。使用 Microsoft iSCSI 软件启动器连接 LUN。欲了解更多详情，请查看link:https://docs.netapp.com/us-en/ontap-sm-classic/iscsi-config-windows/index.html["Windows 的 iSCSI 配置"]。
+. 运行集群验证报告以检查任何错误或警告。
++
+[source, shell]
+----
+Test-Cluster –Node hyperv1, hyperv2, hyperv3, hyperv4
+----
+. 创建故障转移群集，分配静态 IP 地址，
++
+[source, shell]
+----
+New-Cluster –Name <clustername> –Node hyperv1, hyperv2, hyperv3, hyperv4, StaticAddress <IPaddress>
+----
++
+image:hyperv-smas-003.png["该图显示输入/输出对话框或表示书面内容"]
+
+. 将映射的 iSCSI 存储添加到故障转移群集。
+. 配置仲裁见证，右键点击集群->更多操作->配置集群仲裁设置，选择磁盘见证。
++
+下图显示了四个集群共享 LUN - 两个站点 sqldata 和 sqllog 以及一个仲裁中的磁盘见证。
+
++
+image:hyperv-smas-004.png["该图显示输入/输出对话框或表示书面内容"]
+
+
+
+.Always On 故障转移群集实例
+Always On 故障转移群集实例 (FCI) 是一个 SQL Server 实例，它安装在 WSFC 中具有 SAN 共享磁盘存储的节点上。在故障转移期间，WSFC 服务将实例资源的所有权转移到指定的故障转移节点。然后，SQL Server 实例在故障转移节点上重新启动，数据库照常恢复。有关设置的更多详细信息，请查看使用 SQL 的 Windows 故障转移群集。在每个站点上创建两个 Hyper-V SQL FCI VM 并设置优先级。使用 hyperv1 和 hyperv2 作为站点 1 VM 的首选所有者，使用 hyperv3 和 hyperv4 作为站点 2 VM 的首选所有者。
+
+image:hyperv-smas-005.png["该图显示输入/输出对话框或表示书面内容"]
+
+
+
+=== 创建集群间对等连接
+
+您必须先在源集群和目标集群之间创建对等关系，然后才能使用SnapMirror复制 Snapshot 副本。
+
+. 在两个集群上添加集群间网络接口
++
+image:hyperv-smas-006.png["该图显示输入/输出对话框或表示书面内容"]
+
+. 您可以使用 cluster peer create 命令在本地和远程集群之间创建对等关系。创建对等关系后，您可以在远程集群上运行 cluster peer create 来向本地集群进行身份验证。
++
+image:hyperv-smas-007.png["该图显示输入/输出对话框或表示书面内容"]
+
+
+
+
+
+=== 使用ONTAP配置调解器
+
+ONTAP调解器接收有关对等ONTAP集群和节点的健康信息，在两者之间进行协调并确定每个节点/集群是否健康且正在运行。 SM-as 允许数据在写入源卷后立即复制到目标。调解器必须部署在第三个故障域。前提条件
+
+* 硬件规格：8GB RAM、2x2GHz CPU、1Gb 网络（<125ms RTT）
+* 安装了 Red Hat 8.7 操作系统，检查link:https://docs.netapp.com/us-en/ontap/mediator/index.html["ONTAP调解器版本和支持的 Linux 版本"]。
+* 配置 Mediator Linux 主机：网络设置和防火墙端口 31784 和 3260
+* 安装 yum-utils 包
+* link:https://docs.netapp.com/us-en/ontap/mediator/index.html#register-a-security-key-when-uefi-secure-boot-is-enabled["启用 UEFI 安全启动时注册安全密钥"]
+
+
+.步骤
+. 从下载 Mediator 安装包link:https://mysupport.netapp.com/site/products/all/details/ontap-mediator/downloads-tab["ONTAP调解器下载页面"]。
+. 验证ONTAP调解器代码签名。
+. 运行安装程序并根据需要响应提示：
++
+[source, shell]
+----
+./ontap-mediator-1.8.0/ontap-mediator-1.8.0 -y
+----
+. 启用安全启动后，您必须在安装后采取额外步骤来注册安全密钥：
++
+.. 按照 README 文件中的说明对 SCST 内核模块进行签名：
++
+[source, shell]
+----
+/opt/netapp/lib/ontap_mediator/ontap_mediator/SCST_mod_keys/README.module-signing
+----
+.. 找到所需的键：
++
+[source, shell]
+----
+/opt/netapp/lib/ontap_mediator/ontap_mediator/SCST_mod_keys
+----
+
+
+. 验证安装
++
+.. 确认流程：
++
+[source, shell]
+----
+systemctl status ontap_mediator mediator-scst
+----
++
+image:hyperv-smas-008.png["该图显示输入/输出对话框或表示书面内容"]
+
+.. 确认ONTAP调解器服务使用的端口：
++
+image:hyperv-smas-009.png["该图显示输入/输出对话框或表示书面内容"]
+
+
+
+. 使用自签名证书初始化ONTAP调解器以进行SnapMirror主动同步
++
+.. 从ONTAP Mediator Linux VM/主机软件安装位置 cd /opt/netapp/lib/ontap_mediator/ontap_mediator/server_config 中找到ONTAP Mediator CA 证书。
+.. 将ONTAP调解器 CA 证书添加到ONTAP集群。
++
+[source, shell]
+----
+security certificate install -type server-ca -vserver <vserver_name>
+----
+
+
+. 添加中介，进入系统管理器，保护>概览>中介，输入中介的IP地址、用户名（API用户默认为mediatoradmin）、密码和端口31784。
++
+下图显示了集群间网络接口、集群对等体、调解器和 SVM 对等体均已设置。
+
++
+image:hyperv-smas-010.png["该图显示输入/输出对话框或表示书面内容"]
+
+
+
+
+
+=== 配置对称主动/主动保护
+
+一致性组有助于应用程序工作负载管理，提供易于配置的本地和远程保护策略以及某一时间点的卷集合的同时崩溃一致性或应用程序一致性 Snapshot 副本。更多详细信息请参阅link:https://docs.netapp.com/us-en/ontap/consistency-groups/index.html["一致性组概述"]。我们对此设置使用统一的配置。
+
+.统一配置的步骤
+. 创建一致性组时，指定主机启动器来创建igroup。
+. 选中复选框以启用SnapMirror ，然后选择 AutomatedFailoverDuplex 策略。
+. 在出现的对话框中，选中复制启动器组复选框以复制 igroup。在编辑近端设置中，为您的主机设置近端 SVM。
++
+image:hyperv-smas-011.png["该图显示输入/输出对话框或表示书面内容"]
+
+. 选择“保存”
++
+源和目的之间建立保护关系。
+
++
+image:hyperv-smas-012.png["该图显示输入/输出对话框或表示书面内容"]
+
+
+
+
+
+=== 执行群集故障转移验证测试
+
+我们建议您执行计划的故障转移测试来进行集群验证检查，两个站点上的 SQL 数据库或任何集群软件 - 主站点或镜像站点在测试期间应该继续可访问。
+
+Hyper-V 故障转移群集要求包括：
+
+* SnapMirror活动同步关系必须同步。
+* 当非中断操作正在进行时，您无法启动计划的故障转移。非中断操作包括卷移动、聚合重新定位和存储故障转移。
+* ONTAP调解器必须已配置、已连接且处于法定人数。
+* 每个站点上至少有两个 Hyper-V 群集节点，其 CPU 处理器属于同一 CPU 系列，以优化 VM 迁移过程。  CPU 应该是支持硬件辅助虚拟化和基于硬件的数据执行保护 (DEP) 的 CPU。
+* Hyper-V 集群节点应该是相同的 Active Directory 域成员，以确保弹性。
+* Hyper-V 集群节点和NetApp存储节点应通过冗余网络连接，以避免单点故障。
+* 共享存储，所有集群节点都可以通过 iSCSI、光纤通道或 SMB 3.0 协议访问。
+
+
+
+
+==== 测试场景
+
+有很多方法可以触发主机、存储或网络的故障转移。
+
+image:hyperv-smas-013.png["该图显示输入/输出对话框或表示书面内容"]
+
+.Hyper-V 发生故障的节点或站点
+* 节点故障 故障转移群集节点可以接管故障节点的工作负载，此过程称为故障转移。操作：关闭 Hyper-V 节点 预期结果：集群中的另一个节点将接管工作负载。虚拟机将被迁移到另一个节点。
+* 一个站点故障 我们还可以使整个站点发生故障，并触发主站点故障转移到镜像站点： 操作：关闭一个站点上的两个 Hyper-V 节点。预期结果：主站点上的虚拟机将迁移到镜像站点 Hyper-V 集群，因为SnapMirror主动同步对称主动/主动通过双向复制在本地提供 IO，并且对工作负载没有影响，RPO 和 RTO 为零。
+
+
+.一个站点发生存储故障
+* 停止主站点上的 SVM 操作：停止 iSCSI SVM 预期结果：Hyper-V 主集群已连接到镜像站点，并且SnapMirror主动同步对称主动/主动无工作负载影响，RPO 和 RTO 为零。
+
+
+.成功标准
+测试期间，请注意以下事项：
+
+* 观察集群的行为并确保服务转移到其余节点。
+* 检查是否有任何错误或服务中断。
+* 确保集群可以处理存储故障并继续运行。
+* 验证数据库数据是否仍然可访问且服务是否继续运行。
+* 验证数据库数据完整性是否得到维护。
+* 验证特定应用程序是否可以故障转移到另一个节点而不会对用户产生影响。
+* 验证集群是否可以在故障转移期间和之后平衡负载并保持性能。
+
+
+
+
+== 摘要
+
+SnapMirror主动同步可以帮助多站点应用程序数据（例如 MSSQL 和 Oracle）在两个站点之间主动访问和同步。如果发生故障，应用程序会立即重定向到剩余的活动站点，不会丢失数据，也不会丢失访问。

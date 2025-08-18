@@ -1,0 +1,55 @@
+---
+sidebar: sidebar 
+permalink: openshift/osv-rosa-vm-workflows.html 
+keywords: OpenShift, OCP, Trident, NetApp ONTAP, Red Hat OpenShift, OpenShift Virtualization, ROSA, CNV, Container Native Virtualization, Red Hat OpenShift Virtualization 
+summary: ROSA 上的 Red Hat OpenShift 虚拟化 
+---
+= 在 ROSA 集群上使用 FSx for ONTAP在 Red Hat OpenShift Virtualization 中重新启动或迁移虚拟机
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+使用Amazon FSx for ONTAP在 OpenShift Virtualization 中的两个节点之间重新启动 VM 或执行 VM 的实时迁移。
+
+单击重启按钮。image:redhat-openshift-ocpv-rosa-020.png["OCP-v VM重启"]
+
+VM 恢复运行状态，文件系统、PVC 和文件系统中的文件完全相同image:redhat-openshift-ocpv-rosa-021.png["OCP-v VM 重启文件系统"]
+
+image:redhat-openshift-ocpv-rosa-022.png["OCP-v VM 重启磁盘"]
+
+image:redhat-openshift-ocpv-rosa-023.png["OCP-v VM重启文件"]
+
+
+
+== 虚拟机实时迁移
+
+在本节中，我们将执行 VM 实时迁移，然后检查磁盘的内容。实时迁移是指将正在运行的虚拟机 (VM) 从一台物理主机移动至另一台主机的过程，而不会中断正常操作或导致任何停机，或对最终用户造成其他不利影响。实时迁移被认为是虚拟化的一个重要步骤。它允许将整个虚拟机连同正在运行的操作系统 (OS)、内存、存储和网络连接从当前节点移动到目标节点。下面我们将看到如何执行虚拟机从当前节点到新节点的实时迁移。
+
+注意虚拟机正在运行的节点image:redhat-openshift-ocpv-rosa-024.png["OCP-v VM当前节点"]
+
+点击 3 个点并选择迁移image:redhat-openshift-ocpv-rosa-025.png["OCP-v 虚拟机实时迁移"]
+
+在概览页面，您可以看到迁移已成功，状态变为成功。image:redhat-openshift-ocpv-rosa-026.png["OCP-v 虚拟机迁移成功"]
+
+实时迁移完成后，虚拟机现在位于不同的节点上。image:redhat-openshift-ocpv-rosa-027.png["不同节点上的 OCP-v VM"]
+
+打开 Web 控制台并查看磁盘的内容。它仍然具有我们在实时迁移之前创建的相同的 2 个文件。image:redhat-openshift-ocpv-rosa-028.png["实时迁移后 OCP-v VM 相同文件1"] image:redhat-openshift-ocpv-rosa-029.png["实时迁移后 OCP-v VM 相同文件2"]
+
+新节点上的虚拟机存储仍显示相同的磁盘image:redhat-openshift-ocpv-rosa-030.png["实时迁移后，OCP-v VM 相同的磁盘"]
+
+此外，PVC 也相同。image:redhat-openshift-ocpv-rosa-031.png["实时迁移后，OCP-v VM 具有相同的 PVC"]
+
+与 VM pod 关联的卷也与以前相同（2 个 PVC）。image:redhat-openshift-ocpv-rosa-032.png["实时迁移后，OCP-v VM 具有相同的 PVC"]
+
+
+
+== 演示视频
+
+.使用Amazon FSx for NetApp ONTAP在 ROSA 上的 OpenShift 虚拟化中实时迁移虚拟机
+video::4b3ef03d-7d65-4637-9dab-b21301371d7d[panopto,width=360]
+可以找到更多关于 Red Hat OpenShift 和 OpenShift 虚拟化解决方案的视频link:../videos/openshift-videos.html["此处"]。

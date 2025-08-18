@@ -1,0 +1,74 @@
+---
+sidebar: sidebar 
+permalink: vmware/vmw-vcf-vmsc-mgmt-smas.html 
+keywords: netapp, vmware, cloud, foundation, vcf, asa, all-flash, array, ontap tools, otv, sddc, iscsi 
+summary:  
+---
+= 使用SnapMirror Active Sync 为 VCF 管理域配置延伸集群
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+在此用例中，我们概述了使用ONTAP tools for VMware vSphere为 VCF 管理域配置延伸集群的过程。此过程包括部署 vSphere 主机和 vCenter Server、安装ONTAP工具、使用SnapMirror Active Sync 保护数据存储库、将虚拟机迁移到受保护的数据存储库以及配置补充存储。
+
+image:vmware-vcf-asa-mgmt-stretchcluster-001.png["单实例 - 多可用区域"]
+
+
+
+== 场景概述
+
+延伸集群解决方案可以在默认集群上实现，也可以在 VCF 管理或工作负载域中的附加集群上实现。主数据存储和补充数据存储均支持 FC 上的 VMFS。 iSCSI 上的 VMFS 仅支持补充数据存储。请参阅IMT以了解具有SnapMirror主动同步的 NVMe-oF 上的 VMFS 支持。
+
+image:vmware-vcf-asa-mgmt-stretchcluster-002.png["使用ONTAP为 VCF 管理域延伸集群"]
+
+.管理域上的主体存储
+[%collapsible%open]
+====
+从 VCF 5.2 开始，可以使用 VCF 导入工具在没有 VSAN 的情况下部署管理域。  VCF 导入工具的转换选项允许link:vmw-vcf-mgmt-fc.html["将现有 vCenter 部署到管理域中"]。  vCenter 中的所有集群都将成为管理域的一部分。
+
+. 部署 vSphere 主机
+. 在本地数据存储上部署 vCenter 服务器（vCenter 需要与将转换为管理域的 vSphere 主机共存）
+. ONTAP tools for VMware vSphere
+. 为 VMware vSphere 部署SnapCenter插件（可选）
+. 创建数据存储（FC 区域配置应该到位）
+. 保护 vSphere 群集
+. 将虚拟机迁移到新创建的数据存储
+
+
+
+NOTE: 每当集群扩展或缩小时，都需要更新集群的ONTAP工具上的主机集群关系，以指示对源或目标所做的更改。
+
+====
+.管理域上的补充存储
+[%collapsible%open]
+====
+一旦管理域启动并运行，就可以使用ONTAP工具创建额外的数据存储库，这将触发一致性组扩展。
+
+
+TIP: 如果 vSphere 群集受到保护，则群集中的所有数据存储都将受到保护。
+
+如果使用 Cloud Builder 工具部署 VCF 环境，要使用 iSCSI 创建补充存储，请部署ONTAP工具来创建 iSCSI 数据存储并保护 vSphere 集群。
+
+
+NOTE: 每当集群扩展或缩小时，都需要更新集群的ONTAP工具上的主机集群关系，以指示对源或目标所做的更改。
+
+====
+
+
+== 追加信息
+
+有关配置ONTAP存储系统的信息，请参阅link:https://docs.netapp.com/us-en/ontap["ONTAP 9 文档"]中心。
+
+有关配置 VCF 的信息，请参阅link:https://techdocs.broadcom.com/us/en/vmware-cis/vcf/vcf-5-2-and-earlier/5-2.html["VMware Cloud Foundation 5.2 文档"]。
+
+
+
+== 此解决方案的视频演示
+
+.使用ONTAP工具为 VCF 扩展集群
+video::569a91a9-2679-4414-b6dc-b25d00ff0c5a[panopto,width=360]

@@ -1,0 +1,64 @@
+---
+sidebar: sidebar 
+permalink: videos/openshift-videos.html 
+summary: 展示 OpenShift 虚拟化与NetApp存储解决方案集成的视频和演示 
+keywords: openshift, virtualization, netapp, trident, videos, demos 
+---
+= 观看有关使用NetApp进行 Red Hat OpenShift 虚拟化的视频
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+通过一系列视频探索 OpenShift 虚拟化与NetApp的集成，这些视频演示了灾难恢复、虚拟机保护、存储管理以及使用Trident和 Ansible 的自动化等关键功能。
+
+
+
+== 虚拟机管理和操作
+
+.使用 iSCSI 存储在 OpenShift Virtualization 中创建 VM
+video::497b868d-2917-4824-bbaa-b2d500f92dda[panopto,width=360]
+.使用 OpenShift 虚拟化部署虚拟机 - Red Hat OpenShift 与NetApp
+video::8a29fa18-8643-499e-94c7-b01200f9ce11[panopto,width=360]
+.使用Amazon FSx for NetApp ONTAP在 ROSA 上的 OpenShift 虚拟化中实时迁移虚拟机
+video::4b3ef03d-7d65-4637-9dab-b21301371d7d[panopto,width=360]
+.使用 Red Hat MTV 将虚拟机迁移到带有NetApp ONTAP存储的 OpenShift 虚拟化
+video::bac58645-dd75-4e92-b5fe-b12b015dc199[panopto,width=360]
+.工作负载迁移 - Red Hat OpenShift 与NetApp
+video::27773297-a80c-473c-ab41-b01200fa009a[panopto,width=360]
+
+
+== 数据保护和灾难恢复
+
+.使用Trident Protect 保护虚拟机
+video::4670e188-3d67-4207-84c5-b2d500f934a0[panopto,width=360]
+.使用Trident Protect 进行虚拟机灾难恢复
+video::ae4bdcf7-b344-4f19-89ed-b2d500f94efd[panopto,width=360]
+.使用Trident的高级数据管理功能对 OpenShift VM 进行故障转移/故障恢复（仅提供早期访问程序）
+video::f2a8fa24-2971-4cdc-9bbb-b1f1007032ea[panopto,width=360]
+
+
+== 存储集成与管理
+
+.使用 Red Hat 认证的Trident操作员安装Trident
+video::15c225f3-13ef-41ba-b255-b2d500f927c0[panopto,width=360]
+.使用ONTAP SAN（iSCSI）存储类在 OpenShift 虚拟化中部署新虚拟机
+video::2e2c6fdb-4651-46dd-b028-b1ed00d37da3[panopto,width=360]
+.使用ONTAP NAS 存储类部署 postgresql 容器应用程序
+video::d3eacf8c-888f-4028-a695-b1ed00d28dee[panopto,width=360]
+
+
+== 自动化和监控
+
+.Ansible 自动化部署Trident并在 OpenShift 集群上创建存储类
+video::fae6605f-b61a-4a34-a97f-b1ed00d2de93[panopto,width=360]
+link:https://github.com/NetApp/trident-install["使用 Ansible 安装NetApp Trident、StorageClasses 和 Backend 的剧本可以在 github 中找到。"]
+
+.Cloud Insights与 Openshift Virtualization 集成
+video::29ed6938-eeaf-4e70-ae7b-b15d011d75ff[panopto,width=360]
+.安装 OpenShift 虚拟化 - Red Hat OpenShift 与NetApp
+video::e589a8a3-ce82-4a0a-adb6-b01200f9b907[panopto,width=360]

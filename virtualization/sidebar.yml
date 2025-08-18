@@ -1,0 +1,9 @@
+---
+section: virtualization
+title: 开始使用
+pdf-filename: 使用NetApp实现任何虚拟化解决方案
+entries:
+- title: 使用NetApp提供任何虚拟化解决方案
+  url: "/virtualization/virt-options-on-netapp.html"
+- title: 利用ONTAP增强虚拟化环境
+  url: "/virtualization/virt-overview.html"

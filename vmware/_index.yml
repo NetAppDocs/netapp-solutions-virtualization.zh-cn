@@ -1,0 +1,60 @@
+---
+indexpage:
+  title: NetApp VMware 虚拟化解决方案
+  summary: NetApp VMware 虚拟化解决方案是一组战略和技术能力，展示了NetApp存储在本地和云中使用 VMware 进行虚拟化的能力。
+  lead: NetApp VMware 虚拟化解决方案是一组战略和技术能力，展示了NetApp存储在本地和云中使用 VMware 进行虚拟化的能力。
+  tiles:
+  - title: 开始使用
+    links:
+    - title: 关于适用于 VMware vSphere 的ONTAP
+      url: vmw-getting-started-overview.html
+    - title: 关于适用于 VMware 的NetApp平台
+      url: vmw-getting-started-ntap-options.html
+    - title: 博客
+      url: "../blogs.html"
+    - title: 视频
+      url: "../videos/vmware-videos.html"
+  - title: NetApp上的 VMware 云基础
+    links:
+    - title: 关于 VMware Cloud Foundation 和ONTAP
+      url: vmw-vcf-overview.html
+    - title: 使用SnapCenter保护 VCF 工作负载
+      url: vmw-vcf-protect-sc.html
+    - title: 使用BlueXP保护 VMware 数据存储
+      url: vmw-vcf-disaster-recovery.html
+    - title: 将ONTAP高可用性与 vMSC 集成
+      url: vmw-vcf-protect-vmsc.html
+    - title: 保护并恢复数据以抵御勒索软件
+      url: vmw-nfs-arp.html
+    - title: 使用 DII 监控本地存储
+      url: vmw-dii.html
+  - title: NetApp上的 VMware vSphere 基础
+    links:
+    - title: 关于NetApp上的 VMware vSphere Foundation
+      url: vmw-vvf-overview.html
+    - title: 为 vSphere 8 部署 VMFS
+      url: vmw-vmfs-deploy.html
+    - title: 使用 NFS nConnect 功能
+      url: vmw-vsphere8-nfs-nconnect.html
+    - title: 配置 NFS 数据存储
+      url: vmw-nfs-otv10.html
+    - title: 配置灾难恢复
+      url: vmw-nfs-vlsr.html
+  - title: VMware 工具和实用程序
+    links:
+    - title: 虚拟机数据收集器
+      url: "../assess/vmw-vmdc.html"
+    - title: 适用于 VMware vSphere 的 ONTAP 工具
+      url: https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere/index.html
+    - title: 搭载NetApp ONTAP 9 的 VMware Site Recovery Manager (SRM)
+      url: https://docs.netapp.com/us-en/ontap-apps-dbs/vmware/vmware-srm-overview.html
+    - title: NetApp 互操作性表工具
+      url: https://mysupport.netapp.com/matrix/#welcome
+    - title: VMware 硬件兼容性指南
+      url: https://www.vmware.com/resources/compatibility/search.php?deviceCategory=san&details=1&partner=64&isSVA=0&page=1&display_interval=10&sortColumn=Partner&sortOrder=Asc
+  - title: 其他资源
+    links:
+    - title: VMware vSphere 与ONTAP最佳实践
+      url: https://docs.netapp.com/us-en/ontap-apps-dbs/vmware/vmware-vsphere-overview.html
+    - title: 采用NetApp ONTAP 的VMware vSphere 虚拟卷 ( vVols )
+      url: https://docs.netapp.com/us-en/ontap-apps-dbs/vmware/vmware-vvols-overview.html

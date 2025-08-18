@@ -1,0 +1,112 @@
+---
+sidebar: sidebar 
+permalink: vmware/vmw-nfs-arp.html 
+keywords: netapp, vmware, cloud, foundation, vcf, aff, all-flash, nfs, vvol, vvols, array, ontap tools, otv, ransomware 
+summary:  
+---
+= 自主防御 NFS 存储勒索软件
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+尽早检测勒索软件对于防止其传播和避免代价高昂的停机至关重要。有效的勒索软件检测策略必须在 ESXi 主机和客户 VM 级别纳入多层保护。虽然实施了多种安全措施来全面防御勒索软件攻击，但ONTAP能够在整体防御方法中添加更多层保护。举几个功能的例子，它包括快照、自主勒索软件保护、防篡改快照等等。
+
+让我们看看上述功能如何与 VMware 配合使用来保护数据并恢复数据以抵御勒索软件的攻击。为了保护 vSphere 和客户虚拟机免受攻击，必须采取多项措施，包括分段、利用端点的 EDR/XDR/SIEM、安装安全更新并遵守适当的强化指南。驻留在数据存储上的每个虚拟机还托管一个标准操作系统。确保企业服务器安装反恶意软件产品套件并定期更新，这是多层勒索软件保护策略的重要组成部分。除此之外，在为数据存储提供支持的 NFS 卷上启用自主勒索软件保护 (ARP)。  ARP 利用内置的 onbox ML 查看卷工作负载活动和数据熵来自动检测勒索软件。  ARP 可通过ONTAP内置管理界面或系统管理器进行配置，并按卷启用。
+
+image:nfs-arp-001.png["该图显示输入/输出对话框或表示书面内容"]
+
+
+NOTE: 使用目前处于技术预览阶段的全新NetApp ARP/AI，无需学习模式。相反，它可以利用其人工智能勒索软件检测功能直接进入主动模式。
+
+
+NOTE: 使用ONTAP One，所有这些功能集都是完全免费的。访问 NetApp 强大的数据保护、安全套件以及ONTAP提供的所有功能，无需担心许可障碍。
+
+一旦进入活动模式，它就会开始寻找可能是勒索软件的异常卷活动。如果检测到异常活动，则会立即进行自动快照复制，从而提供尽可能接近文件感染的恢复点。当加密卷中添加新扩展名或修改文件扩展名时，ARP 可以检测到位于 VM 外部的 NFS 卷上 VM 特定文件扩展名的变化。
+
+image:nfs-arp-002.png["该图显示输入/输出对话框或表示书面内容"]
+
+如果勒索软件攻击针对虚拟机 (VM) 并更改 VM 内的文件而不对 VM 外部进行更改，则如果 VM 的默认熵较低（例如，对于 .txt、.docx 或 .mp4 文件等文件类型），高级勒索软件防护 (ARP) 仍将检测到威胁。即使 ARP 在这种情况下创建了保护快照，它也不会生成威胁警报，因为 VM 之外的文件扩展名尚未被篡改。在这种情况下，初始防御层会识别异常，但 ARP 有助于根据熵创建快照。
+
+有关详细信息，请参阅link:https://docs.netapp.com/us-en/ontap/anti-ransomware/use-cases-restrictions-concept.html#supported-configurations["ARP 用例和注意事项"]。
+
+从文件转向备份数据，勒索软件攻击现在越来越多地瞄准备份和快照恢复点，试图在开始加密文件之前删除它们。但是，使用ONTAP，可以通过在主系统或辅助系统上创建防篡改快照来防止这种情况link:https://docs.netapp.com/us-en/ontap/snaplock/snapshot-lock-concept.html["NetApp Snapshot 副本锁定"]。
+
+image:nfs-arp-003.png["该图显示输入/输出对话框或表示书面内容"]
+
+这些 Snapshot 副本无法被勒索软件攻击者或恶意管理员删除或更改，因此即使在受到攻击后它们仍然可用。如果数据存储或特定虚拟机受到影响， SnapCenter可以在几秒钟内恢复虚拟机数据，最大限度地减少组织的停机时间。
+
+image:nfs-arp-004.png["该图显示输入/输出对话框或表示书面内容"]
+
+以上内容展示了ONTAP存储如何在现有技术上添加额外的层，从而增强环境的未来性。
+
+如需更多信息，请查看link:https://www.netapp.com/media/7334-tr4572.pdf["NetApp勒索软件解决方案"]。
+
+现在，如果所有这些都需要与 SIEM 工具进行协调和集成，那么可以使用像BlueXP ransomware protection这样的 offtap 服务。这是一项旨在保护数据免受勒索软件侵害的服务。该服务为基于应用程序的工作负载（例如 Oracle、MySQL、VM 数据存储和本地 NFS 存储上的文件共享）提供保护。
+
+在此示例中，NFS 数据存储“Src_NFS_DS04”使用BlueXP ransomware protection进行保护。
+
+image:nfs-arp-005.png["该图显示输入/输出对话框或表示书面内容"]
+
+image:nfs-arp-006.png["该图显示输入/输出对话框或表示书面内容"]
+
+有关配置BlueXP ransomware protection的详细信息，请参阅link:https://docs.netapp.com/us-en/bluexp-ransomware-protection/rp-start-setup.html["设置BlueXP ransomware protection"]和link:https://docs.netapp.com/us-en/bluexp-ransomware-protection/rp-use-settings.html#add-amazon-web-services-as-a-backup-destination["配置BlueXP ransomware protection设置"]。
+
+现在是时候通过一个例子来解释这一点了。在本演练中，数据存储“Src_NFS_DS04”受到影响。
+
+image:nfs-arp-007.png["该图显示输入/输出对话框或表示书面内容"]
+
+ARP 在检测到后立即触发了卷上的快照。
+
+image:nfs-arp-008.png["该图显示输入/输出对话框或表示书面内容"]
+
+image:nfs-arp-009.png["该图显示输入/输出对话框或表示书面内容"]
+
+一旦法医分析完成，就可以使用SnapCenter或BlueXP ransomware protection快速无缝地完成恢复。使用SnapCenter，转到受影响的虚拟机并选择要还原的适当快照。
+
+image:nfs-arp-010.png["该图显示输入/输出对话框或表示书面内容"]
+
+本节介绍BlueXP ransomware protection如何协调从加密 VM 文件的勒索软件事件中恢复。
+
+
+NOTE: 如果 VM 由SnapCenter管理， BlueXP ransomware protection会使用 VM 一致性流程将 VM 恢复到其先前的状态。
+
+. 访问BlueXP ransomware protection， BlueXP ransomware protection仪表板上会出现警报。
+. 单击警报可查看生成警报的特定卷上的事件
++
+image:nfs-arp-011.png["该图显示输入/输出对话框或表示书面内容"]
+
+. 选择“标记需要恢复”将勒索软件事件标记为可恢复（事件消除后）
++
+image:nfs-arp-012.png["该图显示输入/输出对话框或表示书面内容"]
+
++
+
+NOTE: 如果事件被证明是误报，则可以解除警报。
+
+. 转到“恢复”选项卡并查看“恢复”页面中的工作负载信息，选择处于“需要恢复”状态的数据存储卷，然后选择“恢复”。
++
+image:nfs-arp-013.png["该图显示输入/输出对话框或表示书面内容"]
+
+. 在这种情况下，还原范围是“按 VM”（对于 VM 的SnapCenter ，还原范围是“按 VM”）
++
+image:nfs-arp-014.png["该图显示输入/输出对话框或表示书面内容"]
+
+. 选择用于恢复数据的还原点，然后选择目标并单击恢复。
++
+image:nfs-arp-015.png["该图显示输入/输出对话框或表示书面内容"]
+
+. 从顶部菜单中，选择“恢复”以查看“恢复”页面上的工作负载，其中操作的状态会在各个状态之间移动。恢复完成后，虚拟机文件将恢复如下。
++
+image:nfs-arp-016.png["该图显示输入/输出对话框或表示书面内容"]
+
+
+
+
+NOTE: 根据应用程序，可以从SnapCenter for VMware 或SnapCenter插件执行恢复。
+
+NetApp解决方案提供了各种有效的可见性、检测和补救工具，帮助您及早发现勒索软件，防止其传播，并在必要时快速恢复，以避免代价高昂的停机。传统的分层防御解决方案仍然盛行，第三方和合作伙伴的可视性和检测解决方案也是如此。有效的补救措施仍然是应对任何威胁的关键部分。

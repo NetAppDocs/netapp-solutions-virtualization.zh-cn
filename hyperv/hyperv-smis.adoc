@@ -1,0 +1,174 @@
+---
+sidebar: sidebar 
+permalink: hyperv/hyperv-smis.html 
+keywords: hyperv, hyper-v, SMI-S, SCVMM, netapp, virtualization 
+summary: 本文介绍了如何安装和管理NetApp SMI-S Provider，以及如何使用 Microsoft SCVMM 配置存储。 
+---
+= 适用于 Microsoft Hyper-V 的NetApp SMI-S Provider
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+NetApp SMI-S Provider支持 Hyper-V 虚拟化环境中的NetApp ONTAP存储系统与 Microsoft System Center Virtual Machine Manager (SCVMM) 之间的无缝集成。
+
+这一全面的解决方案为存储管理提供了标准化的界面，使管理员能够直接从 SCVMM 检测、配置和监控NetApp存储资源。  SMI-S Provider 支持 iSCSI 和 SMB 存储协议，简化了存储管理，同时为运行 Windows Server 和 Hyper-V 的虚拟化数据中心提供了强大的监控和报告功能。
+
+
+
+== 简介
+
+NetApp存储管理计划规范 (SMI-S) 是用于管理和监控存储系统的强大工具。  NetApp SMI-S 利用基于 Web 的企业管理 (WBEM) 协议为各种管理任务提供统一的界面，包括处理 LUN、卷、CIMOM 配置设置和 CIM 服务器用户。
+
+SCVMM是虚拟化数据中心的综合管理解决方案。  SCVMM 能够通过存储管理计划规范 (SMI-S) 与各种存储系统集成。
+
+
+
+=== NetApp SMI-S Provider与 SCVMM 结合使用的优势
+
+将NetApp SMI-S Provider与 SCVMM 相集成，可以为存储管理提供标准化接口，从而使组织能够在虚拟化数据中心中更有效地管理存储资源。
+
+* 存储系统检测和管理：检测运行ONTAP软件的存储系统并提供有效管理它们的工具。
+* 简化管理：通过提供基于命令的单一界面简化存储系统的管理。
+* 监控和报告：提供强大的监控和报告功能来跟踪存储元素及其性能。
+
+
+更多详情，请查看link:https://docs.netapp.com/us-en/smis-provider["NetApp SMI-S Provider产品文档。"]
+
+image:hyperv-smis-001.png["采用 Hyper-V 架构的NetApp SMI-S"]
+
+
+
+== 为 SMI-S Provider 部署做好准备
+
+与现有存储系统的无缝集成需要正确安装和配置NetApp SMI-S Provider。
+
+* NetApp SMI-S Provider 5.2.7 支持 Windows Server SCVMM 2025、2022、2019 和 2016 以及 Windows Server 2025、2022、2019 和 2016。此版本与 Windows Server 2012 或 System Center Virtual Machine Manager (SCVMM) 2012 不兼容。
+* NetApp SMI-S Provider 5.2.7 没有可用的升级路径。您必须将NetApp SMI-S Provider 5.2.7 作为新安装进行部署。
+* NetApp SMI-S 提供商支持ONTAP 9 及更高版本的FAS和AFF系统。
+* NetApp ONTAP ONE 许可证涵盖所有 SMI-S 提供商许可证要求。如果没有此许可证，您需要以下许可证：
++
+** 在存储系统上创建 LUN 需要 FCP、iSCSI 或 FCP 和 iSCSI 许可证。
+** 在受支持的ONTAP存储系统上创建文件共享需要 CIFS 许可证。
+** 需要FlexClone许可证才能在运行受支持的ONTAP版本的集群存储系统上创建 LUN 克隆。
+
+
+
+
+
+
+=== SMI-S 虚拟机硬件要求
+
+下表显示了NetApp SMI-S 提供商 VM 硬件要求。
+
+image:hyperv-smis-002.png["SMI-S 提供程序硬件要求"]
+
+
+
+=== 安装 SMI-S 提供程序
+
+在开始 SMI-S 提供程序部署之前，您需要部署带有 SCVMM 的 Microsoft Hyper-V 和NetApp 9 以上FAS或AFF存储系统。了解基于命令的界面对于执行各种管理任务非常重要，检查link:https://docs.netapp.com/us-en/smis-provider/concept-smi-s-provider-commands-overview.html["NetApp SMI-S Provider命令。"]
+
+[]
+====
+最佳实践： NetApp建议使用专用的 Windows Server 来安装NetApp SMI-S Provider，不要安装在 SCVMM 服务器上，以防止干扰、优化性能并简化故障排除。
+
+====
+. 在支持 SMI-S的Windows 服务器虚拟机中，从link:https://mysupport.netapp.com/site/global/dashboard["NetApp软件下载网站"]并将文件保存为 smisprovider-5-2-7.msi。
+. 导航到包含NetApp SMI-S Provider软件包的目录并双击包 smisprovider-5-2-7.msi，按照安装向导中的步骤完成安装。
+. 在开始菜单中，导航到NetApp SMI-S Provider，右键单击并选择“以管理员身份运行”。当命令行提示符打开时，运行命令“smis cimserver status”以验证NetApp SMI-S Provider是否正在运行。image:hyperv-smis-003.png["验证 SMI-S 服务器是否正在运行"]
+. 添加一个 CIM 服务器用户，该 SMI-S 用户应在 Windows SMI-S 服务器中具有管理员权限，并且您需要使用该用户向 SCVMM 注册。此SMI-S用户可以是本地用户或域用户。image:hyperv-smis-013.png["添加 CIM 用户"]
+. 要添加NetApp存储系统，您可以使用存储虚拟机 (SVM) 的管理 IP 地址或 DNS 可解析主机名，以及 vsadmin 用户的凭据。image:hyperv-smis-004.png["注册SVM"]
+
+
+
+
+=== 将 SMI-S 提供程序与 SCVMM 连接
+
+要在 SCVMM 中添加远程存储设备并连接到 SMI-S 提供程序，您需要确保满足以下先决条件和步骤：
+
+* 网络访问：确保 SCVMM 服务器可以通过其 IP 地址或完全限定域名 (FQDN) 通过网络访问 SMI-S 提供程序。
+* 通信端口：验证 SCVMM 和 SMI-S 提供程序是否可以使用适当的端口通过网络进行通信：
++
+** 端口 5989 上的 HTTPS
+** 端口 5988 上的 HTTP
+
+
+
+
+[]
+====
+SMI-S Provider 安装期间放置了过期的证书。因此，在 System Center Virtual Machine Manager (SCVMM) 中添加存储设备时，与 SMI-S 提供程序的 SSL 连接失败。解决方案是link:https://kb.netapp.com/data-mgmt/SMI-S/SMI-S_Issues/CSMIS-3["为 CIM 服务器生成自签名证书"]然后重新启动 SMI-S 服务。欲了解更多信息，请查看知识库文章link:https://kb.netapp.com/data-mgmt/SMI-S/SMI-S_Issues/CSMIS-3["CSMIS-3： NetApp SMI-S Provider 5.2.7 中的 cimom.cert 在安装时已过期。"]
+
+====
+. 在 SCVMM 中，单击 Fabric > 存储 > 提供程序 > 添加存储设备。选择“由 SMI-S 提供程序发现和管理的 SAN 和 NAS 设备”。image:hyperv-smis-005.png["添加存储设备"]
+. 在指定发现范围中，选择 SMI-S CIMXML 作为协议，输入安装 SMI-S 代理的服务器的 IP 地址或 FQDN，如果需要，选择 SSL 连接选项，并输入在 SMI-S 服务器上创建的 SMI-S 帐户。image:hyperv-smis-006.png["安装 SMI-S 代理"]
+. 在收集信息中，SCVMM 自动发现并导入存储设备信息。如果上一步选择了 SSL 连接，则需要导入安全证书。image:hyperv-smis-015.png["导入证书"]
+. 选择存储设备、分类和主机组，查看摘要并单击完成。image:hyperv-smis-007.png["选择分类"]
+. 要查看 SMI-S 连接，请单击 Fabric > Overview，检查存储摘要、分类使用情况、每个阵列的逻辑单元和主机组存储。image:hyperv-smis-011.png["检查 SVM 容量"]
+
+
+
+
+=== 使用 SMI-S 提供程序通过 SCVMM 配置存储
+
+SCVMM 使用 SMI-S 提供程序与存储系统交互，允许您直接从 SCVMM 创建和管理存储资源。
+
+
+
+==== iSCSI存储
+
+. 在 SCVMM 控制台中，选择 Fabric > Storage，右键单击 Classifications and Pools，然后选择 Create Logical Unit。选择存储池和分类，并输入逻辑单元的名称、描述、大小和主机组。image:hyperv-smis-009.png["创建逻辑单元存储"]
+
+
+
+
+==== SMB存储
+
+. 选择 Fabric > Storage > 右键单击 File Servers 并选择 Create File Share，选择 File server，输入名称、存储类型、存储池和分类。image:hyperv-smis-010.png["创建文件共享"]
+. 要将 SMB 文件共享用于 Hyper-V，您需要将 SMB 文件共享添加到 Hyper-V 主机群集。在 SCVMM 中，单击服务器 > 所有主机 > [主机组]。右键单击集群名称并选择属性。在“文件共享存储”选项卡中，单击添加并输入 SMB 路径。image:hyperv-smis-014.png["将 SMB 文件共享添加到 Hyper-V 主机群集"]
+
+
+
+
+== 日志和追踪
+
+您可以配置 SMI-S Provider 如何管理日志和跟踪文件，例如指定要记录的消息级别以及保存日志的目录。您还可以指定要跟踪的组件、跟踪消息写入的目标、跟踪级别以及跟踪文件位置。
+
+
+
+=== 日志设置
+
+默认情况下，所有系统消息都会被记录，系统消息日志位于安装NetApp SMI-S Provider 的目录中的日志目录中。您可以更改写入 CIM 服务器日志的系统消息的位置和级别。
+
+* 您可以从跟踪、信息、警告、严重、致命中选择日志级别。要更改系统消息日志级别，请使用以下命令：
+
+
+[]
+====
+cimconfig -s 日志级别=新日志级别-p
+
+====
+* 更改系统消息日志目录
+
+
+[]
+====
+cimconfig -s logdir=新日志目录 -p
+
+====
+
+
+==== 跟踪设置
+
+image:hyperv-smis-012.png["跟踪设置"]
+
+
+
+== 结束语
+
+NetApp SMI-S Provider是存储管理员必备的工具，为管理和监控存储系统提供了标准化、高效、全面的解决方案。通过利用行业标准协议和模式，它确保了兼容性并简化了与存储网络管理相关的复杂性。

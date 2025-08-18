@@ -1,0 +1,123 @@
+---
+sidebar: sidebar 
+permalink: vmware/vmw-vcf-scv-nvme.html 
+keywords: netapp, vmware, nvme, cloud, foundation, vcf, aff, all-flash, nfs, vvol, vvols, array, ontap tools, otv, sddc, scv, workload, domain, backup 
+summary:  
+---
+= 使用 NVMe over TCP 存储和适用于 VMware vSphere 的SnapCenter插件保护 VCF 工作负载域
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+使用SnapCenter Plug-in for VMware vSphere通过 NVMe 保护 VCF 工作负载域。此过程包括设置插件、配置 NVMe over TCP 以获得最佳性能以及执行备份、恢复或克隆操作。
+
+TCP 上的 NVMe（非易失性内存规范）是一种尖端网络协议，可促进 VMware Cloud Foundation ESXi 服务器和NetApp存储（包括全闪存FAS （AFF）和全 SAN 阵列（ASA））之间的高速数据传输。
+
+
+
+== 简介
+
+利用 NVMe over TCP 可以为要求苛刻的工作负载提供低延迟和高吞吐量。  NVMe over TCP 与NetApp SnapCenter Plug-in for VMware vSphere (SCV) 的集成提供了强大的组合，可实现高效的数据管理，增强 VMware 环境中的备份、恢复和克隆操作。
+
+
+
+== NVMe over TCP 的优势
+
+* 高性能：以低延迟和高数据传输速率提供卓越的性能。这对于要求苛刻的应用程序和大规模数据操作至关重要。
+* 可扩展性：支持可扩展配置，允许 IT 管理员随着数据需求的增长无缝扩展其基础设施。
+* 效率：实现更快的备份和恢复操作，减少停机时间并提高整体系统可用性。
+
+
+本文档提供了在 VMware Cloud Foundation (VCF) 环境中部署和管理 SCV 的步骤，重点介绍如何利用 NVMe over TCP 实现最佳性能。
+
+
+
+== 受众
+
+解决方案架构师或存储管理员确保 VMware VCF 工作负载域的数据保护和灾难恢复。
+
+
+
+== 架构概述
+
+SCV 是一个功能强大的工具，旨在为 VMware 环境中的虚拟机、数据存储区以及文件和文件夹提供快速、节省空间、崩溃一致和虚拟机一致的备份和恢复操作。  SCV 使用 OVA 文件部署为 Linux 虚拟设备并利用远程插件架构。
+
+
+
+=== SCV部署架构
+
+* 虚拟设备部署：使用 OVA 文件将 SCV 部署为 Linux 虚拟设备。这种部署方法可确保简化且高效的设置过程。
+* 远程插件架构：SCV 使用远程插件架构，允许在管理多个实例时具有可扩展性和灵活性。
+* 一对一关系：每个 VCF 域都需要一个专用的 SCV 实例，以确保隔离且高效的备份和恢复操作。
+
+
+在ONTAP 9.10.1 及更高版本中， NetApp AFF和ASA支持 NVMe over TCP。位于AFF或ASA主系统上并可复制到ONTAP AFF或ASA辅助系统的数据。 SCV 还与SnapCenter Server 配合使用，支持 VMware 环境中针对SnapCenter应用程序特定插件的基于应用程序的备份和恢复操作。欲了解更多信息，请查看link:https://docs.netapp.com/us-en/sc-plugin-vmware-vsphere/index.html["SnapCenter Plug-in for VMware vSphere文档"]和link:https://docs.netapp.com/us-en/netapp-solutions/vmware/vmware_vcf_aff_multi_wkld_scv.html#audience["SnapCenter Plug-in for VMware vSphere文档以及使用NetApp SnapCenter for VMWare vSphere (SCV) 保护 VCF 管理域和多个工作负载域。"]
+
+image:vmware-vcf-aff-050.png["具有 SCV 的 VCF 多工作负载域"]
+
+3-2-1 备份规则是一种数据保护策略，包括制作三份数据副本，将它们存储在两种不同类型的介质上，并将一份副本保存在异地。BlueXP backup and recovery是一种基于云的数据管理工具，它为跨本地和云环境的各种备份和恢复操作提供单一控制平面。 NetApp BlueXP backup and recovery套件的一部分是与 SCV（内部）集成的功能，可将数据副本扩展到云中的对象存储。这将建立来自主存储或辅助存储备份的异地数据的第三份副本。BlueXP backup and recovery可以轻松设置存储策略，从这两个内部位置中的任意一个传输数据副本。欲了解更多详情，请查看link:https://docs.netapp.com/us-en/netapp-solutions-cloud/vmware/vmw-hybrid-321-dp-scv.html["借助SnapCenter插件和BlueXP backup and recovery为虚拟机提供 3-2-1 数据保护"^]。
+
+
+
+== SCV for VCF on NVMe 部署步骤
+
+这link:https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere/index.html["适用于 VMware vSphere 的 ONTAP 工具"]（OTV）为在 VMware 环境中管理NetApp存储提供了强大而高效的解决方案。通过与 vCenter Server 直接集成，OTV 简化了存储管理、增强了数据保护并优化了性能。虽然是可选的，但部署 OTV 可以显著提高 VMware 环境的管理能力和整体效率。
+
+* link:https://docs.netapp.com/us-en/netapp-solutions/vmware/vmware_vcf_asa_supp_wkld_nvme.html#scenario-overview["为 VCF 工作负载域创建 NVMe/TCP 存储"]
+* link:https://docs.netapp.com/us-en/netapp-solutions/vmware/vmware_vcf_aff_multi_wkld_scv.html#architecture-overview["为 VMware vSphere (SCV) 配置NetApp SnapCenter"]
+
+
+.恢复虚拟机、数据存储、虚拟磁盘和文件或文件夹
+[%collapsible%open]
+====
+SCV 为 VMware 环境提供了全面的备份和恢复功能。对于 VMFS 环境，SCV 使用克隆和挂载操作结合 Storage VMotion 来执行恢复操作。这确保了数据高效、无缝地恢复。欲了解更多详情，请查看link:https://docs.netapp.com/us-en/sc-plugin-vmware-vsphere/scpivs44_how_restore_operations_are_performed.html["如何执行恢复操作。"]
+
+* 虚拟机还原 您可以将虚拟机还原到同一 vCenter Server 内的原始主机，或者还原到由同一 vCenter Server 管理的备用 ESXi 主机。
++
+.. 右键单击虚拟机并在下拉列表中选择“SnapCenter Plug-in for VMware vSphere” ，然后在辅助下拉列表中选择“还原”以启动向导。
+.. 在还原向导中，选择要还原的备份快照，并在还原范围字段中选择整个虚拟机，选择还原位置，然后输入应挂载备份的目标信息。在“选择位置”页面上，选择恢复的数据存储的位置。查看“摘要”页面并单击“完成”。image:vmware-vcf-aff-066.png["VM 还原"]
+
+
+* 挂载数据存储区如果您想访问备份中的文件，可以从备份中挂载传统数据存储区。您可以将备份挂载到创建备份的同一 ESXi 主机，或者挂载到具有相同类型的 VM 和主机配置的备用 ESXi 主机。您可以在主机上多次挂载数据存储。
++
+.. 右键单击数据存储，然后选择“SnapCenter Plug-in for VMware vSphere” >“挂载备份”。
+.. 在“挂载数据存储”页面上，选择备份和备份位置（主位置或辅助位置），然后单击“挂载”。
+
+
+
+
+image:vmware-vcf-aff-067.png["挂载数据存储区"]
+
+* 附加虚拟磁盘 您可以将备份中的一个或多个 VMDK 附加到父虚拟机，或附加到同一 ESXi 主机上的备用虚拟机，或附加到由同一 vCenter 或链接模式下的不同 vCenter 管理的备用 ESXi 主机上的备用虚拟机。
++
+.. 右键单击虚拟机，选择“SnapCenter Plug-in for VMware vSphere” >“连接虚拟磁盘”。
+.. 在“连接虚拟磁盘”窗口中，选择一个备份，然后选择要连接的一个或多个磁盘以及要从中连接的位置（主磁盘或辅助磁盘）。默认情况下，选定的虚拟磁盘将附加到父虚拟机。要将选定的虚拟磁盘连接到同一 ESXi 主机中的备用 VM，请选择单击此处连接到备用 VM 并指定备用 VM。单击“附加”。
+
+
+
+
+image:vmware-vcf-aff-068.png["连接虚拟磁盘"]
+
+* 文件和文件夹恢复步骤 可以在来宾文件恢复会话中恢复单个文件和文件夹，该会话附加虚拟磁盘的备份副本，然后恢复选定的文件或文件夹。文件和文件夹也可以恢复。更多详情请查看link:https://docs.netapp.com/us-en/sc-plugin-vmware-vsphere/scpivs44_restore_guest_files_and_folders_overview.html["SnapCenter文件和文件夹还原。"]
++
+.. 当您使用虚拟连接磁盘执行来宾文件或文件夹还原操作时，在还原之前，必须先配置连接的目标虚拟机的凭据。从SnapCenter Plug-in for VMware vSphere下的插件中，选择“来宾文件还原”和“以凭据身份运行”部分，输入用户凭据。对于用户名，您必须输入“管理员”。image:vmware-vcf-aff-060.png["恢复凭证"]
+.. 在 vSphere 客户端上右键单击虚拟机，然后选择“SnapCenter Plug-in for VMware vSphere” >“Guest File Restore”。在“恢复范围”页面上，指定备份名称、VMDK 虚拟磁盘和位置 - 主位置或辅助位置。单击“Summery”进行确认。image:vmware-vcf-aff-069.png["文件和文件夹还原"]
+
+
+
+
+====
+
+
+== 监控和报告
+
+SCV 提供强大的监控和报告功能，帮助管理员有效地管理备份和恢复操作。您可以查看状态信息、监控作业、下载作业日志、访问报告，更多详细信息请查看link:https://docs.netapp.com/us-en/sc-plugin-vmware-vsphere/scpivs44_view_status_information.html["VMware vSphere Monitor 和 Report 的SnapCenter插件。"]
+
+image:vmware-vcf-aff-065.png["SCV 仪表板"]
+
+通过利用 NVMe over TCP 和适用于 VMware vSphere 的NetApp SnapCenter Plug-in for VMware vSphere的强大功能，组织可以为 VMware Cloud Foundation 工作负载域实现高性能数据保护和灾难恢复。这种方法可确保快速、可靠的备份和恢复操作，最大限度地减少停机时间并保护关键数据。

@@ -1,0 +1,27 @@
+---
+sidebar: sidebar 
+permalink: openshift/os-storint-overview.html 
+keywords: Trident, Trident, persistent storage 
+summary: NetApp提供了许多产品来帮助我们的客户在基于容器的环境中协调和管理持久数据，例如 Red Hat OpenShift。 
+---
+= 了解NetApp Trident与 Red Hat OpenShift 的集成
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+了解NetApp Trident保护，该保护已通过 OpenShift 虚拟化解决方案的应用程序和持久存储管理验证。
+
+Trident是由NetApp维护的开源存储配置器和编排器， NetApp Trident保护可帮助您在基于容器的环境（例如 Red Hat OpenShift）中编排和管理持久数据。
+
+image:redhat-openshift-108.png["该图显示输入/输出对话框或表示书面内容"]
+
+以下页面包含有关NetApp产品的更多信息，这些产品已在 Red Hat OpenShift with NetApp解决方案中经过应用程序和持久存储管理验证：
+
+* link:https://docs.netapp.com/us-en/trident/["Trident文档"]
+* link:https://docs.netapp.com/us-en/trident/trident-protect/learn-about-trident-protect.html["Trident保护文档"]
+

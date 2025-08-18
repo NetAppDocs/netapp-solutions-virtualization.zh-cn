@@ -1,0 +1,142 @@
+---
+sidebar: sidebar 
+permalink: vmware/vmw-vcf-scv-multiwkld-protection.html 
+keywords: netapp, vmware, cloud, foundation, vcf, aff, all-flash, nfs, vvol, vvols, array, ontap tools, otv, sddc, scv, workload, domain, backup 
+summary:  
+---
+= 使用适用于 VMware vSphere 的SnapCenter插件保护 VCF 管理和工作负载域
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+使用SnapCenter Plug-in for VMware vSphere保护多个 VCF 域。此过程包括为每个域设置插件、配置备份策略和执行恢复操作。
+
+VMware Cloud Foundation (VCF) 工作负载域使组织能够将资源逻辑地分成不同的域，以对不同的工作负载进行分组，增强安全性和容错能力。
+
+
+
+== 简介
+
+域可以独立扩展、满足特定的合规性并提供多租户功能。  VMware Cloud Foundation (VCF) 的数据保护是确保管理域和工作负载域中数据的可用性、完整性和可恢复性的关键方面。 NetApp SnapCenter Plug-in for VMware vSphere (SCV) 是一款功能强大的工具，可将 NetApp 的数据保护功能集成到 VMware 环境中。它简化了NetApp存储上托管的 VMware vSphere 虚拟机 (VM) 的备份、恢复和克隆。
+
+本文档提供了如何使用 SCV 保护 VCF 多个域的部署步骤。
+
+
+
+== 受众
+
+解决方案架构师或存储管理员确保 VMware VCF 工作负载域的数据保护和灾难恢复。
+
+
+
+== 架构概述
+
+SCV 使用 OVA 文件部署为 Linux 虚拟设备，为虚拟机、数据存储区以及文件和文件夹提供快速、节省空间、崩溃一致和虚拟机一致的备份和还原操作。 SCV采用远程插件架构。在VCF管理域vCenter上部署并托管了多个SCV。  SCV 和 VCF 域是一对一的关系，因此 VCF 管理域和每个工作负载域都需要一个 SCV。
+
+位于ONTAP FAS、 AFF或所有 SAN 阵列 (ASA) 主系统上并复制到ONTAP FAS、 AFF或ASA辅助系统的数据。 SCV 还与SnapCenter Server 配合使用，支持 VMware 环境中针对SnapCenter应用程序特定插件的基于应用程序的备份和恢复操作。欲了解更多信息，请查看link:https://docs.netapp.com/us-en/sc-plugin-vmware-vsphere/index.html["SnapCenter Plug-in for VMware vSphere文档。"]
+
+image:vmware-vcf-aff-050.png["具有 SCV 的 VCF 多工作负载域"]
+
+3-2-1 备份规则是一种数据保护策略，包括制作三份数据副本，将它们存储在两种不同类型的介质上，并将一份副本保存在异地。BlueXP backup and recovery是一种基于云的数据管理工具，它为跨本地和云环境的各种备份和恢复操作提供单一控制平面。 NetApp BlueXP backup and recovery套件的一部分是与 SCV（内部）集成的功能，可将数据副本扩展到云中的对象存储。这将建立来自主存储或辅助存储备份的异地数据的第三份副本。BlueXP backup and recovery可以轻松设置存储策略，从这两个内部位置中的任意一个传输数据副本。欲了解更多详情，请查看link:https://docs.netapp.com/us-en/netapp-solutions-cloud/vmware/vmw-hybrid-321-dp-scv.html["借助SnapCenter插件和BlueXP backup and recovery为虚拟机提供 3-2-1 数据保护"^]。
+
+
+
+== 部署具有管理域和多个工作负载域的 VCF
+
+VCF 工作负载域是一组具有一个或多个 vSphere 集群的 ESXi 主机，由 SDDC Manager 配置并准备好应用程序。在下面的 VCF 示例中，部署了一个管理域和两个工作负载域。有关如何使用NetApp存储部署 VCF 的更多详细信息，请查看link:vmw-vcf-overview.html["NetApp VCF 部署文档。"]
+
+image:vmware-vcf-aff-051.png["VCF 一个管理域和两个工作负载域"]
+
+
+
+== SCV部署、配置和恢复步骤
+
+根据工作负载域的数量以及管理域的数量，需要部署多个 SCV。有两个工作负载域和一个管理域，下面的示例显示在 VCF 管理域 vCenter 上部署了三个 SCV。image:vmware-vcf-aff-063.png["VCF域与SCV一对一"]
+
+.为管理域和每个工作负载域部署 SCV  
+[%collapsible%open]
+====
+. link:https://docs.netapp.com/us-en/sc-plugin-vmware-vsphere/scpivs44_download_the_ova_open_virtual_appliance.html["下载开放虚拟设备 (OVA)。"]
+. 使用 vSphere Client 登录到 vCenter Server。导航到管理 > 证书 > 证书管理。添加受信任的根证书并将每个证书安装在 certs 文件夹中。一旦安装了证书，就可以验证和部署 OVA。
+. 登录 VCF 工作负载域 vCenter 并部署 OVF 模板以启动 VMware 部署向导。image:vmware-vcf-aff-052.png["部署 SCV OVF 模板"]
++
+{nbsp}
+
+. 打开 OVA 以启动 SCV，然后单击安装 VMware 工具。
+. 从 OVA 控制台、系统配置菜单生成 MFA 令牌。image:vmware-vcf-aff-053.png["SnapCenter管理 Web 界面登录的 MFA"]
++
+{nbsp}
+
+. 使用部署时设置的管理员用户名和密码以及使用维护控制台生成的 MFA 令牌登录 SCV 管理 GUI。
+`https://<appliance-IP-address>:8080`访问管理 GUI。
++
+image:vmware-vcf-aff-054.png["适用于 VMware vSphere Web 配置的NetApp SnapCenter"]
+
+
+
+====
+.配置 SCV
+[%collapsible%open]
+====
+要备份或恢复虚拟机，首先添加存储集群或托管数据存储的虚拟机，然后创建保留和频率的备份策略，并设置资源组来保护资源。image:vmware-vcf-aff-055.png["SCV 入门"]
+
+. 登录 vCenter Web 客户端，单击工具栏中的菜单，选择SnapCenter Plug-in for VMware vSphere并添加存储。在 SCV 插件的左侧导航窗格中，单击存储系统，然后选择添加选项。在添加存储系统对话框中，输入基本 SVM 或集群信息，然后选择添加。输入NetApp存储 IP 地址并登录。
+. 要创建新的备份策略，请在 SCV 插件的左侧导航窗格中单击“策略”，然后选择“新策略”。在新建备份策略页面，输入策略配置信息，单击添加。
++
+image:vmware-vcf-aff-056.png["创建备份策略"]
+
+. 在 SCV 插件的左侧导航窗格中，单击资源组，然后选择创建。在创建资源组向导的每个页面上输入所需的信息，选择要包含在资源组中的虚拟机和数据存储，然后选择要应用于资源组的备份策略并指定备份计划。
+
+
+image:vmware-vcf-aff-057.png["创建资源组"]
+
+====
+.恢复虚拟机和文件或文件夹备份
+[%collapsible%open]
+====
+可以从备份中恢复虚拟机、VMDK、文件和文件夹。 VM 可以恢复到原始主机或同一 vCenter Server 中的备用主机，或者恢复到由同一 vCenter 管理的备用 ESXi 主机。如果您想访问备份中的文件，您可以从备份中挂载传统数据存储。您可以将备份挂载到创建备份的同一 ESXi 主机，或者挂载到具有相同类型的 VM 和主机配置的备用 ESXi 主机。您可以在主机上多次挂载数据存储。还可以在来宾文件还原会话中还原单个文件和文件夹，该会话附加虚拟磁盘的备份副本，然后还原选定的文件或文件夹。文件和文件夹也可以恢复。
+
+虚拟机还原步骤
+
+. 在 VMware vSphere 客户端 GUI 中，单击工具栏中的“菜单”，从下拉列表中选择“虚拟机和模板”，右键单击虚拟机，在下拉列表中选择“SnapCenter Plug-in for VMware vSphere” ，然后在辅助下拉列表中选择“还原”以启动向导。
+. 在还原向导中，选择要还原的备份快照，并在还原范围字段中选择整个虚拟机，选择还原位置，然后输入应挂载备份的目标信息。在“选择位置”页面上，选择恢复的数据存储的位置。查看“摘要”页面并单击“完成”。
++
+image:vmware-vcf-aff-059.png["VM 还原"]
+
+. 单击屏幕底部的“近期任务”来监控操作进度。
+
+
+*数据存储区还原步骤*
+
+. 右键单击数据存储并选择“SnapCenter Plug-in for VMware vSphere” >“挂载备份”。
+. 在“挂载数据存储”页面上，选择备份和备份位置（主位置或辅助位置），然后单击“挂载”。
+
+
+image:vmware-vcf-aff-062.png["数据存储区还原"]
+
+*文件和文件夹还原步骤*
+
+. 当您使用虚拟连接磁盘执行来宾文件或文件夹还原操作时，在还原之前，必须先配置连接的目标虚拟机的凭据。从SnapCenter Plug-in for VMware vSphere下的插件中，选择“来宾文件还原”和“以凭据身份运行”部分，输入用户凭据。对于用户名，您必须输入“管理员”。
++
+image:vmware-vcf-aff-060.png["恢复凭证"]
+
+. 在 vSphere 客户端上右键单击虚拟机，然后选择“SnapCenter Plug-in for VMware vSphere” >“Guest File Restore”。在“恢复范围”页面上，指定备份名称、VMDK 虚拟磁盘和位置 - 主位置或辅助位置。单击“Summery”进行确认。
++
+image:vmware-vcf-aff-061.png["文件和文件夹还原"]
+
+
+
+====
+NetApp SnapCenter for VCP 多域集中数据保护，有效减少使用NetApp快照备份所需的时间和存储空间，通过强大的备份和复制功能支持大规模 VMware 环境，并允许对整个虚拟机、特定 VMDK 或单个文件进行细粒度恢复。
+
+
+
+== 使用 SCV 保护 VCF 多个域的视频演示
+
+.使用NetApp SCV 保护 VMware VCF 多个域
+video::25a5a06c-1def-4aa4-ab00-b28100142194[panopto,width=360]

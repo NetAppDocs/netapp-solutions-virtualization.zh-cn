@@ -1,0 +1,43 @@
+---
+sidebar: sidebar 
+permalink: openshift/osv-workflow-vm-live-migration.html 
+keywords: OpenShift, OCP, Trident, NetApp ONTAP, Red Hat OpenShift, OpenShift Virtualization, CNV, Container Native Virtualization, Red Hat OpenShift Virtualization 
+summary: 搭载NetApp ONTAP 的Red Hat OpenShift 虚拟化 
+---
+= 在 Red Hat OpenShift 集群中的两个节点之间迁移虚拟机
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+在集群中的两个节点之间迁移 OpenShift Virtualization 中的 VM，无需停机。此过程包括确认磁盘使用与 RWX 兼容的存储类、启动迁移以及监控进度。
+
+
+
+== 虚拟机实时迁移
+
+实时迁移是将虚拟机实例从 OpenShift 集群中的一个节点迁移到另一个节点的过程，无需停机。为了在 OpenShift 集群中进行实时迁移，虚拟机必须绑定到具有共享 ReadWriteMany 访问模式的 PVC。使用 ontap-nas 驱动程序配置的Trident后端支持文件系统协议 nfs 和 smb 的 RWX 访问模式。请参阅文档link:https://docs.netapp.com/us-en/trident/trident-use/ontap-nas.html["此处"]。使用 ontap-san 驱动程序配置的Trident后端支持 iSCSI 和 NVMe/TCP 协议的块卷模式的 RWX 访问模式。请参阅文档link:https://docs.netapp.com/us-en/trident/trident-use/ontap-san.html["此处"]。
+
+因此，为了成功实现实时迁移，必须使用 ontap-nas 或 ontap-san（volumeMode：Block）存储类为虚拟机配置具有 PVC 的磁盘（启动磁盘和附加热插拔磁盘）。创建 PVC 时， Trident会在启用 NFS 或 iSCSI 的 SVM 中创建ONTAP卷。
+
+image:redhat-openshift-055.png["VM 实时迁移架构"]
+
+要对先前已创建且处于运行状态的 VM 执行实时迁移，请执行以下步骤：
+
+. 选择您想要实时迁移的虚拟机。
+. 单击“*配置*”选项卡。
+. 确保虚拟机的所有磁盘都是使用可以支持 RWX 访问模式的存储类创建的。
+. 点击右上角的*操作*，然后选择*迁移*。
+. 要查看迁移的进度，请转到左侧菜单上的“虚拟化”>“概述”，然后单击“*迁移*”选项卡。  VM 的迁移将从 *待定* 过渡到 *计划* 再到 *成功*
+
+
+
+NOTE: 如果将 evictionStrategy 设置为 LiveMigrate，则当原始节点处于维护模式时，OpenShift 集群中的 VM 实例会自动迁移到另一个节点。
+
+image:rh-os-n-use-case-vm-live-migrate-001.png["VM实时迁移开始"]
+
+image:rh-os-n-use-case-vm-live-migrate-002.png["虚拟机实时迁移成功"]

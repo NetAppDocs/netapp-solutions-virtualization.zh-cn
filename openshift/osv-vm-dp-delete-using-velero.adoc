@@ -1,0 +1,50 @@
+---
+sidebar: sidebar 
+permalink: openshift/osv-vm-dp-delete-using-velero.html 
+keywords: OpenShift, OCP, Trident, NetApp ONTAP, Red Hat OpenShift, OpenShift Virtualization, CNV, Container Native Virtualization, Red Hat OpenShift Virtualization, OADP operator, Openshift Data Protection Application operator, velero 
+summary: 搭载NetApp ONTAP 的Red Hat OpenShift 虚拟化 
+---
+= 使用 Velero 在 Red Hat OpenShift Virtualization 中删除备份 CR 或恢复 CR
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+使用 Velero 删除 OpenShift Virtualization 中虚拟机的备份和恢复资源。使用 OpenShift CLI 删除备份同时保留对象存储数据，或者使用 Velero CLI 删除备份自定义资源 (CR) 和相关存储数据。
+
+
+
+== 删除备份
+
+您可以使用 OC CLI 工具删除备份 CR，而不删除对象存储数据。
+
+....
+oc delete backup <backup_CR_name> -n <velero_namespace>
+....
+如果您想要删除备份 CR 并删除相关的对象存储数据，您可以使用 Velero CLI 工具来执行此操作。
+
+按照说明下载 CLIlink:https://velero.io/docs/v1.3.0/basic-install/#install-the-cli["Velero 文档"] 。
+
+使用 Velero CLI 执行以下删除命令
+
+....
+velero backup delete <backup_CR_name> -n <velero_namespace>
+....
+
+
+== 删除还原
+
+您可以使用 Velero CLI 删除 Restore CR
+
+....
+velero restore delete restore --namespace openshift-adp
+....
+您可以使用 oc 命令以及 UI 来删除恢复 CR
+
+....
+oc delete backup <backup_CR_name> -n <velero_namespace>
+....

@@ -1,0 +1,11 @@
+---
+section: proxmox
+title: Proxmox虚拟化
+url: "/proxmox/index.html"
+entries:
+- title: 关于 Proxmox VE
+  pdf-filename: NetApp上的 Proxmox 虚拟化概述
+  url: "/proxmox/proxmox-overview.html"
+- title: 为 Proxmox VE 配置ONTAP存储
+  pdf-filename: 适用于 Proxmox VE 的NetApp存储
+  url: "/proxmox/proxmox-ontap.html"

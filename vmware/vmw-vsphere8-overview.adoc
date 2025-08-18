@@ -1,0 +1,58 @@
+---
+sidebar: sidebar 
+permalink: vmware/vmw-vsphere8-overview.html 
+keywords: vSphere, vSphere 8, vSphere 8u1, ONTAP 9.12, interoperability, VMware compatibility 
+summary:  
+---
+= VMware vSphere 8 的新增功能
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+了解 VMware vSphere 8 和ONTAP 9.12 中的新功能。检查ONTAP功能与 VMware 基础架构和软件的兼容性和支持。
+
+NetApp和 VMware 技术的集成已有 20 年历史，耗费了数千小时的工程时间。随着 vSphere 8 和ONTAP 9.12 的问世，两家公司都推出了能够满足最苛刻的客户工作负载的产品。当这些产品在解决方案中结合在一起时，无论是在本地还是在公共云中，真正的客户挑战都得到了解决。当这些产品在解决方案中结合在一起时，无论是在本地还是在公共云中，真正的客户挑战都会得到解决。
+
+为了帮助您确定产品、协议、操作系统等的支持能力，请查看以下资源：
+
+* 这 https://mysupport.netapp.com/matrix/#welcome["NetApp 互操作性表工具"]（IMT）。  IMT定义了可用于构建 FC/FCoE、iSCSI、NFS 和 CIFS 配置以及与其他插件和软件产品的集成的合格组件和版本。
+* 这 https://compatibilityguide.broadcom.com/search?program=san&persona=live&column=partnerName&order=asc["VMware 兼容性指南"]。  VMware 兼容性指南列出了 VMware 基础架构和软件产品的系统、I/O、存储/SAN、备份兼容性等。
+* https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere-10/index.html["适用于 VMware 的NetApp ONTAP工具"] 。ONTAP tools for VMware vSphere是一个 vCenter Server 插件，其中包括虚拟存储控制台 (VSC)、VASA 提供程序和存储复制适配器 (SRA) 扩展。  OTV 9.12 完全支持 VMware vSphere 8，每天都能为客户提供真正的价值。
+
+
+
+
+== NetApp ONTAP和 VMware 支持的版本
+
+
+NOTE: 当选择下表中的链接时，请让页面构建出来。
+
+[cols="20%, 20%, 20%, 20%, 20%"]
+|===
+
+
+| VMware vSphere 版本 | *SAN* | *NFS* | *OTV* | * SnapCenter* 
+
+
+| vSphere 8 | https://imt.netapp.com/matrix/imt.jsp?components=105985;&solution=1&isHWU&src=IMT["链路"] | https://imt.netapp.com/matrix/imt.jsp?components=105985;&solution=976&isHWU&src=IMT["链路"] | https://imt.netapp.com/matrix/imt.jsp?components=105986;&solution=1777&isHWU&src=IMT["链路"] | https://imt.netapp.com/matrix/imt.jsp?components=105985;&solution=1517&isHWU&src=IMT["链路"] 
+
+
+| vSphere 8u1 | https://imt.netapp.com/matrix/imt.jsp?components=110521;&solution=1&isHWU&src=IMT["链路"] | https://imt.netapp.com/matrix/imt.jsp?components=110521;&solution=976&isHWU&src=IMT["链路"] | https://imt.netapp.com/matrix/imt.jsp?components=110521;&solution=1777&isHWU&src=IMT["链路"] | https://imt.netapp.com/matrix/imt.jsp?components=110521;&solution=1517&isHWU&src=IMT["链路"] 
+|===
+[cols="20%, 20%, 20%, 20%, 20%"]
+|===
+
+
+| VMware vSphere 版本 | *存储系统/协议* | *OTV-SRA* | *OTV – VASA 提供商* | *SnapCenter Plug-in for VMware vSphere* 
+
+
+| vSphere 8 | https://www.vmware.com/resources/compatibility/search.php?deviceCategory=san&details=1&partner=64&releases=589&FirmwareVersion=ONTAP%209.0,ONTAP%209.1,ONTAP%209.10.1,ONTAP%209.11.1,ONTAP%209.12.1,ONTAP%209.2,ONTAP%209.3,ONTAP%209.4,ONTAP%209.5,ONTAP%209.6,ONTAP%209.7,ONTAP%209.8,ONTAP%209.9,ONTAP%209.9.1%20P3,ONTAP%209.%6012.1&isSVA=0&page=1&display_interval=10&sortColumn=Partner&sortOrder=Asc["链路"] | https://www.vmware.com/resources/compatibility/search.php?deviceCategory=sra&details=1&partner=64&sraName=587&page=1&display_interval=10&sortColumn=Partner&sortOrder=Asc["链路"] | https://www.vmware.com/resources/compatibility/detail.php?deviceCategory=wcp&productid=55380&vcl=true["链路"] | https://www.vmware.com/resources/compatibility/search.php?deviceCategory=vvols&details=1&partner=64&releases=589&page=1&display_interval=10&sortColumn=Partner&sortOrder=Asc["链路"] 
+
+
+| vSphere 8u1 | https://www.vmware.com/resources/compatibility/search.php?deviceCategory=san&details=1&partner=64&releases=652&FirmwareVersion=ONTAP%209.0,ONTAP%209.1,ONTAP%209.10.1,ONTAP%209.11.1,ONTAP%209.12.1,ONTAP%209.2,ONTAP%209.3,ONTAP%209.4,ONTAP%209.5,ONTAP%209.6,ONTAP%209.7,ONTAP%209.8,ONTAP%209.9,ONTAP%209.9.1%20P3,ONTAP%209.%6012.1&isSVA=0&page=1&display_interval=10&sortColumn=Partner&sortOrder=Asc["链路"] | https://www.vmware.com/resources/compatibility/search.php?deviceCategory=sra&details=1&partner=64&sraName=587&page=1&display_interval=10&sortColumn=Partner&sortOrder=Asc["链路"] | https://www.vmware.com/resources/compatibility/detail.php?deviceCategory=wcp&productid=55380&vcl=true["链路"] | https://www.vmware.com/resources/compatibility/detail.php?deviceCategory=wcp&productid=55380&vcl=true["链路"] 
+|===

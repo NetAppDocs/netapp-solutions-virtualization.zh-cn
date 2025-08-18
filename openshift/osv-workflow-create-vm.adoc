@@ -1,0 +1,74 @@
+---
+sidebar: sidebar 
+permalink: openshift/osv-workflow-create-vm.html 
+keywords: OpenShift, OCP, Trident, NetApp ONTAP, Red Hat OpenShift, OpenShift Virtualization, CNV, Container Native Virtualization, Red Hat OpenShift Virtualization 
+summary: 搭载NetApp ONTAP 的Red Hat OpenShift 虚拟化 
+---
+= 使用 Red Hat OpenShift Virtualization 在ONTAP存储上创建虚拟机
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+使用 OpenShift Virtualization 创建 VM。此过程包括选择操作系统模板、配置存储类以及自定义 VM 参数以满足特定要求。作为先决条件，您应该已经创建了 trident 后端、存储类和卷快照类对象。您可以参考link:osv-trident-install.html["Trident安装部分"]了解详情。
+
+
+
+== 创建 VM
+
+虚拟机是有状态的部署，需要卷来托管操作系统和数据。使用 CNV，由于虚拟机作为 pod 运行，因此虚拟机由通过Trident托管在NetApp ONTAP上的 PV 支持。这些卷作为磁盘连接并存储整个文件系统，包括虚拟机的启动源。
+
+image:redhat-openshift-052.png["创建虚拟机架构"]
+
+要在 OpenShift 集群上快速创建虚拟机，请完成以下步骤：
+
+. 导航到“虚拟化”>“虚拟机”，然后单击“创建”。
+. 选择来自模板。
+. 选择所需的可用启动源的操作系统。
+. 选中复选框“创建后启动虚拟机”。
+. 单击快速创建虚拟机。
+
+
+虚拟机已创建并启动，并进入*运行*状态。它使用默认存储类自动为启动盘创建 PVC 和相应的 PV。为了将来能够实时迁移虚拟机，您必须确保用于磁盘的存储类可以支持 RWX 卷。这是实时迁移的要求。ontap-nas 和 ontap-san（iSCSI 和 NVMe/TCP 协议的volumeMode块）可以支持使用相应存储类创建的卷的 RWX 访问模式。
+
+要在集群上配置 ontap-san 存储类，请参阅link:osv-workflow-vm-migration-mtv.html["将虚拟机从 VMware 迁移到 OpenShift 虚拟化的部分"]。
+
+
+NOTE: 单击“快速创建虚拟机”将使用默认存储类为虚拟机的可启动根磁盘创建 PVC 和 PV。您可以通过选择自定义虚拟机>自定义虚拟机参数>磁盘，然后编辑磁盘以使用所需的存储类来为磁盘选择不同的存储类。
+
+在配置虚拟机磁盘时，通常与文件系统相比，块访问模式更受欢迎。
+
+要在选择操作系统模板后自定义虚拟机创建，请单击“自定义虚拟机”而不是“快速创建”。
+
+. 如果选择的操作系统已经配置了启动源，可以点击*自定义虚拟机参数*。
+. 如果所选操作系统没有配置启动源，则必须配置它。您可以查看link:https://docs.openshift.com/container-platform/4.14/virt/virtual_machines/creating_vms_custom/virt-creating-vms-from-custom-images-overview.html["文档"]。
+. 配置完启动盘后，可以点击*自定义虚拟机参数*。
+. 您可以从此页面上的选项卡自定义虚拟机。例如，单击“*磁盘*”选项卡，然后单击“*添加磁盘*”向虚拟机添加另一个磁盘。
+. 单击“创建虚拟机”以创建虚拟机；这会在后台启动相应的 pod。
+
+
+
+NOTE: 当从 URL 或注册表为模板或操作系统配置启动源时，它会在 `openshift-virtualization-os-images`项目并将 KVM 客户映像下载到 PVC。您必须确保模板 PVC 具有足够的配置空间来容纳相应操作系统的 KVM 客户机映像。然后，当使用任何项目中的相应模板创建虚拟机时，这些 PVC 将被克隆并作为根磁盘附加到虚拟机。
+
+image:rh-os-n-use-case-vm-create-001.png["该图显示输入/输出对话框或表示书面内容"]
+
+image:rh-os-n-use-case-vm-create-002.png["该图显示输入/输出对话框或表示书面内容"]
+
+image:rh-os-n-use-case-vm-create-003.png["该图显示输入/输出对话框或表示书面内容"]
+
+image:rh-os-n-use-case-vm-create-004.png["该图显示输入/输出对话框或表示书面内容"]
+
+image:rh-os-n-use-case-vm-create-005.png["该图显示输入/输出对话框或表示书面内容"]
+
+
+
+== 视频演示
+
+以下视频演示了如何使用 iSCSI 存储在 OpenShift Virtualization 中创建 VM。
+
+.使用块存储在 OpenShift 虚拟化中创建虚拟机
+video::497b868d-2917-4824-bbaa-b2d500f92dda[panopto,width=360]

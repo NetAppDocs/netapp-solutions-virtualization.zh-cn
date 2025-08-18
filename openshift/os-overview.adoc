@@ -1,0 +1,74 @@
+---
+sidebar: sidebar 
+permalink: openshift/os-overview.html 
+keywords: OpenShift, deploy, baremetal, private cloud, virtual 
+summary: Red Hat OpenShift 容器平台将开发和 IT 运营整合在一个平台上，以便在本地和混合云基础架构上一致地构建、部署和管理应用程序。Red Hat OpenShift 基于开源创新和行业标准构建，包括 Kubernetes 和 Red Hat Enterprise Linux CoreOS，后者是专为基于容器的工作负载设计的领先企业 Linux 发行版。 
+---
+= OpenShift 概述
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Red Hat OpenShift 容器平台将开发和 IT 运营整合在一个平台上，以便在本地和混合云基础架构上一致地构建、部署和管理应用程序。Red Hat OpenShift 基于开源创新和行业标准构建，包括 Kubernetes 和 Red Hat Enterprise Linux CoreOS，后者是专为基于容器的工作负载而设计的全球领先的企业 Linux 发行版。OpenShift 是云原生计算基金会 (CNCF) 认证 Kubernetes 计划的一部分，提供容器工作负载的可移植性和互操作性。
+
+
+
+== Red Hat OpenShift 提供以下功能：
+
+* *自助服务配置* 开发人员可以使用他们最常用的工具快速轻松地按需创建应用程序，同时操作保留对整个环境的完全控制。
+* *持久存储* 通过提供对持久存储的支持，OpenShift Container Platform 允许您同时运行有状态应用程序和云原生无状态应用程序。
+* *持续集成和持续开发 (CI/CD)* 该源代码平台可大规模管理构建和部署映像。
+* *开源标准* 这些标准除了其他开源技术外，还结合了开放容器计划 (OCI) 和 Kubernetes 用于容器编排。您不会受到特定供应商的技术或业务路线图的限制。
+* *CI/CD 管道* OpenShift 为 CI/CD 管道提供开箱即用的支持，以便开发团队可以自动化应用程序交付过程的每个步骤，并确保在对应用程序的代码或配置所做的每个更改上执行它。
+* *基于角色的访问控制 (RBAC)* 此功能提供团队和用户跟踪，以帮助组织大型开发人员群体。
+* *自动构建和部署* OpenShift 为开发人员提供了构建容器化应用程序的选项，或者让平台从应用程序源代码甚至二进制文件构建容器。然后，该平台根据为应用程序定义的特性自动在整个基础设施中部署这些应用程序。例如，为了符合第三方许可证，应该分配多少资源以及在基础设施的什么位置部署它们。
+* *一致的环境* OpenShift 确保为开发人员提供的环境以及应用程序整个生命周期的环境都是一致的，从操作系统到库、运行时版本（例如 Java 运行时），甚至正在使用的应用程序运行时（例如 tomcat），以消除源自不一致环境的风险。
+* *配置管理* 平台内置配置和敏感数据管理，以确保无论使用哪种技术构建应用程序或部署在哪种环境中，都为应用程序提供一致且与环境无关的应用程序配置。
+* *应用程序日志和指标。*快速反馈是应用程序开发的一个重要方面。OpenShift 集成监控和日志管理向开发人员提供即时指标，以便他们研究应用程序在变化中的行为，并能够在应用程序生命周期中尽早解决问题。
+* *安全和容器目录* OpenShift 提供多租户功能，并使用安全增强型 Linux (SELinux)、CGroups 和安全计算模式 (seccomp) 等已建立的安全性来隔离和保护容器，从而保护用户免受有害代码执行的侵害。它还通过 TLS 证书为各个子系统提供加密，并提供对 Red Hat 认证容器（access.redhat.com/containers）的访问，这些容器经过扫描和分级，特别强调安全性，以便为最终用户提供经过认证、值得信赖和安全的应用程序容器。
+
+
+image:redhat-openshift-004.png["该图显示输入/输出对话框或表示书面内容"]
+
+
+
+== Red Hat OpenShift 的部署方法
+
+从 Red Hat OpenShift 4 开始，OpenShift 的部署方法包括使用用户配置基础设施 (UPI) 进行高度定制的部署的手动部署或使用安装程序配置基础设施 (IPI) 进行全自动部署。
+
+在大多数情况下，IPI 安装方法是首选方法，因为它允许为开发、测试和生产环境快速部署 OpenShift 集群。
+
+
+
+=== Red Hat OpenShift 的 IPI 安装
+
+OpenShift 的安装程序配置基础设施 (IPI) 部署涉及以下高级步骤：
+
+. 访问 Red Hat OpenShiftlink:https://www.openshift.com["网站"^]并使用您的 SSO 凭据登录。
+. 选择您想要部署 Red Hat OpenShift 的环境。
++
+image:redhat-openshift-008.png["该图显示输入/输出对话框或表示书面内容"]
+
+. 在下一个屏幕上下载安装程序、唯一的拉取密钥和用于管理的 CLI 工具。
++
+image:redhat-openshift-009.png["该图显示输入/输出对话框或表示书面内容"]
+
+. 关注link:https://docs.openshift.com/container-platform/4.7/installing/index.html["安装说明"]由 Red Hat 提供，可部署到您选择的环境中。
+
+
+
+
+=== NetApp验证的 OpenShift 部署
+
+NetApp已在其实验室中使用安装程序配置基础架构 (IPI) 部署方法在以下每个数据中心环境中测试并验证了 Red Hat OpenShift 的部署：
+
+* link:https://docs.netapp.com/us-en/netapp-solutions-containers/openshift/os-on-bm.html["裸机上的 OpenShift"^]
+* link:https://docs.netapp.com/us-en/netapp-solutions-containers/openshift/os-on-openstack.html["Red Hat OpenStack 平台上的 OpenShift"^]
+* link:https://docs.netapp.com/us-en/netapp-solutions-containers/openshift/os-on-rhv.html["Red Hat 虚拟化上的 OpenShift"^]
+* link:https://docs.netapp.com/us-en/netapp-solutions-containers/openshift/os-on-vmw.html["VMware vSphere 上的 OpenShift"^]
+
