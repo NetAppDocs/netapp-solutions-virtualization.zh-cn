@@ -1,0 +1,162 @@
+---
+sidebar: sidebar 
+permalink: vmware/vmw-vcf-deployment.html 
+keywords: netapp, vmware, cloud, foundation, vcf, flexpod 
+summary: 使用ONTAP部署、集成或升级 VMware Cloud Foundation 9 环境。了解如何设置新的 VCF 9.0 环境、集成现有的 vCenter 实例和ONTAP数据存储以及升级早期的 VCF 部署。 
+---
+= 使用 VMware Cloud Foundation 和ONTAP设置私有云环境
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+使用ONTAP部署、融合或升级 VMware Cloud Foundation 9 环境。了解如何设置新的 VCF 9.0 环境、融合现有的 vCenter 实例和ONTAP数据存储以及升级早期的 VCF 部署。
+
+
+
+== 部署新的 VCF 9 实例
+
+使用此工作流程部署干净的 VMware Cloud Foundation (VCF) 9.0 环境。部署后，您可以迁移工作负载或开始配置应用程序并提供基础设施服务。
+
+有关详细步骤，请参阅link:https://techdocs.broadcom.com/content/dam/broadcom/techdocs/us/en/assets/vmware-cis/vcf/vcf-9.0-vcf-deploy-journey.pdf["构建之旅 – 安装新的 VMware Cloud Foundation 部署"]。
+
+.步骤
+. 关注link:https://techdocs.broadcom.com/us/en/vmware-cis/vcf/vcf-9-0-and-later/9-0/deployment/deploying-a-new-vmware-cloud-foundation-or-vmware-vsphere-foundation-private-cloud-/preparing-your-environment.html["Broadcom VCF 9部署步骤"]。
+. 在部署准备步骤中，完成主要存储选项的任务。
+
+
+[role="tabbed-block"]
+====
+.FC 上的 VMFS
+--
+. 收集所有 ESXi 主机的 WWPN。你可以运行 `esxcli storage san fc list`，使用 ESXi Host Client，或者使用 PowerCLI。
+. 配置区域划分。看link:https://docs.netapp.com/us-en/ontap/san-config/fc-fcoe-recommended-zoning-configuration.html#dual-fabric-zoning-configurations["针对ONTAP系统的推荐 FC 分区配置"] 。
++
+
+NOTE: 使用 SVM 逻辑接口 (LIF) 的 WWPN，而不是物理适配器 WWPN。
+
+. 使用系统管理器、 ONTAP CLI 或 API 创建 LUN 并通过 WWPN 将其映射到主机。
+. 重新扫描 ESXi 上的存储适配器并创建 VMFS 数据存储。
+
+
+--
+.NFSv3
+--
+. 在一个 ESXi 主机上创建 VMkernel 接口。
+. 确保link:https://docs.netapp.com/us-en/ontap/task_nas_enable_linux_nfs.html["SVM 已启用 NFS"]和link:https://docs.netapp.com/us-en/ontap/nfs-admin/enable-disable-vmware-vstorage-over-nfs-task.html["已启用 vStorage over NFS"]。
+. 创建一个卷并使用允许 ESXi 主机的策略将其导出。
+. 根据需要调整权限。
+. 部署ONTAP NFS VAAI VIB 并将其包含在 vLCM 映像中。例如： `esxcli software vib install -d /NetAppNasPlugin2.0.1.zip` 。  （从NetApp支持站点下载 ZIP。）
+. 在创建 VMkernel 接口的主机上挂载 NFS 卷。例如： `esxcli storage nfs add -c 4 -H 192.168.122.210 -s /use1_m01_nfs01 -v use1-m01-cl01-nfs01` 。
++
+
+NOTE: 这 `nConnect`会话计数是按主机计算的。部署后根据需要更新其他主机。
+
+
+
+--
+====
+. 在“部署 VCF 舰队”阶段的“验证部署摘要并审查后续步骤”结束时，完成以下内容：
++
+.. 部署ONTAP工具
++
+*** link:https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere-10/deploy/ontap-tools-deployment.html["下载ONTAP工具 10.x"]来自NetApp支持站点。
+*** 为ONTAP工具管理器、节点和用于内部通信的虚拟 IP 创建 DNS 记录。
+*** 将 OVA 部署到管理 vCenter Server。
+*** link:https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere-10/configure/add-vcenter.html["注册管理域 vCenter"]使用ONTAP工具管理器。
+*** link:https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere-10/configure/add-storage-backend.html["添加存储后端"]使用 vSphere Client UI。
+*** link:https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere-10/configure/create-datastore.html["创建补充数据存储"]（包括一个用于内容注册表）。
+*** 如果您计划进行 HA 部署，请创建内容注册表。
+*** link:https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere-10/manage/edit-appliance-settings.html["启用 HA"]在ONTAP工具管理器中。
+
+
+.. 部署SnapCenter插件
++
+*** link:https://docs.netapp.com/us-en/sc-plugin-vmware-vsphere/scpivs44_deploy_snapcenter_plug-in_for_vmware_vsphere_01.html["部署SnapCenter Plug-in for VMware vSphere"] 。
+*** link:https://docs.netapp.com/us-en/sc-plugin-vmware-vsphere/scpivs44_add_storage.html["添加存储后端"] 。
+*** link:https://docs.netapp.com/us-en/sc-plugin-vmware-vsphere/scpivs44_create_backup_policies.html["创建备份策略"] 。
+*** link:https://docs.netapp.com/us-en/sc-plugin-vmware-vsphere/scpivs44_create_resource_groups.html["创建资源组"] 。
+
+
+.. 部署BlueXP连接器
++
+*** link:https://docs.netapp.com/us-en/bluexp-setup-admin/concept-connectors.html#what-you-can-do-without-a-connector["回顾一下没有连接器时您可以做什么"] 。
+*** link:https://docs.netapp.com/us-en/bluexp-setup-admin/concept-modes.html#overview["部署连接器"] 。
+
+
+.. 使用BlueXP进行备份和恢复
++
+*** link:https://docs.netapp.com/us-en/bluexp-backup-recovery/prev-vmware-protect-overview.html["保护VM工作负载"] 。
+*** link:https://docs.netapp.com/us-en/bluexp-backup-recovery/br-use-kubernetes-protect-overview.html["保护VKS工作负载"] 。
+
+
+
+
+. 在 VCF 实例中将 vCenter 作为工作负载域导入后，请完成以下操作：
++
+.. 注册ONTAP工具
++
+*** link:https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere-10/configure/add-vcenter.html["注册工作负载域 vCenter"]使用ONTAP工具管理器。
+*** link:https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere-10/configure/add-storage-backend.html["添加存储后端"]使用 vSphere Client UI。
+*** link:https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere-10/configure/create-datastore.html["创建补充数据存储"] 。
+
+
+.. 部署SnapCenter Plug-in for VMware vSphere
++
+*** link:https://docs.netapp.com/us-en/sc-plugin-vmware-vsphere/scpivs44_deploy_snapcenter_plug-in_for_vmware_vsphere_01.html["部署SnapCenter Plug-in for VMware vSphere"] 。
+*** link:https://docs.netapp.com/us-en/sc-plugin-vmware-vsphere/scpivs44_add_storage.html["添加存储后端"] 。
+*** link:https://docs.netapp.com/us-en/sc-plugin-vmware-vsphere/scpivs44_create_backup_policies.html["创建备份策略"] 。
+*** link:https://docs.netapp.com/us-en/sc-plugin-vmware-vsphere/scpivs44_create_resource_groups.html["创建资源组"] 。
+
+
+.. 使用BlueXP进行备份和恢复
++
+*** link:https://docs.netapp.com/us-en/bluexp-backup-recovery/prev-vmware-protect-overview.html["保护VM工作负载"] 。
+*** link:https://docs.netapp.com/us-en/bluexp-backup-recovery/br-use-kubernetes-protect-overview.html["保护VKS工作负载"] 。
+
+
+
+
+
+
+无论何时创建新的工作负载域，您都可以重复使用这些步骤。
+
+
+
+== 将现有组件融合到 VCF 9
+
+您可能已经拥有 VCF 机群的一些组件并且希望重复使用它们。当您重新使用 vCenter 实例时，数据存储区通常会使用ONTAP工具进行配置，这些工具可以作为 VCF 的主要存储。
+
+.前提条件
+* 确认现有的 vCenter 实例可以正常运行。
+* 验证ONTAP预配的数据存储库是否可用。
+* 确保访问link:https://imt.netapp.com/imt/#welcome["互操作性表"]。
+
+
+.步骤
+. 回顾link:https://techdocs.broadcom.com/us/en/vmware-cis/vcf/vcf-9-0-and-later/9-0/deployment/converging-your-existing-vsphere-infrastructure-to-a-vcf-or-vvf-platform-/supported-scenarios-to-converge-to-vcf.html["支持融合到 VCF 的场景"]。
+. 将 vCenter 实例与ONTAP配置的数据存储融合作为主要存储。
+. 使用以下方法验证支持的版本link:https://imt.netapp.com/imt/#welcome["互操作性表"]。
+. 升级link:https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere-10/upgrade/upgrade-ontap-tools.html["ONTAP工具"]如果需要的话。
+. 升级link:https://docs.netapp.com/us-en/sc-plugin-vmware-vsphere/scpivs44_upgrade.html["适用于 VMware vSphere 的SnapCenter插件"]如果需要的话。
+
+
+
+
+== 将现有 VCF 环境升级到 VCF 9
+
+使用标准升级流程将早期的 VCF 部署升级到版本 9.0。结果是运行 9.0 版本的 VCF 环境，具有升级的管理和工作负载域。
+
+.前提条件
+* 备份管理域和工作负载域。
+* 验证ONTAP工具和SnapCenter插件与 VCF 9.0 的兼容性。关注link:https://imt.netapp.com/imt/#welcome["互操作性表"]到link:https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere-10/upgrade/upgrade-ontap-tools.html["升级ONTAP工具"]和link:https://docs.netapp.com/us-en/sc-plugin-vmware-vsphere/scpivs44_upgrade.html["适用于 VMware vSphere 的SnapCenter插件"]支持 VCF 9。
+
+
+.步骤
+. 升级VCF管理域。看link:https://techdocs.broadcom.com/us/en/vmware-cis/vcf/vcf-9-0-and-later/9-0/deployment/upgrading-cloud-foundation.html["升级VCF管理域至VCF 9"]以获取说明。
+. 升级任何 VCF 5.x 工作负载域。看link:https://techdocs.broadcom.com/us/en/vmware-cis/vcf/vcf-9-0-and-later/9-0/lifecycle-management/lifecycle-management-of-vcf-core-components/upgrade-workload-domains-to-vcf-5-2.html["将 VCF 5.x 工作负载域升级到 VCF 9"]以获取说明。
+

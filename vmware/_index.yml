@@ -10,6 +10,10 @@ indexpage:
       url: vmw-getting-started-overview.html
     - title: 关于适用于 VMware 的NetApp平台
       url: vmw-getting-started-ntap-options.html
+    - title: 采用ONTAP 的VCF 9 设计选项
+      url: vmw-vcf-design.html
+    - title: 使用ONTAP部署 VCF 9
+      url: vmw-vcf-deployment.html
     - title: 博客
       url: "../blogs.html"
     - title: 视频

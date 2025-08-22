@@ -1,0 +1,156 @@
+---
+sidebar: sidebar 
+permalink: vmware/vmw-vcf-design.html 
+keywords: netapp, vmware, cloud, foundation, vcf, flexpod 
+summary: 您可以从 VCF 9 重新开始，也可以重复使用现有部署来使用 VCF 9 和ONTAP创建私有云环境。了解 VCF 9 的流行设计蓝图以及NetApp产品如何增加价值。 
+---
+= 使用 VMware Cloud Foundation 和ONTAP进行设计选项
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+您可以从 VCF 9 重新开始，也可以重复使用现有部署来使用 VCF 9 和ONTAP创建私有云环境。了解 VCF 9 的流行设计蓝图以及NetApp产品如何增加价值。
+
+
+
+== 存储选项
+
+VMware Cloud Foundation with ONTAP支持多种存储配置，以满足不同的性能、可扩展性和可用性要求。下表总结了适合您的环境的主要存储选项和补充存储选项。
+
+[cols="4,2,2"]
+|===
+| 产品系列 | FC 上的 VMFS | NFSv3 
+
+
+| ASA A系列和C系列 | 是 | 否 
+
+
+| AFF A系列和C系列 | 是 | 是 
+
+
+| FAS | 是 | 是 
+|===
+[cols="4,2,2,2,2,2"]
+|===
+| 产品系列 | FC 上的 VMFS | iSCSI 上的 VMFS | NVMe-oF 上的 VMFS | NFSv3 | NFSv4.1 
+
+
+| ASA A系列和C系列 | 是 | 是 | 是 | 否 | 否 
+
+
+| AFF A系列和C系列 | 是 | 是 | 是 | 是 | 是 
+
+
+| FAS | 是 | 是 | 是 | 是 | 是 
+|===
+
+
+== 蓝图
+
+以下蓝图说明了 VMware Cloud Foundation 和ONTAP在各种站点和资源场景中的常见部署模型。
+
+
+
+=== VCF 车队位于单个站点，占地面积极小
+
+此设计蓝图用于在具有最少资源的单个 vSphere 集群中部署管理和工作负载组件。它支持 VMFS 和 NFSv3 主要数据存储以及具有双节点配置的简单部署选项。如果您计划将 VCF 自动化与所有应用程序组织模型一起使用，则需要第二个集群来部署 vSphere Supervisor 和 NSX Edge 节点。
+
+image::vmw-vcf-design-001.png[VCF 车队位于单一站点，占地面积极小]
+
+为了最大限度地减少资源消耗，请尽可能使用现有的ONTAP工具实例。如果不可用，则小型配置文件的单个节点是合适的。SnapCenter Plug-in for VMware vSphere使用本机快照和复制到另一个ONTAP存储阵列来保护虚拟机和数据存储区。
+
+
+NOTE: 如果您缺乏资源来探索 VCF，许多云提供商都提供 VCF 即服务，并且ONTAP可作为云提供商的第一方服务使用。
+
+有关此设计的更多详细信息，请参阅link:https://techdocs.broadcom.com/us/en/vmware-cis/vcf/vcf-9-0-and-later/9-0/design/blueprints/vcf-fleet-basic-management-design.html["Broadcom 技术文档在单个站点的 VCF Fleet 上以最小的占用空间提供"]。
+
+
+
+=== 单一站点内的 VCF 车队
+
+此设计蓝图适用于依赖应用程序高可用性的单个主数据中心的客户。通常，它涉及单个 VCF 环境。您可以将ASA用于块工作负载，将AFF用于文件/统一工作负载。
+
+内容存储库在 VCF 域之间共享 VM 模板和容器注册表。当托管在FlexGroup Volume 上时， FlexCache功能可用于订阅数据存储。
+
+
+CAUTION: 不支持在FlexCache数据存储上托管虚拟机。
+
+image::vmw-vcf-design-002.png[VCF 车队集中于一个站点]
+
+HA 模式下的ONTAP工具的单个实例可以管理 VCF Fleet 中的所有 vCenter。请参阅link:https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere-10/deploy/prerequisites.html#configuration-limits-to-deploy-ontap-tools-for-vmware-vsphere["ONTAP工具的配置限制"]了解更多信息。  ONTAP工具与 VCF SSO 和 VCF OPS 智能分组集成，可在同一 UI 中进行多 vCenter 访问。
+
+.带有ONTAP工具的 VCF 补充数据存储
+video::e7cf90b9-2744-404b-9831-b33f00164626[panopto]
+您必须在每个 vCenter 实例上部署SnapCenter插件以保护虚拟机和数据存储区。
+
+基于存储策略的管理与 vSphere Supervisor 一起使用来托管 VKS 的控制虚拟机。标签在 VCF Ops 集中管理。 NetApp Trident CSI 与 VKS 一起使用，利用本机阵列功能实现应用程序备份保护。当您使用 vSphere CSI 时，持久卷详细信息会出现在 VCF Automation 上。
+
+有关此蓝图的更多详细信息，请参阅link:https://techdocs.broadcom.com/us/en/vmware-cis/vcf/vcf-9-0-and-later/9-0/design/blueprints/vcf-fleet-management-design-with-multiple-availability-zones.html["Broadcom 在单一站点上提供 VCF Fleet 技术文档"]。
+
+
+
+=== 单个区域内有多个站点的 VCF 机群
+
+此设计适用于通过将工作负载分散到不同的故障域来提供具有更高可用性的类似云的服务的客户。
+
+对于 VMFS 数据存储库， SnapMirror主动同步提供了主动-主动存储单元，可与 vSphere Metro Storage Cluster 一起使用。统一访问模式提供透明的存储故障转移，而非统一访问模式则要求在故障域发生故障时重新启动虚拟机。
+
+对于 NFS 数据存储，带有 vSphere Metro Storage Cluster 的ONTAP MetroCluster可确保高可用性。调解员避免了脑裂的情况，现在可以托管在BlueXP上。
+
+VM 放置规则控制管理域组件的同一故障域内的 VM。
+
+image::vmw-vcf-design-003.png[单个区域内有多个站点的 VCF 机队]
+
+ONTAP工具提供了一个 UI 来设置SnapMirror主动同步关系。必须在ONTAP工具和SnapCenter Plug-in for VMware vSphere中注册两个故障域的存储系统。
+
+您可以使用BlueXP Backup and Recovery 通过SnapMirror为虚拟机以及SnapMirror到云实施 3-2-1 备份策略。您可以从三个位置中的任意一个执行恢复。
+
+Trident Protect 或BlueXP Backup and Recovery for Kubernetes 保护 VKS 集群应用程序。
+
+欲了解更多信息，请查看link:https://techdocs.broadcom.com/us/en/vmware-cis/vcf/vcf-9-0-and-later/9-0/design/blueprints/vsphere-only-to-vcf-fleet-upgrade-blueprint.html["Broadcom 有关单个区域内具有多个站点的 VCF 集群的技术文档"]。
+
+
+
+=== 拥有多个区域多个站点的 VCF 车队
+
+此设计针对的是遍布全球的客户，提供就近的服务和灾难恢复解决方案。
+
+您可以使用 VMware Live Site Recovery 或BlueXP灾难恢复即服务来管理虚拟机的灾难恢复。  ONTAP工具提供 SRA（存储复制适配器）来协调ONTAP的存储操作。
+
+[cols="4,2,2"]
+|===
+| 产品系列 | SnapMirror主动同步 | MetroCluster 
+
+
+| ASA A系列和C系列 | 是 | 是 
+
+
+| AFF A系列和C系列 | 是 | 是 
+
+
+| FAS | 否 | 是 
+|===
+image::vmw-vcf-design-004.png[拥有多个区域多个站点的 VCF 车队]
+
+ONTAP工具为数据存储区复制设置提供了 UI。 BlueXP还可以用于存储阵列之间的复制。SnapCenter Plug-in for VMware vSphere利用现有的SnapMirror关系来实现 SnapShot。
+
+欲了解更多信息，请查看link:https://techdocs.broadcom.com/us/en/vmware-cis/vcf/vcf-9-0-and-later/9-0/design/blueprints/blueprint-4.html["Broadcom 关于跨区域多站点 VCF Fleet 的技术文档"]。
+
+
+
+=== VCF 机群在单个区域和其他区域设有多个站点
+
+该设计解决了虚拟机和 VKS 应用程序的可用性和灾难恢复问题。
+
+ASA、 AFF和FAS支持此设计选项。
+
+image::vmw-vcf-design-005.png[VCF 车队在单个区域及其他区域设有多个站点]
+
+您可以使用ONTAP工具或BlueXP来设置复制关系。
+
+有关更多信息，请参阅link:https://techdocs.broadcom.com/us/en/vmware-cis/vcf/vcf-9-0-and-later/9-0/design/blueprints/blueprint-5.html["Broadcom 有关在单个区域和其他区域内具有多个站点的 VCF Fleet 的技术文档"] 。
