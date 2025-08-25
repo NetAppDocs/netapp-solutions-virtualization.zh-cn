@@ -23,7 +23,7 @@ NOTE: *这是 VMDC 的预览版。*
 
 == 概述
 
-VMDC 的主要功能是报告 vCenter、ESXi 服务器以及驻留在 vSphere 环境中的虚拟机 (VM) 的配置，包括集群配置、网络、存储和性能数据。一旦收集到全面的环境数据，就可以利用这些数据来生成有关基础设施的深刻信息。报告输出显示是电子表格样式的 GUI，其各个部分有多个选项卡。它提供易于阅读的报告并有助于优化资源使用和规划容量。
+VMDC 的主要功能是报告 vCenter、ESXi 服务器以及驻留在 vSphere 环境中的虚拟机 (VM) 的配置，包括集群配置、网络、存储和性能数据。一旦收集到全面的环境数据，就可以利用它生成有关基础设施的深刻信息。报告输出显示是电子表格样式的 GUI，其各个部分有多个选项卡。它提供易于阅读的报告并有助于优化资源使用和规划容量。
 
 VMDC 只是收集快速即时统计数据的垫脚石，用于预测 VMWare 核心许可以及 vCPU 和 RAM 的优化可能性。link:https://docs.netapp.com/us-en/data-infrastructure-insights/["NetAppData Infrastructure Insights"]这需要安装 AU 和数据收集器，这显然是理解详细 VM 拓扑、使用注释对 VM 进行分组的下一步，以便正确调整工作负载的大小并确保基础设施的未来发展。
 
@@ -192,7 +192,7 @@ image:vmdc-017.png["该图显示输入/输出对话框或表示书面内容"]
 
 随着即将发生的许可证变更，各组织正在积极应对总体拥有成本 (TCO) 的潜在增加。他们通过积极的资源管理和适当的规模战略性地优化其 VMware 基础架构，以提高资源利用率并简化容量规划。通过有效使用专门的工具，组织可以有效地识别和回收浪费的资源，从而减少核心数量和总体许可费用。  VMDC 提供快速收集可切片的 VM 数据的能力，以报告和优化现有环境。
 
-使用 VMDC 进行快速评估以查明未充分利用的资源，然后使用NetAppData Infrastructure Insights(DII) 为 VM 回收提供详细的分析和建议。这使客户能够了解部署和配置NetAppData Infrastructure Insights(DII) 时的潜在成本节约和优化。 NetAppData Infrastructure Insights(DII) 可以帮助企业就优化其 VM 环境做出明智的决策。它可以确定哪些地方可以回收资源或哪些地方可以退役主机，对生产的影响最小，从而帮助企业以深思熟虑、战略性的方式应对 Broadcom 收购 VMware 带来的变化。换句话说，VMDC 和 DII 作为一种详细的分析机制，帮助企业在决策中摆脱情感因素的影响。他们不必惊慌或沮丧地应对变化，而是可以利用这两种工具提供的见解来做出合理的战略决策，在成本优化与运营效率和生产力之间取得平衡。
+使用 VMDC 进行快速评估以查明未充分利用的资源，然后使用NetAppData Infrastructure Insights(DII) 为 VM 回收提供详细的分析和建议。这使客户能够了解部署和配置NetAppData Infrastructure Insights(DII) 时的潜在成本节约和优化。NetAppData Infrastructure Insights(DII) 可以帮助企业就优化其 VM 环境做出明智的决策。它可以确定哪些地方可以回收资源或哪些地方可以退役主机，对生产的影响最小，从而帮助企业以深思熟虑、战略性的方式应对博通收购 VMware 带来的变化。换句话说，VMDC 和 DII 作为一种详细的分析机制，帮助企业在决策中摆脱情感因素的影响。他们不必惊慌或沮丧地应对变化，而是可以利用这两种工具提供的见解来做出合理的战略决策，在成本优化与运营效率和生产力之间取得平衡。
 
 借助NetApp，您可以适当调整虚拟化环境的规模，并引入经济高效的闪存存储性能以及简化的数据管理和勒索软件解决方案，以确保组织为新的订阅模式做好准备，同时优化现有的 IT 资源。
 
@@ -202,4 +202,4 @@ image:vmdc-018.png["该图显示输入/输出对话框或表示书面内容"]
 
 == 后续步骤
 
-下载 VMDC 包并收集数据并使用link:https://mhcsolengg.com/vmwntaptco/["vSAN TCO 估算器"]方便投影然后使用link:https://docs.netapp.com/us-en/data-infrastructure-insights/task_cloud_insights_onboarding_1.html["直接投资"]不断提供智能，影响现在和未来的 IT，以确保它能够适应新的需求。
+下载 VMDC 包并收集数据并使用link:https://tco.solutions.netapp.com/vmwntaptco/["vSAN TCO 估算器"]方便投影然后使用link:https://docs.netapp.com/us-en/data-infrastructure-insights/task_cloud_insights_onboarding_1.html["直接投资"]不断提供智能，影响现在和未来的 IT，以确保它能够适应新的需求。
