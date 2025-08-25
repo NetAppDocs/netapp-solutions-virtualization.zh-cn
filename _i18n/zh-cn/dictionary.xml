@@ -4665,7 +4665,6 @@
   <block id="6622de5008f90d398faa1e625092402e" category="example-title">创建BlueXP备份策略</block>
   <block id="465bbc0896511246f9f765c89f55e975" category="paragraph">在BlueXP backup and recovery中，创建策略来指定保留期、备份源和归档策略。</block>
   <block id="9fe2f95002b4b4815d52173b68bf9862" category="inline-link">创建备份数据存储区的策略</block>
-  <block id="86bc3e584348c8421ec3567a22142b57" category="paragraph">有关创建策略的更多信息，请参阅<block ref="80982186ff4a093ef0d5c383d66626f1" category="inline-link-rx"></block>。</block>
   <block id="8b91c4c18527ee91c2c399b04a87600c" category="list-text">从BlueXP backup and recovery主页，访问 *设置* 下拉菜单并选择 *策略*。</block>
   <block id="1db0dd7fde7d56dfa9fe1a1f01bd5900" category="paragraph"><block ref="1db0dd7fde7d56dfa9fe1a1f01bd5900" category="inline-image-macro-rx" type="image"></block></block>
   <block id="6f6ac8531dfacb86c47a059017038eb1" category="list-text">单击“*创建策略*”以访问“*创建混合备份策略*”窗口。</block>
@@ -4680,7 +4679,6 @@
   <block id="b376eb1d1a81946ce7cc5b483b394614" category="example-title">将数据存储备份到 Amazon Web Services</block>
   <block id="0683dcf442cdbe8d60b5c07d40f32d46" category="paragraph">最后一步是激活各个数据存储区和虚拟机的数据保护。以下步骤概述了如何激活 AWS 备份。</block>
   <block id="1d5ad62b9217b4a3f085f517534f40bb" category="inline-link">将数据存储备份到 Amazon Web Services</block>
-  <block id="aaa6437baaeb74798cea1dbc99d2449d" category="paragraph">更多信息请参阅<block ref="1515dd2e0ceefc55442eaf374717c8c0" category="inline-link-rx"></block>。</block>
   <block id="ea304a58f425305bd76d96e195240e41" category="list-text">从BlueXP backup and recovery主页，访问要备份的数据存储区的设置下拉菜单并选择*激活备份*。</block>
   <block id="addf19ca5aa2245b4311a5fda42a2a57" category="inline-image-macro">激活备份</block>
   <block id="499f0b0f60bcd76722da4a70b9aaf3e0" category="paragraph"><block ref="499f0b0f60bcd76722da4a70b9aaf3e0" category="inline-image-macro-rx" type="image"></block></block>
@@ -4726,7 +4724,6 @@
   <block id="d8d9151889f2e5c47ace43970e545363" category="section-title">从BlueXP backup and recovery中恢复虚拟机</block>
   <block id="c6c605b662ef94c68391b5451e95455d" category="paragraph">BlueXP backup and recovery允许将虚拟机恢复到其原始位置。可通过BlueXP Web 控制台访问恢复功能。</block>
   <block id="ffa1e37a2c6478ff157a0a7d25a607e9" category="inline-link">从云端恢复虚拟机数据</block>
-  <block id="94b974f7ab5ca99392d1041601e87897" category="paragraph">更多信息请参阅<block ref="238147c8f6c3fb89d6b3eb28f713b9cf" category="inline-link-rx"></block>。</block>
   <block id="51dac82a8b88ae2579c7783d71b88447" category="example-title">从BlueXP backup and recovery中恢复虚拟机</block>
   <block id="d2b7af1fe2cbeff098166770c3666278" category="paragraph">要从BlueXP backup and recovery还原虚拟机，请完成以下步骤。</block>
   <block id="37f8e514cc85f6be4997337d7410cb05" category="list-text">导航到*保护&gt;备份和恢复&gt;虚拟机*，然后单击虚拟机以查看可恢复的虚拟机列表。</block>
@@ -4964,7 +4961,6 @@
   <block id="b054137461b0aa769f5529d38bd57c94" category="paragraph">管理域上的附加 vSphere 集群可以通过以下选项进行部署：</block>
   <block id="ed9018b2e8611a3d2c03bb6a205b9715" category="inline-link">适用于 VMware vSphere 的 ONTAP 工具</block>
   <block id="4f3bb45012013a92a69901fc05628a7f" category="inline-link">系统管理器或ONTAP API</block>
-  <block id="c1b9a0f4ef59fd0e79bdf845ef7d1bf3" category="list-text">在 vSphere 环境中拥有额外的集群，并使用 VCF 棕地导入工具将 vSphere 环境转换为管理域。<block ref="3104f804c75118ec6f858cbd54e609db" category="inline-link-rx"></block><block ref="aa58dd097d7fe62340ef394295d83ed9" category="inline-link-rx"></block>可用于将 VMFS 数据存储部署到 vSphere 集群。</block>
   <block id="2134966d7a59bcd26ba12da0a9ced5fd" category="list-text">使用 SDDC API 部署额外的集群。 vSphere 主机应该配置 VMFS 数据存储。使用<block ref="aa58dd097d7fe62340ef394295d83ed9" category="inline-link-rx"></block>将 LUN 部署到 vSphere 主机。</block>
   <block id="97c41258e1a97ae127bec70048e6bce8" category="list-text">使用 SDDC Manager UI 部署额外的集群。但此选项仅创建 VSAN 数据存储至 5.2.x 版本。</block>
   <block id="afd5537516037f965559620b4d45a44d" category="paragraph">有关配置 VCF 的信息，请参阅<block ref="0721fa80960d190c75e3a5fe9fd83588" category="inline-link-macro-rx"></block>。</block>
@@ -4975,7 +4971,6 @@
   <block id="6949e3d0f25d74f7813c05b97c41cc6d" category="admonition">该解决方案适用于支持NFS存储的ONTAP平台，包括NetApp AFF和FAS。</block>
   <block id="6b635fdfc749afaa2b72ee1f291dd397" category="list-text">NetApp存储系统，其存储虚拟机 (SVM) 配置为允许 NFS 流量。</block>
   <block id="9e60fa9cfddc7c5bd5dcac6d6ea38fe4" category="paragraph">初始集群上的 NFS 主体存储仅支持 VCF 棕地导入工具。如果使用 Cloud Builder 工具（直到版本 5.2.x）部署 VCF，则仅支持 VSAN。</block>
-  <block id="964feff96902b567f8438a871a72e857" category="list-text">在 vSphere 环境中拥有额外的集群，并使用 VCF 棕地导入工具将 vSphere 环境转换为管理域。<block ref="3104f804c75118ec6f858cbd54e609db" category="inline-link-rx"></block><block ref="aa58dd097d7fe62340ef394295d83ed9" category="inline-link-rx"></block>可用于将 NFS 数据存储部署到 vSphere 集群。</block>
   <block id="618ccecc77c1b3db6b8272406b13655b" category="list-text">使用 SDDC API 部署额外的集群。 vSphere 主机应该配置 NFS 数据存储。使用<block ref="aa58dd097d7fe62340ef394295d83ed9" category="inline-link-rx"></block>将 LUN 部署到 vSphere 主机。</block>
   <block id="46e28cadd6d0de9ad9e6394032518100" category="list-text">使用 SDDC Manager UI 部署额外的集群。但此选项仅创建 5.2.x 之前版本的 vSAN 数据存储。</block>
   <block id="19f71f7fe12e7ebe34ed1f6f55e4432b" category="doc">使用适用ONTAP tools for VMware vSphere添加基于 FC 的 VMFS 数据存储库作为管理域的补充存储</block>
@@ -5354,14 +5349,10 @@
   <block id="597e700510f0275a350157a1e91206e0" category="list-text">虚拟设备部署：使用 OVA 文件将 SCV 部署为 Linux 虚拟设备。这种部署方法可确保简化且高效的设置过程。</block>
   <block id="065e3b64ef9ff909c537003adf91be53" category="list-text">远程插件架构：SCV 使用远程插件架构，允许在管理多个实例时具有可扩展性和灵活性。</block>
   <block id="8be407c61d1c3d7e9b5c69dd2bdcc86e" category="list-text">一对一关系：每个 VCF 域都需要一个专用的 SCV 实例，以确保隔离且高效的备份和恢复操作。</block>
-  <block id="1476697ab5ae8f34a2a46b75f4a44dcb" category="inline-link-macro">SnapCenter Plug-in for VMware vSphere文档以及使用NetApp SnapCenter for VMWare vSphere (SCV) 保护 VCF 管理域和多个工作负载域。</block>
-  <block id="15cea40dfd668ed164eb9500350832ba" category="paragraph">在ONTAP 9.10.1 及更高版本中， NetApp AFF和ASA支持 NVMe over TCP。位于AFF或ASA主系统上并可复制到ONTAP AFF或ASA辅助系统的数据。 SCV 还与SnapCenter Server 配合使用，支持 VMware 环境中针对SnapCenter应用程序特定插件的基于应用程序的备份和恢复操作。欲了解更多信息，请查看<block ref="d1ce1c1059b8df281300d28c6a9c8880" category="inline-link-macro-rx"></block>和<block ref="794fc3d7044c1828a1839084f59b4815" category="inline-link-macro-rx"></block></block>
   <block id="5e453443380cf9beaa7e0e0d3de82977" category="section-title">SCV for VCF on NVMe 部署步骤</block>
   <block id="d217ecb73fd166e8981e6be2c889ff7f" category="paragraph">这<block ref="a3e8683995371a8fc111bdec419c54d3" category="inline-link-macro-rx"></block>（OTV）为在 VMware 环境中管理NetApp存储提供了强大而高效的解决方案。通过与 vCenter Server 直接集成，OTV 简化了存储管理、增强了数据保护并优化了性能。虽然是可选的，但部署 OTV 可以显著提高 VMware 环境的管理能力和整体效率。</block>
   <block id="e59d23129e6530080f924693b0a18682" category="inline-link-macro">为 VCF 工作负载域创建 NVMe/TCP 存储</block>
-  <block id="a97977484d47fc3d9525a629f44d8788" category="list-text"><block ref="a97977484d47fc3d9525a629f44d8788" category="inline-link-macro-rx"></block></block>
   <block id="44223ecac58a0219e9ca08a310fbf7be" category="inline-link-macro">为 VMware vSphere (SCV) 配置NetApp SnapCenter</block>
-  <block id="bb24b7342a3b773afb372b3361a804b0" category="list-text"><block ref="bb24b7342a3b773afb372b3361a804b0" category="inline-link-macro-rx"></block></block>
   <block id="6f638a13e9caea27d932da86d73a06be" category="example-title">恢复虚拟机、数据存储、虚拟磁盘和文件或文件夹</block>
   <block id="3ab0935b3cfdf197989ec6e3ef7a913a" category="inline-link-macro">如何执行恢复操作。</block>
   <block id="33a90876ec4ea265b0970341d7daa894" category="paragraph">SCV 为 VMware 环境提供了全面的备份和恢复功能。对于 VMFS 环境，SCV 使用克隆和挂载操作结合 Storage VMotion 来执行恢复操作。这确保了数据高效、无缝地恢复。欲了解更多详情，请查看<block ref="871d31cadc79da215062da0c17f464aa" category="inline-link-macro-rx"></block></block>
@@ -5605,7 +5596,6 @@
   <block id="d0c82093772419fbd4be6cb6438fb6a3" category="list-text">使用 FC 数据存储作为主要存储在 VCF 中部署 VI 工作负载域。</block>
   <block id="cdb310b4f0e9d77b22ceb328ba8355e0" category="list-text">具有连接到 FC 交换机的 FC 端口的ONTAP AFF或ASA存储系统。</block>
   <block id="d9538e43c63f7ccd6cdf89f8944d1e37" category="paragraph">初始集群上的 FC 主存储仅受 VCF 棕地导入工具支持。如果使用 cloudbuilder 工具（直到版本 5.2.x）部署 VCF，则仅支持 VSAN。参考<block ref="341b23dca0a00b0f17fbd3a937cb56da" category="inline-link-rx"></block>了解更多信息。</block>
-  <block id="f46c7f2b5eba8ff22f0121ba478953ac" category="paragraph">管理域上的附加 vSphere 集群可以通过以下选项进行部署：* 在 vSphere 环境中拥有附加集群，并使用 VCF 棕地导入工具将 vSphere 环境转换为管理域。<block ref="3104f804c75118ec6f858cbd54e609db" category="inline-link-rx"></block> ，<block ref="aa58dd097d7fe62340ef394295d83ed9" category="inline-link-rx"></block>可用于将 VMFS 数据存储部署到 vSphere 集群。  * 使用 SDDC API 部署额外的集群。 vSphere 主机应该配置 VMFS 数据存储。使用<block ref="aa58dd097d7fe62340ef394295d83ed9" category="inline-link-rx"></block>将 LUN 部署到 vSphere 主机。 * 使用 SDDC Manager UI 部署额外的集群。但此选项仅创建 VSAN 数据存储至 5.2.x 版本。</block>
   <block id="5466058bf010dbc23a7b3687c240e4b3" category="section-title">VI 工作负载域 - 默认集群</block>
   <block id="d176cfd2b55355d7288c7242e9660122" category="paragraph">管理域启动并运行后，可以创建 VI Workload 域：</block>
   <block id="b08823ca01451266a876fa1257c3edaf" category="list-text">使用 SDDC 管理器 UI。 vSphere 主机应该配置 VMFS 数据存储。使用系统管理器或ONTAP API 将 LUN 部署到 vSphere 主机。</block>
@@ -6512,7 +6502,6 @@
   <block id="07e6bc25dbecc46b2bb86d8e389f7de7" category="list-text">确保ONTAP存储系统已注册到ONTAP工具。这包括两个故障域存储系统和第三个用于异步远程复制的系统，用于通过 VMware vSphere 的SnapCenter插件进行虚拟机保护。<block ref="74034a32a1dff335ccaa493cab1bc681" category="inline-image-macro-rx" type="image"></block>如果没有，请关注<block ref="b59c00edbcac992082dcfa6c68f3b16c" category="inline-link-macro-rx"></block></block>
   <block id="2ff8b29f2ba9fff19bb4ff78734fff7d" category="inline-image-macro">更新主机数据</block>
   <block id="e181db3cbeda87f260358c64db781b1c" category="inline-link-macro">创建数据存储区</block>
-  <block id="1f7593ff04365d638918c9d9d0a58e99" category="list-text">更新主机数据以与ONTAP工具同步，然后<block ref="0b13d42f0de3e7e83cc4165d9e12b307" category="inline-link-macro-rx"></block>。<block ref="714ffd1587d09936c6fa7c46db223c77" category="inline-image-macro-rx" type="image"></block></block>
   <block id="20d3fb60a8e495c4395fb4efbcb157c0" category="list-text">要启用 SM-as，请右键单击 vSphere 集群，然后在NetApp ONTAP工具上选择“保护集群”（请参阅上面的屏幕截图）</block>
   <block id="af177368a8a7a1a5e11fc3ced1e77f66" category="inline-image-macro">保护集群</block>
   <block id="a6e7584dd0ef045c602fc10f41331119" category="list-text">它将显示该集群的现有数据存储以及 SVM 详细信息。默认 CG 名称为 &lt;vSphere 集群名称&gt;_&lt;SVM 名称&gt;。单击添加关系按钮。<block ref="20cdbf836117289998d3f562ae49ca64" category="inline-image-macro-rx" type="image"></block></block>
@@ -7308,5 +7297,138 @@
   <block id="135208b317232813f97dea0a66efbf19" category="paragraph">有关更多信息，请参阅<block ref="31eb8c8d9029a21fe9fa1aae2bff2d12" category="inline-link-macro-rx"></block> 。</block>
   <block id="38c4a772e4657f7e070cb42e5d30bc10" category="sidebar">采用ONTAP 的VCF 9 设计选项</block>
   <block id="b38115bcd9d3089a288de6f78a3c66b8" category="sidebar">使用ONTAP部署 VCF 9</block>
-  <block id="a9f5271aaa2449b6c26e0ca16c29015c" category="sidebar">使用ONTAP部署 VCF 9</block>
+  <block id="cc2ffe733836ebb3e926756d7f41b567" category="summary">针对 NFS 和 VMFS 数据存储的自主勒索软件防护</block>
+  <block id="b158a76f99911ba2c313cfc1c284baea" category="doc">自主防御 NFS 和 VMFS 勒索软件</block>
+  <block id="32e401809f0324a1cbd22f271f1ec16c" category="paragraph">了解NetApp ONTAP 的自主勒索软件防护 (ARP) 如何使用机器学习来保护 VMware 环境中的 NFS 和 VMFS 数据存储，提供早期威胁检测、防篡改快照和快速恢复，以增强虚拟化和云工作负载的数据弹性。</block>
+  <block id="fe281ceee96bffc9f23ccd5cc723c013" category="paragraph">勒索软件威胁正在迅速演变，变得更加复杂和具有破坏性。传统的安全措施往往无法保护关键数据资产。 NetApp ONTAP存储提供内置安全功能，可主动保护数据。如果发生安全漏洞， ONTAP会提供实时警报和快速恢复选项，以减少停机时间并限制数据丢失。  ONTAP使客户能够保护、恢复和移动其数据和应用程序，从而增强勒索软件的抵御能力。</block>
+  <block id="e8d2db50d9047b748c7e448482154204" category="section-title">用例 – 保护 VMware 虚拟机及其文件</block>
+  <block id="3e186f0464085cb1943145287ed02516" category="paragraph">在 VMware 环境中尽早检测勒索软件对于阻止其传播和最大限度地减少停机时间至关重要。有效的策略是在 ESXi 主机和客户虚拟机之间使用多层保护。虽然许多安全控制措施有助于建立强大的防御，但NetApp ONTAP增加了必要的存储级别保护措施，进一步加强了保护。</block>
+  <block id="4ea395574b057c0a90699d6b4d0b20eb" category="paragraph">ONTAP 的主要功能包括用于时间点恢复的快照技术、由内置机器学习提供支持的自主勒索软件保护 (ARP)、多管理员验证和可保持数据完整性的防篡改快照。这些功能协同作用，增强了勒索软件的抵御能力，并在需要时实现快速恢复。</block>
+  <block id="e67b558d15029d8a57859967a930aea5" category="paragraph">保护 vSphere 环境和客户虚拟机需要采取全面的方法。关键措施包括网络分段、部署 EDR/XDR/SIEM 解决方案进行端点监控、及时应用安全更新以及遵循既定的强化指南。每个虚拟机通常都运行一个标准操作系统，因此作为多层勒索软件防御策略的一部分，安装和定期更新企业级反恶意软件解决方案至关重要。</block>
+  <block id="0f2def65be50b7dcd2a13f0ab800d57e" category="section-title">ONTAP如何提供帮助</block>
+  <block id="16be83881ffeaaee523eb3ff27e2bd0c" category="paragraph">ONTAP通过多层防御加强数据保护。主要功能包括快照、自主勒索软件保护 (ARP)、防篡改快照、多管理员验证等。本文档重点介绍 9.17.1 版本中引入的 ARP 增强功能。</block>
+  <block id="be93859e718604efdba8f34424e07959" category="paragraph">您可以在支持 VMware 数据存储区的 NAS 或 SAN 卷上启用 ARP。 ARP 使用 ONTAP 的内置机器学习来监控工作负载模式和数据熵，自动检测勒索软件活动的迹象，并提供智能、主动的安全层。使用 ONTAP 的 CLI 或系统管理器界面配置每个卷的 ARP。</block>
+  <block id="2273abb75907875c003923a992aaae59" category="section-title">ARP特性演进</block>
+  <block id="6fd5beaab2ad731e5a488cd8262b000e" category="paragraph">从ONTAP版本 9.10.1 开始，ARP 可用于现有卷或新卷。在ONTAP版本 9.16.1 中，您可以使用系统管理器或 CLI 启用 ARP。 ARP/AI 保护立即生效，无需学习期。在 9.17.1 版本中，ARP 支持 SAN 卷。当您在 SAN 卷上启用 ARP 时，ARP/AI 会在评估期间持续监控数据，以确定工作负载的适用性并设置最佳检测加密阈值。</block>
+  <block id="57b0aff932106455eef3dd614c15d4bc" category="paragraph">ARP 内置于ONTAP中，提供与其他ONTAP功能的集成控制和协调。 ARP 实时工作，在写入或读取数据时进行处理，并快速检测和响应潜在的勒索软件攻击。它会定期创建锁定快照以及预定的快照，并在未检测到异常时通过回收快照来智能地管理快照保留。如果 ARP 检测到可疑活动，它会将攻击前拍摄的快照保存较长时间，以确保可靠的恢复点。</block>
+  <block id="92a72d6a9570a069be3a20f326a76635" category="inline-link-macro">ARP 检测到什么</block>
+  <block id="0f857f5a53d45c4b920f8b106ce1436e" category="paragraph">有关详细信息，请参阅<block ref="8534bb56168763eca400ed7fe5baf60a" category="inline-link-macro-rx"></block>。</block>
+  <block id="e7474a8e4c3ee617098afb674190d8bc" category="admonition">ONTAP ONE 许可证包含 ARP 支持。</block>
+  <block id="72ffd7834be5185fb158a73654c33d14" category="section-title">在 NAS 卷上配置 ARP 并模拟对 VM 的攻击</block>
+  <block id="55f747ea5d3bbf3c7283d5964f47417f" category="paragraph">了解如何在用于 VMware 数据存储区的 NAS 和 SAN 卷上启用NetApp ONTAP自主勒索软件防护 (ARP)，并模拟勒索软件攻击以了解 ARP 如何检测威胁并促进快速恢复。</block>
+  <block id="15c993775db3781e1f9a2865764bb9c5" category="paragraph">当使用系统管理器或 CLI 在 NAS 卷上启用 ARP 时，ARP/AI 保护将立即启用并处于活动状态。无需学习期。</block>
+  <block id="c1a4397587051e778d8e671303655d73" category="image-alt">主动模式下启用反勒索软件</block>
+  <block id="0cf22cddeee2c63d9e2a0c477989090a" category="paragraph">在此示例中，使用脚本修改文件或通过修改文件扩展名来触发模拟，以模拟驻留在作为数据存储附加到 vCenter 的 NFS 卷上的 VM 内的攻击。</block>
+  <block id="483b4234420124f6677864e3ade1a952" category="image-alt">加密文件</block>
+  <block id="8d64a5560ac34de93f9248ef47eb7b75" category="paragraph">如下所示，ARP检测到了异常活动。</block>
+  <block id="73b3add699545b99c6e0b6af92a0422a" category="image-alt">异常活动</block>
+  <block id="e55b59620a60beefcf470ce07b95b15e" category="paragraph">ARP 可提前检测到攻击，并能够从接近攻击时间的快照中恢复数据。要回滚，请使用事件触发之前生成的 ARP 定期快照。下面的屏幕截图显示了创建的快照：</block>
+  <block id="fd429ce6f8e30011cf56a6869c167fea" category="image-alt">快照已创建</block>
+  <block id="6f56da546af672420d6d1400d9a42097" category="inline-link-macro">NFS 存储的 ARP</block>
+  <block id="630eb651a47c46297645badde3e4dc9b" category="paragraph">有关在用作数据存储的 NFS 卷上启用 ARP 并在发生攻击时恢复的详细指导，请参阅<block ref="102f0355289b3299b206bc4a892d1a57" category="inline-link-macro-rx"></block>。</block>
+  <block id="1be9f8b7c882356c565d380817f9318b" category="section-title">在 SAN 卷上配置 ARP 并模拟对 VM 的攻击</block>
+  <block id="233c633280ea6db072b742d23bf3ab34" category="paragraph">当在 SAN 卷上启用 ARP 时，它会从评估阶段开始，类似于 NAS 环境中使用的学习模式，然后自动转换为主动检测。</block>
+  <block id="ffe989f8e7845a955cc740918aa7f169" category="image-alt">SAN主动模式</block>
+  <block id="60772c628267e0bc306b29a08e5a673c" category="paragraph">ARP 启动为期两到四周的评估期，阈值为 75%，以建立加密行为的基线。可以使用以下方式监控此阶段的进度<block ref="9f93d4074e8ed2608a6bf64dea48992a" prefix=" " category="inline-code"></block>通过检查*块设备检测状态*命令。评估完成后，*Active_suitable_workload* 状态确认观察到的熵水平适合持续监控。根据收集的数据，ARP 会自动调整其自适应阈值，以确保准确、灵敏的威胁检测。根据需求，快照创建间隔可以从默认的 4 小时更改为 1 小时。请谨慎执行此修改。</block>
+  <block id="1f0289c745f8ea2827cdda317a1bd179" category="paragraph">从ONTAP 9.17.1 开始，NAS 和 SAN 卷都会定期生成 ARP 快照。ONTAP</block>
+  <block id="b68db69e5ad8109d6d527dfbeb30f111" category="image-alt">SAN AI 工作流程</block>
+  <block id="7818432b7b4650bf0a4f9e4924ed89b2" category="inline-link-macro">SAN 环境和模式类型</block>
+  <block id="23820fc240cbab5d01b785d96a7ad078" category="paragraph">有关详细信息，请参阅<block ref="cb3691e4e3a3d0c367c8d3641034fd95" category="inline-link-macro-rx"></block></block>
+  <block id="f1ca57735e6cde042094a67746a4ecd8" category="paragraph">现在是模拟攻击的时候了。为了演示目的，文件在基于 ISCSI 的数据存储上运行的虚拟机内进行加密。生成的文件接近 7000 个，不幸的是，这些文件受到了勒索软件攻击的影响。</block>
+  <block id="e820ecf2185e0d8c9f3cd836ff42adf9" category="image-alt">来宾虚拟机文件加密</block>
+  <block id="5fff04cd62bbaff3e82d1bbec3faf197" category="paragraph">在 10 分钟内，根据高熵数据检测到卷上的异常活动，并且 ARP 生成威胁警报，因为它检测到 VM 内部的熵异常。</block>
+  <block id="ea54bffeae69a239184634004ebce0b0" category="image-alt">系统管理器 - 卷安全</block>
+  <block id="246c88da41ba8780621e221230fc126d" category="section-title">勒索软件攻击后恢复虚拟机及其数据</block>
+  <block id="fa57157b1172324f5df09f51517dccf3" category="paragraph">根据上述步骤确认攻击后，使用其中一个 ARP 快照或卷的另一个快照来恢复数据。</block>
+  <block id="84aaf0265381bafb10e34bfd3ae84ce6" category="image-alt">系统管理器 - 卷快照</block>
+  <block id="ed2766c1312ea2248396e0feb3d60c71" category="paragraph">一旦恢复，文件就全部恢复了。</block>
+  <block id="c45812cf91fd8a8218aceac0cb00605e" category="image-alt">来宾虚拟机文件</block>
+  <block id="a8d69686fa6667b528abf15ac2c2ecd9" category="inline-link-macro">勒索软件攻击后从 ARP 快照恢复数据</block>
+  <block id="1ef428a0836e2be9e8480cc056a3caba" category="paragraph">有关详细指导，请参阅<block ref="a9c5f1f91aee7455ebbb7e15df358449" category="inline-link-macro-rx"></block></block>
+  <block id="c4256e22c33638074331953e7c2d7ad4" category="section-title">ONTAP作为 VMware 及其他系统的防御层</block>
+  <block id="bb033a156bdbed38dfa87158cfbbe8e7" category="paragraph">只需点击几下，企业就可以无缝增强其数据保护策略。 ONTAP采用基于机器学习的先进检测机制，在 VMware 环境中引入了强大的防御层。这种智能保护不仅可提前识别威胁，而且还可帮助在威胁升级之前减轻潜在损害。</block>
+  <block id="49b3e409e7386a860dba60625ed9d980" category="paragraph">此用例不仅适用于 VMware。您可以将相同的原则扩展到任何基于 NAS 或 SAN 的应用程序，以构建多层安全架构。攻击者被迫穿越多个强化层，大大降低了成功入侵的风险。</block>
+  <block id="3d34c5d9de6c955410102dba6c8b0aea" category="paragraph">ONTAP不仅仅保护数据，它还能帮助组织在不断演变的威胁面前保持弹性。</block>
+  <block id="132b65300596d507825f76163bf2b277" category="paragraph">有关创建策略的更多信息，请参阅<block ref="695cb491b30abab856511ceea1505b50" category="inline-link-rx"></block>。</block>
+  <block id="d779e42eb1d2fee28939550c92b53478" category="paragraph">更多信息请参阅<block ref="511f2ab11cb589d12b213b542f855e83" category="inline-link-rx"></block>。</block>
+  <block id="189916427814809982794ea5939a80f3" category="paragraph">更多信息请参阅<block ref="0c720c12013118b502b96e98e6abf1b0" category="inline-link-rx"></block>。</block>
+  <block id="685de1b5fd1febbd0ef335b1e3ae897f" category="summary">使用BlueXP disaster recovery即服务的 VCF 灾难恢复解决方案。</block>
+  <block id="2e8e53366cc60da59642986c0275e4b7" category="doc">使用NetApp SnapMirror和BlueXP DRaaS 实施灾难恢复</block>
+  <block id="a54d9cacf727b006b295744409f40460" category="paragraph">使用NetApp SnapMirror和BlueXP DRaaS 为 NFS 数据存储提供 VCF 灾难恢复解决方案</block>
+  <block id="a439e67c8ce27964f513519db10d268b" category="paragraph">从生产站点到灾难恢复 (DR) 站点的块级复制提供了一种有弹性且经济高效的策略，可保护工作负载免受站点中断和数据损坏事件（包括勒索软件攻击）的影响。  NetApp SnapMirror复制功能支持将在本地ONTAP系统上运行的 VMware VCF 9 工作负载域（使用 NFS 或 VMFS 数据存储区）复制到位于指定恢复数据中心的辅助ONTAP系统（该数据中心也部署了 VMware）。</block>
+  <block id="05bcb531c1c6268b11c5762047ea3301" category="paragraph">本节概述了BlueXP灾难恢复即服务 (DRaaS) 的配置，以便为本地 VMware 虚拟机建立 DR。</block>
+  <block id="6563cd568ec9b9f875fc4d4cdd80e89c" category="paragraph">设置包括：</block>
+  <block id="8369a53c713c5c0b06a25185894a17ae" category="list-text">创建BlueXP帐户并部署BlueXP连接器。</block>
+  <block id="65757d7e4f5a86706279895c6533e0ec" category="list-text">将ONTAP阵列添加到BlueXP画布以促进 VMware vCenter 和ONTAP存储之间的通信。</block>
+  <block id="ba34a9c21682f169ce6d3594389823aa" category="list-text">使用SnapMirror配置站点之间的复制。</block>
+  <block id="7fc99db783268403f2cdba0321f6b0e1" category="list-text">设置并测试恢复计划以验证故障转移准备情况。</block>
+  <block id="fb7d9ff8d129aeb2c4c42993b1998069" category="paragraph">BlueXP disaster recovery服务集成在NetApp BlueXP控制台中，使组织能够无缝发现其内部部署的 VMware vCenter 和ONTAP存储系统。一旦发现，管理员可以定义资源分组、创建灾难恢复计划、将其与适当的资源关联，以及启动或测试故障转移和故障回复操作。 NetApp SnapMirror提供高效的块级复制，确保 DR 站点通过增量更新与生产环境保持同步。这使得恢复点目标 (RPO) 可以低至五分钟。</block>
+  <block id="e53a89962d0e80109631f8c94d7aedb2" category="paragraph">BlueXP DRaaS 还支持无中断灾难恢复测试。利用 ONTAP 的FlexClone技术，它可以从最新复制的快照中创建节省空间的 NFS 数据存储临时副本，而不会影响生产工作负载或产生额外的存储成本。测试完成后，可以轻松拆除环境，同时保留复制数据的完整性。</block>
+  <block id="c5a5f9e332eca9bca437c33d373ee271" category="paragraph">如果发生实际故障转移， BlueXP会协调恢复过程，在最少的用户干预下自动在指定的 DR 站点启动受保护的虚拟机。当主站点恢复时，该服务会逆转SnapMirror关系并将任何更改复制回原始站点，从而实现平稳且可控的故障恢复。</block>
+  <block id="94178fda21699f04a70b95a31ace7f26" category="paragraph">与传统的灾难恢复解决方案相比，所有这些功能的成本都低得多。</block>
+  <block id="83ea24f8b567a8b933c032dd364d526f" category="image-alt">使用BlueXP 的DR 架构图</block>
+  <block id="78978a335e6b419d78d21d4d4076ccb3" category="image-alt">BlueXP DR 仪表板</block>
+  <block id="4956c99c21a74b19fae2d2438173cfce" category="inline-link-macro">先决条件</block>
+  <block id="64da60f17b16deb31e8dcd1f7248f46c" category="paragraph">在配置灾难恢复计划之前，请确保以下事项<block ref="43f3062c068f5633f490a53a9d88ce18" category="inline-link-macro-rx"></block>满足：</block>
+  <block id="4acfe2c8448a2135d2f4bb3e148dc3cc" category="list-text">BlueXP连接器实例与源和目标工作负载域 vCenter 和存储系统具有连接。</block>
+  <block id="4b6b5a841cc9435cf07fdc6f92895825" category="list-text">NetApp Data ONTAP集群提供存储 NFS 或 VMFS 数据存储区。</block>
+  <block id="a7243b997b264ea45ed13ccc8ebf26f4" category="list-text">BlueXP中添加了为 VMware 托管 NFS 或 VMFS 数据存储区的本地NetApp存储系统。</block>
+  <block id="ce228763c4babd08d818b8d76220b87a" category="list-text">SnapMirror复制是为指定的基于 NFS 或 VMFS 的数据存储库卷配置的。</block>
+  <block id="ebe64060e51cd87139a35dbc04caf68a" category="paragraph">注意： NetApp建议在目标站点或第三个站点部署BlueXP连接器，以便BlueXP连接器可以通过网络与源资源和目标资源进行通信。</block>
+  <block id="b268f22a00662c51454a5459aee24134" category="paragraph">在此演示中，工作负载域配置了ONTAP NFS 存储。对于基于 VMFS 的数据存储，工作流程方面的步骤保持不变。</block>
+  <block id="aaab77a21c47c132dde51f686472d002" category="image-alt">BlueXP详细的 DR 仪表板</block>
+  <block id="5146ef24dd797d9e5853771fb57166ee" category="paragraph">准备灾难恢复的第一步是发现并将源 vCenter 和存储资源添加到BlueXP disaster recovery。</block>
+  <block id="335ab2d1276096577ecdb80ba6b431cd" category="paragraph">打开BlueXP控制台并从左侧导航中选择保护 &gt; 灾难恢复。选择“发现 vCenter 服务器”或使用顶部菜单，选择“站点”&gt;“添加”&gt;“添加 vCenter”。</block>
+  <block id="228c750448be47f7ea0be2d3ff0d15a3" category="list-text">源工作负载域 vCenter</block>
+  <block id="bcc44c9882de9a6445ff88f1a82e044b" category="list-text">目标工作负载域 vCenter。</block>
+  <block id="81373ebe49d4addbf24ac144245f36b5" category="paragraph">SnapMirror在NetApp环境中提供数据复制。SnapMirror复制基于NetApp Snapshot® 技术构建，非常高效，因为它仅复制自上次更新以来已更改或添加的块。可以使用NetApp OnCommand® System Manager 或ONTAP CLI 轻松配置SnapMirror 。如果预先配置了集群和 SVM 对等连接， BlueXP DRaaS 还会创建SnapMirror关系。</block>
+  <block id="f502409b8b55290002d65e7476e5474e" category="paragraph">对于任何给定的应用程序，创建SnapMirror复制的过程都是相同的。该过程可以是手动的，也可以是自动的。最简单的方法是利用BlueXP DRaaS，只要满足以下两个条件，它就能自动执行相同的操作：</block>
+  <block id="e1311eab6b11c95b9c6f715a38682def" category="image-alt">BlueXP资源映射</block>
+  <block id="b6821c1393464c74f005351b80591283" category="paragraph">BlueXP还提供了另一种配置SnapMirror复制的选项，即通过简单地将环境中的源ONTAP系统拖放到目标上来触发指导其余过程的向导。</block>
+  <block id="f0c9d020f18c97999f1be9ae88c59e7a" category="image-alt">BlueXP网站</block>
+  <block id="6163aaf5a56f28426786ce6f432346d1" category="paragraph">添加站点后，通过从下拉菜单中选择源和目标 vCenter 平台来配置复制计划，并选择要包含在计划中的资源组，以及应用程序如何恢复和启动的分组以及集群和网络的映射。要定义恢复计划，请导航到“*复制计划*”选项卡并单击“*添加计划*”。</block>
+  <block id="71d437769c5630ab94ae948347bfffbb" category="paragraph">在此步骤中，可以将虚拟机分组到资源组中。BlueXP disaster recovery资源组允许您将一组依赖的虚拟机分组为逻辑组，这些逻辑组包含可在恢复时执行的启动顺序和启动延迟。还可以使用资源组选项卡创建资源组。</block>
+  <block id="e8a5f0433d41933ee41899a998a90199" category="image-alt">BlueXP目标 vCenter</block>
+  <block id="afbe097c9b2d81cad33edb97957fe7a5" category="image-alt">BlueXP选择要保护的虚拟机</block>
+  <block id="51f0581117595e5778ac02df28a76e60" category="paragraph">一旦通过复制计划创建了资源组，下一步就是选择蓝图或映射，以便在发生灾难时恢复虚拟机和应用程序。在此步骤中，指定源环境中的资源如何映射到目标。这包括计算资源、虚拟网络、IP 定制、前脚本和后脚本、启动延迟、应用程序一致性等。有关详细信息，请参阅<block ref="0551135cf5aaba9b8581b0c6659fa233" category="inline-link-macro-rx"></block>。如先决条件中所述，可以预先配置SnapMirror复制，或者 DRaaS 可以使用在创建复制计划期间指定的 RPO 和保留计数来配置它。</block>
+  <block id="69a6df8f3fd61a3bdf57d28566358ff4" category="paragraph">注意：默认情况下，测试和故障转移操作使用相同的映射参数。要为测试环境设置不同的映射，请取消选中“对故障转移和测试映射使用相同的映射”复选框，然后选择测试映射选项。资源映射完成后，单击下一步。</block>
+  <block id="baf1898c31dd8d51792d3ed2bceba990" category="image-alt">BlueXP资源映射审查</block>
+  <block id="93b065f2f65af6c4a4d9661118cfaf2e" category="image-alt">BlueXP replication计划</block>
+  <block id="ec4b3bef838cbc32a310fcca9eee9050" category="paragraph">一旦创建计划，就会触发一系列验证，并根据选择配置SnapMirror复制和计划。</block>
+  <block id="7562c7c7f9aeb5cf8d5ec66b0fdca390" category="image-alt">BlueXP作业监控</block>
+  <block id="853e25384460380ef20e4b2bdc06a729" category="list-text">故障转移：</block>
+  <block id="cc0e5cb89bbfa26d20514e85a4ca441c" category="list-text">计划迁移（扩展一次性故障转移的用例）</block>
+  <block id="645a84975202e30700b572b49a5ee29d" category="list-text">灾难恢复</block>
+  <block id="969a30eafbcde6c024a88345c6ad63ab" category="image-alt">BlueXP replication计划操作</block>
+  <block id="93316dde03bae4abb6395f6b037ba655" category="image-alt">BlueXP replication计划测试故障转移</block>
+  <block id="3a3057b3e24d2fc8e2d8bd696064dba8" category="paragraph">BlueXP DRaaS 结合了在测试故障转移操作中选择快照作为可选功能的能力。此功能允许 VMware 管理员验证环境中最近所做的任何更改是否都复制到目标站点，从而在测试期间出现。这些变化包括对 VM 客户操作系统的补丁。</block>
+  <block id="e4a4f426d21422fe81b4e4a5b27615dc" category="image-alt">BlueXP replication计划测试故障转移确认</block>
+  <block id="cb3ace821dc433542b7cc9453e3477b4" category="list-text">将FlexClone卷中的数据存储库连接到 DR 站点的 ESXi 主机。</block>
+  <block id="1dc2f6ac8699bac692536c3f4ba28f80" category="image-alt">BlueXP replication计划测试故障转移结果</block>
+  <block id="1f8633e0c64356119221489c3941cf81" category="image-alt">BlueXP replication计划测试故障转移清理</block>
+  <block id="039bbae296c52025a3ad059f22b005cc" category="paragraph">此操作将虚拟机 (VM) 和复制计划的状态重置为就绪状态。当 VMware 管理员执行恢复操作时， BlueXP DRaaS 完成以下过程：</block>
+  <block id="3f1d4ee3be50d21d97c65aab69f9be3a" category="paragraph">BlueXP DRaaS 有两种执行实际故障转移的方法：计划迁移和故障转移。第一种方法，计划迁移，将虚拟机关闭和存储复制同步纳入到恢复或有效地将虚拟机移动到目标站点的过程中。计划迁移需要访问源站点。第二种方法，故障转移，是计划内/非计划内故障转移，其中虚拟机从上次能够完成的存储复制间隔在目标站点恢复。根据解决方案中设计的 RPO，在 DR 场景中可能会出现一定量的数据丢失。</block>
+  <block id="e94fdcbce4e3825dd7430ece318c6cca" category="image-alt">BlueXP replication计划故障转移操作</block>
+  <block id="7b70054f1f983bd656a16ef760ec4321" category="image-alt">BlueXP replication计划故障转移操作确认</block>
+  <block id="aecad18034e2b37ca2030a74851fe32a" category="list-text">将复制的数据存储连接到 DR 站点的 ESXi 主机。</block>
+  <block id="4272bf272949264b76f22057fa137ac4" category="image-alt">vSphere Client - 虚拟机已启动</block>
+  <block id="f01e3fc714d302a6ffa7d964513d342e" category="image-alt">BlueXP replication计划故障回复操作</block>
+  <block id="d87a4300f407284b0912a165886de5fc" category="admonition">BlueXP DRaaS 在反转复制方向之前将任何更改复制（重新同步）回原始源虚拟机。</block>
+  <block id="14bb06241e751d1b1e1dedd9ed2f6a4d" category="paragraph">此过程从已完成故障转移到目标的关系开始，并涉及以下步骤：</block>
+  <block id="6ae3e271f550c3fce810826088425fd8" category="image-alt">vSphere Client - 最近任务</block>
+  <block id="acfa73f1b952bfe92ec9bac5f5caa209" category="image-alt">BlueXP更新了 dr deashboard</block>
+  <block id="c519205f1dc88fc2d705a6e422f76905" category="list-text">在 vSphere 环境中拥有额外的集群，并使用 VCF 棕地导入工具将 vSphere 环境转换为管理域。<block ref="300b49f790d84608b878c7aff7ab36d6" category="inline-link-rx"></block><block ref="aa58dd097d7fe62340ef394295d83ed9" category="inline-link-rx"></block>可用于将 VMFS 数据存储部署到 vSphere 集群。</block>
+  <block id="a536861a2327f9178c498d7f4e0efae3" category="list-text">在 vSphere 环境中拥有额外的集群，并使用 VCF 棕地导入工具将 vSphere 环境转换为管理域。<block ref="300b49f790d84608b878c7aff7ab36d6" category="inline-link-rx"></block><block ref="aa58dd097d7fe62340ef394295d83ed9" category="inline-link-rx"></block>可用于将 NFS 数据存储部署到 vSphere 集群。</block>
+  <block id="0bc691b5c74c04aa4cff00c74e7d0a8d" category="list-text"><block ref="0bc691b5c74c04aa4cff00c74e7d0a8d" category="inline-link-macro-rx"></block></block>
+  <block id="bfe2be578bf20ab67df18e900b2647ca" category="inline-link-macro">使用SnapCenter保护工作负载</block>
+  <block id="4c9a688c7220686d694c2f6b357edc34" category="paragraph">在ONTAP 9.10.1 及更高版本中， NetApp AFF和ASA支持 NVMe over TCP。位于AFF或ASA主系统上并可复制到ONTAP AFF或ASA辅助系统的数据。SCV 还与SnapCenter Server 配合使用，支持 VMware 环境中针对SnapCenter应用程序特定插件的基于应用程序的备份和恢复操作。欲了解更多信息，请查看<block ref="d1ce1c1059b8df281300d28c6a9c8880" category="inline-link-macro-rx"></block>和<block ref="20cfa131d20d85bda5383c988a8476d5" category="inline-link-macro-rx"></block></block>
+  <block id="d9aa22149126bd2eaf83f593b7825c52" category="list-text"><block ref="d9aa22149126bd2eaf83f593b7825c52" category="inline-link-macro-rx"></block></block>
+  <block id="38dded78f1859f83d2f47ce2370989b6" category="list-text"><block ref="38dded78f1859f83d2f47ce2370989b6" category="inline-link-macro-rx"></block></block>
+  <block id="262ae59e780a864bddf62eb6f92a17c3" category="list-text">链接： https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere-10/configure/create-datastore.htmlProvision在 FC 上配置 VMFS]</block>
+  <block id="96cd1167c005796cd954dad9414a60d7" category="paragraph">管理域上的附加 vSphere 集群可以通过以下选项进行部署：* 在 vSphere 环境中拥有附加集群，并使用 VCF 棕地导入工具将 vSphere 环境转换为管理域。<block ref="300b49f790d84608b878c7aff7ab36d6" category="inline-link-rx"></block> ，<block ref="aa58dd097d7fe62340ef394295d83ed9" category="inline-link-rx"></block>可用于将 VMFS 数据存储部署到 vSphere 集群。* 使用 SDDC API 部署额外的集群。vSphere 主机应该配置 VMFS 数据存储。使用<block ref="aa58dd097d7fe62340ef394295d83ed9" category="inline-link-rx"></block>将 LUN 部署到 vSphere 主机。* 使用 SDDC Manager UI 部署额外的集群。但此选项仅创建 VSAN 数据存储至 5.2.x 版本。</block>
+  <block id="64c31548b1415860799f2bbdde2e3718" category="list-text">更新主机数据以与ONTAP工具同步，然后<block ref="1cd1dee5fe18a7a1a30d8f0a12f8689b" category="inline-link-macro-rx"></block>。<block ref="714ffd1587d09936c6fa7c46db223c77" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="2c08477667aca91b28ded4080347816e" category="sidebar">针对 NFS 和 VMFS 的勒索软件防护</block>
+  <block id="90334da6700cfe14e0c9acaf46941f69" category="sidebar">采用ONTAP 的VCF 9 设计选项</block>
+  <block id="e259ef393201a8984594fdd1c6f93d51" category="sidebar">使用ONTAP部署 VCF 9</block>
+  <block id="0eec06466a06793fe3f003b743729087" category="sidebar">带有BlueXP 的VCF 9 DR</block>
 </blocks>

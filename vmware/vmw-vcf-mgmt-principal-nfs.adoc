@@ -65,7 +65,7 @@ NOTE: 该解决方案适用于支持NFS存储的ONTAP平台，包括NetApp AFF�
 
 管理域上的附加 vSphere 集群可以通过以下选项进行部署：
 
-* 在 vSphere 环境中拥有额外的集群，并使用 VCF 棕地导入工具将 vSphere 环境转换为管理域。 https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere-10/configure/create-vvols-datastore.html["适用于 VMware vSphere 的 ONTAP 工具"] https://docs.netapp.com/us-en/ontap/san-admin/provision-storage.html["系统管理器或ONTAP API"]可用于将 NFS 数据存储部署到 vSphere 集群。
+* 在 vSphere 环境中拥有额外的集群，并使用 VCF 棕地导入工具将 vSphere 环境转换为管理域。 https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere-10/configure/create-datastore.html["适用于 VMware vSphere 的 ONTAP 工具"] https://docs.netapp.com/us-en/ontap/san-admin/provision-storage.html["系统管理器或ONTAP API"]可用于将 NFS 数据存储部署到 vSphere 集群。
 * 使用 SDDC API 部署额外的集群。 vSphere 主机应该配置 NFS 数据存储。使用 https://docs.netapp.com/us-en/ontap/san-admin/provision-storage.html["系统管理器或ONTAP API"]将 LUN 部署到 vSphere 主机。
 * 使用 SDDC Manager UI 部署额外的集群。但此选项仅创建 5.2.x 之前版本的 vSAN 数据存储。
 
