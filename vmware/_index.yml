@@ -10,10 +10,6 @@ indexpage:
       url: vmw-getting-started-overview.html
     - title: 关于适用于 VMware 的NetApp平台
       url: vmw-getting-started-ntap-options.html
-    - title: 采用ONTAP 的VCF 9 设计选项
-      url: vmw-vcf-design.html
-    - title: 使用ONTAP部署 VCF 9
-      url: vmw-vcf-deployment.html
     - title: 博客
       url: "../blogs.html"
     - title: 视频
@@ -22,6 +18,10 @@ indexpage:
     links:
     - title: 关于 VMware Cloud Foundation 和ONTAP
       url: vmw-vcf-overview.html
+    - title: 采用ONTAP 的VCF 9 设计选项
+      url: vmw-vcf-design.html
+    - title: 使用ONTAP部署 VCF 9
+      url: vmw-vcf-deployment.html
     - title: 使用SnapCenter保护 VCF 工作负载
       url: vmw-vcf-protect-sc.html
     - title: 使用BlueXP保护 VMware 数据存储
