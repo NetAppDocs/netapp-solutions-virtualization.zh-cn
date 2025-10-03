@@ -1,0 +1,49 @@
+---
+sidebar: sidebar 
+permalink: vmware/vmw-vcf-viwld-supp-iscsi-vvols-requirements.html 
+keywords: netapp, vmware, cloud, foundation, vcf, aff, all-flash, nfs, vvol, vvols, array, ontap tools, otv, sddc, iscsi 
+summary: 要在 VMware Cloud Foundation VI 工作负载域中部署 iSCSI vVols ，您需要一个完全配置的ONTAP AFF或ASA存储系统、一个完整的 VCF 管理域和一个现有的 VI 工作负载域。审查推荐的网络设计和基础设施要求，以确保可靠、高性能的存储集成。 
+---
+= VI 工作负载域中 iSCSI vVols的部署要求
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+查看在 VMware Cloud Foundation VI 工作负载域中部署 iSCSI vVols 的建议网络设计和基础架构要求。您需要一个完全配置的ONTAP AFF或ASA存储系统、一个完整的 VCF 管理域和一个现有的 VI 工作负载域。
+
+
+
+== 基础设施要求
+
+确保以下组件和配置已到位。
+
+* ONTAP AFF或ASA存储系统，其以太网交换机上的物理数据端口专用于存储流量。
+* VCF管理域部署完成，可以访问vSphere客户端。
+* 之前已部署 VI 工作负载域。
+
+
+
+
+== 推荐的 iSCSI 网络设计
+
+您应该为 iSCSI 配置完全冗余的网络设计。下图说明了冗余配置的示例。它为存储系统、交换机、网络适配器和主机系统提供容错功能。有关更多信息，请参阅NetApplink:https://docs.netapp.com/us-en/ontap/san-config/index.html["SAN 配置参考"^] 。
+
+image:vmware-vcf-asa-074.png["NVMe-tcp网络设计"]
+
+{nbsp}
+
+对于跨多路径的多路径和故障转移，请在单独的以太网网络中为 iSCSI 配置中的所有 SVM 每个存储节点创建至少两个 LIF。
+
+
+NOTE: 在同一 IP 网络上配置多个 VMkernel 适配器的情况下，请在 ESXi 主机上使用软件 iSCSI 端口绑定，以确保跨适配器实现负载平衡。请参阅知识库文章link:https://knowledge.broadcom.com/external/article?legacyId=2038869["在 ESX/ESXi 中使用软件 iSCSI 端口绑定的注意事项"^]。
+
+
+
+== 下一步是什么？
+
+在审查了部署要求之后，link:vmw-vcf-viwld-supp-iscsi-vvols-svm-lifs.html["创建 SVM 和 LIF"] 。

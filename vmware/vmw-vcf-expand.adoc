@@ -2,7 +2,7 @@
 sidebar: sidebar 
 permalink: vmware/vmw-vcf-expand.html 
 keywords: vmware, vcf, expand, supplemental, storage 
-summary:  
+summary: 'VMware Cloud Foundation (VCF) 支持多种补充存储选项，以扩展 VCF 管理域和虚拟基础架构 (VI) 工作负载域上的存储。' 
 ---
 = 了解如何使用补充存储扩展 VCF 环境的存储
 :hardbreaks:
@@ -16,9 +16,68 @@ summary:
 [role="lead"]
 VMware Cloud Foundation (VCF) 支持多种补充存储选项，以扩展 VCF 管理域和虚拟基础架构 (VI) 工作负载域上的存储。
 
-NetApp 的ONTAP Tools for VMware vSphere 通过将NetApp存储无缝集成到 VCF 环境中，为这种扩展提供了有效的解决方案。  ONTAP工具简化了数据存储库的设置和管理，允许管理员直接从 vSphere Client 配置和管理存储。  ONTAP 的快照、克隆和数据保护等高级功能，可增强 VCF 环境内的存储性能、效率和可扩展性。
+NetApp 的ONTAP tools for VMware vSphere通过将NetApp存储无缝集成到 VCF 环境中，为这种扩展提供了有效的解决方案。
 
-有关扩展 VCF 环境的技术细节，请参考以下解决方案。
+ONTAP工具简化了数据存储区的设置和管理，允许管理员直接从 vSphere Client 配置和管理存储。  ONTAP 的高级功能（例如快照、克隆和数据保护）可增强 VCF 环境内的存储性能、效率和可扩展性。
+
+
+
+== 扩展存储支持的协议
+
+VCF 环境可以使用多种存储协议进行扩展，每种协议都提供独特的优势和用例。
+
+您可以使用以下协议扩展 VCF 管理域和 VI 工作负载域中的存储。选择最适合您环境的选项，将补充存储无缝集成到您的 VCF 部署中。
+
+.iSCSI
+使用标准以太网网络的基于块的协议。非常适合需要高性能、灵活性和经济高效扩展的环境。
+
+iSCSI 广泛用于 VMFS 数据存储，并支持高级ONTAP功能，例如快照和克隆。
+
+* *高性能：*提供高性能，以实现快速、高效的数据传输速率和低延迟。非常适合要求严格的企业应用程序和虚拟化环境。
+* *易于管理：*通过使用熟悉的基于 IP 的工具和协议简化存储管理。
+* *成本效益：*使用现有的以太网基础设施，减少对专用硬件的需求，并允许组织实现可靠且可扩展的存储解决方案。
+
+
+有关将 iSCSI 与NetApp存储系统结合使用的更多信息，请参阅 https://docs.netapp.com/us-en/ontap/san-admin/san-host-provisioning-concept.html["使用 iSCSI 进行 SAN 配置"]。
+
+.Fibre Channel（光纤通道）(FC)
+使用专用 FC 网络的高速、低延迟协议。对于需要可靠性、专用带宽和强大纠错能力的关键任务工作负载来说，FC 是首选。它通常用于企业环境中的 VMFS 数据存储。
+
+* *高性能：* FC 提供高速数据传输速率，使其成为需要快速可靠地访问大量数据的应用程序的理想选择。
+* *低延迟*：非常低的延迟，这对于数据库和虚拟化环境等性能敏感的应用程序至关重要。
+* *可靠性：*FC 网络以其稳健性和可靠性而闻名，具有内置冗余和纠错等功能。
+* *专用带宽：* FC 为存储流量提供专用带宽，降低网络拥塞的风险。
+
+
+有关使用光纤通道与NetApp存储系统的更多信息，请参阅 https://docs.netapp.com/us-en/ontap/san-admin/san-provisioning-fc-concept.html["使用 FC 进行 SAN 配置"]。
+
+.NFS（网络文件系统）
+基于文件的协议，可轻松实现跨主机的文件共享和管理。  NFS 设置简单且扩展高效，适用于需要灵活文件访问的虚拟化工作负载和环境。
+
+ONTAP和 vSphere 支持用于管理域和工作负载域的 NFS 数据存储库。
+
+* *简单易用：*NFS 设置和管理简单，使其成为需要快速简便的文件共享环境的绝佳选择。
+* *可扩展性*：ONTAP 的架构允许 NFS 有效扩展，从而无需对基础架构进行重大更改即可支持不断增长的数据需求。
+* *灵活性*：NFS 支持广泛的应用程序和工作负载，使其适用于各种用例，包括虚拟化环境。
+
+
+欲了解更多信息，请参阅link:vmw-vvf-overview.html["适用于 vSphere 8 的 NFS v3 参考指南"] 。
+
+.NVMe/TCP
+使用 TCP/IP 通过标准以太网网络提供高性能和低延迟的现代协议。  NVMe/TCP 非常适合要求苛刻的应用程序和大规模数据操作，无需专门的硬件即可提供可扩展性和成本效率。
+
+* *高性能：*以低延迟和高数据传输速率提供卓越的性能。这对于要求苛刻的应用程序和大规模数据操作至关重要。
+* *可扩展性：*支持可扩展配置，允许 IT 管理员随着数据需求的增长无缝扩展其基础设施。
+* *成本效益：*在标准以太网交换机上运行并封装在 TCP 数据报内。无需特殊设备即可实施。
+
+
+有关 NVMe 优势的更多信息，请参阅 https://www.netapp.com/data-storage/nvme/what-is-nvme/["什么是 NVME？"]。
+
+
+
+== 添加补充存储的用例
+
+以下用例演示了如何使用不同的协议和配置向 VCF 管理域和虚拟基础设施 (VI) 工作负载域添加补充存储。
 
 * link:vmw-vcf-mgmt-supplemental-iscsi.html["具有 iSCSI 的管理域"]
 * link:vmw-vcf-mgmt-supplemental-fc.html["带 FC 的管理域"]

@@ -1,0 +1,48 @@
+= 
+:allow-uri-read: 
+
+
+. 从 vSphere 客户端导航到工作负载域清单中的其中一个 ESXi 主机。从*配置*选项卡中选择*VMkernel 适配器*，然后单击*添加网络...*开始。
++
+image:vmware-vcf-asa-030.png["启动添加网络向导"]
+
++
+{nbsp}
+
+. 在*选择连接类型*窗口中选择*VMkernel 网络适配器*，然后单击*下一步*继续。
++
+image:vmware-vcf-asa-008.png["选择 VMkernel 网络适配器"]
+
++
+{nbsp}
+
+. 在“选择目标设备”页面上，选择之前创建的 iSCSI 分布式端口组之一。
++
+image:vmware-vcf-asa-031.png["选择目标端口组"]
+
++
+{nbsp}
+
+. 在*端口属性*页面上，保留默认设置并单击*下一步*继续。
++
+image:vmware-vcf-asa-032.png["VMkernel 端口属性"]
+
++
+{nbsp}
+
+. 在 *IPv4 设置* 页面上，填写 *IP 地址*、*子网掩码*，并提供新的网关 IP 地址（仅在需要时）。单击“*下一步*”继续。
++
+image:vmware-vcf-asa-033.png["VMkernel IPv4 设置"]
+
++
+{nbsp}
+
+. 在“准备完成”页面上检查您的选择，然后单击“完成”以创建 VMkernel 适配器。
++
+image:vmware-vcf-asa-034.png["检查 VMkernel 选择"]
+
++
+{nbsp}
+
+. 重复此过程为第二个 iSCSI 网络创建 VMkernel 适配器。
+

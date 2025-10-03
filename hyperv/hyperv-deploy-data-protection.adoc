@@ -109,7 +109,7 @@ image:hyperv-deploy-014.png["该图显示了要保护的虚拟机的选择"]
 . 单击“Save”。
 
 
-有关配置阵列的详细步骤，请参阅link:https://documentation.commvault.com/2023e/essential/guided_setup_for_hyper_v.html["添加虚拟机管理程序"]。
+有关配置阵列的详细步骤，请参阅link:https://documentation.commvault.com/2023e/software/guided_setup_for_hyper_v.html["HyperV 的引导设置"]。
 
 *执行备份：*
 
@@ -145,7 +145,7 @@ image:hyperv-deploy-018.png["显示恢复选项的图像"]
 
 
 
-有关所有受支持的还原选项的详细步骤，请参阅link:https://documentation.commvault.com/2023e/essential/restores_for_hyper_v.html["Hyper-V 还原"]。
+有关所有受支持的还原选项的详细步骤，请参阅link:https://documentation.commvault.com/2023e/software/restores_for_hyper_v.html["Hyper-V 还原"]。
 
 
 

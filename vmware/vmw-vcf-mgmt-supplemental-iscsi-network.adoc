@@ -1,0 +1,115 @@
+---
+sidebar: sidebar 
+permalink: vmware/vmw-vcf-mgmt-supplemental-iscsi-network.html 
+keywords: netapp, vmware, cloud, foundation, vcf, iscsi, network, esxi 
+summary: 在 VMware Cloud Foundation 管理域中的 ESXi 主机上配置 iSCSI 网络以实现与ONTAP存储系统的连接。您将创建具有 VLAN 分离的分布式端口组，配置上行链路组合以实现冗余，并在每个 ESXi 主机上设置 VMkernel 适配器以建立专用的 iSCSI 路径来实现故障转移功能。 
+---
+= 在 VCF 管理域中为 ESXi 主机配置 iSCSI 网络
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+在 VMware Cloud Foundation 管理域中的 ESXi 主机上配置 iSCSI 网络以实现与ONTAP存储系统的连接。您将创建具有 VLAN 分离的分布式端口组，配置上行链路组合以实现冗余，并在每个 ESXi 主机上设置 VMkernel 适配器以建立专用的 iSCSI 路径来实现故障转移功能。
+
+使用 vSphere 客户端在 VCF 管理域集群上执行以下步骤。
+
+
+
+== 步骤 1：为 iSCSI 流量创建分布式端口组
+
+完成以下步骤为每个 iSCSI 网络创建一个新的分布式端口组：
+
+.步骤
+. 从 vSphere 客户端，导航到工作负载域的 *Inventory > Networking*。导航到现有的分布式交换机并选择创建*新分布式端口组...*的操作。
++
+image:vmware-vcf-asa-022.png["选择创建新的端口组"]
+
++
+{nbsp}
+
+. 在“新建分布式端口组”向导中，填写新端口组的名称，然后单击“下一步”继续。
+. 在*配置设置*页面上，填写所有设置。如果正在使用 VLAN，请确保提供正确的 VLAN ID。单击“*下一步*”继续。
++
+image:vmware-vcf-asa-023.png["填写VLAN ID"]
+
++
+{nbsp}
+
+. 在*准备完成*页面上，检查更改并单击*完成*以创建新的分布式端口组。
+. 重复此过程为正在使用的第二个 iSCSI 网络创建分布式端口组，并确保输入了正确的 *VLAN ID*。
+. 创建两个端口组后，导航到第一个端口组并选择操作*编辑设置...*。
++
+image:vmware-vcf-asa-024.png["DPG——编辑设置"]
+
++
+{nbsp}
+
+. 在*分布式端口组 - 编辑设置*页面上，导航到左侧菜单中的*组合和故障转移*，然后单击*上行链路2*将其下移至*未使用的上行链路*。
++
+image:vmware-vcf-asa-025.png["将上行链路 2 移至未使用状态"]
+
+. 对第二个 iSCSI 端口组重复此步骤。但是，这次将 *uplink1* 下移至 *Unused uplinks*。
++
+image:vmware-vcf-asa-026.png["将上行链路 1 移至未使用状态"]
+
+
+
+
+
+== 步骤 2：在每个 ESXi 主机上创建 VMkernel 适配器
+
+在管理域中的每个 ESXi 主机上创建 VMkernel 适配器。
+
+.步骤
+. 从 vSphere 客户端导航到工作负载域清单中的其中一个 ESXi 主机。从*配置*选项卡中选择*VMkernel 适配器*，然后单击*添加网络...*开始。
++
+image:vmware-vcf-asa-030.png["启动添加网络向导"]
+
++
+{nbsp}
+
+. 在*选择连接类型*窗口中选择*VMkernel 网络适配器*，然后单击*下一步*继续。
++
+image:vmware-vcf-asa-008.png["选择 VMkernel 网络适配器"]
+
++
+{nbsp}
+
+. 在“选择目标设备”页面上，选择之前创建的 iSCSI 分布式端口组之一。
++
+image:vmware-vcf-asa-031.png["选择目标端口组"]
+
++
+{nbsp}
+
+. 在*端口属性*页面上，保留默认设置并单击*下一步*继续。
++
+image:vmware-vcf-asa-032.png["VMkernel 端口属性"]
+
++
+{nbsp}
+
+. 在 *IPv4 设置* 页面上，填写 *IP 地址*、*子网掩码*，并提供新的网关 IP 地址（仅在需要时）。单击“*下一步*”继续。
++
+image:vmware-vcf-asa-033.png["VMkernel IPv4 设置"]
+
++
+{nbsp}
+
+. 在“准备完成”页面上检查您的选择，然后单击“完成”以创建 VMkernel 适配器。
++
+image:vmware-vcf-asa-034.png["检查 VMkernel 选择"]
+
++
+{nbsp}
+
+. 重复此过程为第二个 iSCSI 网络创建 VMkernel 适配器。
+
+
+
+
+== 下一步是什么？
+
+在工作负载域中的所有 ESXi 主机上配置 iSCSI 网络后，link:vmw-vcf-mgmt-supplemental-iscsi-storage.html["在 ESXi 主机上配置 iSCSI 存储"] 。

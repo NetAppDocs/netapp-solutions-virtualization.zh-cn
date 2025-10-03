@@ -1,0 +1,49 @@
+---
+sidebar: sidebar 
+permalink: vmware/vmw-vcf-viwld-supp-nfs-vvols-requirements.html 
+keywords: netapp, vmware, cloud, foundation, vcf, aff, all-flash, nfs, vvol, vvols, array, ontap tools, otv, sddc 
+summary: 要在 VMware Cloud Foundation VI 工作负载域中部署 NFS vVols ，您需要一个完全配置的ONTAP AFF或ASA存储系统、一个完整的 VCF 管理域和一个现有的 VI 工作负载域。审查推荐的网络设计和基础设施要求，以确保可靠、高性能的存储集成。 
+---
+= 在 VI 工作负载域中添加 NFS vVols 的部署要求
+:allow-uri-read: 
+
+
+[role="lead"]
+查看在 VMware Cloud Foundation VI 工作负载域中部署 NFS vVols 的推荐网络设计和基础架构要求。您需要一个完全配置的ONTAP AFF或ASA存储系统、一个完整的 VCF 管理域和一个现有的 VI 工作负载域。
+
+
+
+== 基础设施要求
+
+确保以下组件和配置已到位。
+
+* ONTAP AFF或FAS存储系统，其以太网交换机上的物理数据端口专用于存储流量。
+* VCF管理域部署已完成，并且可以访问vSphere客户端。
+* 之前已部署 VI 工作负载域。
+
+
+
+
+== 推荐的 NFS 网络设计
+
+为 NFS 配置冗余网络设计，为存储系统、交换机、网络适配器和主机系统提供容错功能。根据架构要求，通常使用单个子网或多个子网部署 NFS。
+
+{nbsp}image:vmware-vcf-aff-070.png["NFS架构图"] {nbsp}
+
+
+
+== 追加信息
+
+* 有关 VMware vSphere 的详细信息，请参阅 https://www.vmware.com/docs/vmw-best-practices-running-nfs-vmware-vsphere["使用 VMware vSphere 运行 NFS 的最佳实践"]。
+* 有关使用ONTAP与 VMware vSphere 的网络指导，请参阅 https://docs.netapp.com/us-en/ontap-apps-dbs/vmware/vmware-vsphere-network.html#nfs["网络配置 - NFS"]NetApp企业应用程序文档的部分。
++
+本文档演示了创建新 SVM 和指定 IP 地址信息以创建用于 NFS 流量的多个 LIF 的过程。要将新的 LIF 添加到现有 SVM，请参阅link:https://docs.netapp.com/us-en/ontap/networking/create_a_lif.html["创建 LIF（网络接口）"]。
+
+* 有关在 vSphere 群集中使用 NFS 的完整信息，请参阅link:vmw-vvf-overview.html["适用于 vSphere 8 的 NFS v3 参考指南"]。
+
+
+
+
+== 下一步是什么？
+
+在审查了要求之后，link:vmw-vcf-viwld-supp-nfs-vvols-svm-lifs.html["创建 SVM 和 LIF"] 。

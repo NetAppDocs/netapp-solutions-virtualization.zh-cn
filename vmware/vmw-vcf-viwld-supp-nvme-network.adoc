@@ -1,0 +1,173 @@
+---
+sidebar: sidebar 
+permalink: vmware/vmw-vcf-viwld-supp-nvme-network.html 
+keywords: netapp, vmware, cloud, foundation, vcf, aff, all-flash, nfs, vvol, vvols, array, ontap tools, otv, sddc, iscsi 
+summary: '在 VI 工作负载域中的 ESXi 主机上配置 NVMe over TCP (NVMe/TCP) 存储的网络。您将为 NVMe 流量创建分布式端口组，在每个 ESXi 主机上设置 VMkernel 适配器，并添加 NVMe/TCP 适配器以实现可靠的连接和多路径。' 
+---
+= 在 VCF VI 工作负载域中的 ESXi 主机上配置 NVMe/TCP 网络
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+在 VI 工作负载域中的 ESXi 主机上配置 NVMe over TCP (NVMe/TCP) 存储的网络。您将为 NVMe 流量创建分布式端口组，在每个 ESXi 主机上设置 VMkernel 适配器，并添加 NVMe/TCP 适配器以实现可靠的连接和多路径。
+
+使用 vSphere 客户端在 VI 工作负载域集群上执行以下步骤。在这种情况下，使用 vCenter Single Sign-On，因此 vSphere 客户端对于管理域和工作负载域都是通用的。
+
+
+
+== 步骤 1：为 NVME/TCP 流量创建分布式端口组
+
+完成以下步骤为每个 NVMe/TCP 网络创建一个新的分布式端口组。
+
+.步骤
+. 从 vSphere 客户端，导航到工作负载域的 *Inventory > Networking*。导航到现有的分布式交换机并选择创建*新分布式端口组...*的操作。
++
+image:vmware-vcf-asa-022.png["选择创建新的端口组"]
+
++
+{nbsp}
+
+. 在“新建分布式端口组”向导中，填写新端口组的名称，然后单击“下一步”继续。
+. 在*配置设置*页面上，填写所有设置。如果正在使用 VLAN，请确保提供正确的 VLAN ID。单击“*下一步*”继续。
++
+image:vmware-vcf-asa-023.png["填写VLAN ID"]
+
++
+{nbsp}
+
+. 在*准备完成*页面上，检查更改并单击*完成*以创建新的分布式端口组。
+. 重复此过程为正在使用的第二个 NVMe/TCP 网络创建分布式端口组，并确保输入了正确的 *VLAN ID*。
+. 当两个端口组都已创建时，导航到第一个端口组并选择操作*编辑设置...*。
++
+image:vmware-vcf-asa-077.png["DPG——编辑设置"]
+
++
+{nbsp}
+
+. 在 *分布式端口组 - 编辑设置* 页面上，导航到左侧菜单中的 *组合和故障转移*，然后单击 *上行链路 2* 将其下移至 *未使用的上行链路*。
++
+image:vmware-vcf-asa-078.png["将上行链路 2 移至未使用状态"]
+
+. 对第二个 NVMe/TCP 端口组重复此步骤。这次，将 *uplink1* 向下移动到 *Unused uplinks*。
++
+image:vmware-vcf-asa-079.png["将上行链路 1 移至未使用状态"]
+
+
+
+
+
+== 步骤 2：在每个 ESXi 主机上创建 VMkernel 适配器
+
+在工作负载域中的每个 ESXi 主机上创建 VMkernel 适配器。
+
+.步骤
+. 从 vSphere 客户端导航到工作负载域清单中的其中一个 ESXi 主机。从*配置*选项卡中选择*VMkernel 适配器*，然后单击*添加网络...*开始。
++
+image:vmware-vcf-asa-030.png["启动添加网络向导"]
+
++
+{nbsp}
+
+. 在*选择连接类型*窗口中，选择*VMkernel 网络适配器*，然后单击*下一步*继续。
++
+image:vmware-vcf-asa-008.png["选择 VMkernel 网络适配器"]
+
++
+{nbsp}
+
+. 在“选择目标设备”页面上，选择之前创建的 iSCSI 分布式端口组之一。
++
+image:vmware-vcf-asa-095.png["选择目标端口组"]
+
++
+{nbsp}
+
+. 在*端口属性*页面上，单击*NVMe/TCP*的框，然后单击*下一步*继续。
++
+image:vmware-vcf-asa-096.png["VMkernel 端口属性"]
+
++
+{nbsp}
+
+. 在 *IPv4 设置* 页面上，填写 *IP 地址* 和 *子网掩码*，并提供新的网关 IP 地址（仅在需要时）。单击“*下一步*”继续。
++
+image:vmware-vcf-asa-097.png["VMkernel IPv4 设置"]
+
++
+{nbsp}
+
+. 在*准备完成*页面上检查您的选择，然后单击*完成*以创建 VMkernel 适配器。
++
+image:vmware-vcf-asa-098.png["检查 VMkernel 选择"]
+
++
+{nbsp}
+
+. 重复此过程为第二个 iSCSI 网络创建 VMkernel 适配器。
+
+
+
+
+== 步骤 3：添加 NVMe/TCP 适配器
+
+工作负载域集群中的每个 ESXi 主机都必须为每个专用于存储流量的已建立 NVMe/TCP 网络安装一个 NVMe/TCP 软件适配器。
+
+要安装 NVMe/TCP 适配器并发现 NVMe 控制器，请完成以下步骤：
+
+. 在 vSphere 客户端中，导航到工作负载域集群中的其中一个 ESXi 主机。在“*配置*”选项卡中，单击菜单中的“*存储适配器*”。
+. 从*添加软件适配器*下拉菜单中，选择*添加 NVMe over TCP 适配器*。
++
+image:vmware-vcf-asa-099.png["添加 NVMe/TCP 适配器"]
+
++
+{nbsp}
+
+. 在*添加软件 NVMe over TCP 适配器*窗口中，访问*物理网络适配器*下拉菜单并选择要启用 NVMe 适配器的正确物理网络适配器。
++
+image:vmware-vcf-asa-100.png["选择物理适配器"]
+
++
+{nbsp}
+
+. 对分配给 NVMe/TCP 流量的第二个网络重复此过程，分配正确的物理适配器。
+. 选择新安装的 NVMe/TCP 适配器之一。在“*控制器*”选项卡上，选择“*添加控制器*”。
++
+image:vmware-vcf-asa-101.png["添加控制器"]
+
++
+{nbsp}
+
+. 在*添加控制器*窗口中，选择*自动*选项卡并完成以下步骤。
++
+.. 输入与分配给此 NVMe/TCP 适配器的物理适配器位于同一网络上的其中一个 SVM 逻辑接口的 IP 地址。
+.. 单击“发现控制器”按钮。
+.. 从发现的控制器列表中，单击与此 NVMe/TCP 适配器一致的两个控制器的网络地址的复选框。
+
+
+. 单击“*确定*”添加选定的控制器。
++
+image:vmware-vcf-asa-102.png["发现并添加控制器"]
+
++
+{nbsp}
+
+. 几秒钟后，您应该会看到 NVMe 命名空间出现在“设备”选项卡上。
++
+image:vmware-vcf-asa-103.png["设备下列出的 NVMe 命名空间"]
+
++
+{nbsp}
+
+. 重复此过程为为 NVMe/TCP 流量建立的第二个网络创建 NVMe/TCP 适配器。
+
+
+
+
+== 下一步是什么？
+
+配置网络后，link:vmw-vcf-viwld-supp-nvme-storage.html["为 NVMe vVols配置存储"] 。

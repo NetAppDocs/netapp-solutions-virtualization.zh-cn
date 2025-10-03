@@ -1,0 +1,95 @@
+---
+sidebar: sidebar 
+permalink: vmware/vmw-vcf-viwld-supp-nvme-svm-lifs.html 
+keywords: netapp, vmware, cloud, foundation, vcf, aff, all-flash, nfs, vvol, vvols, array, ontap tools, otv, sddc, iscsi 
+summary: '创建具有多个逻辑接口 (LIF) 的存储虚拟机 (SVM)，为 VMware Cloud Foundation 管理域提供 iSCSI 连接。您将使用 NVMe 协议支持配置 SVM，并在不同的以太网网络上设置多个 LIF，以启用多路径和故障转移，从而实现最佳性能和可用性。' 
+---
+= 在 VCF VI 工作负载域中为 NVMe/TCP vVols数据存储创建 SVM 和 LIF 以及 NVMe 命名空间
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+创建具有多个逻辑接口 (LIF) 的存储虚拟机 (SVM)，为 VMware Cloud Foundation 工作负载域提供 NVMe 连接。此过程总结了设置支持 NVMe/TCP 的 SVM 和 LIF 以及创建 NVMe 命名空间。
+
+
+
+== 步骤 1：创建 SVM 和 LIF
+
+完成以下步骤，为 NVMe/TCP 流量创建具有多个 LIF 的 SVM。
+
+要向现有 SVM 添加新的 LIF，请参阅ONTAP文档：link:https://docs.netapp.com/us-en/ontap/networking/create_a_lif.html["创建ONTAP LIF"^] 。
+
+.步骤
+. 从ONTAP系统管理器中，导航到左侧菜单中的 *存储虚拟机*，然后单击 *+ 添加*。
++
+image:vmware-vcf-asa-001.png["单击“+添加”开始创建 SVM"]
+
++
+{nbsp}
+
+. 在“添加存储虚拟机”向导中，输入 SVM 的“名称”，选择“IP 空间”，然后在“访问协议”下单击“NVMe”选项卡并选中“启用 NVMe/TCP”复选框。
++
+image:vmware-vcf-asa-075.png["添加存储虚拟机向导 - 启用 NVMe/TCP"]
+
++
+{nbsp}
+
+. 在 *网络接口* 部分中，输入第一个 LIF 的 *IP 地址*、*子网掩码* 和 *广播域和端口*。对于后续 LIF，您可以使用单独的设置，也可以启用复选框以在所有剩余 LIF 中使用通用设置。
++
+
+NOTE: 对于跨多路径的多路径和故障转移，请在单独的以太网网络中为 NVMe/TCP 配置中的所有 SVM 每个存储节点创建至少两个 LIF。
+
+. 选择是否启用存储虚拟机管理帐户（适用于多租户环境），然后单击“*保存*”以创建 SVM。
++
+image:vmware-vcf-asa-004.png["启用 SVM 帐户并完成"]
+
+
+
+
+
+== 步骤 2：创建 NVMe 命名空间
+
+NVMe 命名空间类似于 iSCSi 或 FC 的 LUN。您必须先创建 NVMe 命名空间，然后才能从 vSphere Client 部署 VMFS 数据存储区。要创建 NVMe 命名空间，请从集群中的每个 ESXi 主机获取 NVMe 限定名称 (NQN)。  ONTAP使用 NQN 为命名空间提供访问控制。
+
+.步骤
+. 打开与集群中的 ESXi 主机的 SSH 会话以获取其 NQN。从 CLI 使用以下命令：
++
+[source, cli]
+----
+esxcli nvme info get
+----
++
+应显示类似于以下示例的输出：
+
++
+[source, cli]
+----
+Host NQN: nqn.2014-08.com.netapp.sddc:nvme:vcf-wkld-esx01
+----
+. 记录集群中每个 ESXi 主机的 NQN。
+. 从ONTAP系统管理器中，导航到左侧菜单中的 *NVMe 命名空间*，然后单击 *+ 添加* 开始。
++
+image:vmware-vcf-asa-093.png["单击“+添加”创建 NVMe 命名空间"]
+
++
+{nbsp}
+
+. 在“添加 NVMe 命名空间”页面上，填写名称前缀、要创建的命名空间数量、命名空间的大小以及将访问命名空间的主机操作系统。
+. 在 *Host NQN* 部分中，创建一个以逗号分隔的列表，其中包含先前从将访问命名空间的 ESXi 主机收集的 NQN。
+. 单击“更多选项”以配置其他项目，例如快照保护策略。
+. 最后，单击“保存”以创建 NVMe 命名空间。
++
+image:vmware-vcf-asa-093.png["单击“+添加”创建 NVMe 命名空间"]
+
+
+
+
+
+== 下一步是什么？
+
+创建 SVM 和 LIF 后，link:vmw-vcf-viwld-supp-nvme-network.html["为 NVMe/TCP (NVMe/TCP) vVols配置网络"] 。

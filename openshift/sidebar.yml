@@ -42,13 +42,15 @@ entries:
     url: "/openshift/osv-rosa-overview.html"
   - title: 重启或实时迁移虚拟机
     url: "/openshift/osv-rosa-vm-workflows.html"
-- title: 使用Trident Protect 保护数据
+- title: 使用Trident和Trident Protect 保护虚拟机
   entries:
+  - title: 使用卷组快照保护虚拟机
+    url: "/openshift/osv-vm-dp-using-vgs.html"
   - title: 使用快照和备份保护虚拟机
     url: "/openshift/osv-vm-dp-using-tp.html"
   - title: 设置故障转移和故障回复
     url: "/openshift/osv-vm-dr-using-tp.html"
-- title: 使用第三方工具保护数据
+- title: 使用第三方工具保护虚拟机
   pdf-filename: Red Hat OpenShift 虚拟化数据保护
   entries:
   - title: 使用 OADP 和 Velero 保护虚拟机

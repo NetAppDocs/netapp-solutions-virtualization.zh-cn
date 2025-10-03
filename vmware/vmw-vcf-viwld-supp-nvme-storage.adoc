@@ -1,0 +1,61 @@
+---
+sidebar: sidebar 
+permalink: vmware/vmw-vcf-viwld-supp-nvme-storage.html 
+keywords: netapp, vmware, cloud, foundation, vcf, aff, all-flash, nfs, vvol, vvols, array, ontap tools, otv, sddc, iscsi 
+summary: '在 VI 工作负载域中配置 NVMe over TCP (NVMe/TCP) vVols存储。您将部署ONTAP工具、注册存储系统、创建存储功能配置文件并在 vSphere 客户端中配置vVols数据存储。' 
+---
+= 在 VCF VI 工作负载域中配置 NVMe/TCP vVols存储
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+在 VMware Cloud Foundation VI 工作负载域中配置 NVMe/TCP vVols存储。您将部署ONTAP工具、注册存储系统、创建存储功能配置文件并在 vSphere 客户端中配置vVols数据存储。
+
+.步骤
+. 在 vSphere 客户端中，导航到工作负载域集群中的其中一个 ESXi 主机。从*操作*菜单中选择*存储>新建数据存储...*。
++
+image:vmware-vcf-asa-104.png["添加 NVMe/TCP 适配器"]
+
++
+{nbsp}
+
+. 在“新建数据存储”向导中，选择“VMFS”作为类型。单击“*下一步*”继续。
+. 在*名称和设备选择*页面上，提供数据存储的名称，并从可用设备列表中选择 NVMe 命名空间。
++
+image:vmware-vcf-asa-105.png["名称和设备选择"]
+
++
+{nbsp}
+
+. 在 *VMFS 版本* 页面上，选择数据存储区的 VMFS 版本。
+. 在“分区配置”页面上，对默认分区方案进行任何所需的更改。单击“*下一步*”继续。
++
+image:vmware-vcf-asa-106.png["NVMe 分区配置"]
+
++
+{nbsp}
+
+. 在*准备完成*页面上，查看摘要并单击*完成*以创建数据存储。
+. 导航到清单中的新数据存储并单击“*主机*”选项卡。如果配置正确，则应列出集群中的所有 ESXi 主机并可以访问新的数据存储。
++
+image:vmware-vcf-asa-107.png["连接到数据存储区的主机"]
+
++
+{nbsp}
+
+
+
+
+
+== 追加信息
+
+* 有关配置 SAN 冗余的更多信息，请参阅link:https://docs.netapp.com/us-en/ontap/san-config/index.html["NetApp SAN 配置参考"^]。
+* 有关ONTAP存储系统的 NVMe 设计注意事项的更多信息，请参阅link:https://docs.netapp.com/us-en/ontap/nvme/support-limitations.html["NVMe 配置、支持和限制"^]。
+* 有关配置ONTAP存储系统的信息，请参阅link:https://docs.netapp.com/us-en/ontap["ONTAP 9 文档"^]。
+* 有关配置 VCF 的信息，请参阅link:https://techdocs.broadcom.com/us/en/vmware-cis/vcf.html["VMware Cloud Foundation 文档"^]。
+
