@@ -1,0 +1,146 @@
+---
+sidebar: sidebar 
+permalink: vmware/vmw-vcf-mgmt-fc-conversion.html 
+keywords: netapp, vmware, cloud, foundation, vcf, asa, aff, all-flash, fc, array, ontap tools, otv, sddc, sddc manager, ontap tools, ontap tools 10 
+summary: 使用 VCF 导入工具将现有的 vSphere 8 集群转换为 VCF 5.2 管理域。您将验证 vCenter 设备、部署 SDDC 管理器、创建 NSX 部署规范并执行转换。 
+---
+= 使用 VCF 导入工具将 vSphere 集群转换为 VCF 管理域
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+使用 VCF 导入工具将现有的 vSphere 8 集群转换为 VCF 5.2 管理域。您将验证 vCenter 设备、部署 SDDC 管理器、创建 NSX 部署规范并执行转换。
+
+Broadcom 的 VMware VCF 导入工具是一种实用程序，可在 vCenter 设备和 SDDC 管理器上使用，以验证配置并为 vSphere 和 VCF 环境提供转换和导入服务。有关详细信息，请参阅link:https://techdocs.broadcom.com/us/en/vmware-cis/vcf/vcf-5-2-and-earlier/5-2/map-for-administering-vcf-5-2/importing-existing-vsphere-environments-admin/vcf-import-tool-options-and-parameters-admin.html["VCF 导入工具选项和参数"] 。
+
+在适当的情况下，将参考 VMware 文档以获取分步说明。
+
+
+
+== 步骤 1：复制 VCF 导入工具并运行预检查
+
+VCF 导入工具用于 vCenter 设备上，以验证 vSphere 集群在 VCF 转换或导入过程中是否处于健康状态。
+
+.步骤
+. 按照 VMware 文档中的说明将 VCF 导入工具复制到目标 vCenter 设备： https://techdocs.broadcom.com/us/en/vmware-cis/vcf/vcf-5-2-and-earlier/5-2/copy-the-vcf-import-tool-to-the-target-vcenter-appliance.html["将 VCF 导入工具复制到目标 vCenter Appliance"] 。
+. 使用以下命令提取捆绑包：
++
+....
+tar -xvf vcf-brownfield-import-<buildnumber>.tar.gz
+....
+. 按照 VMware 文档中的说明运行验证预检查： https://techdocs.broadcom.com/us/en/vmware-cis/vcf/vcf-5-2-and-earlier/5-2/run-a-precheck-on-the-target-vcenter-before-conversion.html["转换前对目标 vCenter 运行预检查"] 。
++
+以下输出示例显示 vCenter 设备已通过预检查。
+
++
+.显示示例
+[%collapsible]
+====
+image::vmware-vcf-import-nfs-011.png[vcf导入工具预检]
+
+====
+
+
+
+
+== 步骤 2：部署 SDDC 管理器并创建 NSX 部署规范
+
+在您计划转换为 VCF 管理域的同一 vSphere 集群上部署 SDDC Manager 设备。
+
+.步骤
+. 按照 VMware 文档中的说明部署 SDDC Manager 设备： https://techdocs.broadcom.com/us/en/vmware-cis/vcf/vcf-5-2-and-earlier/5-2/deploy-the-sddc-manager-appliance-on-the-target-vcenter.html["在目标 vCenter 上部署 SDDC 管理器设备"] 。
+. 按照 VMware 文档中的说明将主机添加到 SDDC Manager 清单： https://techdocs.broadcom.com/us/en/vmware-cis/vcf/vcf-5-2-and-earlier/5-1/commission-hosts.html["委员会主办方"] 。
++
+以下是 NSX 部署的 JSON 文件示例。
+
++
+.显示示例
+[%collapsible]
+====
+....
+{
+  "license_key": "xxxxx-xxxxx-xxxxx-xxxxx-xxxxx",
+  "form_factor": "medium",
+  "admin_password": "************************",
+  "install_bundle_path": "/tmp/vcfimport/bundle-133764.zip",
+  "cluster_ip": "172.21.166.72",
+  "cluster_fqdn": "vcf-m02-nsx01.sddc.netapp.com",
+  "manager_specs": [{
+    "fqdn": "vcf-m02-nsx01a.sddc.netapp.com",
+    "name": "vcf-m02-nsx01a",
+    "ip_address": "172.21.166.73",
+    "gateway": "172.21.166.1",
+    "subnet_mask": "255.255.255.0"
+  },
+  {
+    "fqdn": "vcf-m02-nsx01b.sddc.netapp.com",
+    "name": "vcf-m02-nsx01b",
+    "ip_address": "172.21.166.74",
+    "gateway": "172.21.166.1",
+    "subnet_mask": "255.255.255.0"
+  },
+  {
+    "fqdn": "vcf-m02-nsx01c.sddc.netapp.com",
+    "name": "vcf-m02-nsx01c",
+    "ip_address": "172.21.166.75",
+    "gateway": "172.21.166.1",
+    "subnet_mask": "255.255.255.0"
+  }]
+}
+....
+====
+. 将 JSON 文件复制到 SDDC 管理器上的目录。
++
+
+NOTE: 在转换或导入操作中部署 NSX Manager 群集时，将使用 NSX-VLAN 网络。有关 NSX-VLAN 网络限制的信息，请参阅 https://techdocs.broadcom.com/us/en/vmware-cis/vcf/vcf-5-2-and-earlier/5-2/considerations-before-converting-or-importing-existing-vsphere-environments-into-vcf-admin.html["将现有 vSphere 环境转换或导入 VMware Cloud Foundation 之前的注意事项"]。
+
+
+
+
+
+== 步骤 3：将软件上传到 SDDC Manager
+
+按照 VMware 文档中的说明将 VCF 导入工具包和 NSX 部署工具包上传到 SDDC 管理器： https://techdocs.broadcom.com/us/en/vmware-cis/vcf/vcf-5-2-and-earlier/5-2/seed-software-on-sddc-manager.html["将所需软件上传到 SDDC 管理器设备"] 。
+
+确保将 VCF 导入工具和 NSX 部署包复制到 SDDC 管理器上的以下目录： `/home/vcf/vcfimport` 。
+
+
+
+== 步骤4：将vSphere集群转换为VCF管理域
+
+按照 VMware 文档中的说明将 vSphere 集群转换为 VCF 管理域： https://techdocs.broadcom.com/us/en/vmware-cis/vcf/vcf-5-2-and-earlier/5-2/import-workload-domain-into-sddc-manager-inventory.html["将 vSphere 环境转换或导入到 SDDC Manager 清单中"] 。
+
+使用以下命令将vSphere集群转换为VCF管理域并部署NSX集群：
+
+....
+python3 vcf_brownfield.py convert --vcenter '<vcenter-fqdn>' --sso-user '<sso-user>' --domain-name '<wld-domain-name>' --nsx-deployment-spec-path '<nsx-deployment-json-spec-path>'
+....
+其中：
+
+* `<vcenter-fqdn>`是您的 vCenter 服务器的完全限定域名
+* `<sso-user>`是单点登录用户帐户
+* `<wld-domain-name>`是您的工作负载域所需的名称
+* `<nsx-deployment-json-spec-path>`是步骤 2 中创建的 NSX 部署 JSON 文件的路径
+
+
+
+TIP: 您可以通过运行来查看所有可用的 VCF 导入工具功能 `python3 vcf_brownfield.py --help`从 `/home/vcf/vcf-import-package/vcf-brownfield-import-<version>/vcf-brownfield-toolset`目录。
+
+
+
+== 步骤 5：向 VCF 添加许可
+
+完成转换后，必须将许可证添加到环境中。
+
+.步骤
+. 登录到 SDDC 管理器 UI。
+. 在导航窗格中导航至*管理>许可*。
+. 单击“*+ 许可证密钥*”。
+. 从下拉菜单中选择一个产品。
+. 输入许可证密钥。
+. 提供许可证的描述。
+. 单击“*添加*”。
+. 对每个许可证重复这些步骤。
+

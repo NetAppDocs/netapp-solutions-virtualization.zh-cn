@@ -2,36 +2,47 @@
 :allow-uri-read: 
 
 
-. 从 vSphere 客户端，导航到工作负载域的 *Inventory > Networking*。导航到现有的分布式交换机并选择创建*新分布式端口组...*的操作。
+. 从 vSphere 客户端，导航到工作负载域的 *Inventory > Networking*。导航到现有的分布式交换机并选择创建新的*分布式端口组...*的操作。
 +
+.显示示例
+[%collapsible]
+====
 image:vmware-vcf-asa-022.png["选择创建新的端口组"]
 
-+
-{nbsp}
-
+====
 . 在“新建分布式端口组”向导中，填写新端口组的名称，然后单击“下一步”继续。
 . 在*配置设置*页面上，填写所有设置。如果正在使用 VLAN，请确保提供正确的 VLAN ID。单击“*下一步*”继续。
 +
+.显示示例
+[%collapsible]
+====
 image:vmware-vcf-asa-023.png["填写VLAN ID"]
 
-+
-{nbsp}
-
+====
 . 在*准备完成*页面上，检查更改并单击*完成*以创建新的分布式端口组。
 . 重复此过程为正在使用的第二个 iSCSI 网络创建分布式端口组，并确保输入了正确的 *VLAN ID*。
 . 创建两个端口组后，导航到第一个端口组并选择操作*编辑设置...*。
 +
+.显示示例
+[%collapsible]
+====
 image:vmware-vcf-asa-024.png["DPG——编辑设置"]
 
-+
-{nbsp}
-
+====
 . 在*分布式端口组 - 编辑设置*页面上，导航到左侧菜单中的*组合和故障转移*，然后单击*上行链路2*将其下移至*未使用的上行链路*。
 +
+.显示示例
+[%collapsible]
+====
 image:vmware-vcf-asa-025.png["将上行链路 2 移至未使用状态"]
 
+====
 . 对第二个 iSCSI 端口组重复此步骤。但是，这次将 *uplink1* 下移至 *Unused uplinks*。
 +
+.显示示例
+[%collapsible]
+====
 image:vmware-vcf-asa-026.png["将上行链路 1 移至未使用状态"]
 
+====
 

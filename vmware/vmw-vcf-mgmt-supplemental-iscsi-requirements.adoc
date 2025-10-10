@@ -14,7 +14,7 @@ summary: 查看将 iSCSI 数据存储作为补充存储添加到 VCF 管理域�
 
 
 [role="lead"]
-查看将 iSCSI 数据存储作为补充存储添加到 VMware Cloud Foundation (VCF) 管理域的要求。要在 VMware Cloud Foundation 管理域中部署 iSCSI vVols ，您需要一个完全配置的ONTAP AFF或ASA存储系统和一个已部署的 VCF 管理域。
+查看将 iSCSI 数据存储作为补充存储添加到 VMware Cloud Foundation (VCF) 管理域的要求。
 
 
 

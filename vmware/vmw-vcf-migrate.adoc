@@ -2,9 +2,9 @@
 sidebar: sidebar 
 permalink: vmware/vmw-vcf-migrate.html 
 keywords: vmware, vcf, migrate, import 
-summary:  
+summary: 转换具有ONTAP上现有光纤通道或 NFS 数据存储的 vSphere 环境涉及将当前基础架构集成到现代私有云架构中。 
 ---
-= 了解如何将具有现有数据存储的 vSphere 环境转换为 VCF
+= 了解如何将具有现有数据存储的 vSphere 环境转换为 VCF 管理域
 :hardbreaks:
 :allow-uri-read: 
 :nofooter: 
@@ -14,12 +14,45 @@ summary:
 
 
 [role="lead"]
-将现有数据存储在ONTAP上运行的 vSphere 环境转换为 VMware Cloud Foundation (VCF) 环境涉及将当前基础架构集成到现代私有云架构中。
+转换具有ONTAP上现有光纤通道或 NFS 数据存储的 vSphere 环境涉及将当前基础架构集成到现代私有云架构中。
 
-此过程利用ONTAP存储的灵活性实现无缝数据访问和管理。一旦建立了 VCF 管理域，管理员就可以有效地将其他 vSphere 环境导入 VCF 生态系统。这种集成提高了资源利用率，简化了私有云管理，并确保了平稳过渡，同时最大限度地减少了对现有工作负载的干扰。
+
+
+== 解决方案概述
+
+该解决方案演示了当集群转换为 VCF 管理域时，vSphere 中现有的 FC 或 NFS 数据存储如何成为主要存储。
+
+此过程受益于ONTAP存储的稳健性和灵活性，可确保无缝的数据访问和管理。通过转换过程建立 VCF 管理域后，管理员可以有效地将其他 vSphere 环境（包括使用 FC 和 NFS 数据存储的环境）导入 VCF 生态系统。
+
+这种集成不仅提高了资源利用率，还简化了私有云基础设施的管理，确保了平稳过渡，并最大限度地减少了对现有工作负载的干扰。
+
+
+
+== 架构概述
+
+ONTAP工具的架构与 VMware 环境无缝集成，利用包含ONTAP工具服务、vSphere 插件和 REST API 的模块化可扩展框架实现高效的存储管理、自动化和数据保护。
+
+ONTAP tools for VMware vSphere可以安装在 HA 或非 HA 配置中。
+
+image::vmware-vcf-import-nfs-010.png[ONTAP工具架构]
+
+
+
+== 转换 vSphere 环境的受支持解决方案
 
 有关转换 vCenter 实例的技术细节，请参阅以下解决方案。
 
-* link:vmw-vcf-mgmt-nfs.html["将现有 vCenter 实例转换为 VCF 管理域 (NFS)"]
-* link:vmw-vcf-mgmt-fc.html["将 vCenter 实例（FC 数据存储）转换为 VCF 管理域"]
+* link:vmw-vcf-mgmt-nfs.html["将 vCenter 实例转换为 VCF 管理域（NFS 数据存储）"]
+* link:vmw-vcf-mgmt-fc.html["将 vCenter 实例转换为 VCF 管理域（FC 数据存储）"]
+
+
+
+
+== 追加信息
+
+* 有关这些解决方案的视频演示，请参阅link:../videos/vmware-videos.html#vmware-datastore-provisioning-with-ontap["使用ONTAP配置 VMware 数据存储库"]。
+* 有关转换过程的概述，请参阅 https://techdocs.broadcom.com/us/en/vmware-cis/vcf/vcf-5-2-and-earlier/5-2/map-for-administering-vcf-5-2/importing-existing-vsphere-environments-admin/convert-or-import-a-vsphere-environment-into-vmware-cloud-foundation-admin.html["将 vSphere 环境转换为管理域或在 VMware Cloud Foundation 中将 vSphere 环境导入为 VI 工作负载域"]。
+* 有关配置ONTAP存储系统的信息，请参阅link:https://docs.netapp.com/us-en/ontap["ONTAP 9 文档"]。
+* 有关配置 VCF 的信息，请参阅link:https://techdocs.broadcom.com/us/en/vmware-cis/vcf.html["VMware Cloud Foundation 文档"]。
+* 有关支持的存储以及将 vSphere 转换或导入到 VCF 5.2 的其他注意事项，请参阅 https://techdocs.broadcom.com/fr/fr/vmware-cis/vcf/vcf-5-2-and-earlier/5-2/considerations-before-converting-or-importing-existing-vsphere-environments-into-vcf.html["将现有 vSphere 环境转换或导入 VMware Cloud Foundation 之前的注意事项"]。
 

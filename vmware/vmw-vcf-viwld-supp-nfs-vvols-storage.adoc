@@ -25,37 +25,41 @@ summary: 在 VI 工作负载域中配置 NFS vVols存储。ONTAP tools for VMwar
 ONTAP tools for VMware vSphere作为 VM 设备部署，并提供用于管理ONTAP存储的集成 vCenter UI。
 
 .步骤
-. ONTAPlink:https://mysupport.netapp.com/site/products/all/details/otv/downloads-tab["NetApp 支持站点"]并下载到本地文件夹。
+. ONTAPlink:https://mysupport.netapp.com/site/products/all/details/otv/downloads-tab["NetApp 支持站点"]并将其下载到本地文件夹。
 . 登录 VCF 管理域的 vCenter 设备。
 . 在 vCenter 设备界面中右键单击管理集群并选择“部署 OVF 模板...”
 +
+.显示示例
+[%collapsible]
+====
 image:vmware-vcf-aff-021.png["部署 OVF 模板..."]
 
+====
+. 在 *部署 OVF 模板* 向导中，单击 *本地文件* 单选按钮并选择您在上一步中下载的ONTAP工具 OVA 文件。
 +
-{nbsp}
-
-. 在 *部署 OVF 模板* 向导中，单击 *本地文件* 单选按钮并选择上一步下载的ONTAP工具 OVA 文件。
-+
+.显示示例
+[%collapsible]
+====
 image:vmware-vcf-aff-022.png["选择 OVA 文件"]
 
-+
-{nbsp}
-
+====
 . 对于向导的第 2 步到第 5 步，选择 VM 的名称和文件夹，选择计算资源，查看详细信息，然后接受许可协议。
 . 配置和磁盘文件的存储位置选择VCF管理域集群的vSAN数据存储。
 +
+.显示示例
+[%collapsible]
+====
 image:vmware-vcf-aff-023.png["选择 OVA 文件"]
 
-+
-{nbsp}
-
+====
 . 在*选择网络*页面上，选择用于管理流量的网络。
 +
+.显示示例
+[%collapsible]
+====
 image:vmware-vcf-aff-024.png["选择网络"]
 
-+
-{nbsp}
-
+====
 . 在“自定义模板”页面上，输入所有必需的信息：
 +
 ** 用于对ONTAP工具进行管理访问的密码。
@@ -70,11 +74,14 @@ image:vmware-vcf-aff-024.png["选择网络"]
 
 . 单击“*下一步*”继续。
 +
+.显示示例
+[%collapsible]
+====
 image:vmware-vcf-aff-025.png["自定义OTV模板1"]
 
-+
 image:vmware-vcf-asa-035.png["自定义OTV模板2"]
 
+====
 . 查看“准备完成”页面上的所有信息，然后单击“完成”开始部署ONTAP工具设备。
 
 
@@ -90,26 +97,36 @@ NOTE: vVol 需要ONTAP集群凭据而不是 SVM 凭据。有关更多信息，�
 .步骤
 . 在 vSphere 客户端中导航到主菜单并选择 * NetApp ONTAP工具*。
 +
+.显示示例
+[%collapsible]
+====
 image:vmware-vcf-asa-014.png["导航到ONTAP工具"]
 
+====
 . 进入 * ONTAP工具* 后，从“入门”页面（或从 *存储系统*）单击 *添加* 以添加新的存储系统。
 +
+.显示示例
+[%collapsible]
+====
 image:vmware-vcf-asa-015.png["添加存储系统"]
 
-+
-{nbsp}
-
+====
 . 提供ONTAP存储系统的 IP 地址和凭据，然后单击“添加”。
 +
+.显示示例
+[%collapsible]
+====
 image:vmware-vcf-asa-016.png["提供ONTAP系统的 IP 和凭证"]
 
-+
-{nbsp}
-
+====
 . 单击“*是*”授权集群证书并添加存储系统。
 +
+.显示示例
+[%collapsible]
+====
 image:vmware-vcf-asa-017.png["授权集群证书"]
 
+====
 
 
 
@@ -120,6 +137,13 @@ image:vmware-vcf-asa-017.png["授权集群证书"]
 
 .步骤
 . 在ONTAP工具中选择 *概览*，然后从 *入门* 选项卡中单击 *配置* 以启动向导。
++
+.显示示例
+[%collapsible]
+====
+image:vmware-vcf-asa-041.png["配置数据存储区"]
+
+====
 . 在新建数据存储向导的“常规”页面上，选择 vSphere 数据中心或集群目标。
 . 选择 *NFS* 作为数据存储类型，输入数据存储的名称，然后选择协议。
 . 选择是否使用FlexGroup卷以及是否使用存储功能文件进行配置。
@@ -128,9 +152,37 @@ image:vmware-vcf-asa-017.png["授权集群证书"]
 
 NOTE: 选择*在集群中分发数据存储数据*将创建底层卷作为FlexGroup卷，这将阻止使用存储功能配置文件。参考 https://docs.netapp.com/us-en/ontap/flexgroup/supported-unsupported-config-concept.html["FlexGroup卷支持和不支持的配置"^]有关使用FlexGroup卷的更多信息。
 
++
+.显示示例
+[%collapsible]
+====
+image:vmware-vcf-aff-042.png["常规页面"]
+
+====
 . 在“存储系统”页面上，选择存储功能配置文件、存储系统和 SVM。单击“*下一步*”继续。
++
+.显示示例
+[%collapsible]
+====
+image:vmware-vcf-aff-043.png["存储系统"]
+
+====
 . 在“存储属性”页面上，选择要使用的聚合，然后单击“下一步”继续。
++
+.显示示例
+[%collapsible]
+====
+image:vmware-vcf-aff-044.png["存储属性"]
+
+====
 . 查看*摘要*并单击*完成*开始创建 NFS 数据存储。
++
+.显示示例
+[%collapsible]
+====
+image:vmware-vcf-aff-045.png["审核总结并完成"]
+
+====
 
 
 
@@ -141,14 +193,56 @@ NOTE: 选择*在集群中分发数据存储数据*将创建底层卷作为FlexGr
 
 .步骤
 . 在ONTAP工具中，选择 *概览*，然后从 *入门* 选项卡中单击 *配置* 以启动向导。
++
+.显示示例
+[%collapsible]
+====
+image:vmware-vcf-asa-041.png["配置数据存储区"]
+
+====
 . 在新建数据存储向导的“常规”页面上，选择 vSphere 数据中心或集群目标。
 . 选择 * vVols* 作为数据存储类型，输入数据存储的名称，然后选择 *NFS* 作为协议。
 . 单击“*下一步*”继续。
++
+.显示示例
+[%collapsible]
+====
+image:vmware-vcf-aff-046.png["常规页面"]
+
+====
 . 在“存储系统”页面上，选择存储功能配置文件、存储系统和 SVM。
 . 单击“*下一步*”继续。
++
+.显示示例
+[%collapsible]
+====
+image:vmware-vcf-aff-043.png["存储系统"]
+
+====
 . 在“存储属性”页面中，选择“创建新卷”，并输入要创建的卷的存储属性。
++
+.显示示例
+[%collapsible]
+====
+image:vmware-vcf-aff-047.png["存储属性"]
+
+====
 . 单击“*添加*”创建卷，然后单击“*下一步*”继续。
++
+.显示示例
+[%collapsible]
+====
+image:vmware-vcf-aff-048.png["存储属性 - 下一步"]
+
+====
 . 查看“*摘要*”页面并单击“*完成*”以启动 vVol 数据存储创建过程。
++
+.显示示例
+[%collapsible]
+====
+image:vmware-vcf-aff-049.png["摘要页面"]
+
+====
 
 
 

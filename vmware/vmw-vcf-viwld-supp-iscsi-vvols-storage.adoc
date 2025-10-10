@@ -25,37 +25,41 @@ summary: 使用ONTAP工具在 VI 工作负载域中配置 iSCSI vVols存储。�
 ONTAP tools for VMware vSphere作为 VM 设备部署，并提供用于管理ONTAP存储的集成 vCenter UI。
 
 .步骤
-. ONTAPlink:https://mysupport.netapp.com/site/products/all/details/otv/downloads-tab["NetApp 支持站点"]并下载到本地文件夹。
+. ONTAPlink:https://mysupport.netapp.com/site/products/all/details/otv/downloads-tab["NetApp 支持站点"]并将其下载到本地文件夹。
 . 登录 VCF 管理域的 vCenter 设备。
 . 在 vCenter 设备界面中右键单击管理集群并选择“部署 OVF 模板...”
 +
+.显示示例
+[%collapsible]
+====
 image:vmware-vcf-aff-021.png["部署 OVF 模板..."]
 
+====
+. 在 *部署 OVF 模板* 向导中，单击 *本地文件* 单选按钮并选择您在上一步中下载的ONTAP工具 OVA 文件。
 +
-{nbsp}
-
-. 在 *部署 OVF 模板* 向导中，单击 *本地文件* 单选按钮并选择上一步下载的ONTAP工具 OVA 文件。
-+
+.显示示例
+[%collapsible]
+====
 image:vmware-vcf-aff-022.png["选择 OVA 文件"]
 
-+
-{nbsp}
-
+====
 . 对于向导的第 2 步到第 5 步，选择 VM 的名称和文件夹，选择计算资源，查看详细信息，然后接受许可协议。
 . 配置和磁盘文件的存储位置选择VCF管理域集群的vSAN数据存储。
 +
+.显示示例
+[%collapsible]
+====
 image:vmware-vcf-aff-023.png["选择 OVA 文件"]
 
-+
-{nbsp}
-
+====
 . 在*选择网络*页面上，选择用于管理流量的网络。
 +
+.显示示例
+[%collapsible]
+====
 image:vmware-vcf-aff-024.png["选择网络"]
 
-+
-{nbsp}
-
+====
 . 在“自定义模板”页面上，输入所有必需的信息：
 +
 ** 用于对ONTAP工具进行管理访问的密码。
@@ -70,11 +74,14 @@ image:vmware-vcf-aff-024.png["选择网络"]
 
 . 单击“*下一步*”继续。
 +
+.显示示例
+[%collapsible]
+====
 image:vmware-vcf-aff-025.png["自定义OTV模板1"]
 
-+
 image:vmware-vcf-asa-035.png["自定义OTV模板2"]
 
+====
 . 查看“准备完成”页面上的所有信息，然后单击“完成”开始部署ONTAP工具设备。
 
 
@@ -90,26 +97,36 @@ NOTE: vVol 需要ONTAP集群凭据而不是 SVM 凭据。有关更多信息，�
 .步骤
 . 在 vSphere 客户端中导航到主菜单并选择 * NetApp ONTAP工具*。
 +
+.显示示例
+[%collapsible]
+====
 image:vmware-vcf-asa-014.png["导航到ONTAP工具"]
 
+====
 . 进入 * ONTAP工具* 后，从“入门”页面（或从 *存储系统*）单击 *添加* 以添加新的存储系统。
 +
+.显示示例
+[%collapsible]
+====
 image:vmware-vcf-asa-015.png["添加存储系统"]
 
-+
-{nbsp}
-
+====
 . 提供ONTAP存储系统的 IP 地址和凭据，然后单击“添加”。
 +
+.显示示例
+[%collapsible]
+====
 image:vmware-vcf-asa-016.png["提供ONTAP系统的 IP 和凭证"]
 
-+
-{nbsp}
-
+====
 . 单击“*是*”授权集群证书并添加存储系统。
 +
+.显示示例
+[%collapsible]
+====
 image:vmware-vcf-asa-017.png["授权集群证书"]
 
+====
 
 
 
@@ -121,33 +138,61 @@ image:vmware-vcf-asa-017.png["授权集群证书"]
 .步骤
 . 在ONTAP工具中，从左侧菜单中选择 *存储功能配置文件*，然后按 *创建*。
 +
+.显示示例
+[%collapsible]
+====
 image:vmware-vcf-asa-039.png["存储功能配置文件"]
 
+====
 . 在“创建存储能力配置文件”向导中，提供配置文件的名称和描述，然后单击“下一步”。
 +
+.显示示例
+[%collapsible]
+====
 image:vmware-asa-010.png["为 SCP 添加名称"]
 
+====
 . 选择平台类型并指定存储系统为全闪存 SAN 阵列，将 *Asymmetric* 设置为 false。
 +
+.显示示例
+[%collapsible]
+====
 image:vmware-asa-011.png["SCP平台"]
 
+====
 . 选择您选择的协议或选择*任意*以允许所有可能的协议。
 . 单击“*下一步*”继续。
 +
+.显示示例
+[%collapsible]
+====
 image:vmware-asa-012.png["SCP协议"]
 
+====
 . *性能*页面允许以允许的最小和最大 IOP 的形式设置服务质量。
 +
+.显示示例
+[%collapsible]
+====
 image:vmware-asa-013.png["SCP 的 QoS"]
 
+====
 . 根据需要选择存储效率、空间预留、加密和任何分层策略，完成*存储属性*页面。
 +
+.显示示例
+[%collapsible]
+====
 image:vmware-asa-014.png["SCP 的属性"]
 
+====
 . 查看摘要并单击“*完成*”以创建配置文件。
 +
+.显示示例
+[%collapsible]
+====
 image:vmware-vcf-asa-040.png["SCP摘要"]
 
+====
 
 
 
@@ -159,28 +204,48 @@ image:vmware-vcf-asa-040.png["SCP摘要"]
 .步骤
 . 在ONTAP工具中，选择 *概览*，然后从 *入门* 选项卡中单击 *配置* 以启动向导。
 +
+.显示示例
+[%collapsible]
+====
 image:vmware-vcf-asa-041.png["配置数据存储区"]
 
+====
 . 在新建数据存储向导的“常规”页面上，选择 vSphere 数据中心或集群目标。
 . 选择 * vVols* 作为数据存储类型，输入数据存储的名称，然后选择 *iSCSI* 作为协议。
 . 单击“*下一步*”继续。
 +
+.显示示例
+[%collapsible]
+====
 image:vmware-vcf-asa-042.png["常规页面"]
 
+====
 . 在“存储系统”页面上，选择存储能力配置文件、存储系统和虚拟机。
 . 单击“*下一步*”继续。
 +
+.显示示例
+[%collapsible]
+====
 image:vmware-vcf-asa-043.png["存储系统"]
 
+====
 . 在“存储属性”页面上，选择为数据存储创建一个新卷，并输入要创建的卷的存储属性。
 . 单击“*添加*”创建卷，然后单击“*下一步*”继续。
 +
+.显示示例
+[%collapsible]
+====
 image:vmware-vcf-asa-044.png["存储属性"]
 
+====
 . 查看摘要并单击“*完成*”以启动 vVol 数据存储创建过程。
 +
+.显示示例
+[%collapsible]
+====
 image:vmware-vcf-asa-045.png["摘要页面"]
 
+====
 
 
 

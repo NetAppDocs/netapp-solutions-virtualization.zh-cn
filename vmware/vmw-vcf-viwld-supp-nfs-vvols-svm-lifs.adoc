@@ -20,13 +20,41 @@ summary: '在ONTAP系统上创建存储虚拟机 (SVM) 和多个逻辑接口 (LI
 
 .步骤
 . 在ONTAP系统管理器中，导航到左侧菜单中的 *存储虚拟机*，然后单击 *+ 添加* 开始。
++
+.显示示例
+[%collapsible]
+====
+image:vmware-vcf-asa-001.png["单击“添加”开始创建 SVM"]
+
+====
 . 在“添加存储虚拟机”向导中，为 SVM 提供“名称”，选择“IP 空间”，然后在“访问协议”下单击“SMB/CIFS、NFS、S3”选项卡并选中“启用 NFS”复选框。
++
+.显示示例
+[%collapsible]
+====
+image:vmware-vcf-aff-035.png["添加存储虚拟机向导 - 启用 NFS"]
+
+====
 +
 
 TIP: 您不需要选中“允许 NFS 客户端访问”复选框。  ONTAP tools for VMware vSphere将用于自动化数据存储部署过程，其中包括为 ESXi 主机提供客户端访问。
 
 . 在 *网络接口* 部分中，填写第一个 LIF 的 *IP 地址*、*子网掩码* 和 *广播域和端口*。对于后续 LIF，您可以使用单独的设置，也可以启用复选框以在所有剩余 LIF 中使用通用设置。
++
+.显示示例
+[%collapsible]
+====
+image:vmware-vcf-aff-036.png["填写 LIF 的网络信息"]
+
+====
 . 选择是否启用存储虚拟机管理帐户（适用于多租户环境），然后单击“*保存*”以创建 SVM。
++
+.显示示例
+[%collapsible]
+====
+image:vmware-vcf-asa-004.png["启用 SVM 帐户并完成"]
+
+====
 
 
 

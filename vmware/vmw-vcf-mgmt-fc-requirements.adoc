@@ -1,0 +1,50 @@
+---
+sidebar: sidebar 
+permalink: vmware/vmw-vcf-mgmt-fc-requirements.html 
+keywords: netapp, vmware, cloud, foundation, vcf, asa, aff, all-flash, fc, array, ontap tools, otv, sddc, sddc manager, ontap tools, ontap tools 10 
+summary: '查看将具有NetApp ONTAP光纤通道 (FC) 数据存储的 vSphere 8 集群转换为 VMware Cloud Foundation 管理域的要求。' 
+---
+= 将 vCenter 服务器实例转换为具有光纤通道数据存储的 VCF 管理域的部署要求
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+查看将具有NetApp ONTAP FC 数据存储的 vSphere 8 集群转换为 VMware Cloud Foundation 管理域的要求。
+
+
+
+== 基础设施要求
+
+确保以下组件和配置已到位。
+
+* NetApp ASA R2/ ASA/ AFF存储系统，配置存储虚拟机 (SVM) 以允许 FC 流量。
+* 创建用于承载 FC 流量并与 SVM 关联的逻辑接口 (LIF)。
+* 在指定用于承载 FC 流量的交换机上配置 FC 分区。
+* 一个 vSphere 8 集群，其中有 4 个 ESXi 主机和一个位于该集群上的 vCenter 设备。
+* 在为此目的建立的 VLAN 或网络段上为 vMotion 配置的分布式端口组。
+* 下载 VCF 转换所需的软件。对于所需的软件，请访问 https://techdocs.broadcom.com/us/en/vmware-cis/vcf/vcf-5-2-and-earlier/5-2/map-for-administering-vcf-5-2/importing-existing-vsphere-environments-admin/download-software-for-converting-or-importing-existing-vsphere-environments-admin.html["下载用于转换或导入现有 vSphere 环境的软件"]。
+* 满足ONTAP工具的先决条件。
++
+有关ONTAP工具前提条件的完整信息，请参阅 https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere-10/deploy/prerequisites.html#system-requirements["适用于ONTAP tools for VMware vSphere的先决条件"]。
+
++
+ONTAP tools for VMware vSphere可以安装在 HA 或非 HA 配置中。
+
+
+
+
+
+== 其他资源
+
+* 有关将 vSphere 转换或导入 VCF 5.2 时支持的存储和其他注意事项，请参阅 https://techdocs.broadcom.com/us/en/vmware-cis/vcf/vcf-5-2-and-earlier/5-2/map-for-administering-vcf-5-2/importing-existing-vsphere-environments-admin/considerations-before-converting-or-importing-existing-vsphere-environments-into-vcf-admin.html["将现有 vSphere 环境转换或导入 VMware Cloud Foundation 之前的注意事项"]。
+* 有关配置ONTAP存储系统的信息，请参阅link:https://docs.netapp.com/us-en/ontap["ONTAP 9 文档"]。
+* 有关配置 VCF 的信息，请参阅link:https://techdocs.broadcom.com/us/en/vmware-cis/vcf/vcf-5-2-and-earlier/5-2.html["VMware Cloud Foundation 5.2 文档"]。
+
+
+
+
+== 下一步是什么？
+
+查看部署要求后，link:vmw-vcf-mgmt-fc-deploy.html["部署ONTAP工具并配置 FC 数据存储区"] 。
