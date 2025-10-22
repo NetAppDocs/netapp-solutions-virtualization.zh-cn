@@ -18,7 +18,7 @@ NetApp Data Infrastructure Insights （以前称为Cloud Insights）与 OpenShif
 
 NetApp Cloud Insights是一款云基础设施监控工具，可让您了解整个基础设施。借助Cloud Insights，您可以监控、排除故障并优化所有资源，包括公共云和私有数据中心。有关NetApp Cloud Insights的更多信息，请参阅 https://docs.netapp.com/us-en/cloudinsights["Cloud Insights文档"]。
 
-要开始使用Cloud Insights，您必须在NetApp BlueXP门户上注册。有关详细信息，请参阅link:https://docs.netapp.com/us-en/cloudinsights/task_cloud_insights_onboarding_1.html["Cloud Insights入门"]
+要开始使用Cloud Insights，您必须在 link:https://www.netapp.com/console["NetApp Console"]。有关详细信息，请参阅 link:https://docs.netapp.com/us-en/cloudinsights/task_cloud_insights_onboarding_1.html["Cloud Insights入门"]
 
 Cloud Insights具有多种功能，可让您快速轻松地查找数据、解决问题并深入了解您的环境。您可以使用强大的查询轻松找到数据，可以在仪表板中可视化数据，并针对您设置的数据阈值发送电子邮件警报。请参阅link:https://docs.netapp.com/us-en/cloudinsights/concept_feature_tutorials.html#introduction["视频教程"]帮助您了解这些功能。
 

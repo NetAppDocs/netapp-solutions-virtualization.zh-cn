@@ -1887,7 +1887,6 @@
   <block id="5858ee4031acd7b896faa2d3d2c1a299" category="inline-link">Cloud Insights文档</block>
   <block id="00911ced9034aa731093735d56a2e06c" category="paragraph">NetApp Cloud Insights是一款云基础设施监控工具，可让您了解整个基础设施。借助Cloud Insights，您可以监控、排除故障并优化所有资源，包括公共云和私有数据中心。有关NetApp Cloud Insights的更多信息，请参阅<block ref="68693b67403a80c90005e9f7b1aea49c" category="inline-link-rx"></block>。</block>
   <block id="695d7a391bb9043561bcc3c254868311" category="inline-link-macro">Cloud Insights入门</block>
-  <block id="cb637fe731d8f11e987efcc1f79cfb92" category="paragraph">要开始使用Cloud Insights，您必须在NetApp BlueXP门户上注册。有关详细信息，请参阅<block ref="3eafb0740656ee40f537cc91680fcad7" category="inline-link-macro-rx"></block></block>
   <block id="ca2b06c0229201c6bba975ee591eaee2" category="inline-link-macro">视频教程</block>
   <block id="f42ccee1558b3f9e0eae968dc12af1af" category="paragraph">Cloud Insights具有多种功能，可让您快速轻松地查找数据、解决问题并深入了解您的环境。您可以使用强大的查询轻松找到数据，可以在仪表板中可视化数据，并针对您设置的数据阈值发送电子邮件警报。请参阅<block ref="641d67cbeba767c6e6b6cd386cc73a79" category="inline-link-macro-rx"></block>帮助您了解这些功能。</block>
   <block id="16c85c2f0f86fe481df1b62b9a61ca0a" category="paragraph">要使Cloud Insights开始收集数据，您需要以下内容</block>
@@ -7733,4 +7732,6 @@
   <block id="28425bdbdef396f1aec8883562967014" category="sidebar">将 vSphere 群集转换为 VCF</block>
   <block id="ab5febdae5f3f0c5a30a718689093234" category="sidebar">使用 FC 数据存储转换 vSphere 群集</block>
   <block id="d8b72d69741e3404fbbca9934e6e1693" category="sidebar">部署ONTAP工具并配置 FC 数据存储区</block>
+  <block id="3c031b939f6ec312ee601d021e7a6644" category="inline-link-macro">NetApp Console</block>
+  <block id="4a6d449241d20161e4eaa333c42fc179" category="paragraph">要开始使用Cloud Insights，您必须在 <block ref="04ae21d04d9a279324faf4ed210bd5b7" category="inline-link-macro-rx"></block>。有关详细信息，请参阅 <block ref="3eafb0740656ee40f537cc91680fcad7" category="inline-link-macro-rx"></block></block>
 </blocks>
