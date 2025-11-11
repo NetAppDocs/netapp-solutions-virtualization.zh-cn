@@ -1,0 +1,52 @@
+---
+sidebar: sidebar 
+permalink: migration/shift-toolkit-monitor.html 
+keywords: netapp, vmware, esxi, vm, migration, openshift, virtualization, hyper-v, proxmox 
+summary: 使用 Shift Toolkit 作业监控仪表板实时跟踪迁移、转换和蓝图操作，使管理员能够快速识别作业状态并解决问题。 
+---
+= 使用 Shift Toolkit 控制面板监控迁移作业
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+使用 Shift Toolkit 作业监控仪表板实时跟踪迁移、转换和蓝图操作，以便快速识别作业状态并解决问题。
+
+
+
+== 作业监控仪表板
+
+作业监控仪表板提供了一个集中视图，显示 Shift Toolkit 中所有正在进行和已完成的操作。使用此仪表板监控迁移、转换和蓝图作业的进度。
+
+image::shift-toolkit-190.png[工作监控仪表板显示 Shift Toolkit 中的活跃工作]
+
+仪表盘显示每个工作的关键信息：
+
+* 工作类型（迁移、转换或蓝图）
+* 当前状态（运行中、成功、失败或部分失败）
+* 进度指标和完成百分比
+* 已处理的虚拟机数量
+* 开始和结束时间
+
+
+
+
+== 了解工作状态
+
+直观的界面使您能够快速评估所有操作的状态，并识别需要关注的任务。
+
+image::shift-toolkit-191.png[Shift Toolkit 控制面板中的工作状态详情]
+
+作业状态指示器可帮助您了解每个操作的结果：
+
+* *成功*：作业中的所有虚拟机均已完成，未出现任何错误。
+* *失败*：作业遇到错误，无法完成。
+* *部分失败*：部分虚拟机成功完成，而其他虚拟机则遇到错误。
+* *运行中*：该任务目前正在进行中
+
+
+利用状态信息来确定故障排除工作的优先级，并确保迁移工作流程顺利进行。

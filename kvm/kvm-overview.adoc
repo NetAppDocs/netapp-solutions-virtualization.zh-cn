@@ -132,30 +132,30 @@ VM 元数据以 XML 形式存储在 /etc/libvirt/qemu 中。可以使用 virt-in
 
 VM 磁盘可以在存储池上动态配置，也可以由存储管理员为 VM 预先配置。 libvirt 支持多种池类型。以下是适用的池类型以及支持的存储协议的列表。常用的选择是 dir。然后是 netfs 和 logical。iscsi 和 iscsi-direct 使用单目标，不提供容错功能。mpath 提供多路径，但不支持动态分配。它的使用方式更像是 vSphere 中的原始设备映射。对于文件协议（NFS/SMB/CIFS），可以在 https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/10/html/managing_file_systems/mounting-file-systems-on-demand#the-autofs-service["自动安装程序"]或使用 fstab 和目录池类型。对于块协议（iSCSI、FC、NVMe-oF），使用 ocfs2 或 gfs2 等共享文件系统。
 
-[cols="20% 10% 10% 10% 10% 10% 10% 10%"]
+[cols="20%, 10%, 10%, 10%, 10%, 10%, 10%, 10%"]
 |===
-| 存储协议 | 目录 | 文件系统 | 净流表 | 逻辑 | 磁盘 | iscsi | iscsi直接 | mpath 
+| 存储协议 | 目录 | 文件系统 | 净流表 | 逻辑 | 磁盘 | iscsi | iscsi直接 
 
 
-| SMB/CIFS | 是 | 否 | 是 | 否 | 否 | 否 | 否 | 否 
+| mpath | SMB/CIFS | 是 | 否 | 是 | 否 | 否 | 否 
 
 
-| NFS | 是 | 否 | 是 | 否 | 否 | 否 | 否 | 否 
+| 否 | 否 | NFS | 是 | 否 | 是 | 否 | 否 
 
 
-| iSCSI | 是 | 是 | 否 | 是 | 是 | 是 | 是 | 是 
+| 否 | 否 | 否 | iSCSI | 是 | 是 | 否 | 是 
 
 
-| FC | 是 | 是 | 否 | 是 | 是 | 否 | 否 | 是 
+| 是 | 是 | 是 | 是 | FC | 是 | 是 | 否 
 
 
-| NVMe-oF | 是 | 是 | 否 | 是 | 是 | 否 | 否 | 否^1^ 
+| 是 | 是 | 否 | 否 | 是 | NVMe-oF | 是 | 是 
 |===
 *注意：* 1 - 可能需要额外的配置。
 
 根据所使用的存储协议，主机上需要提供额外的包。这是示例列表。
 
-[cols="40% 20% 20% 20%"]
+[cols="40%, 20%, 20%, 20%"]
 |===
 | 存储协议 | Fedora | Debian | 吃豆人 
 

@@ -1,0 +1,368 @@
+---
+sidebar: sidebar 
+permalink: migration/shift-toolkit-migrate-esxi2olvm.html 
+keywords: netapp, vmware, esxi, vm, migration, virtualization, oracle, linux, olvm 
+summary: 使用 Shift Toolkit 将虚拟机从 VMware ESXi 迁移到 Oracle Linux Virtualization Manager，方法是准备虚拟机、转换磁盘格式和配置目标环境。 
+---
+= 将虚拟机从 VMware ESXi 迁移到 Oracle Linux Virtualization Manager
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+使用 Shift Toolkit 将虚拟机从 VMware ESXi 迁移到 Oracle Linux Virtualization Manager (OLVM)，方法是准备虚拟机、转换磁盘格式和配置目标环境。
+
+Shift Toolkit 能够通过目标环境中的磁盘格式转换和网络重新配置，实现虚拟化平台之间的虚拟机迁移。
+
+
+
+== 开始之前
+
+开始迁移之前，请确认满足以下先决条件。
+
+.Oracle Linux Virtualization Manager 要求
+* 数据中心已添加 Oracle Linux KVM 主机的 Oracle Linux Virtualization Manager
+* ONTAP NFS 存储已添加为存储域
+* 集群管理员级别权限
+* Oracle Linux Virtualization Manager 和 VDSM 版本 >= 4.5
+* Oracle Linux Virtualization Manager（目标）主机可通过网络访问。
+* NFSv3 存储域已配置相应的卷和 qtree
++
+** 确保对 vdsm 用户（UID 36）和 kvm 组（GID 36）具有读写访问权限
+
+
+* 已配置相应VLAN的网络
+
+
+.VMware 要求
+* VM 的 VMDK 文件放置在 NFSv3 卷上（给定 VM 的所有 VMDK 文件都应该位于同一个卷中）。
+* VMware 工具正在客户虚拟机上运行。
+* 待迁移的虚拟机处于运行状态，以便进行准备。
+* 必须先关闭虚拟机电源才能触发迁移
+* VMware Tools 的移除将在虚拟机启动后在目标虚拟机管理程序上进行。
+
+
+.客户机虚拟机要求
+* 对于 Windows 虚拟机：使用本地管理员凭据
+* 对于 Linux 虚拟机：使用具有执行 sudo 命令而无需密码提示权限的用户
+* 对于 Windows 虚拟机：将 VirtIO ISO 挂载到虚拟机（从 [此处应填写下载链接] 下载）。link:https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/archive-virtio/virtio-win-0.1.271-1/virtio-win-0.1.271.iso["此处"] ）
++
+
+NOTE: 准备脚本使用 .msi 包来安装驱动程序和 qemu-guest-agents。
+
+
+
+
+
+== 步骤 1：添加目标站点 (OLVM)
+
+将目标 Oracle Linux Virtualization Manager 环境添加到 Shift Toolkit 中。
+
+.步骤
+. 点击“添加新站点”，然后选择“目标位置”。
++
+.显示示例
+[%collapsible]
+====
+image::shift-toolkit-200.png[选择目的地]
+
+====
+. 请输入目的地站点详细信息：
++
+** *网站名称*：请为网站提供一个名称。
+** *虚拟机管理程序*：选择 OLVM
+** *站点位置*：选择默认选项
+** *连接器*：选择默认选项
+
+
+. 单击“继续”。
++
+.显示示例
+[%collapsible]
+====
+image::shift-toolkit-201.png[目的地详情]
+
+====
+. 请输入OLVM详细信息：
++
+** *端点*：虚拟化管理器的 IP 地址或 FQDN
+** *用户名*：用户名格式为 username@profile（例如，admin@internal）
+** *密码*：用于访问虚拟化管理器的密码
+
+
+. 选择“接受自签名证书”，然后单击“继续”。
++
+.显示示例
+[%collapsible]
+====
+image::shift-toolkit-202.png[目标 OLVM 详情]
+
+====
+. 单击“创建站点”。
++
+.显示示例
+[%collapsible]
+====
+image::shift-toolkit-203.png[创建目标 OLVM]
+
+====
++
+
+NOTE: 源卷和目标卷将相同，因为磁盘格式转换是在同一卷内的卷级别进行的。
+
+
+
+
+
+== 步骤 2：创建资源组
+
+将虚拟机组织成资源组，以保留启动顺序和启动延迟配置。
+
+.开始之前
+* 确保按照先决条件中的规定配置 qtree。
+* 在转换之前，将虚拟机迁移到新创建的ONTAP SVM 上的指定数据存储，以将生产 NFS 数据存储与暂存区隔离。
+
+
+.步骤
+. 导航至“资源组”，然后单击“创建新资源组”。
+. 从下拉菜单中选择源站点，然后单击“创建”。
+. 提供资源组详细信息并选择工作流程：
++
+** *基于克隆的迁移*：执行从源虚拟机到目标虚拟机的端到端迁移
+** *基于克隆的转换*：将磁盘格式转换为选定的虚拟机管理程序类型
+
+
+. 单击“继续”。
+. 使用搜索选项选择虚拟机（默认筛选条件为“数据存储”）。
++
+
+NOTE: 数据存储下拉菜单仅显示 NFSv3 数据存储。  NFSv4 数据存储不显示。
+
+. 更新迁移详情：
++
+** 选择*目标站点*
+** 选择*目标 OLVM 条目*
+** 配置数据存储到 Qtree 的映射
++
+.显示示例
+[%collapsible]
+====
+image::shift-toolkit-204.png[迁移详情]
+
+====
++
+
+NOTE: 将虚拟机从 ESXi 转换为 OLVM 时，请确保目标路径（存储转换后的虚拟机的位置）设置为 qtree。同时确保将此 qtree 添加到存储域中。可以创建多个 qtree 并用于存储转换后的 VM 磁盘。
+
+
+
+. 配置所有选定虚拟机的启动顺序和启动延迟：
++
+** *1*：第一个启动的虚拟机
+** *3*：默认值
+** *5*：最后一个启动的虚拟机
+
+
+. 单击“创建资源组”。
++
+.显示示例
+[%collapsible]
+====
+image::shift-toolkit-205.png[资源组详情]
+
+====
+
+
+.结果
+资源组已创建，可以进行蓝图配置。
+
+
+
+== 步骤 3：创建迁移蓝图
+
+创建迁移计划蓝图，包括平台映射、网络配置和虚拟机设置。
+
+.步骤
+. 导航至“蓝图”并单击“创建新蓝图”。
+. 为蓝图命名并配置主机映射：
++
+** 选择“源站点”和关联的 vCenter
+** 选择*目标站点*和关联的OLVM目标
+** 配置集群和主机映射
++
+.显示示例
+[%collapsible]
+====
+image::shift-toolkit-206.png[蓝图详情]
+
+====
+
+
+. 选择资源组详细信息，然后单击“继续”。
+. 如果存在多个资源组，请设置资源组的执行顺序。
+. 配置网络映射到相应的逻辑网络。
++
+
+NOTE: 网络应该已经在 OLVM 中配置好，并带有适当的 VLAN 标记。对于测试迁移，请选择“不配置网络”以避免生产网络冲突；转换后手动分配网络设置。
+
++
+.显示示例
+[%collapsible]
+====
+image::shift-toolkit-207.png[网络映射]
+
+====
+. 查看存储映射（根据虚拟机选择自动选择）。
++
+
+NOTE: 请确保事先配置好 qtree 并分配必要的权限，以便可以从 NFS 卷创建虚拟机并启动它。
+
+. 在虚拟机详细信息下，选择配置详细信息，并为每种操作系统类型提供服务帐户凭据：
++
+** *Windows系统*：使用具有本地管理员权限的用户（也可以使用域凭据）
+** *Linux*：使用可以无需密码提示即可执行 sudo 命令的用户
++
+.显示示例
+[%collapsible]
+====
+image::shift-toolkit-208.png[配置映射详情]
+
+====
++
+
+NOTE: 配置选择允许您选择磁盘映像格式并跳过覆盖 prepareVM。工作流程默认采用 QCOW2 格式，但如果需要，也可以选择 RAW 格式。管理员可以通过覆盖 prepareVM 选项跳过虚拟机准备工作并运行自定义脚本。
+
+
+
+. 配置IP设置：
++
+** *无需配置*：默认选项
+** *保留 IP 地址*：保持与源系统相同的 IP 地址
+** *DHCP*：为目标虚拟机分配 DHCP 权限
++
+在 prepareVM 阶段，确保虚拟机已启动并安装了 VMware Tools。
+
+
+
+. 配置虚拟机设置：
++
+** 调整 CPU/RAM 参数（可选）
+** 修改启动顺序和启动延迟
+** *开启电源*：选择在迁移后开启虚拟机电源（默认：开启）
+** *移除 VMware Tools*：转换后移除 VMware Tools（默认：已选中）
+** *虚拟机固件*：BIOS > BIOS 和 EFI > EFI（自动）
+** *保留 MAC 地址*：出于许可要求，请保留 MAC 地址。
+** *服务帐户覆盖*：如有需要，请指定单独的服务帐户
+
+
+. 单击“继续”。
+. 选择日期和时间安排迁移。
++
+
+NOTE: 至少提前 30 分钟安排迁移，以便留出时间准备虚拟机。
+
+. 点击“创建蓝图”。
+
+
+.结果
+Shift Toolkit 会启动 prepareVM 作业，该作业会在源虚拟机上运行脚本，为迁移做好准备。
+
+.显示示例
+[%collapsible]
+====
+image::shift-toolkit-209.png[OLVM 准备详情]
+
+====
+准备过程：
+
+* 注入脚本以更新 VirtIO 驱动程序、安装 qemu-agent、移除 VMware Tools、备份 IP 详细信息并更新 fstab 文件。
+* 使用 PowerCLI 连接到客户虚拟机（Linux 或 Windows）并更新 VirtIO 驱动程序
+* 对于 Windows 虚拟机：将脚本存储在 `C:\NetApp`
+* 对于 Linux 虚拟机：将脚本存储在 `/NetApp`和 `/opt`
+
+
+
+NOTE: 对于任何受支持的虚拟机操作系统，Shift Toolkit 会在磁盘转换之前自动安装必要的 VirtIO 驱动程序，以确保转换后成功启动。
+
+当 prepareVM 成功完成时，蓝图状态将更新为“PrepareVM 完成”。迁移将按计划时间进行，或者也可以点击“迁移”选项手动启动。
+
+.显示示例
+[%collapsible]
+====
+image::shift-toolkit-210.png[迁移菜单选择]
+
+====
+
+
+== 步骤 4：执行迁移
+
+触发迁移工作流，将虚拟机从 VMware ESXi 转换为 Oracle Linux Virtualization Manager。
+
+.开始之前
+所有虚拟机均按照计划的维护时间表正常关机。
+
+.步骤
+. 在蓝图上，单击“迁移”。
++
+.显示示例
+[%collapsible]
+====
+image::shift-toolkit-211.png[迁移步骤]
+
+====
+. Shift Toolkit 会执行以下操作：
++
+** 删除蓝图中所有虚拟机的现有快照
+** 触发源虚拟机快照
+** 在磁盘转换之前触发卷快照
+** 将所有虚拟机的 VMDK 格式转换为 QCOW2 或 RAW 格式
++
+Shift Toolkit 会自动查找与每个虚拟机关联的所有 VMDK，包括主启动磁盘。
+
++
+
+NOTE: 如果存在多个 VMDK 文件，则每个 VMDK 文件都会被转换。
+
+** 将 QCOW2 或 RAW 镜像上传到 OLVM 存储域
++
+将虚拟机磁盘映像转换为 QCOW2 或 RAW 格式后，Shift Toolkit 会将文件上传到相应的存储域并添加每个磁盘。
+
+** 创建虚拟机
++
+Shift Toolkit 通过 REST API 调用，根据操作系统创建每个虚拟机。
+
++
+
+NOTE: 虚拟机在“默认”集群下创建。
+
+** 在目标位置启动虚拟机
++
+根据虚拟机操作系统，Shift Toolkit 会自动分配虚拟机启动选项以及存储控制器接口。对于 Linux 发行版，使用 VirtIO 或 VirtIO SCSI。对于 Windows 系统，虚拟机启动时使用 SATA 接口，然后计划脚本会自动安装 VirtIO 驱动程序并将接口更改为 VirtIO。
+
+** 在每个虚拟机上注册网络
++
+网络是根据蓝图选择进行分配的。
+
+** 移除 VMware Tools 并使用触发脚本或定时任务分配 IP 地址
+
+
+
+
+.显示示例
+[%collapsible]
+====
+image::shift-toolkit-212.png[Oracle 中的虚拟机迁移]
+
+====
+
+
+== 视频演示
+
+以下视频演示了本解决方案中概述的流程。
+
+.从 ESX 到 Oracle Linux Virtualization Manager (OLVM) 的零接触迁移
+video::13bb74ad-25b3-49c0-84b5-b3760100ad6f[panopto]

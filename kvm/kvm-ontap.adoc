@@ -122,29 +122,32 @@ Libvirt 可用于管理利用NetApp ONTAP存储其磁盘映像和数据的虚拟
 
 dir 和 netfs 类型的存储池适用于基于文件的存储。
 
-[cols="20% 10% 10% 10% 10% 10% 10% 10%"]
+[cols="30%, 10%, 10% ,10%, 10%, 10,% 10%, 10%"]
 |===
-| 存储协议 | 目录 | 文件系统 | 净流表 | 逻辑 | 磁盘 | iscsi | iscsi直接 | mpath 
+| 存储协议 | 目录 | 文件系统 | 净流表 | 逻辑 | 磁盘 | iscsi 
 
 
-| SMB/CIFS | 是 | 否 | 是 | 否 | 否 | 否 | 否 | 否 
+| iscsi直接 | mpath | SMB/CIFS | 是 | 否 | 是 | 否 
 
 
-| NFS | 是 | 否 | 是 | 否 | 否 | 否 | 否 | 否 
+| 否 | 否 | 否 | 否 | NFS | 是 | 否 
 |===
 使用 netfs，libvirt 将挂载文件系统，并且支持的挂载选项有限。使用 dir 存储池，文件系统的挂载需要在主机外部处理。可以使用 fstab 或自动挂载程序来实现此目的。要使用自动挂载程序，需要安装 autofs 包。 Autofs 对于按需挂载网络共享特别有用，与 fstab 中的静态挂载相比，这可以提高系统性能和资源利用率。一段时间不活动后，它会自动卸载共享。
 
 根据所使用的存储协议，验证主机上是否安装了所需的包。
 
-[cols="40% 20% 20% 20%"]
+[cols="40%, 20,% 20%, 20%"]
 |===
-| 存储协议 | Fedora | Debian | 吃豆人 
+| 存储协议 | Fedora | Debian 
 
 
-| SMB/CIFS | samba 客户端/cifs-utils | smbclient/cifs实用程序 | smbclient/cifs实用程序 
+| 吃豆人 | SMB/CIFS | samba 客户端/cifs-utils 
 
 
-| NFS | nfs实用程序 | nfs-通用 | nfs实用程序 
+| smbclient/cifs实用程序 | smbclient/cifs实用程序 | NFS 
+
+
+| nfs实用程序 | nfs-通用 | nfs实用程序 
 |===
 NFS 因其在 Linux 中的原生支持和性能而成为一种流行的选择，而 SMB 则是与 Microsoft 环境集成的可行选择。在生产中使用之前，请务必检查支持矩阵。
 
@@ -241,7 +244,7 @@ virsh vol-list kvmnfs01
 
 根据所使用的存储协议验证主机是否安装了必要的软件包。
 
-[cols="40% 20% 20% 20%"]
+[cols="40%, 20%, 20%, 20%"]
 |===
 | 存储协议 | Fedora | Debian | 吃豆人 
 

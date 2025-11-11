@@ -1,0 +1,545 @@
+---
+sidebar: sidebar 
+permalink: migration/shift-toolkit-migrate-esxi2osv.html 
+keywords: netapp, vmware, esxi, vm, migration, openshift, virtualization, redhat, osv 
+summary: 使用 Shift Toolkit 将虚拟机从 VMware ESXi 迁移到 Red Hat OpenShift Virtualization，方法是准备虚拟机、转换磁盘格式和配置目标环境。 
+---
+= 将虚拟机从 VMware ESXi 迁移到 Red Hat OpenShift Virtualization
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+使用 Shift Toolkit 将虚拟机从 VMware ESXi 迁移到 Red Hat OpenShift Virtualization，方法是准备虚拟机、转换磁盘格式和配置目标环境。
+
+Shift Toolkit 能够通过目标环境中的磁盘格式转换和网络重新配置，实现虚拟化平台之间的虚拟机迁移。
+
+
+
+== 开始之前
+
+开始迁移之前，请确认满足以下先决条件。
+
+.红帽 OpenShift 虚拟化要求
+* 安装了以下运算符的 OpenShift 集群端点：
++
+** OpenShift虚拟化操作员
+** NetApp Trident CSI 驱动程序
+** 新墨西哥州立大学
+
+
+* NetApp Trident CSI 配置了适当的后端和存储类
+* 已配置正确的 VLAN 的 NodeNetworkConfigurationPolicy 和 NetworkAttachmentDefinitions (NAD)
+* OpenShift 集群可通过当前主机文件条目进行网络访问
+* 集群管理员级别权限
+* 已下载 Kubeconfig 文件
+
+
+.VMware 要求
+* 使用 svmotion 将 VMDK 放置在各个卷上（模拟 VMDK 与 PVC/PV 结构的关系）。
++
+
+NOTE: 下一版本将取消此限制，届时可以使用 NAS-economy 驱动程序进行 PVC 配置。
+
+* VMware 工具正在客户虚拟机上运行。
+* 待迁移的虚拟机处于运行状态，以便进行准备。
+* 必须先关闭虚拟机电源才能触发迁移
+* VMware Tools 的移除将在虚拟机启动后在目标虚拟机管理程序上进行。
+
+
+.客户机虚拟机要求
+* 对于 Windows 虚拟机：使用本地管理员凭据
+* 对于 Linux 虚拟机：使用具有执行 sudo 命令而无需密码提示权限的用户
+* 对于 Windows 虚拟机：将 VirtIO ISO 挂载到虚拟机（从 [此处应填写下载链接] 下载）。link:https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/archive-virtio/virtio-win-0.1.271-1/virtio-win-0.1.271.iso["此处"] ）
++
+
+NOTE: 准备脚本使用 .msi 包来安装驱动程序和 qemu-guest-agents。
+
+
+
+
+
+== 步骤 1：添加目标站点（OpenShift）
+
+将目标 OpenShift 虚拟化环境添加到 Shift 工具包中。
+
+.步骤
+. 点击“添加新站点”，然后选择“目标位置”。
++
+.显示示例
+[%collapsible]
+====
+image::shift-toolkit-100.png[选择目的地]
+
+====
+. 请输入目的地站点详细信息：
++
+** *网站名称*：请为网站提供一个名称。
+** *虚拟机管理程序*：选择 OpenShift
+** *站点位置*：选择默认选项
+** *连接器*：选择默认选项
+
+
+. 单击“继续”。
++
+.显示示例
+[%collapsible]
+====
+image::shift-toolkit-101.png[目的地详情]
+
+====
+. 请输入 OpenShift 详细信息：
++
+** *端点*：OpenShift 集群端点的完全限定域名（例如，api.demomigsno.demoval.com）
+** *上传 kubeconfig 文件*：使用权限最小的 kubeconfig 文件。
++
+
+NOTE: 文件扩展名必须为yaml。
+
++
+.显示示例
+[%collapsible]
+====
+image::shift-toolkit-102.png[目标 OpenShift 详情]
+
+====
+
+
+. 单击“创建站点”。
++
+.显示示例
+[%collapsible]
+====
+image::shift-toolkit-103.png[创建目标 OpenShift]
+
+====
++
+
+NOTE: 源卷和目标卷将相同，因为磁盘格式转换是在同一卷内的卷级别进行的。
+
+
+
+
+
+== 步骤 2：创建资源组
+
+将虚拟机组织成资源组，以保留启动顺序和启动延迟配置。
+
+.开始之前
+确保将 VM VMDK 迁移到新创建的ONTAP SVM 上的各个数据存储卷。
+
+.步骤
+. 导航至“资源组”，然后单击“创建新资源组”。
+. 从下拉菜单中选择源站点，然后单击“创建”。
+. 提供资源组详细信息并选择工作流程：
++
+** *基于克隆的迁移*：执行从源虚拟机到目标虚拟机的端到端迁移
+** *基于克隆的转换*：将磁盘格式转换为选定的虚拟机管理程序类型
+
+
+. 单击“继续”。
+. 使用搜索选项选择虚拟机。
++
+
+NOTE: 资源组的虚拟机选择是基于虚拟机本身，而不是数据存储级别。
+
++
+.显示示例
+[%collapsible]
+====
+image::shift-toolkit-104.png[与虚拟机关联的数据存储]
+
+====
++
+.显示示例
+[%collapsible]
+====
+image::shift-toolkit-105.png[VM 数据存储详情]
+
+====
+. 更新迁移详情：
++
+** 选择*目标站点*
+** 选择*目标 OpenShift 条目*
+** 选择存储等级
++
+.显示示例
+[%collapsible]
+====
+image::shift-toolkit-106.png[迁移详情]
+
+====
++
+
+NOTE: 如果只有一个 TBC， Trident后端将自动映射到源卷；但是，如果有多个 TBC，则可以选择后端。
+
+
+
+. 配置所有选定虚拟机的启动顺序和启动延迟：
++
+** *1*：第一个启动的虚拟机
+** *3*：默认值
+** *5*：最后一个启动的虚拟机
+
+
+. 单击“创建资源组”。
++
+.显示示例
+[%collapsible]
+====
+image::shift-toolkit-107.png[迁移详情配置]
+
+====
+
+
+.结果
+资源组已创建，可以进行蓝图配置。
+
+
+
+== 步骤 3：创建迁移蓝图
+
+创建迁移计划蓝图，包括平台映射、网络配置和虚拟机设置。
+
+.步骤
+. 导航至“蓝图”并单击“创建新蓝图”。
+. 为蓝图命名并配置主机映射：
++
+** 选择“源站点”和关联的 vCenter
+** 选择*目标站点*和关联的 OpenShift 目标
+** 配置集群和主机映射
++
+.显示示例
+[%collapsible]
+====
+image::shift-toolkit-108.png[蓝图详情]
+
+====
+
+
+. 选择资源组详细信息，然后单击“继续”。
+. 如果存在多个资源组，请设置资源组的执行顺序。
+. 配置网络映射到相应的逻辑网络。
++
+
+NOTE: OpenShift 集群中应该已经配置了网络连接定义，并设置了相应的 VLAN 和 trunk 选项。对于测试迁移，请选择“不配置网络”以避免生产网络冲突；转换后手动分配网络设置。
+
++
+.显示示例
+[%collapsible]
+====
+image::shift-toolkit-109.png[网络映射]
+
+====
+. 查看存储类别和后端映射（根据虚拟机选择自动选择）。
++
+
+NOTE: 确保事先将 VMDK 文件迁移到各个卷，以便可以从 PVC 创建虚拟机并启动虚拟机。
+
+. 在虚拟机详细信息下，选择配置详细信息，并为每种操作系统类型提供服务帐户凭据：
++
+** *Windows系统*：使用具有本地管理员权限的用户（也可以使用域凭据）
+** *Linux*：使用可以无需密码提示即可执行 sudo 命令的用户
++
+.显示示例
+[%collapsible]
+====
+image::shift-toolkit-110.png[配置选择]
+
+====
++
+
+NOTE: 配置选择允许您选择磁盘映像格式、跳过覆盖 prepareVM，以及选择是否将卷从父卷拆分。默认情况下，分割克隆功能已禁用，工作流程默认使用 RAW 格式。
+
+
+
+. 配置IP设置：
++
+** *无需配置*：默认选项
+** *保留 IP 地址*：保持与源系统相同的 IP 地址
+** *DHCP*：为目标虚拟机分配 DHCP 权限
++
+在 prepareVM 阶段，确保虚拟机已启动并安装了 VMware Tools。
+
+
+
+. 配置虚拟机设置：
++
+** 调整 CPU/RAM 参数（可选）
+** 修改启动顺序和启动延迟
+** *开启电源*：选择在迁移后开启虚拟机电源（默认：开启）
+** *移除 VMware Tools*：转换后移除 VMware Tools（默认：已选中）
+** *虚拟机固件*：BIOS > BIOS 和 EFI > EFI（自动）
+** *保留 MAC 地址*：出于许可要求，请保留 MAC 地址。
++
+
+NOTE: 如果需要在保留 MAC 地址的同时保留接口名称，请确保在源 VM 上创建适当的 udev 规则。
+
+** *服务帐户覆盖*：如有需要，请指定单独的服务帐户
+
+
+. 单击“继续”。
+. （可选）选择日期和时间安排迁移。
++
+
+NOTE: 至少提前 30 分钟安排迁移，以便留出时间准备虚拟机。
+
+. 点击“创建蓝图”。
+
+
+.结果
+Shift Toolkit 会启动 prepareVM 作业，该作业会在源虚拟机上运行脚本，为迁移做好准备。
+
+.显示示例
+[%collapsible]
+====
+image::shift-toolkit-111.png[已准备好迁移的虚拟机]
+
+====
+准备过程：
+
+* 注入脚本以更新 VirtIO 驱动程序、安装 qemu-agent、移除 VMware Tools、备份 IP 详细信息并更新 fstab 文件。
+* 使用 PowerCLI 连接到客户虚拟机（Linux 或 Windows）并更新 VirtIO 驱动程序
+* 对于 Windows 虚拟机：将脚本存储在 `C:\NetApp`
+* 对于 Linux 虚拟机：将脚本存储在 `/NetApp`和 `/opt`
+
+
+
+NOTE: 对于任何受支持的虚拟机操作系统，Shift Toolkit 会在磁盘转换之前自动安装必要的 VirtIO 驱动程序，以确保转换后成功启动。
+
+当 prepareVM 成功完成时，蓝图状态将更新为“PrepareVM 完成”。迁移将按计划时间进行，或者也可以点击“迁移”选项手动启动。
+
+.显示示例
+[%collapsible]
+====
+image::shift-toolkit-112.png[PrepareVM 完成状态]
+
+====
+.显示示例
+[%collapsible]
+====
+image::shift-toolkit-113.png[迁移蓝图已准备就绪]
+
+====
+
+
+== 步骤 4：执行迁移
+
+触发迁移工作流，将虚拟机从 VMware ESXi 转换为 OpenShift Virtualization。
+
+.开始之前
+所有虚拟机均按照计划的维护时间表正常关机。
+
+.步骤
+. 在蓝图上，单击“迁移”。
++
+.显示示例
+[%collapsible]
+====
+image::shift-toolkit-114.png[迁移步骤]
+
+====
+. Shift Toolkit 执行以下步骤：
++
+** 删除蓝图中所有虚拟机的现有快照
+** 触发源虚拟机快照
+** 在磁盘转换之前触发卷快照
+** 克隆各个卷
+** 将每个 VMDK 的 VMDK 格式转换为 RAW 格式
++
+Shift Toolkit 会自动查找与每个虚拟机关联的所有 VMDK，包括主启动磁盘。
+
+
+
+
+
+
+NOTE: 如果存在多个 VMDK 文件，则每个 VMDK 文件都会被转换。在此版本（v4.0）中，每个 VMDK 都应该放置在单独的卷/数据存储上。
+
+* 清理卷，使其仅保留 disk.img 文件
++
+将虚拟机磁盘映像转换为 RAW 格式后，Shift Toolkit 会清理卷，将原始文件重命名为 disk.img，并分配必要的权限。
+
+* 使用Trident导入功能以 PVC 格式导入销量。
++
+然后使用NetApp Trident API 将卷作为 PVC 导入。
+
+* 使用虚拟机特定的 YAML 文件创建虚拟机
++
+PVC 导入完毕且 PV 就位后，Shift Toolkit 使用 OC CLI 根据操作系统使用 yaml 文件创建每个虚拟机。
+
+
+
+
+NOTE: 虚拟机在“默认”命名空间下创建。
+
+* 在目标位置启动虚拟机
++
+根据虚拟机操作系统，Shift Toolkit 会自动分配虚拟机启动选项以及存储控制器接口。对于 Linux 发行版，使用 VirtIO 或 VirtIO SCSI。对于 Windows 系统，虚拟机启动时使用 SATA 接口，然后计划脚本会自动安装 VirtIO 驱动程序并将接口更改为 VirtIO。
+
+* 在每个虚拟机上注册网络
++
+网络是根据蓝图选择进行分配的。
+
+* 使用 cron 作业移除 VMware Tools 并分配 IP 地址
+
+
+.显示示例
+[%collapsible]
+====
+image::shift-toolkit-115.png[Red Hat OpenShift 虚拟机迁移]
+
+====
+
+
+== 使用迁移工具包进行虚拟化和 Shift 工具包
+
+本节介绍如何使用NetApp Shift Toolkit 和 Migration Toolkit for Virtualization (MTV) 实现向 Red Hat OpenShift Virtualization 的无缝迁移。
+
+.开始之前
+确保满足以下先决条件：
+
+* 已安装 OpenShift Virtualization Operator 和NetApp Trident CSI 驱动程序的 OpenShift 集群
+* MTV 2.9.4（包含转换模式）
+* link:https://mysupport.netapp.com/site/tools/tool-eula/netapp-shift-toolkit/download["Shift 工具包"]已安装
++
+
+NOTE: 由于仅使用 Shift Toolkit API，因此无需配置 Shift Toolkit 资源组或蓝图。
+
+* 在 OpenShift 集群上拥有管理员级别权限
+* 安装了 tridentctl 和 OC 命令行工具的 Linux 实例
++
+** 已导出 Kubeconfig 或执行 OC 登录以连接到集群
+** 从 Shift Toolkit UI 下载名为“OpenShift-MTV”的脚本（*设置 > 开发者访问权限 > 脚本拦截器*）
+** 解压缩文件： `unzip openshift-mtv.zip`
+** 请确保已安装 Python3： `dnf install python3`
+** 安装 OpenJDK 8 或更高版本： `yum install java-1.8.0-openjdk`
+** 安装要求： `pip install -r requirements.txt`
+
+
+* *MTV 的虚拟机要求*：虚拟机的 VMDK 必须放置在单独的卷上。对于具有 3 个磁盘的虚拟机，每个磁盘都应该位于其单独的卷上（将数据存储映射到 PVC 结构）。这必须使用存储 vMotion 手动完成。
+
+
+.步骤
+. 使用 MTV 创建迁移计划。
++
+为了利用快速 VMDK 转换，请为虚拟机创建迁移计划，并确保 YAML 文件中包含以下参数：
+
++
+** `targetNamespace: default`
+** `type: conversion`
+** `storage: {}`
++
+
+NOTE: 应事先制定计划，以确保 MTV 配置的 IP 设置得到保留。
+
+
+
+. 将 vCenter 中的虚拟机和ONTAP存储上的卷进行映射。
++
+使用脚本创建必要的 PVC 并将其导入到 OpenShift 集群。  PVC必须带有以下标签和注释：
+
++
+*标签：*
+
++
+** PVC 中的 vmID 和 vmUUID（叉车会查找这些值）
++
+*注解：*
+
+** vmdk 磁盘名称 `forklift.konveyor.io/disk-source`
++
+该脚本确保为每个PVC设置这些属性，并更新disk.img的权限：
+
+** `"owner": { "id": 107 }`
+** `"group": { "id": 107 }`
+** `"mode": "0655"`
+
+
+. 请使用以下详细信息更新 JSON 文件：
++
+** * ONTAP集群*：可以是 SVM；可以使用 vsadmin。如果克隆卷不需要立即分离，请将 splitclone 设置为“False”。
+** *vCenter*：发现虚拟机及其关联 VMDK 文件的最低 RBAC 权限
+** * Trident存储类*：应为 NFS 后端，且 YAML 文件中版本信息正确。
+** *OpenShift*：指定项目名称（默认值仅用作示例）
++
+
+NOTE: 其余值保持默认值。
+
+
+
+. 满足先决条件后，执行 `python3 main.py`创建 PVC 并将其导入到 OpenShift 集群。
+. PVC 导入后，使用 MTV 触发迁移，以创建具有相应规范的 VM。
++
+.显示示例
+[%collapsible]
+====
+image::shift-toolkit-116.png[Python脚本执行]
+
+====
++
+.显示示例
+[%collapsible]
+====
+image::shift-toolkit-117.png[Shift Toolkit 中的结果]
+
+====
+. 使用 MTV 转换 VMDK。
++
+该脚本会自动查找与每个虚拟机关联的所有 VMDK，包括主启动磁盘。
+
++
+
+NOTE: 如果存在多个 VMDK 文件，则每个 VMDK 文件都会被转换。
+
+. 上传 RAW 镜像到 OpenShift 虚拟化平台。
++
+该脚本使用Trident CSI 将卷作为 PVC 导入到集群中。  PVC yaml 文件中填充了标签和注释。
+
+. 创建带有 MTV 的虚拟机。
++
+导入完成后，调用 MTV 计划开始迁移。  UI 显示为“冷”，但根据转换的 yaml 规范，MTV 会检查每个 PVC 和 vmID/vmUUID，映射它们，并初始化迁移。
+
++
+.显示示例
+[%collapsible]
+====
+image::shift-toolkit-118.png[迁移状态]
+
+====
++
+
+NOTE: 虚拟机是在“默认”虚拟机项目下创建的，但可以在 MTV 迁移计划 YAML 中修改此设置。
+
+. 首次使用 MTV 启动 VM。
++
+根据虚拟机操作系统，MTV 会自动分配虚拟机启动选项以及存储控制器接口。
+
++
+.显示示例
+[%collapsible]
+====
+image::shift-toolkit-119.png[移民史]
+
+====
++
+迁移在 6 分钟内完成，虚拟机拥有 1.5TB 数据磁盘（分布在 3 个 PVC 上）。这展示了一种使用ONTAP存储重新安置虚拟机的精简、低影响方法。
+
++
+
+NOTE: 在开始进行此特定集成之前，请联系您的红帽客户团队。
+
+
+
+
+
+== 视频演示
+
+以下视频演示了本解决方案中概述的流程。
+
+.从 ESX 到 Oracle Linux Virtualization Manager (OLVM) 的零接触迁移
+video::7e2abc5e-2919-43d6-a5c2-b3760100adaf[panopto]

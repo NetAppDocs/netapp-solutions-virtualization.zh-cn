@@ -4,7 +4,7 @@ permalink: migration/shift-toolkit-install.html
 keywords: netapp, vmware, esxi, vm, migration, openshift, virtualization, hyper-v, proxmox 
 summary:  
 ---
-= 为ONTAP存储安装和设置 Shift Toolkit
+= 安装适用于ONTAP存储的NetApp Shift 工具包
 :allow-uri-read: 
 :nofooter: 
 :icons: font
@@ -19,36 +19,23 @@ summary:
 
 == 准备安装
 
-Shift 工具包可以在 Windows 2019 和 2022 版本上运行。
+要开始使用该工具包，请在指定的虚拟机上使用 Windows 操作系统，并确保满足先决条件，然后安装该软件包。
 
-* 从以下位置下载 Shift 工具包包link:https://mysupport.netapp.com/site/tools/tool-eula/netapp-shift-toolkit["NetApp工具箱"]
-* 解压缩包
-* 运行exe安装并启动服务
+Shift 工具包可在 Windows 2019、2022 和 2025 版本上运行。从此处下载 Shift 工具包link:https://mysupport.netapp.com/site/tools/tool-eula/vm-data-collector["NetApp工具箱"]然后解压缩软件包，运行 exe 文件进行安装并启动服务。 Shift 工具包提供 2 个软件包——在线版（大小约为 130MB）和离线版（大小约为 1.2GB）。顾名思义，在线安装包会从互联网下载并安装必要的先决条件。
 
-
-Shift 工具包提供了 2 个包：
-
-* 在线（大小约 130MB），以及
-* 离线（大小约 1.1GB）。
-
-
-顾名思义，在线安装程序包通过互联网从 Shift 工具包拥有的 S3 存储桶下载并安装必要的先决条件。
-
-image:shift-toolkit-003.png["该图显示输入/输出对话框或表示书面内容"]
+image::shift-toolkit-010.png[图示 Shift Toolkit 下载选择]
 
 在线安装提供了便利，而离线安装则对安装过程提供了更多的控制。使用离线安装包，安装 Shift 工具包所需的所有先决条件都捆绑在包中。离线安装的一个主要优点是它允许在没有互联网连接的虚拟机上安装 Shift 工具包。
 
-
-TIP: 使用适当的包进行部署。使用离线模式时，无需修改代理设置，因为所有必需的先决条件和文件都已捆绑。
+提示：请使用合适的部署软件包。使用离线模式时，无需修改代理设置，因为所有必需的先决条件和文件都已捆绑。
 
 只要源环境和目标环境之间存在连接，Shift 工具包就可以安装在运行 VMware 或 Microsoft Hyper-V 服务器的虚拟机上，最佳做法是将 Shift 工具包安装在自己的虚拟机上。这种方法允许您使用单个 Shift 工具包服务器定位不同的 Microsoft Hyper-V 服务器或 VMware ESXi 服务器。
 
-
-NOTE: 在专用虚拟机上安装 Shift 工具包。
-
+注意：请在专用虚拟机上安装 Shift 工具包。
 
 
-== 安装的先决条件
+
+== 先决条件
 
 
 
@@ -56,15 +43,12 @@ NOTE: 在专用虚拟机上安装 Shift 工具包。
 
 确保 Shift 服务器主机满足最低硬件要求。
 
-硬件要求：
-
-* CPU：4 个 vCPU
-* 内存：至少 8 GB
-* 磁盘空间：至少 100 GB
+* CPU – 4 个虚拟 CPU
+* 内存 – 最低 8 GB
+* 磁盘空间 – 最低 100 GB
 
 
-
-NOTE: 必须有 650 MB 可用磁盘空间才能进行安装。
+注意：安装需要 900 MB 的可用磁盘空间。
 
 
 
@@ -72,88 +56,84 @@ NOTE: 必须有 650 MB 可用磁盘空间才能进行安装。
 
 * 确保虚拟机管理程序和存储环境已配置，以便 Shift 工具包可以与环境中的所有组件正确交互。
 * Shift 工具包必须安装在独立的 Windows 服务器（物理或虚拟）上。
-* Shift 服务器、 Data ONTAP CIFS 服务器和 Hyper-V 服务器必须位于同一个 Windows Active Directory 域中。
-* 进行 VM 转换时，支持将多个 CIFS 和 NFS LIF 与存储虚拟机一起使用。  Hyper-V 服务器和 ESXi 主机通过这些 LIF 的 IP 地址访问存储虚拟机 (SVM)。
+* 对于基于 Hyper-V 的迁移，Shift 服务器、 Data ONTAP CIFS 服务器和 Hyper-V 服务器必须位于同一个 Windows Active Directory 域中。
+* 进行 VM 转换时，支持将多个 CIFS 和 NFS LIF 与存储虚拟机一起使用。Hyper-V 服务器和 ESXi 主机使用这些 LIF 的 IP 地址访问存储虚拟机 (SVM)。
 * 对于 CIFS 操作，Windows 域控制器和NetApp存储控制器的时间设置必须同步。
 
 
 
 
-== ONTAP存储配置
+=== ONTAP存储配置
 
 
 
-=== 创建新的 SVM（推荐）
+==== 创建新的 SVM（推荐）
 
 尽管 Shift 工具包允许使用现有的 SVM，但创建新的 SVM 是NetApp 的最佳实践。使用 Storage vMotion 将要迁移或转换的虚拟机移动到位于专用Data ONTAP存储虚拟机 (SVM) 上的新的指定 NFS v3 数据存储库。此基于 svmotion 的迁移无需虚拟机停机即可执行。通过这种方法，指定要迁移的虚拟机不会驻留在生产 SVM 上。使用ONTAP CLI、 NetApp PowerShell 工具包或系统管理器创建新的 SVM。
 
-按照此处提供的步骤link:https://docs.netapp.com/us-en/ontap/networking/create_svms.html["链接"]配置一个允许 NFS 和 SMB 协议的新 SVM。
+按照此链接中的步骤配置新的 SVM，以支持 NFS 和 SMB 协议。
 
+注意：为了确保 SVM 满足 Shift 工具包的要求，同时避免对生产 SVM 进行可能造成干扰的修改，创建新的 SVM 是一种良好的做法。
 
-NOTE: 创建新的 SVM 是一种很好的做法，以确保 SVM 满足 Shift 工具包要求，而不必以可能造成破坏的方式修改生产 SVM。
-
-
-NOTE: 对于 Hyper-V 迁移，新的 SVM 应该同时启用 NFS 和 SMB 协议。所配置的卷还应启用 NFS 和 SMB。如果目标是基于 KVM 的虚拟机管理程序，则 SVM 必须启用 NFS 协议。
+注意：对于 VMware 到 Hyper-V 之间的双向迁移，新的 SVM 应同时启用 NFS 和 SMB 协议。所配置的卷还应启用 NFS 和 SMB。
 
 
 
-=== qtree 要求
+==== qtree 要求
 
 应在用于托管从 VMware 转换为 Hyper-V 的虚拟机的卷上创建一个 qtree，以便隔离和存储 VHDX 文件或用于将从 VMDK 转换的 qcow2 或 VHDX 文件。
 
-* 对于 ESX 到 Hyper-V 的转换，Shift 工具包将转换后的 VHDX 放置在同一卷内的 qtree（具有 NTFS 安全样式）上。
+* 对于 ESX 到 Hyper-V 的转换，Shift 工具包会将转换后的 VHDX 放置在同一卷内的 qtree（采用 NTFS 安全样式）中。
+* 对于 Hyper-V 到 ESX 的转换，Shift 工具包会将转换后的 VMDK 放置在同一卷内的 qtree（具有 UNIX 安全样式）中。
 * 对于 ESX VMDK 到 QCOW2 的转换，应使用具有 UNIX 安全样式的 qtree。
+* 对于 ESX VMDK 到 RAW 的转换，应该使用具有 UNIX 安全风格的 qtree。
 
 
-Shift 工具包不会验证 qtree 的安全模式。因此，根据目标虚拟机管理程序和磁盘类型创建具有适当安全样式的 qtree 非常重要。
+Shift 工具包不会验证 qtree 的安全风格。因此，根据目标虚拟机管理程序和磁盘类型创建具有适当安全风格的 qtree 非常重要。
 
+注意：目标路径必须与源虚拟机位于同一卷上。
 
-NOTE: 目标路径必须与源虚拟机位于同一卷上。
+注意：根据目标虚拟机管理程序类型和磁盘格式，为 qtree 分配正确的安全样式。
 
+注意：如果转换后的 qcow2 文件打算与 OpenShift 虚拟化一起使用，则有一个例外：这些文件可以直接放置在卷上，而无需使用 qtree。为了实现这一点，可以使用 Shift 工具包 GUI 或使用 Shift 工具包 API 将 VMDK 文件转换为 qcow2 格式，并将它们直接放置在卷中。
 
-NOTE: 根据目标虚拟机管理程序类型和磁盘格式为 qtree 分配正确的安全样式。
-
-
-NOTE: 如果转换后的 qcow2 文件旨在用于 OpenShift 虚拟化，则有一个例外：这些文件可以直接放在卷上，而无需使用 qtree。为了实现这一点，使用 Shift 工具包 API 将 VMDK 文件转换为 qcow2 格式并将其直接放置在卷中。
+image::shift-toolkit-011.png[基于迁移类型创建的 q 树类型示意图]
 
 按照此处提供的步骤link:https://docs.netapp.com/us-en/ontap/nfs-config/create-qtree-task.html["链接"]创建具有正确安全模式的 qtree。
 
-image:shift-toolkit-004.png["该图显示输入/输出对话框或表示书面内容"]
+image::shift-toolkit-012.png[显示要创建的 Q 树类型的对话框]
 
 
 
-=== CIFS 共享要求：
+==== CIFS股份要求
 
-对于 Hyper-V 迁移，创建一个共享来存储转换后的 VM 数据。确保 NFS 共享（用于存储要转换的虚拟机）和目标共享（用于存储转换后的虚拟机）位于同一卷上。  Shift 工具包不支持跨越多个卷。
+对于 Hyper-V 迁移，创建一个共享来存储转换后的 VM 数据。确保 NFS 共享（用于存储要转换的虚拟机）和目标共享（用于存储转换后的虚拟机）位于同一卷上。
 
 按照此处提供的步骤link:https://docs.netapp.com/us-en/ontap/smb-config/create-share-task.html["链接"]创建具有适当属性的共享。确保选择持续可用性属性以及其他默认属性。
 
-image:shift-toolkit-005.png["该图显示输入/输出对话框或表示书面内容"]
+image::shift-toolkit-013.png[显示要创建的 CIFS 共享的对话框]
 
-image:shift-toolkit-006.png["该图显示输入/输出对话框或表示书面内容"]
+image::shift-toolkit-014.png[显示 CIFS 共享创建结果的对话框]
 
+注意：必须启用 SMB 3.0，默认情况下已启用。
 
-NOTE: 必须启用 SMB 3.0，默认情况下启用。
+注意：请确保已启用持续可用属性。
 
+注意：必须在存储虚拟机 (SVM) 上禁用 SMB 导出策略。
 
-NOTE: 确保启用持续可用属性。
+注意：CIFS 服务器和 Hyper-V 服务器所属的域必须同时允许 Kerberos 和 NTLMv2 身份验证。
 
-
-NOTE: 必须在存储虚拟机 (SVM) 上禁用 SMB 的导出策略
-
-
-NOTE: CIFS 服务器和 Hyper-V 服务器所属的域必须同时允许 Kerberos 和 NTLMv2 身份验证。
-
-
-NOTE: ONTAP使用 Windows 默认共享权限“所有人/完全控制”创建共享。
+注意： ONTAP创建的共享具有 Windows 默认的共享权限，即“Everyone / 完全控制”。
 
 
 
-== 支持的操作系统
+=== 支持的操作系统
 
 确保使用受支持的 Windows 和 Linux 客户操作系统版本进行转换，并且 Shift 工具包支持ONTAP版本。
 
-*支持的 VM 客户操作系统*
+
+
+=== 支持的虚拟机客户操作系统
 
 以下版本的 Windows 可作为 VM 转换的客户操作系统：
 
@@ -168,112 +148,123 @@ NOTE: ONTAP使用 Windows 默认共享权限“所有人/完全控制”创建�
 以下版本的 Linux 可作为 VM 转换的客户操作系统：
 
 * CentOS Linux 7.x
-* Red Hat Enterprise Linux 6.7 或更高版本
+* Alma Linux 7.x
 * Red Hat Enterprise Linux 7.2 或更高版本
 * Red Hat Enterprise Linux 8.x
 * 红帽企业 Linux 9.x
 * Ubuntu 2018
 * Ubuntu 2022
 * Ubuntu 2024
-* Debian 10
-* Debian 11
 * Debian 12
-* Suse 12
-* Suse 15
+* SuSe 12
+* SuSe 15
+
+
+注意：不支持 Red Hat Enterprise Linux 5 和 6 的 CentOS Linux/RedHat。
+
+注意：不支持 Windows Server 2008，但转换过程应该可以正常运行。请自行承担风险；但是，我们收到了成功使用 Shift 工具包转换 Windows 2008 VM 的客户报告。迁移后更新 IP 地址非常重要，因为用于自动分配 IP 的 PowerShell 版本与 Windows Server 2008 上运行的旧版本不兼容。
 
 
 
-NOTE: CentOS Linux/RedHat 不支持 Red Hat Enterprise Linux 5。
-
-
-NOTE: Windows Server 2008 不受支持，但转换过程应该可以正常工作。请自行承担风险；但是，我们收到了成功使用 Shift 工具包转换 Windows 2008 VM 的客户报告。迁移后更新 IP 地址非常重要，因为用于自动分配 IP 的 PowerShell 版本与 Windows Server 2008 上运行的旧版本不兼容。
-
-*支持的ONTAP版本 *
+=== 支持的 ONTAP 版本
 
 Shift 工具包支持运行ONTAP 9.14.1 或更高版本的平台
 
-*支持的虚拟机管理程序版本*
-
-VMware：Shift 工具包已针对 vSphere 7.0.3 及更高版本进行验证 Hyper-V：Shift 工具包已针对在 Windows Server 2019、Windows Server 2022 和 Windows Server 2025 上运行的 Hyper-V 角色进行验证
 
 
-NOTE: 在当前版本中，仅 Hyper-V 支持端到端虚拟机迁移。
+=== 支持的虚拟机管理程序版本
+
+* VMware - Shift 工具包已通过 vSphere 7.0.3 及更高版本的验证
+* Hyper-V – Shift 工具包已针对运行在 Windows Server 2019、Windows Server 2022 和 Windows Server 2025 上的 Hyper-V 角色进行了验证。
+* OpenShift - Red Hat OpenShift 和 OpenShift Virtualization 运行版本 4.17 及更高版本
+* Oracle Linux KVM - Oracle Linux Virtualization Manager 版本 >= 4.5
+* Oracle Linux Virtualization Manager 主机上已安装 ovirt-engine-4.5.4-1.el8 RPM 或更高版本
 
 
-NOTE: 在当前版本中，对于以 KVM 为目标，VMDK 到 qcow2 的转换是唯一支持的工作流程。因此，如果从下拉菜单中选择了 KVM，则不需要虚拟机管理程序详细信息。  qcow2 磁盘可用于在 KVM 变体上配置虚拟机。
+注意：在当前版本中，仅 Hyper-V、VMware、OpenShift 和 Oracle Virtualization 支持端到端虚拟机迁移。
+
+注意：在当前版本中，对于 KVM 作为目标，VMDK 到 qcow2 或 RAW 转换是唯一支持的工作流程。因此，如果从下拉菜单中选择了 KVM，则不需要虚拟机管理程序详细信息。qcow2 磁盘可用于在 KVM 变体上配置虚拟机。
 
 
 
 == 安装
 
-. 下载link:https://mysupport.netapp.com/site/tools/tool-eula/netapp-shift-toolkit["Shift工具包"]并解压缩。
+. 下载link:https://mysupport.netapp.com/site/tools/tool-eula/vm-data-collector["Shift 工具包"]打包并解压缩。
 +
-image:shift-toolkit-007.png["该图显示输入/输出对话框或表示书面内容"]
+image::shift-toolkit-015.png[显示 Shift Toolkit 下载选项的对话框]
 
 . 双击下载的 .exe 文件启动 Shift 工具包安装。
 +
-image:shift-toolkit-008.png["该图显示输入/输出对话框或表示书面内容"]
+image::shift-toolkit-016.png[显示要运行的 Shift Toolkit 包的对话框]
 
 +
-
-NOTE: 所有预检查均已执行，如果不满足最低要求，则会显示相应的错误或警告消息。
+注意：所有预检查均已执行，如果未满足最低要求，则会显示相应的错误或警告消息。
 
 . 安装程序将开始安装过程。选择适当的位置或使用默认位置，然后单击“下一步”。
 +
-image:shift-toolkit-009.png["该图显示输入/输出对话框或表示书面内容"]
+image::shift-toolkit-017.png[显示 Shift Toolkit 目标文件夹的对话框]
 
 . 安装程序将提示选择用于访问 Shift 工具包 UI 的 IP 地址。
 +
-image:shift-toolkit-010.png["该图显示输入/输出对话框或表示书面内容"]
+image::shift-toolkit-018.png[显示启动 Shift 工具包的 IP 地址的对话框]
 
 +
-
-NOTE: 如果虚拟机分配了多个 NIC，则设置过程允许使用下拉选项选择正确的 IP 地址。
+注意：如果虚拟机分配了多个网卡，则设置过程中可以使用下拉选项选择正确的 IP 地址。
 
 . 在此步骤中，安装程序将显示所有必需的组件，这些组件将作为该过程的一部分自动下载和安装。以下是 Shift 工具包正常运行所需安装的必需组件 - MongoDB、Windows PowerShell 7、 NetApp ONTAP PowerShell 工具包、策略文件编辑器、凭据管理、VMware.PowerCLI 包和 Java OpenJDK，它们都包含在包中。
 +
-单击“下一步”
+单击“下一步”。
 
 +
-image:shift-toolkit-011.png["该图显示输入/输出对话框或表示书面内容"]
+image::shift-toolkit-019.png[显示待安装软件包的对话框]
 
 . 查看 JAVA OpenJDK GNU 许可信息。单击“下一步”。
 +
-image:shift-toolkit-012.png["该图显示输入/输出对话框或表示书面内容"]
+image::shift-toolkit-020.png[显示 Java 许可信息的对话框]
 
 . 保留创建桌面快捷方式的默认设置，然后单击“下一步”。
 +
-image:shift-toolkit-013.png["该图显示输入/输出对话框或表示书面内容"]
+image::shift-toolkit-021.png[显示其他 Shift 工具包选项的对话框]
 
 . 安装程序现已准备好继续安装。单击“Install”。
 +
-image:shift-toolkit-014.png["该图显示输入/输出对话框或表示书面内容"]
+image::shift-toolkit-022.png[显示 Shift Toolkit 安装选项的对话框]
 
 . 安装开始，过程将下载所需的组件并安装它们。完成后，单击“完成”。
 +
-image:shift-toolkit-015.png["该图显示输入/输出对话框或表示书面内容"]
+image::shift-toolkit-023.png[显示 Shift Toolkit 安装进度的对话框]
+
+. Shift 工具包默认使用自签名证书。接受证书提示，然后单击“下一步”。
++
+注意：该证书可以很容易地被第三方或 CA 生成的证书替换。只需替换 certs 文件夹中的证书即可。  certs 文件夹位于 <安装目录>Storage>Certs 中。
+
++
+image::shift-toolkit-024.png[显示 Shift Toolkit SSL 证书选择的对话框]
+
+. 安装完成后，安装即告完成。
 
 
+注意：如果 Shift 工具包 VM 没有互联网连接，离线安装程序将执行相同的步骤，但会使用可执行文件中包含的软件包来安装组件。
 
+image::shift-toolkit-025.png[显示 Shift 工具包向导的对话框]
 
-NOTE: 如果 Shift 工具包 VM 没有互联网，离线安装程序将执行相同的步骤，但将使用可执行文件中包含的包安装组件。
-
-image:shift-toolkit-016.png["该图显示输入/输出对话框或表示书面内容"]
-
-
-NOTE: 安装可能需要 8-10 分钟。
+注意：安装可能需要 10-15 分钟。
 
 
 
 == 执行升级
 
-下载link:https://mysupport.netapp.com/site/tools/tool-eula/netapp-shift-toolkit/download["升级包"]从“更新”开始并按照以下步骤操作：
+升级现已完全自动化，只需单击一下即可完成。一项额外的服务使升级过程更加顺畅。  Shit 工具包更新程序服务监听 3002 端口，执行以下步骤：
 
-image:shift-toolkit-017.png["该图显示输入/输出对话框或表示书面内容"]
+. 下载升级包。
+. 停止换挡工具包服务
+. 解压文件并覆盖所需文件。
+. 运行更新并使用相同的 IP 地址（保留元数据不变）。
+. 完成后，用户界面将重定向到监听端口 3001 的 Shift 工具包用户界面。
 
-. 将文件解压到指定文件夹。
-. 解压完成后，停止NetApp Shift 服务。
-. 将解压文件夹中的所有文件复制到安装目录，并在出现提示时覆盖这些文件。
-. 完成后，使用“以管理员身份运行”选项运行 update.bat，并在出现提示时输入 Shift Toolkit VM IP。
-. 此过程将升级并启动 Shift 服务。
 
+image::shift-toolkit-026.png[显示 Shift Toolkit 升级选项的对话框]
+
+注意：对于没有互联网连接的部署，请从NetApp Toolchest 手动下载以“update”开头的升级包，并将其放置在指定文件夹（C:\NetApp_Shift）中。该文件夹路径应在更新过程中创建并指定。其他步骤与在线升级流程相同。
+
+image::shift-toolkit-027.png[显示 Shift Toolkit 升级选项的对话框]

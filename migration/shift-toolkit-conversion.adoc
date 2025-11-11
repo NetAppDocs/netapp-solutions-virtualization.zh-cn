@@ -18,116 +18,161 @@ summary:
 
 
 
-== 转换
+== 概述
 
-基于克隆的转换选项允许在虚拟机管理程序之间简单地转换以下磁盘格式的虚拟磁盘：
+Shift 工具包支持虚拟机管理程序之间对以下磁盘格式进行虚拟磁盘的磁盘级转换：
 
 * VMware ESX 到 Microsoft Hyper-V（VMDK 到 VHDX）
+* Microsoft Hyper-V 到 VMware ESX（VHDX 到 VMDK）
 * VMware ESX 到 Red Hat KVM（VMDK 到 QCOW2）
+* VMware ESX 到 Red Hat KVM（VMDK 到 RAW）
 
 
-转换后的 qcow2 文件与任何 KVM 虚拟机管理程序兼容。例如，可以使用 virt-manager 将 qcow2 文件与基于 RHEL 的 KVM 一起使用来创建 VM，也可以将其与 ubuntu KVM、基于 Rocky Linux 的 KVM 等一起使用。经过调整后，它可以与 Oracle Linux 虚拟化管理器一起使用，也可以在使用NetApp Trident导入后与 OpenShift 虚拟化一起使用。目标是提供磁盘（以秒到分钟为单位），然后可以将其集成到组织用于配置虚拟机和分配网络的现有自动化脚本中。这种方法有助于减少总体迁移时间，其中磁盘转换由 Shift 工具包 API 处理，其余脚本启动虚拟机。
+转换后的 qcow2 文件与任何 KVM 虚拟机管理程序兼容。例如，可以使用 virt-manager 在基于 RHEL 的 KVM 中使用 qcow2 文件来创建虚拟机，也可以使用 ubuntu KVM、基于 Rocky Linux 的 KVM 等。经过调整后，它可以与 Oracle Linux 虚拟化管理器一起使用，也可以在使用NetApp Trident导入后与 OpenShift 虚拟化一起使用。目标是提供磁盘（以秒到分钟为单位），然后可以将其集成到组织用于配置虚拟机和分配网络的现有自动化脚本中。这种方法有助于减少总体迁移时间，其中磁盘转换由 Shift 工具包 API 处理，其余脚本启动虚拟机。
 
-在未来的版本中，Shift 工具包将支持从 VMware 到其他兼容 KVM 虚拟机管理程序的端到端迁移。但是，在当前版本中，可以通过 UI 或 API 执行转换。
+Shift 工具包支持从 VMware 到其他兼容的 KVM 虚拟机管理程序的端到端迁移。但是，转换选项使迁移管理员能够运行这些转换和迁移 API。
 
 
 
-=== 转换为 QCOW2 格式
+== 转换为 QCOW2 格式
 
 要使用NetApp Shift 工具包将虚拟磁盘转换为 QCOW2 格式，请按照以下高级步骤操作：
 
-* 创建一个目标站点类型，指定 KVM 作为虚拟机管理程序。
+* 创建目标站点类型，指定 KVM（仅转换）作为虚拟机管理程序。
 +
-
-NOTE: KVM 不需要虚拟机管理程序详细信息。
+注意：KVM 不需要提供虚拟机管理程序详细信息。
 
 +
-image:shift-toolkit-057.png["该图显示输入/输出对话框或表示书面内容"]
+image::shift-toolkit-150.png[创建目标站点步骤的对话框]
 
 * 创建包含需要进行磁盘转换的虚拟机的资源组
 +
-image:shift-toolkit-058.png["该图显示输入/输出对话框或表示书面内容"]
+image::shift-toolkit-151.png[创建资源组步骤的对话框]
 
 +
-image:shift-toolkit-059.png["该图显示输入/输出对话框或表示书面内容"]
+image::shift-toolkit-152.png[创建资源组步骤的对话框]
 
 +
-image:shift-toolkit-060.png["该图显示输入/输出对话框或表示书面内容"]
+image::shift-toolkit-153.png[创建资源组步骤的对话框]
 
 * 创建将虚拟磁盘转换为QCOW2格式的蓝图。
 +
-image:shift-toolkit-061.png["该图显示输入/输出对话框或表示书面内容"]
+image::shift-toolkit-154.png[创建蓝图步骤的对话框]
 
 +
-image:shift-toolkit-062.png["该图显示输入/输出对话框或表示书面内容"]
+image::shift-toolkit-155.png[创建蓝图步骤的对话框]
 
 +
-image:shift-toolkit-063.png["该图显示输入/输出对话框或表示书面内容"]
+image::shift-toolkit-156.png[创建蓝图步骤的对话框]
 
 * 使用调度选项指定一个时间段。如果要临时执行转换，请不要选中调度选项。
 +
-image:shift-toolkit-064.png["该图显示输入/输出对话框或表示书面内容"]
+image::shift-toolkit-157.png[日程安排选项步骤的对话框]
 
-* 一旦创建蓝图，就会启动 prepareVM 作业并自动在源虚拟机上运行脚本以准备转换。
+* 蓝图创建完成后，将触发 prepareVM 作业。该作业会自动在源虚拟机上执行脚本，使其做好转换准备。这些脚本会移除 VMware Tools 并更新驱动程序以匹配目标虚拟机管理程序的要求。
 +
-image:shift-toolkit-065.png["该图显示输入/输出对话框或表示书面内容"]
+image::shift-toolkit-158.png[准备虚拟机步骤的对话框]
 
 * 一旦 prepareVM 作业成功完成（如下面的屏幕截图所示），与虚拟机关联的虚拟机磁盘就可以进行转换，并且蓝图状态将更新为“活动”。
 * 为虚拟机安排所需的停机时间后，单击“转换”。
 +
-image:shift-toolkit-066.png["该图显示输入/输出对话框或表示书面内容"]
+image::shift-toolkit-159.png[转换虚拟机步骤的对话框]
 
 * 转换操作使用时间点快照。如果需要，请关闭虚拟机，然后重新触发操作。
 +
-image:shift-toolkit-067.png["该图显示输入/输出对话框或表示书面内容"]
+image::shift-toolkit-160.png[用于验证是否关闭虚拟机步骤的对话框]
 
+* 转换操作针对虚拟机和相应的磁盘执行每个操作以生成适当的格式。
 +
-** 转换操作针对虚拟机和相应的磁盘执行每个操作以生成适当的格式。
-+
-image:shift-toolkit-068.png["该图显示输入/输出对话框或表示书面内容"]
-
-
+image::shift-toolkit-161.png[转换 VM 步骤的结果对话框]
 
 * 通过手动创建虚拟机并将磁盘附加到虚拟机来使用转换后的磁盘。
 +
-image:shift-toolkit-069.png["该图显示输入/输出对话框或表示书面内容"]
+image::shift-toolkit-162.png[手动转换磁盘步骤对话框]
 
 
 
-
-NOTE: Shift 工具包仅支持 qcow2 格式的磁盘转换。它不支持虚拟机创建或注册。要使用转换后的磁盘，请手动创建虚拟机并附加磁盘。
-
+注意：Shift 工具包仅支持 qcow2 格式的磁盘转换。它不支持虚拟机创建或注册。要使用转换后的磁盘，请手动创建虚拟机并附加磁盘。
 
 
-=== 转换为 VHDX 格式
+
+== 转换为 VHDX 格式
 
 要使用NetApp Shift 工具包将虚拟磁盘转换为 VHDX 格式，请按照以下高级步骤操作：
 
 * 创建目标站点类型并指定 Hyper-V 作为虚拟机管理程序。
 * 创建包含需要进行磁盘转换的虚拟机的资源组
 +
-image:shift-toolkit-070.png["该图显示输入/输出对话框或表示书面内容"]
+image::shift-toolkit-163.png[创建资源组步骤的对话框]
 
 +
-image:shift-toolkit-071.png["该图显示输入/输出对话框或表示书面内容"]
+image::shift-toolkit-164.png[创建资源组步骤的对话框]
 
 * 创建将虚拟磁盘转换为VHDX格式的蓝图。一旦蓝图创建完成，准备工作就会自动启动。
 +
-image:shift-toolkit-072.png["该图显示输入/输出对话框或表示书面内容"]
+image::shift-toolkit-165.png[创建蓝图步骤的对话框]
 
 * 一旦安排了虚拟机所需的停机时间，请选择“转换”。
 +
-image:shift-toolkit-073.png["该图显示输入/输出对话框或表示书面内容"]
+image::shift-toolkit-166.png[转换步骤的对话框]
 
 * 转换操作针对虚拟机和相应的磁盘执行每个操作以生成适当的 VHDX 格式。
 +
-image:shift-toolkit-074.png["该图显示输入/输出对话框或表示书面内容"]
+image::shift-toolkit-167.png[转换步骤的对话框]
 
 * 通过手动创建虚拟机并将磁盘附加到虚拟机来使用转换后的磁盘。
 +
-image:shift-toolkit-075.png["该图显示输入/输出对话框或表示书面内容"]
+image::shift-toolkit-168.png[转换步骤的对话框]
+
+
+
+注意：要在虚拟机中使用转换后的 VHDX 磁盘，必须通过 Hyper-V 管理器或 PowerShell 命令手动创建虚拟机，并将磁盘附加到该虚拟机。除此之外，还应手动映射网络。
+
+
+
+== 转换为 RAW 格式
+
+要使用NetApp Shift 工具包将虚拟磁盘转换为 RAW 格式，请按照以下高级步骤操作：
+
+* 创建目标站点类型，指定 OpenShift 或 OLVM 作为虚拟机管理程序。
+* 创建包含需要进行磁盘转换的虚拟机的资源组
++
+image::shift-toolkit-169.png[创建资源组步骤的对话框]
+
++
+image::shift-toolkit-170.png[创建资源组步骤的对话框]
+
++
+image::shift-toolkit-171.png[创建资源组步骤的对话框]
+
+* 创建将虚拟磁盘转换为RAW格式的蓝图。一旦蓝图创建完成，准备工作就会自动启动。
++
+image::shift-toolkit-172.png[创建蓝图步骤的对话框]
+
+* 一旦安排了虚拟机所需的停机时间，请选择“转换”。
++
+image::shift-toolkit-173.png[转换步骤的对话框]
+
+* 转换操作针对虚拟机和相应的磁盘执行每个操作以生成适当的 RAW 格式。
++
+image::shift-toolkit-174.png[转换步骤的对话框]
+
+* 手动创建虚拟机，使用转换后的磁盘。
++
+** 对于 OpenShift，使用 tridentctl 将卷导入为 PVC，然后使用导入的磁盘创建虚拟机。
+** 对于 OLVM，请前往 ovirt 引擎 URL，并将 Shift 工具包转换后的 RAW 文件作为操作系统磁盘附加到虚拟机，从而创建一个新的虚拟机。请务必选择合适的接口。
++
+注意：对于 OLVM，也可以使用 qcow2 文件格式。此项选择可在创建蓝图时进行。
+
++
+image::shift-toolkit-175.png[编辑转换计划步骤的对话框]
+
++
+注意：要在虚拟机中使用转换后的 RAW 磁盘映像，必须通过 OpenShift 控制台或 OC 命令手动创建虚拟机（通过 YAML 为 OpenShift 创建），或者使用 OLVM REST API/UI 为 OLVM 创建，并且必须将磁盘附加到虚拟机。除此之外，还应手动映射网络。
+
++
+注意：手动创建虚拟机时，请确保指定正确的启动类型（EFI 或 BIOS）。
 
 
 
 
-NOTE: 要在 VM 中使用转换后的 VHDX 磁盘，必须通过 Hyper-V 管理器或 PowerShell 命令手动创建 VM，并且必须将磁盘连接到该 VM。除此之外，还应手动映射网络。

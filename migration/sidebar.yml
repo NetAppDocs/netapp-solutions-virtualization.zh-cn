@@ -4,7 +4,7 @@ title: 虚拟机迁移解决方案
 url: "/migration/index.html"
 entries:
 - title: 使用 Shift Toolkit 迁移或转换虚拟机
-  pdf-filename: 使用 Shift Toolkit 迁移或转换虚拟机
+  pdf-filename: Shift Toolkit 用户指南
   entries:
   - title: 关于Shift Toolkit
     url: "/migration/shift-toolkit-overview.html"
@@ -13,9 +13,25 @@ entries:
   - title: 配置 Shift Toolkit
     url: "/migration/shift-toolkit-ui.html"
   - title: 使用 Shift Toolkit 迁移虚拟机
-    url: "/migration/shift-toolkit-migration.html"
+    entries:
+    - title: 概述
+      url: "/migration/shift-toolkit-migration.html"
+    - title: 将虚拟机从 VMware ESXi 迁移到 Microsoft Hyper-V
+      url: "/migration/shift-toolkit-migrate-esxi2hyperv.html"
+    - title: 将虚拟机从 Microsoft Hyper-V 迁移到 VMware ESXi
+      url: "/migration/shift-toolkit-migrate-hyperv2esxi.html"
+    - title: 将虚拟机从 VMware ESXi 迁移到 Red Hat OpenShift Virtualization
+      url: "/migration/shift-toolkit-migrate-esxi2osv.html"
+    - title: 将虚拟机从 VMware ESXi 迁移到 Oracle Linux Virtualization Manager (OLVM)
+      url: "/migration/shift-toolkit-migrate-esxi2olvm.html"
   - title: 使用 Shift Toolkit 转换虚拟机
     url: "/migration/shift-toolkit-conversion.html"
+  - title: 监控和仪表盘
+    url: "/migration/shift-toolkit-monitor.html"
+  - title: 高级设置
+    url: "/migration/shift-toolkit-settings.html"
+  - title: 从 SAN 环境迁移
+    url: "/migration/shift-toolkit-san.html"
   - title: 后续步骤Next steps
     url: "/migration/shift-toolkit-summary.html"
 - title: 将虚拟机迁移到ONTAP

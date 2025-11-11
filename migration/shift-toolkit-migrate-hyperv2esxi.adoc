@@ -1,0 +1,527 @@
+---
+sidebar: sidebar 
+permalink: migration/shift-toolkit-migrate-hyperv2esxi.html 
+keywords: netapp, vmware, esxi, vm, migration, virtualization, hyper-v, microsoft 
+summary: 使用 Shift Toolkit，通过配置源站点和目标站点、创建资源组和蓝图以及执行迁移工作流，将虚拟机从 Microsoft Hyper-V 迁移到 VMware ESXi。 
+---
+= 使用 Shift Toolkit 将虚拟机从 Microsoft Hyper-V 迁移到 VMware ESXi
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+使用 Shift Toolkit，通过配置源站点和目标站点、创建资源组和蓝图以及执行迁移工作流，将虚拟机从 Microsoft Hyper-V 迁移到 VMware ESXi。
+
+Shift Toolkit 能够实现虚拟机管理程序之间的直接虚拟机转换，而无需创建额外的磁盘副本，从而为 Windows 和 Linux 虚拟机提供无副本迁移，并将停机时间降至最低。
+
+
+
+== 开始之前
+
+开始迁移之前，请确认满足以下先决条件。
+
+.VMware 要求
+* vCenter 和 ESXi 主机已配置
+* 具有最低所需权限的 vCenter 服务器帐户（RBAC 用户）
+* vCenter 和 ESXi 主机可通过 Shift Toolkit 访问，并且 DNS 条目是最新的。
+* 分布式端口组配置了相应的 VLAN ID（不支持标准端口组）。
+* NFS 共享（用于存储已迁移的虚拟机）和源共享（用于存储待迁移的虚拟机）位于同一卷上。
+
+
+.Hyper-V 要求
+* VM VHDx 文件放置在 SMB 共享上
++
+** 如果虚拟机位于集群共享卷 (CSV) 上，请执行到 SMB 共享的实时迁移。
+
+
+* Hyper-V 集成服务已启用并在客户虚拟机上运行。
+* 待迁移的虚拟机处于运行状态，以便进行准备。
+* 必须先关闭虚拟机电源才能触发迁移
+
+
+.客户机虚拟机要求
+* 对于 Windows 虚拟机：使用本地管理员凭据或域凭据，并结合虚拟机上现有的用户配置文件。
+* 对于 Linux 虚拟机：使用具有执行 sudo 命令而无需密码提示权限的用户
+* Shift Toolkit 使用 PowerShell Direct 连接 Windows 虚拟机，使用 SSH 连接 Linux 虚拟机。
+
+
+
+
+== 步骤 1：添加源站点（Hyper-V）
+
+将源 Hyper-V 环境添加到 Shift 工具包中。
+
+.步骤
+. 在受支持的浏览器中打开 Shift Toolkit，并使用默认凭据登录。
+. 导航至“发现”>“添加站点”。
++
+.显示示例
+[%collapsible]
+====
+image::shift-toolkit-350.png[添加站点菜单]
+
+====
+. 点击“添加新站点”，然后选择“来源”。
+. 请输入来源站点详细信息：
++
+** *网站名称*：请为网站提供一个名称。
+** *虚拟机管理程序*：选择 Hyper-V
+** *站点位置*：选择默认选项
+** *连接器*：选择默认选项
+
+
+. 单击“继续”。
++
+.显示示例
+[%collapsible]
+====
+image::shift-toolkit-351.png[来源网站详情]
+
+====
+. 输入 Hyper-V 详细信息：
++
+** *Hyper-V 独立或故障转移集群管理器*：IP 地址或 FQDN
+** *用户名*：采用 UPN 格式的用户名（username@domain.com 或 domain\administrator）
+** *密码*：用于访问 Hyper-V 主机或 FCI 实例的密码
+
+
+. 单击“继续”。
++
+.显示示例
+[%collapsible]
+====
+image::shift-toolkit-352.png[Hyper-V 凭证]
+
+====
++
+
+NOTE: Hyper-V FCI 和主机发现依赖于 DNS 解析。如果解析失败，请更新主机文件（C:\Windows\System32\drivers\etc\hosts），然后重试发现操作。
+
+. 请输入ONTAP存储系统凭据。
++
+.显示示例
+[%collapsible]
+====
+image::shift-toolkit-353.png[ONTAP凭据]
+
+====
+. 单击“创建站点”。
+
+
+.结果
+Shift Toolkit 可自动发现虚拟机并显示元数据信息，包括网络、虚拟交换机和 VLAN ID。
+
+.显示示例
+[%collapsible]
+====
+image::shift-toolkit-354.png[发现结果]
+
+====
+
+NOTE: 虚拟机清单每 24 小时自动刷新一次。修改后要手动刷新，请点击站点名称旁边的三个点，然后选择“发现站点”。
+
+
+
+== 步骤 2：添加目标站点（VMware ESXi）
+
+将目标 VMware 环境添加到 Shift Toolkit 中。
+
+.步骤
+. 点击“添加新站点”，然后选择“目标位置”。
++
+.显示示例
+[%collapsible]
+====
+image::shift-toolkit-357.png[添加目标站点]
+
+====
+. 请输入目的地站点详细信息：
++
+** *网站名称*：请为网站提供一个名称。
+** *虚拟机管理程序*：选择 VMware
+** *站点位置*：选择默认选项
+** *连接器*：选择默认选项
+
+
+. 单击“继续”。
++
+.显示示例
+[%collapsible]
+====
+image::shift-toolkit-358.png[目的地详情]
+
+====
+. 请输入 VMware vCenter 的详细信息：
++
+** *端点*：vCenter 服务器的 IP 地址或 FQDN
+** *用户名*：采用UPN格式的用户名（username@domain.com）
+** vCenter 密码：访问 vCenter 的密码
+** *vCenter SSL 指纹*（可选）
+
+
+. 选择“接受自签名证书”，然后单击“继续”。
++
+.显示示例
+[%collapsible]
+====
+image::shift-toolkit-359.png[vCenter 凭据]
+
+====
+. 单击“创建站点”。
++
+.显示示例
+[%collapsible]
+====
+image::shift-toolkit-360.png[网站创建确认]
+
+====
++
+
+NOTE: 源存储系统和目标存储系统必须相同，因为磁盘格式转换是在同一卷内的卷级别进行的。
+
+
+
+
+
+== 步骤 3：创建资源组
+
+将虚拟机组织成资源组，以保留启动顺序和启动延迟配置。
+
+.开始之前
+确保 qtree 已按照先决条件中的规定进行配置。
+
+.步骤
+. 导航至“资源组”，然后单击“创建新资源组”。
+. 从下拉菜单中选择源站点，然后单击“创建”。
+. 提供资源组详细信息并选择工作流程：
++
+** *基于克隆的迁移*：执行从源虚拟机到目标虚拟机的端到端迁移
+** *基于克隆的转换*：将磁盘格式转换为选定的虚拟机管理程序类型
++
+.显示示例
+[%collapsible]
+====
+image::shift-toolkit-361.png[资源组工作流程]
+
+====
+
+
+. 单击“继续”。
+. 使用搜索选项选择虚拟机（默认筛选条件为“数据存储”）。
++
+.显示示例
+[%collapsible]
+====
+image::shift-toolkit-362.png[虚拟机选择]
+
+====
++
+
+NOTE: 在转换之前，将虚拟机移动到新创建的ONTAP SVM 上的指定 SMB 共享，以将生产共享与暂存区隔离。数据存储下拉菜单仅显示 SMB 共享；不显示 CSV 文件。
+
++
+.显示示例
+[%collapsible]
+====
+image::shift-toolkit-363.png[数据存储选择]
+
+====
+. 更新迁移详情：
++
+** 选择*目标站点*
+** 选择*目标 VMware 条目*
+** 配置卷到 qtree 的映射
++
+.显示示例
+[%collapsible]
+====
+image::shift-toolkit-364.png[迁移详情]
+
+====
++
+
+NOTE: 将虚拟机从 Hyper-V 转换为 ESXi 时，请将目标路径设置为相应的 qtree。
+
+
+
+. 配置所有选定虚拟机的启动顺序和启动延迟：
++
+** *1*：第一个启动的虚拟机
+** *3*：默认值
+** *5*：最后一个启动的虚拟机
+
+
+. 单击“创建资源组”。
++
+.显示示例
+[%collapsible]
+====
+image::shift-toolkit-365.png[启动顺序配置]
+
+====
+
+
+.结果
+资源组已创建，可以进行蓝图配置。
+
+
+
+== 步骤 4：创建迁移蓝图
+
+创建迁移计划蓝图，包括平台映射、网络配置和虚拟机设置。
+
+.步骤
+. 导航至“蓝图”并单击“创建新蓝图”。
+. 为蓝图命名并配置主机映射：
++
+** 选择*源站点*和关联的 Hyper-V 虚拟机管理程序
+** 选择*目标站点*和关联的 vCenter
+** 配置主机和集群映射
++
+.显示示例
+[%collapsible]
+====
+image::shift-toolkit-366.png[蓝图主机映射]
+
+====
+
+
+. 选择资源组详细信息，然后单击“继续”。
+. 如果存在多个资源组，请设置资源组的执行顺序。
+. 配置网络映射到相应的端口组。
++
+.显示示例
+[%collapsible]
+====
+image::shift-toolkit-367.png[网络映射]
+
+====
++
+
+NOTE: 在 VMware 上，分布式端口组是唯一受支持的选项。对于测试迁移，请选择“不配置网络”以避免生产网络冲突；转换后手动分配网络设置。
+
++
+.显示示例
+[%collapsible]
+====
+image::shift-toolkit-368.png[网络配置选项]
+
+====
+. 查看存储映射（根据虚拟机选择自动选择）。
++
+
+NOTE: 请确保事先为 qtree 配置了必要的权限。
+
+. 如果需要自定义脚本或IP地址，请配置虚拟机准备覆盖。
++
+.显示示例
+[%collapsible]
+====
+image::shift-toolkit-369.png[准备覆盖]
+
+====
+. 在虚拟机详细信息下，提供每种操作系统类型的服务帐户和凭据：
++
+** *Windows*：本地管理员或域凭据（确保虚拟机上存在用户配置文件）
+** *Linux*：拥有 sudo 权限的用户无需密码提示
++
+.显示示例
+[%collapsible]
+====
+image::shift-toolkit-370.png[服务帐户凭据]
+
+====
+
+
+. 配置IP设置：
++
+** *无需配置*：默认选项
+** *保留 IP 地址*：保持与源系统相同的 IP 地址
+** *DHCP*：为目标虚拟机分配 DHCP 权限
++
+在 prepareVM 阶段，确保虚拟机已启动并启用集成服务。
+
+
+
+. 配置虚拟机设置：
++
+** 调整 CPU/RAM 参数（可选）
+** 修改启动顺序和启动延迟
+** *开启电源*：选择在迁移后开启虚拟机电源（默认：开启）
+** *添加 VMware Tools*：转换后安装 VMware Tools（默认：已选中）
+** *保留 MAC 地址*：出于许可要求，请保留 MAC 地址。
+** *服务帐户覆盖*：如有需要，请指定单独的服务帐户
++
+.显示示例
+[%collapsible]
+====
+image::shift-toolkit-371.png[VM 配置]
+
+====
+
+
+. 单击“继续”。
+. （可选）选择日期和时间安排迁移。
++
+.显示示例
+[%collapsible]
+====
+image::shift-toolkit-372.png[迁移时间表]
+
+====
++
+
+NOTE: 至少提前 30 分钟安排迁移，以便留出时间准备虚拟机。
+
+. 点击“创建蓝图”。
+
+
+.结果
+Shift Toolkit 会启动 prepareVM 作业，该作业会在源虚拟机上运行脚本，为迁移做好准备。
+
+.显示示例
+[%collapsible]
+====
+image::shift-toolkit-373.png[PrepareVM 作业已启动]
+
+====
+准备过程：
+
+* 对于 Windows 虚拟机：将脚本存储在 `C:\NetApp`
++
+.显示示例
+[%collapsible]
+====
+image::shift-toolkit-374.png[Windows 准备脚本]
+
+====
+* 对于 Linux 虚拟机：将脚本存储在 `/NetApp`和 `/opt`
++
+.显示示例
+[%collapsible]
+====
+image::shift-toolkit-375.png[Linux 准备脚本]
+
+====
++
+
+NOTE: 对于 CentOS 或 Red Hat 虚拟机，Shift Toolkit 会在磁盘转换之前自动安装必要的驱动程序，以确保转换后成功启动。
+
+
+
+当 prepareVM 成功完成后，蓝图状态将更新为“Active”。
+
+.显示示例
+[%collapsible]
+====
+image::shift-toolkit-376.png[蓝图激活状态]
+
+====
+
+
+== 步骤 5：执行迁移
+
+触发迁移工作流，将虚拟机从 Hyper-V 转换为 VMware ESXi。
+
+.开始之前
+* 所有虚拟机均按照计划的维护时间表正常关机。
+* Shift Toolkit VM 是域的一部分
+* CIFS 共享已配置适当的权限
+* Q树具有正确的安全风格
+* 所有客户虚拟机均已启用集成服务。
+* 基于Linux的客户虚拟机已启用SSH。
+
+
+.步骤
+. 在蓝图上，单击“迁移”。
++
+.显示示例
+[%collapsible]
+====
+image::shift-toolkit-377.png[迁移按钮]
+
+====
+. 如果虚拟机仍保持开机状态，请响应正常关机提示。
++
+.显示示例
+[%collapsible]
+====
+image::shift-toolkit-378.png[停工确认]
+
+====
++
+.显示示例
+[%collapsible]
+====
+image::shift-toolkit-379.png[迁移进行中]
+
+====
+
+
+.结果
+Shift Toolkit 执行以下步骤：
+
+. 关闭源虚拟机
+. 删除现有检查点
+. 在源端触发虚拟机检查点
+. 在磁盘转换之前触发卷快照
+. 克隆 VHDx 文件并将其转换为 VMDK 格式
+. 启动目标站点上的虚拟机
+. 注册网络设置
+. 添加 VMware Tools 并分配 IP 地址
+
+
+转换过程只需几秒钟即可完成，最大限度地减少了虚拟机停机时间。
+
+.显示示例
+[%collapsible]
+====
+image::shift-toolkit-380.png[转换进度]
+
+====
+迁移完成后，蓝图状态将变为“迁移完成”。
+
+.显示示例
+[%collapsible]
+====
+image::shift-toolkit-381.png[迁移完成]
+
+====
+
+
+== 步骤 6：验证迁移
+
+确认虚拟机在 VMware ESXi 主机上运行正常。
+
+.步骤
+. 登录到 vCenter 或 ESXi 主机。
+. 确认虚拟机正在指定的 ESXi 主机上运行。
++
+.显示示例
+[%collapsible]
+====
+image::shift-toolkit-382.png[在 ESXi 上运行的虚拟机]
+
+====
+. 验证虚拟机连接性和应用程序功能。
+. （仅限 Windows 虚拟机）如有需要，将离线磁盘联机：
++
+[listing]
+----
+Set-StorageSetting -NewDiskPolicy OnlineAll
+----
++
+
+NOTE: 转换后，除操作系统磁盘外，Windows 操作系统上的所有 VM 磁盘都将脱机，这是由于 Microsoft Windows SAN 的默认策略（offlineALL）。这样可以防止多个服务器访问 LUN 时出现数据损坏。
+
+
+
+.结果
+从 Hyper-V 到 VMware ESXi 的迁移已完成。
+
+
+NOTE: Shift Toolkit 使用 cron 作业（Linux）和计划任务（Windows）进行迁移后操作。虚拟机在 ESXi 主机上运行后，不会创建 SSH 连接或类似连接。
