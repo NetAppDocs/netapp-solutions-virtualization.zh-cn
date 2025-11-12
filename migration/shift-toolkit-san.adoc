@@ -14,7 +14,7 @@ summary: 使用 Shift Toolkit 将虚拟机从基于 SAN 的数据存储迁移到
 
 
 [role="lead"]
-使用 Shift Toolkit 将虚拟机从基于 SAN 的数据存储迁移到 NAS，然后使用 VMware Storage vMotion 和 Hyper-V Storage Live Migration 进行转换，以保持业务连续性。
+使用 Shift Toolkit 将虚拟机从基于 SAN 的数据存储迁移到 NAS，然后再使用 VMware Storage vMotion 和 Storage Live Migration 进行转换，以保持业务连续性。
 
 
 
@@ -32,14 +32,14 @@ image::shift-toolkit-260.png[迁移工作流程图，展示了虚拟机从SAN到
 
 迁移过程包括三个主要阶段：
 
-.从 SAN 迁移到 NAS（VMware 环境）*
+.从SAN迁移到NAS（VMware环境）
 使用 VMware vSphere Storage vMotion 将虚拟机及其磁盘从 SAN 数据存储迁移到 NFS 数据存储。此操作无需虚拟机停机即可完成。
 
-.使用 Shift Toolkit* 转换虚拟机
-虚拟机驻留在 NFS 数据存储后，Shift Toolkit 使用NetApp FlexClone技术将虚拟机从 VMware ESXi 转换为 Hyper-V。转换后的虚拟机及其磁盘被放置在 Hyper-V 主机可访问的 CIFS 共享上。
+.使用 Shift 工具包转换虚拟机
+虚拟机驻留在 NFS 数据存储上之后，Shift Toolkit 使用NetApp FlexClone技术将虚拟机从 VMware ESXi 转换为任何虚拟机管理程序。转换后的虚拟机及其磁盘放置在相应的虚拟机管理程序主机可访问的 qtree 中。
 
-.迁移回 SAN（Hyper-V 环境）*
-转换完成后，使用 Hyper-V 存储实时迁移将转换后的虚拟机及其磁盘从 CIFS 共享移动到启用 SAN 的集群共享卷 (CSV)。这样您就可以在 Hyper-V 环境中维护您的 SAN 基础架构。
+.迁移回SAN
+转换完成后，使用存储迁移将转换后的虚拟机及其磁盘从 qtree 移动到启用 SAN 的卷。这样，您就可以在相应的虚拟机管理程序环境中维护您的 SAN 基础架构。
 
 
 

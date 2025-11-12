@@ -7946,11 +7946,6 @@
   <block id="1facd068da39e1bf7d7e5a544f626c65" category="list-text">触发源蓝图的虚拟机快照</block>
   <block id="29fd6f4750e7b933e938884fffc25da5" category="list-text">在目标位置启动保护组中的虚拟机</block>
   <block id="2a1a26bc619017344dc5b9b7e958804f" category="list-text">移除 VMware Tools，并根据操作系统类型使用触发脚本或 cron 作业分配 IP 地址。</block>
-  <block id="c76ea8983c3a55a70b23de3fa5b413fd" category="paragraph">在计划的维护窗口期内，虚拟机必须正常关机。在开始迁移之前，请确认所有先决条件均已满足：</block>
-  <block id="99573373f032c22be6aa58ab65dff2d9" category="list-text">确保 Shift Toolkit VM 属于域。</block>
-  <block id="b8bd13b1cdb16bb62bd27dab0cc399d8" category="list-text">验证用于迁移或转换的 qtree 是否具有正确的安全样式</block>
-  <block id="2bc4cbd7afcf7c95865d637266313c07" category="list-text">使用集群中任意 Hyper-V 主机上的 Hyper-V 管理器测试创建虚拟机，并将 VHDx 文件放置在 CIFS 共享上。</block>
-  <block id="90e27a49f647299890af53c04b750b85" category="list-text">使用“程序和功能”或 PowerShell 添加 Hyper-V 管理工具，从 Shift Toolkit VM 测试创建 VM：<block ref="a0f83f1a0348c0e6f7032dc3b247ecbf" prefix=" " category="inline-code"></block></block>
   <block id="15f5783455648e1798d7dfb81ef15b1e" category="section-title">网络技巧和注意事项</block>
   <block id="3f4c9c4460717d5de6edda4628be4030" category="paragraph">规划迁移时，请考虑以下网络要求和行为。  Shift Toolkit 会自动从源虚拟机复制网络设置并将其重新应用于迁移的虚拟机，但 Windows 和 Linux 系统之间的接口命名和网络适配器配置可能有所不同。</block>
   <block id="a12934d86bf9a6485e2118f57091c312" category="list-title">一般要求</block>
@@ -8057,12 +8052,7 @@
   <block id="6f8fb0a98f1a5ce00a33fe46f14dadf3" category="paragraph">下图展示了存储在 SAN 环境中的虚拟机的完整迁移工作流程。</block>
   <block id="5a6713c6db95639be9360147457e362d" category="image-alt">迁移工作流程图，展示了虚拟机从SAN到NAS以及再从NAS迁移回SAN的过程。</block>
   <block id="19e36a66de22c564af02cb3b376f2bdb" category="paragraph">迁移过程包括三个主要阶段：</block>
-  <block id="7e8e2f36bf540ee01063cd8222584161" category="paragraph-title">从 SAN 迁移到 NAS（VMware 环境）*</block>
   <block id="5ba0cdc7d5b0343e9cab5b793f279a77" category="paragraph">使用 VMware vSphere Storage vMotion 将虚拟机及其磁盘从 SAN 数据存储迁移到 NFS 数据存储。此操作无需虚拟机停机即可完成。</block>
-  <block id="c286b5e422075c01da80477de77489b5" category="paragraph-title">使用 Shift Toolkit* 转换虚拟机</block>
-  <block id="18e24c111186a4241855f6cda6342917" category="paragraph">虚拟机驻留在 NFS 数据存储后，Shift Toolkit 使用NetApp FlexClone技术将虚拟机从 VMware ESXi 转换为 Hyper-V。转换后的虚拟机及其磁盘被放置在 Hyper-V 主机可访问的 CIFS 共享上。</block>
-  <block id="be685bf5d2853279999d24ce20ae633e" category="paragraph-title">迁移回 SAN（Hyper-V 环境）*</block>
-  <block id="3a1559f648048b6194473fff565382be" category="paragraph">转换完成后，使用 Hyper-V 存储实时迁移将转换后的虚拟机及其磁盘从 CIFS 共享移动到启用 SAN 的集群共享卷 (CSV)。这样您就可以在 Hyper-V 环境中维护您的 SAN 基础架构。</block>
   <block id="a55c5d632b929176a47d17980054a1e1" category="section-title">处理处理器兼容性问题</block>
   <block id="f22ef0f9f9009bf76cb5446738c5633f" category="paragraph">在处理器能力不同的节点之间执行实时虚拟机迁移时，由于处理器兼容性检查，迁移可能会失败。</block>
   <block id="4d76376d1fdfa802843702a2b8cfb46f" category="paragraph">要解决此问题：</block>
@@ -8279,4 +8269,10 @@
   <block id="c0863c498eaa64dd2a5c733b6398ee72" category="sidebar">将虚拟机从 VMware ESXi 迁移到 Oracle Linux Virtualization Manager (OLVM)</block>
   <block id="08220a43248d1ba1b88418efb8f95640" category="sidebar">监控和仪表盘</block>
   <block id="820e55a9dc8a6560f61b34f7fcfb3044" category="sidebar">从 SAN 环境迁移</block>
+  <block id="849beccf26e1a892be3294671fc9091c" category="paragraph">使用 Shift Toolkit 将虚拟机从基于 SAN 的数据存储迁移到 NAS，然后再使用 VMware Storage vMotion 和 Storage Live Migration 进行转换，以保持业务连续性。</block>
+  <block id="332d5a3a53b682cf522efd104929f670" category="paragraph-title">从SAN迁移到NAS（VMware环境）</block>
+  <block id="82909e7cc2324a036d56875ad4616492" category="paragraph-title">使用 Shift 工具包转换虚拟机</block>
+  <block id="b03b448779a771783f7b05ae88457a85" category="paragraph">虚拟机驻留在 NFS 数据存储上之后，Shift Toolkit 使用NetApp FlexClone技术将虚拟机从 VMware ESXi 转换为任何虚拟机管理程序。转换后的虚拟机及其磁盘放置在相应的虚拟机管理程序主机可访问的 qtree 中。</block>
+  <block id="28bed22cb4d0030cf58eb18a11ba3f8e" category="paragraph-title">迁移回SAN</block>
+  <block id="8fb14a772174f772115b35707d3c4a41" category="paragraph">转换完成后，使用存储迁移将转换后的虚拟机及其磁盘从 qtree 移动到启用 SAN 的卷。这样，您就可以在相应的虚拟机管理程序环境中维护您的 SAN 基础架构。</block>
 </blocks>

@@ -26,7 +26,6 @@ Shift Toolkit 通过支持以下虚拟机管理程序之间的双向迁移，为
 * link:shift-toolkit-migrate-hyperv2esxi.html["Microsoft Hyper-V 到 VMware ESXi"]
 * link:shift-toolkit-migrate-esxi2olvm.html["VMware ESXi 到 Oracle Linux Virtualization Manager (OLVM)"]
 * link:shift-toolkit-migrate-esxi2osv.html["VMware ESXi 到 Red Hat OpenShift 虚拟化"]
-* link:shift-toolkit-migrate-esxi2osv.html["VMware ESXi 到 Red Hat OpenShift 虚拟化"]
 
 
 
@@ -45,22 +44,6 @@ Shift Toolkit 在迁移过程中执行以下步骤：
 . 在每个虚拟机上注册网络
 . 移除 VMware Tools，并根据操作系统类型使用触发脚本或 cron 作业分配 IP 地址。
 
-
-
-
-== 前提条件
-
-在计划的维护窗口期内，虚拟机必须正常关机。在开始迁移之前，请确认所有先决条件均已满足：
-
-* 确保 Shift Toolkit VM 属于域。
-* 确保 CIFS 共享配置了适当的权限
-* 验证用于迁移或转换的 qtree 是否具有正确的安全样式
-* 使用集群中任意 Hyper-V 主机上的 Hyper-V 管理器测试创建虚拟机，并将 VHDx 文件放置在 CIFS 共享上。
-* 使用“程序和功能”或 PowerShell 添加 Hyper-V 管理工具，从 Shift Toolkit VM 测试创建 VM： `add-windowsfeature rsat-hyper-v-tools`
-
-
-
-NOTE: 如果出现故障，link:https://learn.microsoft.com/en-us/windows-server/virtualization/hyper-v/manage/remotely-manage-hyper-v-hosts["使用任何身份验证协议启用委派"] 。
 
 
 
