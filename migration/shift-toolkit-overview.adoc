@@ -48,7 +48,7 @@ Shift 工具包支持虚拟机管理程序之间对以下磁盘格式进行虚�
 
 image::shift-toolkit-001.png[NetApp Shift 工具包概述]
 
-Shift 工具包可以下载link:https://mysupport.netapp.com/site/tools/tool-eula/vm-data-collector["此处"]仅适用于 Windows 系统。
+Shift 工具包可以下载link:https://mysupport.netapp.com/site/tools/tool-eula/netapp-shift-toolkit["此处"]仅适用于 Windows 系统。
 
 
 

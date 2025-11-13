@@ -40,7 +40,8 @@ Shift 工具包支持从 VMware 到其他兼容的 KVM 虚拟机管理程序的�
 
 * 创建目标站点类型，指定 KVM（仅转换）作为虚拟机管理程序。
 +
-注意：KVM 不需要提供虚拟机管理程序详细信息。
+
+NOTE: KVM 不需要虚拟机管理程序详细信息。
 
 +
 image::shift-toolkit-150.png[创建目标站点步骤的对话框]
@@ -92,7 +93,8 @@ image::shift-toolkit-162.png[手动转换磁盘步骤对话框]
 
 
 
-注意：Shift 工具包仅支持 qcow2 格式的磁盘转换。它不支持虚拟机创建或注册。要使用转换后的磁盘，请手动创建虚拟机并附加磁盘。
+
+NOTE: Shift 工具包仅支持 qcow2 格式的磁盘转换。它不支持虚拟机创建或注册。要使用转换后的磁盘，请手动创建虚拟机并附加磁盘。
 
 
 
@@ -126,7 +128,8 @@ image::shift-toolkit-168.png[转换步骤的对话框]
 
 
 
-注意：要在虚拟机中使用转换后的 VHDX 磁盘，必须通过 Hyper-V 管理器或 PowerShell 命令手动创建虚拟机，并将磁盘附加到该虚拟机。除此之外，还应手动映射网络。
+
+NOTE: 要在 VM 中使用转换后的 VHDX 磁盘，必须通过 Hyper-V 管理器或 PowerShell 命令手动创建 VM，并且必须将磁盘连接到该 VM。除此之外，还应手动映射网络。
 
 
 
@@ -162,16 +165,19 @@ image::shift-toolkit-174.png[转换步骤的对话框]
 ** 对于 OpenShift，使用 tridentctl 将卷导入为 PVC，然后使用导入的磁盘创建虚拟机。
 ** 对于 OLVM，请前往 ovirt 引擎 URL，并将 Shift 工具包转换后的 RAW 文件作为操作系统磁盘附加到虚拟机，从而创建一个新的虚拟机。请务必选择合适的接口。
 +
-注意：对于 OLVM，也可以使用 qcow2 文件格式。此项选择可在创建蓝图时进行。
+
+NOTE: 对于 OLVM，也可以使用 qcow2 文件格式。此项选择可在创建蓝图时进行。
 
 +
 image::shift-toolkit-175.png[编辑转换计划步骤的对话框]
 
 +
-注意：要在虚拟机中使用转换后的 RAW 磁盘映像，必须通过 OpenShift 控制台或 OC 命令手动创建虚拟机（通过 YAML 为 OpenShift 创建），或者使用 OLVM REST API/UI 为 OLVM 创建，并且必须将磁盘附加到虚拟机。除此之外，还应手动映射网络。
+
+NOTE: 要在虚拟机中使用转换后的 RAW 磁盘映像，必须通过 OpenShift 控制台或 OC 命令手动创建虚拟机（通过 YAML 为 OpenShift 创建），或者使用 OLVM REST API/UI 为 OLVM 创建，并且必须将磁盘附加到虚拟机。除此之外，还应手动映射网络。
 
 +
-注意：手动创建虚拟机时，请确保指定正确的启动类型（EFI 或 BIOS）。
+
+NOTE: 手动创建虚拟机时，请确保指定正确的启动类型（EFI 或 BIOS）。
 
 
 
