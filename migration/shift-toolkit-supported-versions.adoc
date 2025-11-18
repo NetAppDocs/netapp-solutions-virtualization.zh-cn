@@ -1,0 +1,90 @@
+---
+sidebar: sidebar 
+permalink: migration/shift-toolkit-supported-versions.html 
+keywords: netapp, vmware, esxi, vm, migration, openshift, virtualization, hyper-v, proxmox, software, support, shift, toolkit 
+summary: 请确认您的 Windows 和 Linux 客户操作系统、 ONTAP版本和虚拟机管理程序是否受NetApp Shift Toolkit 支持。 
+---
+= NetApp Shift 工具包支持的版本
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+请确认您的 Windows 和 Linux 客户操作系统、 ONTAP版本和虚拟机管理程序是否受NetApp Shift Toolkit 支持。
+
+
+
+== 支持的虚拟机客户操作系统
+
+Shift Toolkit 支持以下 Windows 和 Linux 客户操作系统，用于 VM 转换。
+
+.Windows操作系统
+* Windows 10
+* Windows 11
+* Windows Server 2016
+* Windows Server 2019
+* Windows Server 2022
+* Windows Server 2025
+
+
+.Linux操作系统
+* CentOS Linux 7.x
+* Alma Linux 7.x
+* Red Hat Enterprise Linux 7.2 或更高版本
+* Red Hat Enterprise Linux 8.x
+* 红帽企业 Linux 9.x
+* Ubuntu 2018
+* Ubuntu 2022
+* Ubuntu 2024
+* Debian 12
+* SUSE Linux Enterprise Server 12
+* SUSE Linux Enterprise Server 15
+
+
+
+NOTE: 不支持 CentOS Linux 和 Red Hat Enterprise Linux 版本 5 和 6。
+
+
+NOTE: Windows Server 2008 未获得官方支持。但是，转换过程可能有效，一些客户已经成功转换了 Windows Server 2008 虚拟机。迁移后，请手动更新 IP 地址，因为用于 IP 地址分配自动化的 PowerShell 版本与 Windows Server 2008 不兼容。
+
+
+
+== 支持的 ONTAP 版本
+
+Shift Toolkit 支持ONTAP 9.14.1 或更高版本。
+
+
+
+== 支持的虚拟机管理程序
+
+Shift Toolkit 支持以下虚拟机管理程序平台，用于虚拟机迁移和转换。
+
+
+NOTE: 当前版本仅支持 Hyper-V、VMware、OpenShift 和 Oracle Virtualization 进行端到端虚拟机迁移。对于 KVM 目标，仅支持磁盘转换。
+
+.VMware vSphere
+Shift 工具包已通过 vSphere 7.0.3 或更高版本的验证。
+
+.Microsoft Hyper-V
+Shift 工具包已针对以下 Hyper-V 角色进行验证：
+
+* 在 Windows Server 2019 上运行的 Hyper-V 角色
+* 在 Windows Server 2022 上运行的 Hyper-V 角色
+* 在 Windows Server 2025 上运行的 Hyper-V 角色
+
+
+.红帽 OpenShift
+Shift 工具包已针对运行 4.17 及更高版本的 Red Hat OpenShift 和 OpenShift Virtualization 进行了验证。
+
+.Oracle Linux 虚拟化管理器
+Shift 工具包已针对以下 Oracle Linux Virtualization Manager 版本进行验证：
+
+* Oracle Linux Virtualization Manager 4.5 或更高版本
+* Oracle Linux Virtualization Manager 主机必须安装 ovirt-engine-4.5.4-1.el8 RPM 或更高版本。
+
+
+.KVM
+对于 KVM 目标，Shift Toolkit 仅支持磁盘格式转换（VMDK 到 QCOW2 或 RAW）。从目标下拉菜单中选择 KVM 时，不需要提供虚拟机管理程序连接详细信息。转换完成后，使用 QCOW2 磁盘在基于 KVM 的平台上配置虚拟机。

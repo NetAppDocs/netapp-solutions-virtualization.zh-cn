@@ -1,0 +1,57 @@
+---
+sidebar: sidebar 
+permalink: migration/shift-toolkit-install-prepare.html 
+keywords: netapp, vmware, esxi, vm, migration, openshift, virtualization, hyper-v, proxmox, install, shift, toolkit 
+summary: 请确保您的环境满足先决条件，并为您的部署方案选择合适的安装包，以便安装NetApp Shift Toolkit。 
+---
+= 准备安装适用于ONTAP存储的NetApp Shift 工具包
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+请确保您的环境满足先决条件，并为您的部署方案选择合适的安装包，以便安装NetApp Shift Toolkit。
+
+
+
+== 开始之前
+
+请确认您的环境满足以下要求：
+
+* Windows Server 2019、2022 或 2025
+* 用于安装 Shift Toolkit 的专用虚拟机
+* 源环境和目标环境之间的网络连接
+* 运行在 VMware vSphere 或 Microsoft Hyper-V 上的虚拟机
+
+
+
+NOTE: 在专用虚拟机上安装 Shift Toolkit，即可从单个服务器管理多个源和目标虚拟机管理程序。
+
+
+
+== 选择安装包
+
+Shift Toolkit 提供两种安装包： link:https://mysupport.netapp.com/site/tools/tool-eula/netapp-shift-toolkit["NetApp工具箱"]：
+
+在线安装程序（约130MB）
+
+* 安装过程中从互联网下载并安装必备组件。
+* 安装过程中需要连接互联网
+* 更小的软件包体积，下载速度更快
+
+
+*离线安装程序（约1.2 GB）*
+
+* 包含软件包内的所有先决条件。
+* 支持在没有互联网连接的虚拟机上安装
+* 无需代理配置
+* 提供对安装过程的更多控制权
+
+
+image::shift-toolkit-010.png[Shift Toolkit 安装包选项]
+
+
+TIP: 对于与外部网络隔离的环境，或者当您需要完全控制安装过程而不需要外部依赖项时，请使用离线安装程序。

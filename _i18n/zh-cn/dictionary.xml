@@ -1301,35 +1301,15 @@
   <block id="d34a3f81850057a642d88217501ff9a8" category="list-text">创建将虚拟磁盘转换为VHDX格式的蓝图。一旦蓝图创建完成，准备工作就会自动启动。</block>
   <block id="ea5202a46e21422e0928216be4af1301" category="list-text">一旦安排了虚拟机所需的停机时间，请选择“转换”。</block>
   <block id="50a77afb6e0ed01857c3bd29d3c0f936" category="list-text">转换操作针对虚拟机和相应的磁盘执行每个操作以生成适当的 VHDX 格式。</block>
-  <block id="e31d0ee1c1de817765a32300b5238daa" category="paragraph">使用在线或离线安装选项在运行 Windows 操作系统的专用 VM 上安装 Shift Toolkit。此过程包括检查安装要求、配置ONTAP存储虚拟机 (SVM)、qtree 和 CIFS 共享、下载安装包以及运行安装程序。</block>
-  <block id="75956d20abc768658d8a3ce83f4641c7" category="section-title">准备安装</block>
-  <block id="d01406fc817e76419b0ab22211866aa7" category="paragraph">在线安装提供了便利，而离线安装则对安装过程提供了更多的控制。使用离线安装包，安装 Shift 工具包所需的所有先决条件都捆绑在包中。离线安装的一个主要优点是它允许在没有互联网连接的虚拟机上安装 Shift 工具包。</block>
-  <block id="140a5e5ebbbd3ad017baca6df1134d0f" category="paragraph">只要源环境和目标环境之间存在连接，Shift 工具包就可以安装在运行 VMware 或 Microsoft Hyper-V 服务器的虚拟机上，最佳做法是将 Shift 工具包安装在自己的虚拟机上。这种方法允许您使用单个 Shift 工具包服务器定位不同的 Microsoft Hyper-V 服务器或 VMware ESXi 服务器。</block>
   <block id="47dee50ad0138b8f5ca70e40e86e6c04" category="section-title">硬件要求</block>
-  <block id="88c551d15614e9032bf34b2d92cdf120" category="paragraph">确保 Shift 服务器主机满足最低硬件要求。</block>
   <block id="77495e745fe2123250999bee6aa73027" category="section-title">连接要求</block>
-  <block id="8caf364f4d38f86f9cfbf6ec94b8c4d7" category="list-text">确保虚拟机管理程序和存储环境已配置，以便 Shift 工具包可以与环境中的所有组件正确交互。</block>
-  <block id="b88b0a3e04ecebcedac3f35515322b29" category="list-text">Shift 工具包必须安装在独立的 Windows 服务器（物理或虚拟）上。</block>
-  <block id="7c52123dffdc1f6d93ae1497321eb024" category="list-text">对于 CIFS 操作，Windows 域控制器和NetApp存储控制器的时间设置必须同步。</block>
-  <block id="858a152d89cbda987e75dae7b49f48fb" category="section-title">ONTAP存储配置</block>
-  <block id="b2564aa0c2b4641018cd4bd578911f04" category="section-title">创建新的 SVM（推荐）</block>
-  <block id="4dde82c8447e75f25deb74d58d7da88b" category="paragraph">尽管 Shift 工具包允许使用现有的 SVM，但创建新的 SVM 是NetApp 的最佳实践。使用 Storage vMotion 将要迁移或转换的虚拟机移动到位于专用Data ONTAP存储虚拟机 (SVM) 上的新的指定 NFS v3 数据存储库。此基于 svmotion 的迁移无需虚拟机停机即可执行。通过这种方法，指定要迁移的虚拟机不会驻留在生产 SVM 上。使用ONTAP CLI、 NetApp PowerShell 工具包或系统管理器创建新的 SVM。</block>
-  <block id="2a304a1348456ccd2234cd71a81bd338" category="inline-link-macro">链接</block>
   <block id="e84341e6b16629fbe413c1888f95b229" category="section-title">qtree 要求</block>
-  <block id="edcc42197be73f95181f0040b4003f88" category="paragraph">应在用于托管从 VMware 转换为 Hyper-V 的虚拟机的卷上创建一个 qtree，以便隔离和存储 VHDX 文件或用于将从 VMDK 转换的 qcow2 或 VHDX 文件。</block>
-  <block id="6e4c598a6f37e8fa8e1e784925c467a0" category="list-text">对于 ESX VMDK 到 QCOW2 的转换，应使用具有 UNIX 安全样式的 qtree。</block>
-  <block id="fdec4d5133d3b0de49a035dd50a83519" category="paragraph">按照此处提供的步骤<block ref="9f94f17bf7139ffd394ee78bb7c594f8" category="inline-link-macro-rx"></block>创建具有正确安全模式的 qtree。</block>
-  <block id="315b1746bb0dcf32e9812b4cfb357ba2" category="paragraph">按照此处提供的步骤<block ref="2b887d402871e5aff0dd0442fc018730" category="inline-link-macro-rx"></block>创建具有适当属性的共享。确保选择持续可用性属性以及其他默认属性。</block>
-  <block id="bbf3330385f894cd7bd34b34e4c36d6c" category="section-title">支持的操作系统</block>
-  <block id="95f4429ff2bd832e87b64925c1685c58" category="paragraph">确保使用受支持的 Windows 和 Linux 客户操作系统版本进行转换，并且 Shift 工具包支持ONTAP版本。</block>
-  <block id="e6e6e97bd3a19c9de834b9b2df9aa9cf" category="paragraph">以下版本的 Windows 可作为 VM 转换的客户操作系统：</block>
   <block id="2d457b859f61df5cdc0ae605436482d3" category="list-text">Windows 10</block>
   <block id="8c4731f1a5288444bb2510ff8d967cc3" category="list-text">Windows 11</block>
   <block id="ed590cb2453f0683b64cb528f78610a2" category="list-text">Windows Server 2016</block>
   <block id="31f8757839909e87266f2b53482c86ef" category="list-text">Windows Server 2019</block>
   <block id="de547bcab0e20f54ec4d5e95ba44b0b1" category="list-text">Windows Server 2022</block>
   <block id="9e5f96378bed43aac0d5d94368775263" category="list-text">Windows Server 2025</block>
-  <block id="1595921abd36bc4af7180988ed43a9b5" category="paragraph">以下版本的 Linux 可作为 VM 转换的客户操作系统：</block>
   <block id="f8526f8681da5fb4ee6eff6603918b72" category="list-text">CentOS Linux 7.x</block>
   <block id="56e2e43dda6968929f69a62dc28839e8" category="list-text">Red Hat Enterprise Linux 7.2 或更高版本</block>
   <block id="9a1efddee3edb62d1d66534f47e9491f" category="list-text">Red Hat Enterprise Linux 8.x</block>
@@ -1338,17 +1318,6 @@
   <block id="9cc13cb68c0b30728733faffa37b3cca" category="list-text">Ubuntu 2022</block>
   <block id="56a79ef95ef4b0dd6491515391013741" category="list-text">Ubuntu 2024</block>
   <block id="653181dc830ebbf1153310c93a009c52" category="list-text">Debian 12</block>
-  <block id="036ce8c088779f48971ad6fe493beddc" category="paragraph">Shift 工具包支持运行ONTAP 9.14.1 或更高版本的平台</block>
-  <block id="7cd8fb6e31cc946c078d2740c76a9899" category="section-title">安装</block>
-  <block id="4448c6c4f09e096cdeca5a9da75d2a05" category="list-text">双击下载的 .exe 文件启动 Shift 工具包安装。</block>
-  <block id="218d773d342d6995ff28416f2c521841" category="list-text">安装程序将开始安装过程。选择适当的位置或使用默认位置，然后单击“下一步”。</block>
-  <block id="0e7a4689823b2d0543b22318af751591" category="list-text">安装程序将提示选择用于访问 Shift 工具包 UI 的 IP 地址。</block>
-  <block id="a3a6c286494b16816925373579617891" category="list-text">在此步骤中，安装程序将显示所有必需的组件，这些组件将作为该过程的一部分自动下载和安装。以下是 Shift 工具包正常运行所需安装的必需组件 - MongoDB、Windows PowerShell 7、 NetApp ONTAP PowerShell 工具包、策略文件编辑器、凭据管理、VMware.PowerCLI 包和 Java OpenJDK，它们都包含在包中。</block>
-  <block id="90ad055a957f3d3f05631d633d789da3" category="list-text">查看 JAVA OpenJDK GNU 许可信息。单击“下一步”。</block>
-  <block id="0e25d0993ece97ad92e62173d299859f" category="list-text">保留创建桌面快捷方式的默认设置，然后单击“下一步”。</block>
-  <block id="3df840774a24d34cd339ee148ce8721d" category="list-text">安装程序现已准备好继续安装。单击“Install”。</block>
-  <block id="e9be984c2cb097c27fffdaf7cc1cbe87" category="list-text">安装开始，过程将下载所需的组件并安装它们。完成后，单击“完成”。</block>
-  <block id="227a032350598534e8ee2341c3923593" category="section-title">执行升级</block>
   <block id="e6f59d79adba2e65b730951cf5d41067" category="doc">使用 Shift Toolkit 迁移虚拟机</block>
   <block id="af7c4460ef7ca4b023752c92f7484d72" category="list-text">删除蓝图中所有虚拟机的现有快照</block>
   <block id="fa1e995f4c1850355f1afed807fea9da" category="list-text">磁盘转换前触发卷快照</block>
@@ -7412,58 +7381,8 @@
   <block id="b0de87156ffe112f5f8166152cae5519" category="list-text">对于 OpenShift，使用 tridentctl 将卷导入为 PVC，然后使用导入的磁盘创建虚拟机。</block>
   <block id="a92b8813eb165b3c43549058ce1fa8db" category="list-text">对于 OLVM，请前往 ovirt 引擎 URL，并将 Shift 工具包转换后的 RAW 文件作为操作系统磁盘附加到虚拟机，从而创建一个新的虚拟机。请务必选择合适的接口。</block>
   <block id="6e9a29234e1028e876f938bdd5681bc1" category="image-alt">编辑转换计划步骤的对话框</block>
-  <block id="2821fbb86c99471cbce6ecd8b3c1687d" category="doc">安装适用于ONTAP存储的NetApp Shift 工具包</block>
-  <block id="bc4e03f0d73b062d4fb7ae1f6a827d4c" category="paragraph">要开始使用该工具包，请在指定的虚拟机上使用 Windows 操作系统，并确保满足先决条件，然后安装该软件包。</block>
-  <block id="92f4abdcd256d7df6e79a1ad93294e19" category="image-alt">图示 Shift Toolkit 下载选择</block>
-  <block id="e11da9afe91d381489a365c86cc614ab" category="section-title">先决条件</block>
-  <block id="84089c84fe635e93a571c8d2078685e2" category="list-text">CPU – 4 个虚拟 CPU</block>
-  <block id="c25de1656f530fa9c0e02e589a99b0b2" category="list-text">内存 – 最低 8 GB</block>
-  <block id="01a9b91ccede03f628fdc87d2dadd2ca" category="list-text">磁盘空间 – 最低 100 GB</block>
-  <block id="211fbf3c943803d1e8ee2d9028d397c8" category="list-text">对于基于 Hyper-V 的迁移，Shift 服务器、 Data ONTAP CIFS 服务器和 Hyper-V 服务器必须位于同一个 Windows Active Directory 域中。</block>
-  <block id="5ee9ac4214347b231d90ec0fe04ec7da" category="list-text">进行 VM 转换时，支持将多个 CIFS 和 NFS LIF 与存储虚拟机一起使用。Hyper-V 服务器和 ESXi 主机使用这些 LIF 的 IP 地址访问存储虚拟机 (SVM)。</block>
-  <block id="1a08679970ec521864f514134592b9e3" category="paragraph">按照此链接中的步骤配置新的 SVM，以支持 NFS 和 SMB 协议。</block>
-  <block id="e4747dacfdeaf64a9f1da8c1e983cb88" category="list-text">对于 ESX 到 Hyper-V 的转换，Shift 工具包会将转换后的 VHDX 放置在同一卷内的 qtree（采用 NTFS 安全样式）中。</block>
-  <block id="3c9fc53f2afbc9694a4df01009b70d37" category="list-text">对于 Hyper-V 到 ESX 的转换，Shift 工具包会将转换后的 VMDK 放置在同一卷内的 qtree（具有 UNIX 安全样式）中。</block>
-  <block id="5b8cf77d4e68f3259aec8c8c523c07af" category="list-text">对于 ESX VMDK 到 RAW 的转换，应该使用具有 UNIX 安全风格的 qtree。</block>
-  <block id="782281c56b4e89829f430b0e3a5be151" category="paragraph">Shift 工具包不会验证 qtree 的安全风格。因此，根据目标虚拟机管理程序和磁盘类型创建具有适当安全风格的 qtree 非常重要。</block>
-  <block id="e3d5a5ace968edfbd09962cfa0dee29f" category="image-alt">基于迁移类型创建的 q 树类型示意图</block>
-  <block id="05e28166a1f92c3a776cf8a97a6b6ee9" category="image-alt">显示要创建的 Q 树类型的对话框</block>
-  <block id="51f228208bf35769cace217e2c75b361" category="section-title">CIFS股份要求</block>
-  <block id="4d191110824bda8df8aeb1a6e7b18c8e" category="paragraph">对于 Hyper-V 迁移，创建一个共享来存储转换后的 VM 数据。确保 NFS 共享（用于存储要转换的虚拟机）和目标共享（用于存储转换后的虚拟机）位于同一卷上。</block>
-  <block id="495c34aa343437cb8f198cd862f90c81" category="image-alt">显示要创建的 CIFS 共享的对话框</block>
-  <block id="ba3fb9aceb0ac7c1eb94ffbeb452a225" category="image-alt">显示 CIFS 共享创建结果的对话框</block>
   <block id="7eab521ce07e2b1655041dc55cbbeede" category="section-title">支持的虚拟机客户操作系统</block>
   <block id="e87637b4c5507d05f5ab40e9b4f2ebeb" category="list-text">Alma Linux 7.x</block>
-  <block id="61ae957360cbb9e779b4770da0706e03" category="list-text">SuSe 12</block>
-  <block id="d0a61b5dcacd7a98d6ea9528d63dcb93" category="list-text">SuSe 15</block>
-  <block id="6ad3fd15b4ece95a97a7bcb31427bec1" category="section-title">支持的 ONTAP 版本</block>
-  <block id="01e9975649f2ec16d824f96c4fa7aeb8" category="section-title">支持的虚拟机管理程序版本</block>
-  <block id="95546e9760981229487527d6cf9a3d52" category="list-text">VMware - Shift 工具包已通过 vSphere 7.0.3 及更高版本的验证</block>
-  <block id="8ab50e84904fabba2aa923a86f8df826" category="list-text">Hyper-V – Shift 工具包已针对运行在 Windows Server 2019、Windows Server 2022 和 Windows Server 2025 上的 Hyper-V 角色进行了验证。</block>
-  <block id="4548015f6d00a7f977186d6acc5f7902" category="list-text">OpenShift - Red Hat OpenShift 和 OpenShift Virtualization 运行版本 4.17 及更高版本</block>
-  <block id="0d7435375bda68258e789bb228f91ebc" category="list-text">Oracle Linux KVM - Oracle Linux Virtualization Manager 版本 &gt;= 4.5</block>
-  <block id="367c1e1c1b0fed55126cd44edcd92a67" category="list-text">Oracle Linux Virtualization Manager 主机上已安装 ovirt-engine-4.5.4-1.el8 RPM 或更高版本</block>
-  <block id="6572eb27b5c6086cdd5bcbc4d1667e7b" category="image-alt">显示 Shift Toolkit 下载选项的对话框</block>
-  <block id="4ec292c048e8a4f9e319c6cb0de2483d" category="image-alt">显示要运行的 Shift Toolkit 包的对话框</block>
-  <block id="c2892c9148b18c2c3e6d5b86db11172d" category="image-alt">显示 Shift Toolkit 目标文件夹的对话框</block>
-  <block id="e60c7bb55f0d3c05c05bae40b25ce40d" category="image-alt">显示启动 Shift 工具包的 IP 地址的对话框</block>
-  <block id="dcae96231bba4c35e94accf7724b8cea" category="paragraph">单击“下一步”。</block>
-  <block id="7fa1f523d44084aabc1cd576f9320be1" category="image-alt">显示待安装软件包的对话框</block>
-  <block id="ee579445f71f17020d064463efed8355" category="image-alt">显示 Java 许可信息的对话框</block>
-  <block id="51fe884902370ec53cd7acd7e6abed3a" category="image-alt">显示其他 Shift 工具包选项的对话框</block>
-  <block id="422250d12ac22829224f1b621e63ac68" category="image-alt">显示 Shift Toolkit 安装选项的对话框</block>
-  <block id="58cebf544833d2d2babd5e50c91061b1" category="image-alt">显示 Shift Toolkit 安装进度的对话框</block>
-  <block id="9051840a1f4fd4f2bad1fc8681b84cad" category="list-text">Shift 工具包默认使用自签名证书。接受证书提示，然后单击“下一步”。</block>
-  <block id="b5cff33795d09607abcdb31ac9df352a" category="image-alt">显示 Shift Toolkit SSL 证书选择的对话框</block>
-  <block id="99e092ab9321d3856d51f3e4e55af66a" category="list-text">安装完成后，安装即告完成。</block>
-  <block id="e63765367148f418cf687a4778e70038" category="image-alt">显示 Shift 工具包向导的对话框</block>
-  <block id="16807519541f6a0f84b273fd8a3e9b70" category="paragraph">升级现已完全自动化，只需单击一下即可完成。一项额外的服务使升级过程更加顺畅。  Shit 工具包更新程序服务监听 3002 端口，执行以下步骤：</block>
-  <block id="38243a8449ba1b8388f98f8617180f9a" category="list-text">下载升级包。</block>
-  <block id="d7696bad80895fa3cb6a1f79064ac9e1" category="list-text">停止换挡工具包服务</block>
-  <block id="5dd592d4d5a0330779cd0e975d5958b1" category="list-text">解压文件并覆盖所需文件。</block>
-  <block id="0d83db94a6f793e24bc275947796d6ad" category="list-text">运行更新并使用相同的 IP 地址（保留元数据不变）。</block>
-  <block id="a081c9f4fbebfea5f37497319eeb3147" category="list-text">完成后，用户界面将重定向到监听端口 3001 的 Shift 工具包用户界面。</block>
-  <block id="8c57096463233c48527a2884538dc643" category="image-alt">显示 Shift Toolkit 升级选项的对话框</block>
   <block id="000738c77e4719c5ca7216b3b1fd318c" category="summary">使用 Shift Toolkit 将虚拟机从 VMware ESXi 迁移到 Microsoft Hyper-V，方法是准备虚拟机、转换磁盘格式和配置目标环境。</block>
   <block id="7c087000969c41966e005710d6aebb90" category="doc">使用 Shift Toolkit 将虚拟机从 VMware ESXi 迁移到 Microsoft Hyper-V</block>
   <block id="82f049c181190bec5fa5f8b4f44c198a" category="paragraph">Shift Toolkit 能够通过目标环境中的磁盘格式转换和网络重新配置，实现虚拟化平台之间的虚拟机迁移。</block>
@@ -8228,31 +8147,8 @@
   <block id="e2d38bb0205a8ef9aba696cee5c3aa28" category="admonition">对于 OLVM，也可以使用 qcow2 文件格式。此项选择可在创建蓝图时进行。</block>
   <block id="63c1e7779d95e612b6d229b69472c6f2" category="admonition">要在虚拟机中使用转换后的 RAW 磁盘映像，必须通过 OpenShift 控制台或 OC 命令手动创建虚拟机（通过 YAML 为 OpenShift 创建），或者使用 OLVM REST API/UI 为 OLVM 创建，并且必须将磁盘附加到虚拟机。除此之外，还应手动映射网络。</block>
   <block id="3bf99fda67690f8472ac3105914e8f75" category="admonition">手动创建虚拟机时，请确保指定正确的启动类型（EFI 或 BIOS）。</block>
-  <block id="7d76d555f2a35e2e68785f77730e4223" category="paragraph">Shift 工具包可在 Windows 2019、2022 和 2025 版本上运行。从此处下载 Shift 工具包<block ref="0e93fa2610e18308a429b8e37bff0fca" category="inline-link-macro-rx"></block>然后解压缩软件包，运行 exe 文件进行安装并启动服务。Shift 工具包提供 2 个软件包——在线版（大小约为 130MB）和离线版（大小约为 1.2GB）。顾名思义，在线安装包会从互联网下载并安装必要的先决条件。</block>
-  <block id="50bf380243c95c9173da44b1e6c6c318" category="admonition">使用适当的包进行部署。使用离线模式时，无需修改代理设置，因为所有必需的先决条件和文件都已捆绑。</block>
-  <block id="5676f7ccd02e9341b1f0dc22219d49c2" category="admonition">在专用虚拟机上安装 Shift 工具包。</block>
-  <block id="0a5f187a38c5b17faf05a92c3c55a264" category="admonition">必须有 900 MB 可用磁盘空间才能进行安装。</block>
-  <block id="51408e5e3b25fc5a811d161d4ec11813" category="admonition">创建新的 SVM 是一种很好的做法，以确保 SVM 满足 Shift 工具包要求，而不必以可能造成破坏的方式修改生产 SVM。</block>
-  <block id="e38734739368fedf7716d8f6ef5616d2" category="admonition">对于 VMware 到 Hyper-V 之间的双向迁移，新的 SVM 应该同时启用 NFS 和 SMB 协议。所配置的卷还应启用 NFS 和 SMB。</block>
   <block id="d77eaf1ead0dd10191f74771949651f6" category="admonition">目标路径必须与源虚拟机位于同一卷上。</block>
-  <block id="086928e9e6a367446b6ac38269430e43" category="admonition">根据目标虚拟机管理程序类型和磁盘格式为 qtree 分配正确的安全样式。</block>
-  <block id="103001c0162eb90ec3c33b6d9c5c0324" category="admonition">如果转换后的 qcow2 文件旨在用于 OpenShift 虚拟化，则有一个例外：这些文件可以直接放在卷上，而无需使用 qtree。为了实现这一点，可以使用 Shift 工具包 GUI 或使用 Shift 工具包 API 将 VMDK 文件转换为 qcow2 格式，并将它们直接放置在卷中。</block>
-  <block id="0311ee0cf7fe887f90c9f918533a9096" category="admonition">必须启用 SMB 3.0，默认情况下启用。</block>
-  <block id="d3525ee733a0a9400de3b9c51c569106" category="admonition">确保启用持续可用属性。</block>
-  <block id="de63bc7e3957393b95cabe1066c8d6e5" category="admonition">必须在存储虚拟机 (SVM) 上禁用 SMB 的导出策略</block>
-  <block id="4871af42b5e6993a6b64636300ff3583" category="admonition">CIFS 服务器和 Hyper-V 服务器所属的域必须同时允许 Kerberos 和 NTLMv2 身份验证。</block>
   <block id="875e7b2516d12003e4697ae14eb19d7e" category="admonition">ONTAP使用 Windows 默认共享权限“所有人/完全控制”创建共享。</block>
-  <block id="4de2d7564d5e43d51fa02f3b66a88e08" category="admonition">CentOS Linux/RedHat 不支持 Red Hat Enterprise Linux 5 和 6。</block>
-  <block id="e3b527bb151566ab2590c93db56acad7" category="admonition">Windows Server 2008 不受支持，但转换过程应该可以正常工作。请自行承担风险；但是，我们收到了成功使用 Shift 工具包转换 Windows 2008 VM 的客户报告。迁移后更新 IP 地址非常重要，因为用于自动分配 IP 的 PowerShell 版本与 Windows Server 2008 上运行的旧版本不兼容。</block>
-  <block id="f872e6d836b90234d3cc68973622aded" category="admonition">当前版本仅支持 Hyper-V、VMware、OpenShift 和 Oracle Virtualization 的端到端虚拟机迁移。</block>
-  <block id="13139e0a28c4eeaac6c0835c087cc79e" category="admonition">在当前版本中，对于 KVM 作为目标，VMDK 到 qcow2 或 RAW 的转换是唯一支持的工作流程。因此，如果从下拉菜单中选择了 KVM，则不需要虚拟机管理程序详细信息。qcow2 磁盘可用于在 KVM 变体上配置虚拟机。</block>
-  <block id="249ab02ca8a32d830ad496e0da5b54c2" category="list-text">下载<block ref="9aa914d37cf6457f3666d93aedcfa60f" category="inline-link-macro-rx"></block>打包并解压缩。</block>
-  <block id="ffee295c0d98b6d41b18fd5077be0984" category="admonition">所有预检查均已执行，如果不满足最低要求，则会显示相应的错误或警告消息。</block>
-  <block id="f9496371491d8eaef3321581f8037d2b" category="admonition">如果虚拟机分配了多个 NIC，则设置过程允许使用下拉选项选择正确的 IP 地址。</block>
-  <block id="2f9f3f418527bcc896531c079afd73bd" category="admonition">该证书可以很容易地被第三方或证书颁发机构 (CA) 生成的证书替换。只需替换 certs 文件夹中的证书即可。certs 文件夹位于 &lt;安装目录&gt;Storage&gt;Certs 中。</block>
-  <block id="7dff5687c881c53f6351151dc7bce114" category="admonition">如果 Shift 工具包 VM 没有互联网，离线安装程序将执行相同的步骤，但将使用可执行文件中包含的包安装组件。</block>
-  <block id="272f6dc09b503783174135e096ac86d3" category="admonition">安装过程大约需要 10-15 分钟。</block>
-  <block id="2e7ecf46edd82001af03972ca0b514a7" category="admonition">对于没有互联网连接的部署，请从NetApp Toolchest 手动下载以“update”开头的升级包，并将其放置在指定文件夹（C:\NetApp_Shift）中。该文件夹路径应在更新过程中创建并指定。其他步骤与在线升级流程相同。</block>
   <block id="39c656d738218c6eb00356f3d2348871" category="list-text"><block ref="4e0f141d6a23d78411e5d5d5543923fe" category="inline-link-macro-rx"></block>已安装</block>
   <block id="24a15b3ec265849869b510313ad80608" category="paragraph">Shift 工具包可以下载<block ref="01c0f6eea4563eff35284d1f57df8f3e" category="inline-link-macro-rx"></block>仅适用于 Windows 系统。</block>
   <block id="663525d60f2ca3fc21271786f8feba4c" category="admonition">使用 Google Chrome 或 Internet Explorer 可获得最佳体验。</block>
@@ -8281,4 +8177,149 @@
   <block id="9626af62825ff7da30100c4281b6756f" category="list-text"><block ref="9626af62825ff7da30100c4281b6756f" category="inline-link-macro-rx"></block></block>
   <block id="657c6ccf2c868e721dd192abfde01a8c" category="list-text"><block ref="657c6ccf2c868e721dd192abfde01a8c" category="inline-link-macro-rx"></block></block>
   <block id="6c3fdb8607979cc3d040eab9498bfdbe" category="list-text"><block ref="6c3fdb8607979cc3d040eab9498bfdbe" category="inline-link-macro-rx"></block></block>
+  <block id="cdcf18c561ebd6f2b934ac126a8aa4e6" category="summary">请确保您的环境满足先决条件，并为您的部署方案选择合适的安装包，以便安装NetApp Shift Toolkit。</block>
+  <block id="aec653faf16dbfe6572cf6baebc9d525" category="doc">准备安装适用于ONTAP存储的NetApp Shift 工具包</block>
+  <block id="bc525554987633d7d7e0532823f4e1dc" category="paragraph">请确认您的环境满足以下要求：</block>
+  <block id="0f778da4bc421416292d1bc68709d173" category="list-text">Windows Server 2019、2022 或 2025</block>
+  <block id="e4fc1a2f17ebce3280803345cd2403f3" category="list-text">用于安装 Shift Toolkit 的专用虚拟机</block>
+  <block id="4648597563f6269ee355e3bf0558d752" category="list-text">源环境和目标环境之间的网络连接</block>
+  <block id="97bd1053ab8e485f904877166b95be38" category="list-text">运行在 VMware vSphere 或 Microsoft Hyper-V 上的虚拟机</block>
+  <block id="4f4d53cc892a1a45e959f30d0c298278" category="admonition">在专用虚拟机上安装 Shift Toolkit，即可从单个服务器管理多个源和目标虚拟机管理程序。</block>
+  <block id="30aa947f2e9da1ad5509e08a0e781265" category="section-title">选择安装包</block>
+  <block id="05fa68319250991e571811704c60dde6" category="paragraph">Shift Toolkit 提供两种安装包： <block ref="0e93fa2610e18308a429b8e37bff0fca" category="inline-link-macro-rx"></block>：</block>
+  <block id="7c7fcb1e5dc35c7efa309ae9133f999b" category="paragraph">在线安装程序（约130MB）</block>
+  <block id="40361f39f95c0dea0f6836ab5db6d345" category="list-text">安装过程中从互联网下载并安装必备组件。</block>
+  <block id="1f6ff056f9129c7af21517ee7876650f" category="list-text">安装过程中需要连接互联网</block>
+  <block id="56417aa828e75e5c7a2197907a3351bc" category="list-text">更小的软件包体积，下载速度更快</block>
+  <block id="aed7a60731b883a92e7cd883d00212aa" category="paragraph">*离线安装程序（约1.2 GB）*</block>
+  <block id="e779a901f9d9f805d3904c689282fc36" category="list-text">包含软件包内的所有先决条件。</block>
+  <block id="b820a661a6fb72316e4107f6a342344b" category="list-text">支持在没有互联网连接的虚拟机上安装</block>
+  <block id="d0c2f64d4ac5881367e4eff4784a2cc8" category="list-text">无需代理配置</block>
+  <block id="9b5ef8fddc6add20a5e6224bd0aadadc" category="list-text">提供对安装过程的更多控制权</block>
+  <block id="fc3d21b7ada3d02b0737f2003585e052" category="image-alt">Shift Toolkit 安装包选项</block>
+  <block id="6850601d543be4c77cd3adfaad4b972b" category="admonition">对于与外部网络隔离的环境，或者当您需要完全控制安装过程而不需要外部依赖项时，请使用离线安装程序。</block>
+  <block id="aa5c9d40cdcad028f8cf16acb8904497" category="summary">在安装 Shift Toolkit 之前，请确认您的环境满足硬件、连接性和ONTAP存储要求。</block>
+  <block id="8ae10a109e9bf2827e72190ac1a8d84c" category="doc">安装NetApp Shift 工具包的要求</block>
+  <block id="3d8e3640f341466c5f1dde73510ca843" category="paragraph">请确保Shift Toolkit服务器满足以下最低硬件要求：</block>
+  <block id="e1bab256b4db9299fddebe5b9377f4d6" category="list-text">*CPU*：4 个虚拟 CPU</block>
+  <block id="21c4054b85d91e3bc9dac15e8ff61d5c" category="list-text">内存：至少 8 GB</block>
+  <block id="14b0041f679fe2c8f091fbd72be8d3cc" category="list-text">*磁盘空间*：至少 100 GB（其中 900 MB 可用于安装）</block>
+  <block id="53ce0e2dc069265caf37622b49276349" category="paragraph">请确认满足以下连接要求：</block>
+  <block id="eb53e3f60e22d4b07ecf04cfdea6242d" category="list-text">Shift Toolkit 必须安装在独立的 Windows 服务器（物理服务器或虚拟服务器）上。</block>
+  <block id="fe6e51af1a7f2b764245c914fdb4c5c4" category="list-text">必须配置虚拟机管理程序和存储环境，以允许 Shift Toolkit 与所有组件交互。</block>
+  <block id="ac79977b7ea5a6c70d9a687cf1661086" category="list-text">对于 Hyper-V 迁移，Shift 服务器、 ONTAP CIFS 服务器和 Hyper-V 服务器必须位于同一 Windows Active Directory 域中。</block>
+  <block id="5098b2ba4632924d1d3447f74e55d57f" category="list-text">支持在虚拟机转换期间使用多个 CIFS 和 NFS LIF，以配合存储虚拟机 (SVM) 使用。</block>
+  <block id="4bf7b4181c5f03f1ea5fdadf97dc7057" category="list-text">对于 CIFS 操作，Windows 域控制器和ONTAP存储控制器之间的时间设置必须同步。</block>
+  <block id="e0f7843d63aa2a21a4a95c53742742ca" category="section-title">ONTAP存储配置</block>
+  <block id="4d8777cff2a0608afe7c66242a025331" category="paragraph">配置ONTAP存储组件，包括 SVM、qtree 和 CIFS 共享，以支持 Shift Toolkit 迁移。</block>
+  <block id="c25ed121b3774217e5fa5ba887675147" category="section-title">创建一个新的SVM（推荐）</block>
+  <block id="bc7e7f9ccf8010089b0cdd3b9b6d82b3" category="paragraph">虽然 Shift Toolkit 允许使用现有的 SVM，但NetApp建议为迁移操作创建一个专用的 SVM。</block>
+  <block id="4cf4b367b98665d83c3e8f9841f6c06d" category="paragraph">创建新的SVM可带来以下好处：</block>
+  <block id="da0a8400ac8171d211e5711ef27f776d" category="list-text">将迁移操作与生产工作负载隔离。</block>
+  <block id="3fadc2a0a8223a96faf478b0f2a0debe" category="list-text">确保 SVM 满足 Shift Toolkit 的要求，而无需修改生产配置。</block>
+  <block id="dd19ea197319195487bb72624e338c88" category="list-text">简化了 VMware 和 Hyper-V 之间双向迁移的配置。</block>
+  <block id="36ada7747e4801366181886e0f5f5a5d" category="paragraph">使用 Storage vMotion 将虚拟机迁移到专用 SVM 上新的指定 NFSv3 数据存储，无需停机。这种方法可确保迁移的虚拟机不会驻留在生产 SVM 上。</block>
+  <block id="56e510ac6e63af70fcecbabe963e200d" category="inline-link-macro">正在配置新的SVM</block>
+  <block id="007de6880c63bb566ddb6a0b57ee5ff3" category="paragraph">使用ONTAP CLI、 NetApp PowerShell Toolkit 或ONTAP系统管理器创建新的 SVM。有关详细步骤，请参阅ONTAP文档。 <block ref="f9bc3773984a0ee443b43db888790794" category="inline-link-macro-rx"></block> 同时启用NFS和SMB协议。</block>
+  <block id="33f2914cbec6759698143767c9a1e063" category="admonition">对于 VMware 和 Hyper-V 之间的双向迁移，请在 SVM 和已配置的卷上同时启用 NFS 和 SMB 协议。</block>
+  <block id="19dd1d5a728dca442b265eb39d35cc22" category="paragraph">在将托管转换后虚拟机的卷上创建 qtree。Qtree 根据目标虚拟机管理程序对转换后的磁盘文件进行隔离和存储。</block>
+  <block id="f2afe180e7b3ebb1b3cca6e345a17de5" category="paragraph">*按迁移类型划分的安全样式：*</block>
+  <block id="145a1f38fb36b4d5bf365b63be916411" category="list-text">*ESXi 到 Hyper-V*：NTFS 安全风格（存储转换后的 VHDX 文件）</block>
+  <block id="45f44352801415f752011537cadfe642" category="list-text">*Hyper-V 到 ESXi*：UNIX 安全风格（存储转换后的 VMDK 文件）</block>
+  <block id="07ef938a5e2672667cbda0d920724b49" category="list-text">*ESXi 到 OpenShift 虚拟化 (QCOW2)*：UNIX 安全风格</block>
+  <block id="2937efb4f690172f264641b63dc80ead" category="list-text">*ESXi 到 OLVM（RAW 或 QCOW2）*：UNIX 安全风格</block>
+  <block id="fe458b140de69d8faac7877e175ef50b" category="image-alt">按迁移类型划分的 Qtree 安全风格</block>
+  <block id="d035074a4f74c9de001fb62ce935ec91" category="paragraph">Shift Toolkit 不验证 qtree 安全样式。为目标虚拟机管理程序和磁盘格式创建具有相应安全样式的 qtree。</block>
+  <block id="dca9dbeac2fa64d8fb2fd385a1f3cf9f" category="inline-link-macro">创建 qtree</block>
+  <block id="b674ae20d5d74bf8e55f3f3b25087979" category="paragraph">详细步骤请参考： <block ref="cdfee91ed7ff235e38d1f234437d45f3" category="inline-link-macro-rx"></block> 在ONTAP文档中。</block>
+  <block id="48242f91dd1d861bd94406e38d38192e" category="image-alt">创建具有安全风格的 qtree</block>
+  <block id="2cce32329461f3c0c5ecba2c13135727" category="admonition">对于 OpenShift Virtualization，转换后的 QCOW2 文件可以选择直接放置在卷上，而无需使用 qtree。使用 Shift Toolkit GUI 或 API 执行此转换。</block>
+  <block id="ecded121fa13890f2f01953c2289ded3" category="section-title">CIFS股份要求</block>
+  <block id="f7a79d99a545697696b04ca37ac0b32a" category="paragraph">对于 Hyper-V 迁移，请创建一个 CIFS 共享来存储转换后的 VM 数据。NFS 共享（源虚拟机）和 CIFS 共享（转换后的虚拟机）必须位于同一卷上。</block>
+  <block id="ca605901b49d173dafb6a0a603f5e970" category="paragraph">使用以下属性配置 CIFS 共享：</block>
+  <block id="ed570125df62180f10df738dee5f19ee" category="list-text">已启用 SMB 3.0（默认启用）</block>
+  <block id="296fca326338b6a89ee3cf2bdf40b31d" category="list-text">持续可用属性已启用</block>
+  <block id="1fc2e30fd8aac0cc80cdb5d5d32bd540" category="list-text">SVM 上已禁用 SMB 导出策略</block>
+  <block id="e26ab2ce098107e418ef302a9056e4e7" category="list-text">域上允许使用 Kerberos 和 NTLMv2 身份验证</block>
+  <block id="a6e62ff657f01a7df2d91d1ea0d3e76c" category="inline-link-macro">创建 SMB 共享</block>
+  <block id="f6e1225ccadf2512f11a0c24c07acb23" category="paragraph">详细步骤请参考： <block ref="5f4fed6a6ffb8839ff3c753afb9f9822" category="inline-link-macro-rx"></block> 在ONTAP文档中。选择持续可用性属性以及其他默认属性。</block>
+  <block id="ff02099bd072399d12546831dd4bf443" category="image-alt">创建 CIFS 共享</block>
+  <block id="974f08cd8c7cf748ea89f3203b9d3f92" category="image-alt">CIFS股份创建确认</block>
+  <block id="e8c406cc7cb186d2a93d05e4e113f6c0" category="summary">在确认您的环境满足准备和先决条件要求后，安装或升级NetApp Shift Toolkit。</block>
+  <block id="5021d39de0f75479988761d4615317ad" category="doc">安装或升级适用于ONTAP存储的NetApp Shift 工具包</block>
+  <block id="80c902e4a758b67d3a71b8cf7d058487" category="section-title">安装 Shift 工具包</block>
+  <block id="bb139a7fdc6c91c164fdf236cd09d87e" category="paragraph">下载并运行安装程序，在您的 Windows 服务器上安装 Shift Toolkit。</block>
+  <block id="a8fcaacb2dd2eab83987f576a4833c01" category="list-text">下载 <block ref="4e0f141d6a23d78411e5d5d5543923fe" category="inline-link-macro-rx"></block> 打包并解压缩。</block>
+  <block id="47f40bf2dd02eb5cdc47168b716660c5" category="image-alt">Shift Toolkit 下载选项</block>
+  <block id="355c91d1cfca9a6fa8d54d829f38afc8" category="list-text">双击下载的 .exe 文件以启动 Shift Toolkit 安装。</block>
+  <block id="f03b0a7ce6e26c53bde71bec1a31765d" category="image-alt">Shift Toolkit 安装包</block>
+  <block id="4e3139892bf2c96bec8d38cda75b9301" category="admonition">所有预检均在安装过程中进行。如果未满足最低要求，则会显示相应的错误或警告信息。</block>
+  <block id="c071b24a233eceb158ed158d0d85cc39" category="list-text">选择安装位置或使用默认位置，然后单击“下一步”。</block>
+  <block id="a69cb971bd0884168ef3e7b6ce622e2d" category="image-alt">Shift Toolkit 目标文件夹</block>
+  <block id="3460ccec09f53be80fd915bab83fc9e1" category="list-text">选择用于访问 Shift Toolkit 用户界面的 IP 地址。</block>
+  <block id="c40943132c70d00edc257845592ff136" category="image-alt">Shift Toolkit 的 IP 地址选择</block>
+  <block id="bb2af53b176e1301745034dfe74bfa2d" category="admonition">如果虚拟机有多个网卡，设置过程中允许您从下拉列表中选择合适的 IP 地址。</block>
+  <block id="7eb060470585db1f9d13a2b4a53c5355" category="list-text">查看将自动下载和安装的必要组件，然后单击“下一步”。</block>
+  <block id="47b28595d43c38c28883090789190d37" category="paragraph">这些是Shift Toolkit正常运行所必需的组件：</block>
+  <block id="4c51c6533360341688ea7cc45202b07e" category="image-alt">待安装的软件包</block>
+  <block id="b4db0d9baccb98d3d218711afc81f11f" category="list-text">查看 Java OpenJDK GNU 许可信息，然后单击“下一步”。</block>
+  <block id="793223961c9fd961836f0e422ab1ffab" category="image-alt">Java 许可信息</block>
+  <block id="499ba1ecd226052a7bce2182b90b151d" category="list-text">保留创建桌面快捷方式的默认设置，然后单击“下一步”。</block>
+  <block id="b16c7611627a0574017f1053a788e1a7" category="image-alt">其他换挡工具包选项</block>
+  <block id="f467e4af50787bdc111f2b8c6dadc562" category="list-text">点击“安装”开始安装。</block>
+  <block id="f90ce5a1084dd9de10e593613c2dcd8b" category="image-alt">Shift Toolkit 安装确认</block>
+  <block id="17e6b79289775d0400156aa28ddef00a" category="list-text">等待安装完成。安装程序会下载并安装所有必需的组件。完成后点击“完成”。</block>
+  <block id="8700355f712043e346d6171ea7006163" category="image-alt">Shift Toolkit 安装进度</block>
+  <block id="0323cf061a5fccb7d47052baf183e2f6" category="admonition">安装过程大约需要 10-15 分钟。</block>
+  <block id="ff2f4f6eb392a55cd6faeb347e2825b0" category="list-text">接受自签名证书提示，然后单击“下一步”。</block>
+  <block id="8d53b141eb26004ab739df482427d288" category="image-alt">Shift Toolkit SSL 证书</block>
+  <block id="486090610b8668628498f81ed028bfee" category="admonition">自签名证书可以替换为第三方证书或 CA 生成的证书。替换位于以下位置的 certs 文件夹中的证书：<block ref="7f71e1e1670ad61d4a9d97f4f550925f" prefix=" " category="inline-code"></block>。</block>
+  <block id="e3698ec9340f0fa491195f4c0d641777" category="paragraph">Shift Toolkit 安装完成。</block>
+  <block id="51d9a525608a6d51857abef6458494c6" category="image-alt">Shift Toolkit 安装向导完成</block>
+  <block id="ed405bcb3bd50802cb203e76b11a1f5c" category="admonition">对于无法访问互联网的虚拟机，离线安装程序执行相同的步骤，但使用可执行文件中包含的软件包来安装组件。</block>
+  <block id="3e469003c94716911899d112f179b510" category="section-title">升级换挡工具包</block>
+  <block id="2d3eeb8aac9a581cb582ce3385d81f92" category="paragraph">升级过程完全自动化，只需单击一下即可完成。</block>
+  <block id="6eba34d731c50bb80509fcb94ee9e1c4" category="image-alt">Shift Toolkit 升级选项</block>
+  <block id="ada95f51ee3eb4381d0c5fc686918374" category="paragraph">Shift Toolkit 更新程序服务监听端口 3002，并执行以下操作：</block>
+  <block id="db46c5dfd872dd8a35bd199a241d1354" category="list-text">下载升级包</block>
+  <block id="17a296cf27a27b7540fe57a52f537228" category="list-text">停止 Shift Toolkit 服务</block>
+  <block id="003273073a054c043591c21c72a89985" category="list-text">提取文件并覆盖所需文件</block>
+  <block id="331a844d1304dba1ce739fb2d3b10ffa" category="list-text">使用相同的 IP 地址运行更新（保留元数据）</block>
+  <block id="389a4197ae332e98a452b2ebf1da3cb1" category="list-text">将用户界面重定向到监听端口 3001 的 Shift Toolkit 用户界面</block>
+  <block id="ccf43d881bb4902ac5dd1a48aecd9093" category="paragraph-title">对于没有互联网连接的部署环境</block>
+  <block id="8b5e3691e2a38f8df4bc95935537322b" category="paragraph">从NetApp Toolchest 手动下载升级包（文件名以“update”开头），并将其放置在指定文件夹中。<block ref="0983e9664bffff73a9fa7bd0fb5174c4" prefix=" " category="inline-code"></block>。</block>
+  <block id="a342a78e14eda380329bf05bfd679748" category="paragraph">如果该文件夹路径不存在，请创建它。其他步骤与在线升级流程相同。</block>
+  <block id="d8e9b9ac0f84871065e2524f39232840" category="image-alt">换挡工具包手动升级选项</block>
+  <block id="1eedc7e019fecb60e7c1fb6775f83fdb" category="summary">请确认您的 Windows 和 Linux 客户操作系统、 ONTAP版本和虚拟机管理程序是否受NetApp Shift Toolkit 支持。</block>
+  <block id="fe05b07a3e1a9a6146564c83852680e7" category="doc">NetApp Shift 工具包支持的版本</block>
+  <block id="18be9ed22af3edc289a2ddcf9c560410" category="paragraph">Shift Toolkit 支持以下 Windows 和 Linux 客户操作系统，用于 VM 转换。</block>
+  <block id="9165477f2cef36d79d8ccac9fc72b389" category="list-title">Windows操作系统</block>
+  <block id="99168a2997b0f72fdb1175be52f75da7" category="list-title">Linux操作系统</block>
+  <block id="3f1d7a4bfc5b1615c1bd76d6f7ea917e" category="list-text">SUSE Linux Enterprise Server 12</block>
+  <block id="896c6d73b474c57fd4a882830cd2a6de" category="list-text">SUSE Linux Enterprise Server 15</block>
+  <block id="036f043c255cf3ec0a26908e3e08ca83" category="admonition">不支持 CentOS Linux 和 Red Hat Enterprise Linux 版本 5 和 6。</block>
+  <block id="31db7c289a58c96bfdad1a85bf4a0024" category="admonition">Windows Server 2008 未获得官方支持。但是，转换过程可能有效，一些客户已经成功转换了 Windows Server 2008 虚拟机。迁移后，请手动更新 IP 地址，因为用于 IP 地址分配自动化的 PowerShell 版本与 Windows Server 2008 不兼容。</block>
+  <block id="eae7ed824c301543a7e09d88d74d7b19" category="section-title">支持的 ONTAP 版本</block>
+  <block id="6630128858144f1c6f335849bce9f595" category="paragraph">Shift Toolkit 支持ONTAP 9.14.1 或更高版本。</block>
+  <block id="1ca0b4d8c414f48b628a1c062b15fa9c" category="section-title">支持的虚拟机管理程序</block>
+  <block id="cab0fbe9df7d9638f617270124670fb7" category="paragraph">Shift Toolkit 支持以下虚拟机管理程序平台，用于虚拟机迁移和转换。</block>
+  <block id="54c51ccfe66f346d6325e6c66317e985" category="admonition">当前版本仅支持 Hyper-V、VMware、OpenShift 和 Oracle Virtualization 进行端到端虚拟机迁移。对于 KVM 目标，仅支持磁盘转换。</block>
+  <block id="5c63c52d3c3b47fcfab1aefc79ccfde4" category="paragraph">Shift 工具包已通过 vSphere 7.0.3 或更高版本的验证。</block>
+  <block id="593c99a060e58aa67b8d36ea2d89c108" category="paragraph">Shift 工具包已针对以下 Hyper-V 角色进行验证：</block>
+  <block id="8a6bdfdcc647aeed1a623e2a974aacc8" category="list-text">在 Windows Server 2019 上运行的 Hyper-V 角色</block>
+  <block id="629e15614b4268b68a43e545c6dc7337" category="list-text">在 Windows Server 2022 上运行的 Hyper-V 角色</block>
+  <block id="835bacac28cb2b7b6de6acad1f4e05fc" category="list-text">在 Windows Server 2025 上运行的 Hyper-V 角色</block>
+  <block id="b175d08ac03101cd40f077848d436e1f" category="paragraph-title">红帽 OpenShift</block>
+  <block id="8f3769fdff7f5858ec6cbdabfe4d29d4" category="paragraph">Shift 工具包已针对运行 4.17 及更高版本的 Red Hat OpenShift 和 OpenShift Virtualization 进行了验证。</block>
+  <block id="df521b8541c6680446764dcd34982a2c" category="paragraph-title">Oracle Linux 虚拟化管理器</block>
+  <block id="3a2775b4d320fa950788fe501df926ef" category="paragraph">Shift 工具包已针对以下 Oracle Linux Virtualization Manager 版本进行验证：</block>
+  <block id="5dd9ea6bf7513d6ceaf090c4a41d69ab" category="list-text">Oracle Linux Virtualization Manager 4.5 或更高版本</block>
+  <block id="84d11b65a08e791f6e3ebb4ab6e62cc7" category="list-text">Oracle Linux Virtualization Manager 主机必须安装 ovirt-engine-4.5.4-1.el8 RPM 或更高版本。</block>
+  <block id="d9817ded489aaa35d8ba40ab33bdfd4b" category="paragraph-title">KVM</block>
+  <block id="175632bf35fdab8f0add364439f3059b" category="paragraph">对于 KVM 目标，Shift Toolkit 仅支持磁盘格式转换（VMDK 到 QCOW2 或 RAW）。从目标下拉菜单中选择 KVM 时，不需要提供虚拟机管理程序连接详细信息。转换完成后，使用 QCOW2 磁盘在基于 KVM 的平台上配置虚拟机。</block>
+  <block id="1c4352ca9fdfc6bdb0266f6bb3c7759a" category="sidebar">关于NetApp Shift 工具包</block>
+  <block id="ea3659a50f1829b48f821f6c0ff07d1a" category="sidebar">Shift Toolkit 支持的版本</block>
+  <block id="f76aaf3aaa7b30238e7a3e2b1a04493b" category="sidebar">准备安装</block>
+  <block id="beec6318942ca08bdda507299633ce3d" category="sidebar">查看安装要求</block>
+  <block id="b6eec573aa3c42f73db5c0d756b8af5a" category="sidebar">安装或升级 Shift 工具包</block>
 </blocks>

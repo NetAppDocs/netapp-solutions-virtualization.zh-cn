@@ -1,0 +1,116 @@
+---
+sidebar: sidebar 
+permalink: migration/shift-toolkit-install-prereqs.html 
+keywords: netapp, vmware, esxi, vm, migration, openshift, virtualization, hyper-v, proxmox, install, shift, toolkit, prereqs 
+summary: 在安装 Shift Toolkit 之前，请确认您的环境满足硬件、连接性和ONTAP存储要求。 
+---
+= 安装NetApp Shift 工具包的要求
+:allow-uri-read: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+在安装 Shift Toolkit 之前，请确认您的环境满足硬件、连接性和ONTAP存储要求。
+
+
+
+== 硬件要求
+
+请确保Shift Toolkit服务器满足以下最低硬件要求：
+
+* *CPU*：4 个虚拟 CPU
+* 内存：至少 8 GB
+* *磁盘空间*：至少 100 GB（其中 900 MB 可用于安装）
+
+
+
+
+== 连接要求
+
+请确认满足以下连接要求：
+
+* Shift Toolkit 必须安装在独立的 Windows 服务器（物理服务器或虚拟服务器）上。
+* 必须配置虚拟机管理程序和存储环境，以允许 Shift Toolkit 与所有组件交互。
+* 对于 Hyper-V 迁移，Shift 服务器、 ONTAP CIFS 服务器和 Hyper-V 服务器必须位于同一 Windows Active Directory 域中。
+* 支持在虚拟机转换期间使用多个 CIFS 和 NFS LIF，以配合存储虚拟机 (SVM) 使用。
+* 对于 CIFS 操作，Windows 域控制器和ONTAP存储控制器之间的时间设置必须同步。
+
+
+
+
+== ONTAP存储配置
+
+配置ONTAP存储组件，包括 SVM、qtree 和 CIFS 共享，以支持 Shift Toolkit 迁移。
+
+
+
+=== 创建一个新的SVM（推荐）
+
+虽然 Shift Toolkit 允许使用现有的 SVM，但NetApp建议为迁移操作创建一个专用的 SVM。
+
+创建新的SVM可带来以下好处：
+
+* 将迁移操作与生产工作负载隔离。
+* 确保 SVM 满足 Shift Toolkit 的要求，而无需修改生产配置。
+* 简化了 VMware 和 Hyper-V 之间双向迁移的配置。
+
+
+使用 Storage vMotion 将虚拟机迁移到专用 SVM 上新的指定 NFSv3 数据存储，无需停机。这种方法可确保迁移的虚拟机不会驻留在生产 SVM 上。
+
+使用ONTAP CLI、 NetApp PowerShell Toolkit 或ONTAP系统管理器创建新的 SVM。有关详细步骤，请参阅ONTAP文档。 link:https://docs.netapp.com/us-en/ontap/smb-config/create-svms-data-access-task.html["正在配置新的SVM"] 同时启用NFS和SMB协议。
+
+
+NOTE: 对于 VMware 和 Hyper-V 之间的双向迁移，请在 SVM 和已配置的卷上同时启用 NFS 和 SMB 协议。
+
+
+
+=== qtree 要求
+
+在将托管转换后虚拟机的卷上创建 qtree。Qtree 根据目标虚拟机管理程序对转换后的磁盘文件进行隔离和存储。
+
+*按迁移类型划分的安全样式：*
+
+* *ESXi 到 Hyper-V*：NTFS 安全风格（存储转换后的 VHDX 文件）
+* *Hyper-V 到 ESXi*：UNIX 安全风格（存储转换后的 VMDK 文件）
+* *ESXi 到 OpenShift 虚拟化 (QCOW2)*：UNIX 安全风格
+* *ESXi 到 OLVM（RAW 或 QCOW2）*：UNIX 安全风格
+
+
+image::shift-toolkit-011.png[按迁移类型划分的 Qtree 安全风格]
+
+Shift Toolkit 不验证 qtree 安全样式。为目标虚拟机管理程序和磁盘格式创建具有相应安全样式的 qtree。
+
+详细步骤请参考： link:https://docs.netapp.com/us-en/ontap/nfs-config/create-qtree-task.html["创建 qtree"] 在ONTAP文档中。
+
+image::shift-toolkit-012.png[创建具有安全风格的 qtree]
+
+
+IMPORTANT: 目标路径必须与源虚拟机位于同一卷上。
+
+
+NOTE: 对于 OpenShift Virtualization，转换后的 QCOW2 文件可以选择直接放置在卷上，而无需使用 qtree。使用 Shift Toolkit GUI 或 API 执行此转换。
+
+
+
+=== CIFS股份要求
+
+对于 Hyper-V 迁移，请创建一个 CIFS 共享来存储转换后的 VM 数据。NFS 共享（源虚拟机）和 CIFS 共享（转换后的虚拟机）必须位于同一卷上。
+
+使用以下属性配置 CIFS 共享：
+
+* 已启用 SMB 3.0（默认启用）
+* 持续可用属性已启用
+* SVM 上已禁用 SMB 导出策略
+* 域上允许使用 Kerberos 和 NTLMv2 身份验证
+
+
+详细步骤请参考： link:https://docs.netapp.com/us-en/ontap/smb-config/create-share-task.html["创建 SMB 共享"] 在ONTAP文档中。选择持续可用性属性以及其他默认属性。
+
+image::shift-toolkit-013.png[创建 CIFS 共享]
+
+image::shift-toolkit-014.png[CIFS股份创建确认]
+
+
+NOTE: ONTAP使用 Windows 默认共享权限“所有人/完全控制”创建共享。
