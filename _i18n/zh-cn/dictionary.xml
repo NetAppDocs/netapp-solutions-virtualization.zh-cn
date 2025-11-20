@@ -831,7 +831,6 @@
   <block id="a7e944e3b289a0cc40fa523d2f309b3d" category="list-text">自主勒索软件保护。</block>
   <block id="e349d95af5f86ccf74a9346800e3f55d" category="list-text">文件系统分析。</block>
   <block id="54d1b3917151f3d89ddbd7aef9f811dd" category="paragraph">*SAN*</block>
-  <block id="3f1ebac34c257ad0e2052f6fe693b898" category="list-text">使用SnapMirror主动同步跨故障域扩展集群。</block>
   <block id="b307eeff4972f33ddee68641c599e7fd" category="list-text">ASA模型提供主动/主动多路径和快速路径故障转移。</block>
   <block id="717b83d4b077b1876a8833779607ac19" category="list-text">支持FC、iSCSI、NVMe-oF协议。</block>
   <block id="f7c9512e8b2751806d55c35032ad9c1b" category="list-text">支持 iSCSI CHAP 相互认证。</block>
@@ -2572,12 +2571,6 @@
   <block id="806aaadb95e3a8393823ebee62a2be27" category="list-text">填写详细信息，提供服务器信息后，NFS 导出应填充并从列表中选择。记得选择内容选项。</block>
   <block id="b6713e4a099d16458859b6f724dd584f" category="inline-image-macro">NFS 存储添加</block>
   <block id="9f359905197ffa4ab648a9185a236838" category="paragraph"><block ref="9f359905197ffa4ab648a9185a236838" category="inline-image-macro-rx" type="image"></block></block>
-  <block id="089679585327c9a752c54982a68a19e1" category="list-text">对于会话中继，在每个 Proxmox VE 主机上，更新 /etc/fstab 文件以使用不同的 lif 地址以及 max_connect 和 NFS 版本选项挂载相同的 NFS 导出。</block>
-  <block id="e0368c95980a497a397d1ba864ef07c6" category="inline-image-macro">会话主干的 fstab 条目</block>
-  <block id="310cfc3952419b0bce4cefdb2dd56f4b" category="paragraph"><block ref="310cfc3952419b0bce4cefdb2dd56f4b" category="inline-image-macro-rx" type="image"></block></block>
-  <block id="56210fc6ca5cd165a3679bdc3f9aed5b" category="list-text">这是 NFS 的 /etc/pve/storage.cfg 中的内容。</block>
-  <block id="b53457dfc571fe98017812a0f84ef394" category="inline-image-macro">NFS 的存储配置文件</block>
-  <block id="82de9417812917d25da3862eb8206ebb" category="paragraph"><block ref="82de9417812917d25da3862eb8206ebb" category="inline-image-macro-rx" type="image"></block></block>
   <block id="21b3bf9403041f9d09b0e69368b9b151" category="section-title">带有 iSCSI 的 LVM</block>
   <block id="37eed020511d831c82db16bf1a62cce6" category="video-title">使用ONTAP 的iSCSI LVM 共享池</block>
   <block id="ab39921a24a29c2606bf32bd0ebece00" category="paragraph">要为 Proxmox 主机之间的共享存储配置逻辑卷管理器，请完成以下任务：</block>
@@ -8322,4 +8315,6 @@
   <block id="f76aaf3aaa7b30238e7a3e2b1a04493b" category="sidebar">准备安装</block>
   <block id="beec6318942ca08bdda507299633ce3d" category="sidebar">查看安装要求</block>
   <block id="b6eec573aa3c42f73db5c0d756b8af5a" category="sidebar">安装或升级 Shift 工具包</block>
+  <block id="752e67a6b4916807acf40a3d0f4d607d" category="list-text">使用SnapMirror主动同步跨故障域扩展集群。务必检查<block ref="8d006c87830f7172fd7400f1c17c0928" category="inline-link-rx"></block> 适用于支持的配置。</block>
+  <block id="0fa5490665357157f44ef8e560981bff" category="list-text">要启用 nConnect 选项，请在集群中的任意一个节点上进入 shell，然后输入 pvesm set pvenfs01 --options nconnect=4，其中 pvenfs01 是上一步中创建的存储 ID。请注意，如果您计划使用链路聚合功能，请确保使用至少 NFS v4.1 版本，并设置 trunkdiscovery 选项。pvesm set pvenfs01 --options vers=4.1,trunkdiscovery</block>
 </blocks>

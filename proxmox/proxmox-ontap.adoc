@@ -60,7 +60,7 @@ Proxmox VE 主机需要将 FC、以太网或其他受支持的接口连接到交
 
 *SAN*
 
-* 使用SnapMirror主动同步跨故障域扩展集群。
+* 使用SnapMirror主动同步跨故障域扩展集群。务必检查 https://mysupport.netapp.com/matrix/#welcome["互操作性表工具"] 适用于支持的配置。
 * ASA模型提供主动/主动多路径和快速路径故障转移。
 * 支持FC、iSCSI、NVMe-oF协议。
 * 支持 iSCSI CHAP 相互认证。
@@ -237,14 +237,7 @@ image:proxmox-ontap-009.png["NFS存储导航"]
 +
 image:proxmox-ontap-010.png["NFS 存储添加"]
 
-. 对于会话中继，在每个 Proxmox VE 主机上，更新 /etc/fstab 文件以使用不同的 lif 地址以及 max_connect 和 NFS 版本选项挂载相同的 NFS 导出。
-+
-image:proxmox-ontap-011.png["会话主干的 fstab 条目"]
-
-. 这是 NFS 的 /etc/pve/storage.cfg 中的内容。
-+
-image:proxmox-ontap-012.png["NFS 的存储配置文件"]
-
+. 要启用 nConnect 选项，请在集群中的任意一个节点上进入 shell，然后输入 pvesm set pvenfs01 --options nconnect=4，其中 pvenfs01 是上一步中创建的存储 ID。请注意，如果您计划使用链路聚合功能，请确保使用至少 NFS v4.1 版本，并设置 trunkdiscovery 选项。pvesm set pvenfs01 --options vers=4.1,trunkdiscovery
 
 
 ====

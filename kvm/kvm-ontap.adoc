@@ -63,7 +63,7 @@ KVM 主机需要将 FC、以太网或其他受支持的接口连接到交换机�
 
 *SAN*
 
-* 使用SnapMirror主动同步跨故障域扩展集群。
+* 使用SnapMirror主动同步跨故障域扩展集群。务必检查 https://mysupport.netapp.com/matrix/#welcome["互操作性表工具"] 适用于支持的配置。
 * ASA模型提供主动/主动多路径和快速路径故障转移。
 * 支持FC、iSCSI、NVMe-oF协议。
 * 支持 iSCSI CHAP 相互认证。
