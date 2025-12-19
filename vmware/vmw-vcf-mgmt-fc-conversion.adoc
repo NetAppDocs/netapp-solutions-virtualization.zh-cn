@@ -94,7 +94,7 @@ image::vmware-vcf-import-nfs-011.png[vcf导入工具预检]
 . 将 JSON 文件复制到 SDDC 管理器上的目录。
 +
 
-NOTE: 在转换或导入操作中部署 NSX Manager 群集时，将使用 NSX-VLAN 网络。有关 NSX-VLAN 网络限制的信息，请参阅 https://techdocs.broadcom.com/us/en/vmware-cis/vcf/vcf-5-2-and-earlier/5-2/considerations-before-converting-or-importing-existing-vsphere-environments-into-vcf-admin.html["将现有 vSphere 环境转换或导入 VMware Cloud Foundation 之前的注意事项"]。
+NOTE: 在转换或导入操作中部署 NSX Manager 集群时，会使用 NSX-VLAN 网络。有关 NSX-VLAN 网络限制的信息，请参阅： https://techdocs.broadcom.com/us/en/vmware-cis/vcf/vcf-5-2-and-earlier/5-2/map-for-administering-vcf-5-2/importing-existing-vsphere-environments-admin/considerations-before-converting-or-importing-existing-vsphere-environments-into-vcf-admin.html["将现有 vSphere 环境转换或导入 VMware Cloud Foundation 之前的注意事项"]。
 
 
 

@@ -158,4 +158,29 @@ image:shift-toolkit-084.png["该图显示输入/输出对话框或表示书面�
 
 要使用 Shift 工具包从 VMware vSphere 迁移虚拟机，请使用管理 > 访问控制 > 角色创建具有以下权限的 RBAC 用户。
 
-image:shift-toolkit-085.png["该图显示输入/输出对话框或表示书面内容"]
+选择“权限”选项卡：
+
+[listing]
+----
+Datastore
+•	Browse datastore
+•	Update virtual machine files
+
+Virtual machine
+•	Edit inventory
+    o	Register
+    o	Unregister
+•	Interaction
+    o	Answer question
+    o	Console interaction
+    o	Power off
+    o	Power on
+•	Snapshot management
+    o	Create snapshot
+    o	Remove snapshot
+    o	Rename snapshot
+•	Guest operations
+    o	Guest operation modifications
+    o	Guest operation program execution
+    o	Guest operation queries
+----

@@ -24,8 +24,8 @@ indexpage:
       url: vmw-vcf-deployment.html
     - title: 使用SnapCenter保护 VCF 工作负载
       url: vmw-vcf-protect-sc.html
-    - title: 使用BlueXP保护 VMware 数据存储
-      url: vmw-vcf-disaster-recovery.html
+    - title: 使用NetApp Disaster Recovery保护 VMware 数据存储
+      url: vmw-vcf-disaster-recovery-nfs.html
     - title: 将ONTAP高可用性与 vMSC 集成
       url: vmw-vcf-protect-vmsc.html
     - title: 保护并恢复数据以抵御勒索软件

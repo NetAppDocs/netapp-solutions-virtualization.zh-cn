@@ -425,7 +425,7 @@ image:vmfs-deploy-039.png["该图显示输入/输出对话框或表示书面内�
 
 === 本地站点之间的灾难恢复
 
-欲了解更多详情，请访问link:https://docs.netapp.com/us-en/netapp-solutions-cloud/vmware/vmw-hybrid-dr-vmfs.html["使用BlueXP DRaaS 对 VMFS 数据存储进行灾难恢复"^]
+更多详情请访问 link:https://docs.netapp.com/us-en/netapp-solutions-cloud/vmware/vmw-hybrid-dr-vmfs.html["使用NetApp Disaster Recovery技术为 VMFS 数据存储提供灾难恢复服务"^]
 
 
 

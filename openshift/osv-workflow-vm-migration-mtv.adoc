@@ -70,7 +70,7 @@ systemctl start postgresql.service`
 systemctl enable postgresql.service
 The above command ensures that the server can start in the VM in OpenShift Virtualization after migration
 ----
-** 添加了2个数据库，1个表，并在表中添加了1行。参考link:https://access.redhat.com/documentation/fr-fr/red_hat_enterprise_linux/9/html/configuring_and_using_database_servers/installing-postgresql_using-postgresql["此处"]有关在 RHEL 上安装 postgresql 服务器以及创建数据库和表条目的说明。
+** 添加了 2 个数据库，1 个表，并在表中添加了 1 行。参考link:https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/9/html/configuring_and_using_database_servers/using-postgresql_configuring-and-using-database-servers#configuring-postgresql_using-postgresql["此处"]有关在 RHEL 上安装 PostgreSQL 服务器以及创建数据库和表条目的说明。
 
 
 

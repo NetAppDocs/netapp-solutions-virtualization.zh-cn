@@ -171,7 +171,7 @@ image:vmware-vcf-asa-021.png["vSphere Client 的近期任务窗格"]
 == 追加信息
 
 * 有关配置ONTAP存储系统的信息，请参阅link:https://docs.netapp.com/us-en/ontap["ONTAP 9 文档"^]。
-* 有关配置 VCF 的信息，请参阅link:https://techdocs.broadcom.com/us-en/vmware-cis/vcf.html["VMware Cloud Foundation 文档"^]。
+* 有关配置 VCF 的信息，请参阅link:https://techdocs.broadcom.com/us/en/vmware-cis/vcf.html["VMware Cloud Foundation 文档"^]。
 * 有关在 VMware 中使用 VMFS iSCSI 数据存储的信息，请参阅link:vmw-vmfs-iscsi.html["vSphere VMFS 数据存储区 - 带有ONTAP 的iSCSI 存储后端"]。
 * 有关此解决方案的视频演示，请参阅link:../videos/vmware-videos.html#vmware-datastore-provisioning-with-ontap["VMware 数据存储区配置"]。
 

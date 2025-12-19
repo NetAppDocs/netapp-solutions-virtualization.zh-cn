@@ -29,11 +29,11 @@ SnapCenter Plug-in for VMware vSphere可对虚拟机、数据存储区和 VMDK �
 
 == 解决方案资源
 
-请参阅以下 3-2-1 备份解决方案，其中包括适用SnapCenter Plug-in for VMware vSphere和适用于虚拟机的BlueXP backup and recovery。
+请参阅以下 3-2-1 备份解决方案，该方案包含SnapCenter Plug-in for VMware vSphere以及适用于虚拟机的NetApp备份和恢复功能。
 
-技术报告：link:https://docs.netapp.com/us-en/netapp-solutions-cloud/vmware/vmw-hybrid-321-dp-scv.html["借助SnapCenter插件和BlueXP backup and recovery为虚拟机提供 3-2-1 数据保护"^]
+技术报告：link:https://docs.netapp.com/us-en/netapp-solutions-cloud/vmware/vmw-hybrid-321-dp-scv.html["使用SnapCenter插件和NetApp Backup and RecoveryVMware 的 3-2-1 数据保护"^]
 
-Tech ONTAP博客：link:https://community.netapp.com/t5/Tech-ONTAP-Blogs/3-2-1-Data-Protection-for-VMware-with-SnapCenter-Plug-in-and-BlueXP-backup-and/ba-p/446180["借助SnapCenter插件和BlueXP backup and recovery为虚拟机提供 3-2-1 数据保护"]
+Tech ONTAP博客：link:https://community.netapp.com/t5/Tech-ONTAP-Blogs/3-2-1-Data-Protection-for-VMware-with-SnapCenter-Plug-in-and-BlueXP-backup-and/ba-p/446180["使用SnapCenter插件和NetApp Backup and RecoveryVMware 的 3-2-1 数据保护"]
 
 
 

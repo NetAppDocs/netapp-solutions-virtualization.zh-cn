@@ -51,7 +51,7 @@ image:vmware-dii.png["Data Infrastructure Insights"]
 
 . 带有ONTAP 9.13 的NetApp全闪存 SAN 阵列 A400。
 . VMware vSphere 8.0 集群。
-. NetApp BlueXP帐户。
+. NetApp Console帐户。
 . NetAppData Infrastructure Insights采集单元软件安装在本地虚拟机上，并通过网络连接到资产以收集数据。
 
 
@@ -253,6 +253,7 @@ image:vmware-asa-053.png["ONTAP基础 - VMware"]
 
 要了解有关此解决方案中提出的技术的更多信息，请参阅以下附加信息。
 
-* https://bluexp.netapp.com/cloud-insights["NetApp BlueXP和Data Infrastructure Insights登陆页面"]
+* https://www.netapp.com/console/["NetApp Console登录页面"]
+* https://www.netapp.com/data-infrastructure-insights/["NetAppData Infrastructure Insights登录页面"]
 * https://docs.netapp.com/us-en/data-infrastructure-insights/index.html/["NetAppData Infrastructure Insights文档"]
 

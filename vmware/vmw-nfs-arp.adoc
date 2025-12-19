@@ -46,15 +46,18 @@ image:nfs-arp-004.png["该图显示输入/输出对话框或表示书面内容"]
 
 如需更多信息，请查看link:https://www.netapp.com/media/7334-tr4572.pdf["NetApp勒索软件解决方案"]。
 
-现在，如果所有这些都需要与 SIEM 工具进行协调和集成，那么可以使用像BlueXP ransomware protection这样的 offtap 服务。这是一项旨在保护数据免受勒索软件侵害的服务。该服务为基于应用程序的工作负载（例如 Oracle、MySQL、VM 数据存储和本地 NFS 存储上的文件共享）提供保护。
+如果所有这些都需要协调并与 SIEM 工具集成，那么可以使用像NetApp Ransomware Resilience这样的离线服务。这是一项旨在保护数据免受勒索软件侵害的服务。该服务为基于应用程序的工作负载（例如 Oracle、MySQL、VM 数据存储和本地 NFS 存储上的文件共享）提供保护。
 
-在此示例中，NFS 数据存储“Src_NFS_DS04”使用BlueXP ransomware protection进行保护。
+在本例中，NFS 数据存储“Src_NFS_DS04”使用NetApp Ransomware Resilience进行保护。
+
+
+NOTE: 以下步骤适用于BlueXP。工作流程与NetApp Console类似。
 
 image:nfs-arp-005.png["该图显示输入/输出对话框或表示书面内容"]
 
 image:nfs-arp-006.png["该图显示输入/输出对话框或表示书面内容"]
 
-有关配置BlueXP ransomware protection的详细信息，请参阅link:https://docs.netapp.com/us-en/bluexp-ransomware-protection/rp-start-setup.html["设置BlueXP ransomware protection"]和link:https://docs.netapp.com/us-en/bluexp-ransomware-protection/rp-use-settings.html#add-amazon-web-services-as-a-backup-destination["配置BlueXP ransomware protection设置"]。
+有关配置NetApp Ransomware Resilience的详细信息，请参阅：link:https://docs.netapp.com/us-en/data-services-ransomware-resilience/rp-start-setup.html["设置 NetAp 勒索软件抵御能力"]和link:https://docs.netapp.com/us-en/data-services-ransomware-resilience/rp-use-settings.html#add-amazon-web-services-as-a-backup-destination["配置 NetAp 勒索软件恢复设置"]。
 
 现在是时候通过一个例子来解释这一点了。在本演练中，数据存储“Src_NFS_DS04”受到影响。
 
@@ -66,16 +69,16 @@ image:nfs-arp-008.png["该图显示输入/输出对话框或表示书面内容"]
 
 image:nfs-arp-009.png["该图显示输入/输出对话框或表示书面内容"]
 
-一旦法医分析完成，就可以使用SnapCenter或BlueXP ransomware protection快速无缝地完成恢复。使用SnapCenter，转到受影响的虚拟机并选择要还原的适当快照。
+取证分析完成后，即可使用SnapCenter或NetApp Ransomware Resilience快速无缝地完成恢复。使用SnapCenter，转到受影响的虚拟机，然后选择要还原的相应快照。
 
 image:nfs-arp-010.png["该图显示输入/输出对话框或表示书面内容"]
 
-本节介绍BlueXP ransomware protection如何协调从加密 VM 文件的勒索软件事件中恢复。
+本节将探讨NetApp Ransomware Resilience如何协调从勒索软件事件中恢复，其中虚拟机文件已被加密。
 
 
-NOTE: 如果 VM 由SnapCenter管理， BlueXP ransomware protection会使用 VM 一致性流程将 VM 恢复到其先前的状态。
+NOTE: 如果虚拟机由SnapCenter管理，NetApp Ransomware Resilience会使用虚拟机一致性流程将虚拟机恢复到之前的状态。
 
-. 访问BlueXP ransomware protection， BlueXP ransomware protection仪表板上会出现警报。
+. 访问NetApp Ransomware Resilience， NetApp Ransomware Resilience仪表板上将显示警报。
 . 单击警报可查看生成警报的特定卷上的事件
 +
 image:nfs-arp-011.png["该图显示输入/输出对话框或表示书面内容"]

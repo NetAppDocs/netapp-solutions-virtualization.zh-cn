@@ -23,5 +23,4 @@ summary:
 * link:vmw-vcf-scv-viwld.html["保护 VCF 工作负载域"]
 * link:vmw-vcf-scv-multiwkld-protection.html["保护 VCF 多工作负载域"]
 * link:vmw-vcf-scv-nvme.html["使用 NVMe 保护 VCF 工作负载域"]
-* link:vmw-vcf-321-data-protection.html["借助SnapCenter插件和BlueXP backup and recovery为虚拟机提供 3-2-1 数据保护"]
 

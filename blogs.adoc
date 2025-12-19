@@ -24,8 +24,7 @@ keywords: netapp, solutions, blogs
 ** link:https://www.netapp.com/blog/netapp-vmware-cloud-foundation-supplemental-storage["第 4 部分：适用于 VMware 和补充存储的ONTAP工具"]
 
 
-* link:https://cloud.netapp.com/blog/azure-blg-optimize-storage-for-cloud-based-vmware-deployments["优化基于云的 VMware 部署的存储"]
-* link:https://cloud.netapp.com/blog/azure-blg-netapp-cloud-offerings-with-azure-vmware-solution["使用基于NetApp的云产品开始使用 Azure VMware 解决方案"]
+* link:https://www.netapp.com/blog/vmware-optimize-storage-workloads/["在任何云环境中优化存储和数据密集型 VMware 工作负载"]
+* link:https://www.netapp.com/blog/vmware-migrate-workloads-azure/["将存储密集型 VMware 工作负载迁移到 Azure VMware 解决方案？请先阅读此文。"]
 * link:https://community.netapp.com/t5/Tech-ONTAP-Blogs/NetApp-and-VMware-Better-than-ever/ba-p/445780["NetApp和 VMware – 比以往更好"]
-* link:https://community.netapp.com/t5/Tech-ONTAP-Blogs/3-2-1-Data-Protection-for-VMware-with-SnapCenter-Plug-in-and-BlueXP-Backup-and/ba-p/446180["借助SnapCenter插件和BlueXP虚拟机备份与恢复，为 VMware 提供 3-2-1 数据保护"]
 

@@ -108,7 +108,7 @@ image:why-ontap-for-vmware-002.png["为什么ONTAP适用于 VCF"]
 * link:vmw-getting-started-hmc.html["VMware 和NetApp的混合多云"]
 * link:vmw-getting-started-security.html["安全和勒索软件防护"]
 * link:vmw-getting-started-migration.html["轻松将 VMware 工作负载迁移到NetApp"]
-* link:vmw-dr-gs.html["BlueXP灾难恢复"]
+* link:vmw-dr-gs.html["NetApp Disaster Recovery"]
 * link:vmw-getting-started-dii.html["数据基础设施洞察"]
 * link:vmw-getting-started-vmdc.html["虚拟机数据收集器"]
 

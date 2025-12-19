@@ -39,7 +39,7 @@ KVM 主机需要将 FC、以太网或其他受支持的接口连接到交换机�
 * 防篡改快照副本锁定
 * 加密支持
 * FabricPool将冷数据分层到对象存储。
-* BlueXP和Data Infrastructure Insights集成。
+* NetApp Console和Data Infrastructure Insights集成。
 * Microsoft 卸载数据传输 (ODX)
 
 

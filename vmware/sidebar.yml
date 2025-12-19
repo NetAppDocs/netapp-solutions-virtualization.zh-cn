@@ -36,7 +36,7 @@ entries:
     entries:
     - title: 适用于 VMware vSphere 的 SnapCenter 插件
       url: "/vmware/vmw-getting-started-snapcenter.html"
-    - title: BlueXP disaster recovery
+    - title: NetApp Disaster Recovery
       url: "/vmware/vmw-dr-gs.html"
 - title: NetApp上的 VMware 云基础
   pdf-filename: NetApp上的 VMware 云基础
@@ -47,32 +47,16 @@ entries:
     url: "/vmware/vmw-vcf-design.html"
   - title: 使用ONTAP部署 VCF 9
     url: "/vmware/vmw-vcf-deployment.html"
-  - title: 带有BlueXP 的VCF 9 DR
-    url: "/vmware/vmw-vcf-dr-bxp-nfs.html"
+  - title: VCF 9 DR 与NetApp Disaster Recovery
+    url: "/vmware/vmw-vcf-disaster-recovery-nfs.html"
   - title: 将现有 vSphere 集群转换为 VCF
     entries:
-    - title: 了解如何转换 vSphere 集群
+    - title: 关于将现有 vSphere 集群转换为 VCF
       url: "/vmware/vmw-vcf-migrate.html"
-    - title: 使用 NFS 数据存储转换 vSphere 集群
-      entries:
-      - title: 部署工作流
-        url: "/vmware/vmw-vcf-mgmt-nfs.html"
-      - title: 审核要求
-        url: "/vmware/vmw-vcf-mgmt-nfs-requirements.html"
-      - title: 部署ONTAP工具并配置 NFS 数据存储区
-        url: "/vmware/vmw-vcf-mgmt-nfs-deploy.html"
-      - title: 将 vSphere 群集转换为 VCF
-        url: "/vmware/vmw-vcf-mgmt-nfs-conversion.html"
-    - title: 使用 FC 数据存储转换 vSphere 群集
-      entries:
-      - title: 部署工作流
-        url: "/vmware/vmw-vcf-mgmt-fc.html"
-      - title: 审核要求
-        url: "/vmware/vmw-vcf-mgmt-fc-requirements.html"
-      - title: 部署ONTAP工具并配置 FC 数据存储区
-        url: "/vmware/vmw-vcf-mgmt-fc-deploy.html"
-      - title: 将 vSphere 群集转换为 VCF
-        url: "/vmware/vmw-vcf-mgmt-fc-conversion.html"
+    - title: 将现有 vSphere 集群与 NFS 数据存储进行转换
+      url: "/vmware/vmw-vcf-mgmt-nfs.html"
+    - title: 将现有 vSphere 集群与 FC 数据存储进行转换
+      url: "/vmware/vmw-vcf-mgmt-fc.html"
   - title: 为 VCF 提供主要存储
     entries:
     - title: 关于配置主体存储
@@ -151,16 +135,6 @@ entries:
       url: "/vmware/vmw-vcf-scv-multiwkld-protection.html"
     - title: 使用 NVMe 保护 VCF 工作负载域
       url: "/vmware/vmw-vcf-scv-nvme.html"
-  - title: 使用BlueXP保护 VMware 数据存储
-    entries:
-    - title: 关于使用BlueXP保护 VMware 数据存储区
-      url: "/vmware/vmw-vcf-disaster-recovery.html"
-    - title: 使用SnapCenter和BlueXP配置数据保护
-      url: "/vmware/vmw-vcf-321-data-protection.html"
-    - title: 为 VMFS 数据存储设置灾难恢复
-      url: "/vmware/vmw-disaster-recovery-vmfs.html"
-    - title: 为 NFS 数据存储设置灾难恢复
-      url: "/vmware/vmw-disaster-recovery-nfs.html"
   - title: 使用 vSphere Metro Storage Cluster 保护工作负载
     entries:
     - title: 关于集成ONTAP高可用性

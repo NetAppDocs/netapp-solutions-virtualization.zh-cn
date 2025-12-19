@@ -58,7 +58,7 @@ ONTAP存储解决方案具有以下优势：
 * *无缝集群和高可用性：*利用SnapMirror主动同步或MetroCluster实现轻松的延伸集群和强大的灾难恢复。
 * *多协议：* ONTAP支持通过多种协议访问数据，例如 NFS、iSCSI、SMB 和 S3。运行ONTAP 的系统在几个重要方面是统一的。最初这种方法同时涉及 NAS 和 SAN 协议， ONTAP继续作为 SAN 的领先平台，同时又具有其在 NAS 方面的原有优势。
 * *自动化配置和编排：*利用 VMware 的ONTAP工具及其 REST API、vSphere 插件和 SPBM（存储策略）来自动化和简化存储管理。
-* *集成数据保护和低成本灾难恢复：*使用NetApp SnapCenter卸载虚拟工作负载备份和恢复。利用NetApp BlueXP disaster recovery即服务 (DRaaS) 实现更低的 RPO 并减少 RTO 数据复制。这消除了对昂贵的替代基础设施的需求，为 VMware 工作负载提供了经济实惠的灾难保护。无论是从本地到本地NetApp ONTAP环境还是到 VMware Cloud， NetApp支持的存储都能确保提供强大的保护。
+* *集成数据保护和低成本灾难恢复：*使用NetApp SnapCenter卸载虚拟工作负载备份和恢复。利用NetApp Disaster Recovery实现更低的 RPO 和更短的 RTO 数据复制时间。这样就无需昂贵的替代基础设施，为 VMware 工作负载提供经济实惠的灾难保护。无论从本地到本地NetApp ONTAP环境，还是到 VMware 云， NetApp支持的存储都能确保强大的保护。
 * *勒索软件检测*：通过内置自主勒索软件保护和零信任兼容性，将 VMware 级安全性和合规性扩展到数据，通过启用多因素身份验证、基于角色的访问、全面日志记录和用户行为异常检测，提高保护、检测、补救和恢复能力
 * *集成混合云：*简化并集成工作负载移动性、备份和恢复以及灾难恢复到任何超大规模云（Elastic VMware Service、Azure VMware Solution 和 Google Cloud VMware Engine）。
 * *存储生命周期计划 (SLP)*：如果组织已准备好采取这一步骤，则可以无中断地升级到下一代控制器或选择云存储。
@@ -73,7 +73,7 @@ ONTAP存储解决方案具有以下优势：
 * ONTAP存储可以与多个工作负载域一起使用，而不受特定集群的限制，从而提高跨多个集群的整体利用率。
 * ONTAP Snapshot 与SnapCenter集成，为虚拟机和数据存储级备份以及细粒度恢复提供卓越且免费的数据保护。此外， ONTAP还支持将快照卸载到对象存储以进行长期保留。
 * 体验无缝存储，无需配置 RAID 或存储池、持续的数据缩减和加密。
-* 借助ONTAP One，您可以访问所有ONTAP功能和强大的安全性，而无需担心许可障碍。与NetApp BlueXP DRaaS 配对可进一步降低成本。
+* 使用ONTAP One，即可访问所有ONTAP功能和强大的安全性，而无需支付许可费用。与NetApp Disaster Recovery结合使用可进一步降低成本。
 
 
 
@@ -157,7 +157,7 @@ NOTE: 仅用作主存储时支持 NFS v3 和 FC 协议。补充存储可以使�
 如果 VMware Cloud Foundation 是全新安装（创建新的 vSphere 基础架构和单点登录域），则无法从 Cloud Foundation 管理在旧 vSphere 版本上运行的现有工作负载。第一步是将现有 vSphere 环境上运行的当前应用程序虚拟机迁移到 Cloud Foundation。迁移路径取决于迁移选择（实时、温和冷迁移）以及任何现有 vSphere 环境的版本。以下是根据源存储按优先顺序排列的选项。
 
 * HCX 是目前可用于 Cloud Foundation 工作负载移动的功能最丰富的工具。
-* 利用NetApp BlueXP DRaaS
+* 利用NetApp Disaster Recovery
 * 带有 SRM 的 vSphere 复制可以成为易于使用的 vSphere 迁移工具。
 * 使用 VAIO 和 VADP 的第三方软件
 
@@ -172,11 +172,11 @@ NOTE: 仅用作主存储时支持 NFS v3 和 FC 协议。补充存储可以使�
 
 ==== 使用存储快照进行灾难恢复（通过存储复制进一步优化）
 
-NetApp提供业界领先的基于 SaaS 的灾难恢复 (DRaaS) 解决方案，可以显著降低成本并减少复杂性。无需购买和部署昂贵的替代基础设施。
+NetApp提供业界领先的基于 SaaS 的灾难恢复解决方案，可以显著降低成本并减少复杂性。无需购置和部署昂贵的替代基础设施。
 
 通过从生产站点到灾难恢复站点的块级复制来实现灾难恢复是一种有弹性且经济高效的方法，可以保护工作负载免受站点中断和数据损坏事件（例如勒索软件攻击）的影响。使用NetApp SnapMirror复制，在具有 NFS 或 VMFS 数据存储区的本地ONTAP系统上运行的 VMware 工作负载可以复制到位于指定恢复数据中心的另一个ONTAP存储系统，该数据中心也部署了 VMware。
 
-使用BlueXP disaster recovery服务，该服务集成到NetApp BlueXP控制台中，客户可以在其中发现其内部部署的 VMware vCenter 以及ONTAP存储、创建资源组、创建灾难恢复计划、将其与资源组关联以及测试或执行故障转移和故障恢复。 SnapMirror提供存储级块复制，使两个站点保持最新的增量更改，从而使 RPO 达到最长 5 分钟。还可以将 DR 过程模拟为常规演习，而不会影响生产和复制的数据存储或产生额外的存储成本。  BlueXP disaster recovery利用 ONTAP 的FlexClone技术，从 DR 站点上最后复制的快照创建 NFS 或 VMFS 数据存储库的空间高效副本。 DR 测试完成后，只需删除测试环境，同样不会对实际复制的生产资源产生任何影响。当需要（计划内或计划外）进行实际故障转移时，只需单击几下， BlueXP disaster recovery服务就会协调所需的所有步骤，自动在指定的灾难恢复站点上启动受保护的虚拟机。该服务还将逆转与主站点的SnapMirror关系，并在需要时将任何更改从辅助站点复制到主站点以进行故障恢复操作。与其他知名替代方案相比，所有这些都只需花费一小部分成本即可实现。
+使用NetApp Disaster Recovery，它集成到NetApp Console中，客户可以在其中发现其本地 VMware vCenter 以及ONTAP存储，创建资源组，创建灾难恢复计划，将其与资源组关联，并测试或执行故障转移和故障恢复。  NetApp Disaster Recovery利用 ONTAP 的FlexClone技术，从灾难恢复站点上最后一个复制的快照创建 NFS 或 VMFS 数据存储的空间高效副本。 当需要（计划内或计划外）进行实际故障转移时，只需点击几下， NetApp Disaster Recovery即可协调所有必要步骤，自动在指定的灾难恢复站点上启动受保护的虚拟机。SnapMirror提供存储级块复制，使两个站点能够通过增量更改保持最新状态，从而实现长达 5 分钟的 RPO。也可以将灾难恢复程序模拟为常规演练，而不会影响生产和复制数据存储，也不会产生额外的存储成本。NetApp Disaster Recovery 利用 ONTAP 的 FlexClone 技術，從災難復原（DR）站點上最後一次複寫的 Snapshot 建立 NFS 或 VMFS 資料存放區的空間效率複本。灾难恢复测试完成后，只需删除测试环境，不会对实际复制的生产资源造成任何影响。當需要（計劃內或非計劃性）實際容錯移轉時，只需幾個點擊，NetApp Disaster Recovery 即可協調所有必要步驟，自動在指定的災難復原站點啟動受保護的虛擬機器。该服务还会反转SnapMirror与主站点的关系，并在需要时将任何更改从辅助站点复制到主站点，以进行故障恢复操作。与其他知名替代方案相比，所有这些目标都可以以极低的成本实现。
 
 
 NOTE: 支持复制功能的第三方备份产品和带有 SRA 的 VMware Live Recovery 是其他突出的替代选择。
