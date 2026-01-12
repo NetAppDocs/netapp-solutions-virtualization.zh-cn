@@ -20,7 +20,7 @@ summary:
 
 == 概述
 
-vSphere API for Storage Awareness (VASA) 使 VM 管理员可以轻松使用配置 VM 所需的任何存储功能，而无需与其存储团队进行交互。在 VASA 之前，VM 管理员可以定义 VM 存储策略，但必须与存储管理员合作来确定适当的数据存储，通常是通过使用文档或命名约定。通过 VASA，具有适当权限的 vCenter 管理员可以定义一系列存储功能，然后 vCenter 用户可以使用这些功能来配置虚拟机。 VM 存储策略和数据存储存储功能配置文件之间的映射允许 vCenter 显示兼容数据存储列表以供选择，并允许其他技术（如 Aria（以前称为 vRealize）自动化或 Tanzu Kubernetes Grid）从分配的策略中自动选择存储。这种方法称为基于存储策略的管理。虽然存储能力配置文件和策略也可以与传统数据存储一起使用，但我们这里的重点是vVols数据存储。  ONTAP的 VASA 提供程序包含在ONTAP tools for VMware vSphere中。
+vSphere 存储感知 API (VASA) 使虚拟机管理员能够轻松使用配置虚拟机所需的任何存储功能，而无需与存储团队进行交互。在 VASA 出现之前，虚拟机管理员可以定义虚拟机存储策略，但必须与存储管理员合作来确定合适的数据存储，通常是通过文档或命名约定来实现的。借助 VASA，具有相应权限的 vCenter 管理员可以定义一系列存储功能，vCenter 用户随后可以使用这些功能来配置虚拟机。VM 存储策略与数据存储存储功能配置文件之间的映射关系，使得 vCenter 能够显示可供选择的兼容数据存储列表，并支持其他技术（例如 VCF Automation（以前称为 Aria 或 vRealize）Automation 或 VMware vSphere Kubernetes Service）从分配的策略中自动选择存储。这种方法被称为基于存储策略的管理。虽然存储功能配置文件和策略也可以用于传统数据存储，但我们这里主要关注的是vVols数据存储。VASA 提供程序 for ONTAP包含在ONTAP tools for VMware vSphere中。
 
 在存储阵列中使用 VASA Provider 的优势包括：
 

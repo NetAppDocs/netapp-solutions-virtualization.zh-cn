@@ -2,7 +2,7 @@
 sidebar: sidebar 
 permalink: videos/vmware-videos.html 
 summary: 展示 VMware 解决方案与NetApp存储技术集成的视频和演示 
-keywords: vmware, vsphere, vcf, tanzu, snapcenter, ontap tools, videos, demos 
+keywords: vmware, vsphere, vcf, snapcenter, ontap tools, videos, demos 
 ---
 = 观看有关使用NetApp进行 VMware 虚拟化的视频
 :hardbreaks:
@@ -14,7 +14,7 @@ keywords: vmware, vsphere, vcf, tanzu, snapcenter, ontap tools, videos, demos
 
 
 [role="lead"]
-观看有关 VMware 与NetApp存储解决方案集成的视频和演示。了解如何使用适用于 VMware vSphere 的NetApp ONTAP工具、SnapCenter Plug-in for VMware vSphere、3-2-1 数据保护，以及NetApp如何与 VMware Cloud Foundation 和 Tanzu 协同工作。
+观看视频和演示，了解 VMware 与NetApp存储解决方案的集成。了解如何使用NetApp ONTAP Tools for VMware vSphere、SnapCenter Plug-in for VMware vSphere、3-2-1 数据保护，以及NetApp如何与 VMware Cloud Foundation 和 VMware vSphere Foundation 协同工作。
 
 
 
@@ -88,16 +88,6 @@ video::255640f5-4dff-438c-8d50-b01200f017d1[panopto,width=360]
 video::9b66ac8d-d2b1-4ac4-a33c-b16900f67df6[panopto]
 .iSCSI 数据存储作为 VCF 管理域的补充存储
 video::1d0e1af1-40ae-483a-be6f-b156015507cc[panopto]
-
-
-== NetApp与 VMware Tanzu
-
-.如何将vVols与NetApp和 VMware Tanzu Basic 结合使用，第 1 部分
-video::ZtbXeOJKhrc[youtube,width=360]
-.如何将vVols与NetApp和 VMware Tanzu Basic 结合使用，第 2 部分
-video::FVRKjWH7AoE[youtube,width=360]
-.如何将vVols与NetApp和 VMware Tanzu Basic 结合使用，第 3 部分
-video::Y-34SUtTTtU[youtube,width=360]
 
 
 == NetAppCloud Insights

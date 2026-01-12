@@ -94,20 +94,6 @@ video::9b66ac8d-d2b1-4ac4-a33c-b16900f67df6[panopto]
 .iSCSI 数据存储作为 VCF 管理域的补充存储
 video::1d0e1af1-40ae-483a-be6f-b156015507cc[panopto]
 ====
-.NetApp与 VMware Tanzu
-[%collapsible%open]
-====
-VMware Tanzu 使客户能够通过 vSphere 或 VMware Cloud Foundation 部署、管理和管理他们的 Kubernetes 环境。  VMware 的这一系列产品允许客户通过选择最适合其需求的 VMware Tanzu 版本，从单个控制平面管理所有相关的 Kubernetes 集群。
-
-有关 VMware Tanzu 的更多信息，请参阅 https://tanzu.vmware.com/tanzu["VMware Tanzu 概述"^]。本评论涵盖了用例、可用的附加功能以及有关 VMware Tanzu 的更多信息。
-
-.如何将vVols与NetApp和 VMware Tanzu Basic 结合使用，第 1 部分
-video::ZtbXeOJKhrc[youtube,width=360]
-.如何将vVols与NetApp和 VMware Tanzu Basic 结合使用，第 2 部分
-video::FVRKjWH7AoE[youtube,width=360]
-.如何将vVols与NetApp和 VMware Tanzu Basic 结合使用，第 3 部分
-video::Y-34SUtTTtU[youtube,width=360]
-====
 .NetAppCloud Insights
 [%collapsible%open]
 ====
