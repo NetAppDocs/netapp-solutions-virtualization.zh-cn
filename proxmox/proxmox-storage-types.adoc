@@ -1,0 +1,94 @@
+---
+sidebar: sidebar 
+permalink: proxmox/proxmox-storage-types.html 
+keywords: netapp, proxmox, proxmox ve, ontap, storage, nfs, smb, cifs, iscsi, fc, nvme, content types, vm disks, backups, templates 
+summary: Proxmox VE 支持多种ONTAP存储类型，包括 NAS 协议的 NFS 和 SMB，以及 SAN 协议的 FC、iSCSI 和 NVMe-oF。每种协议都支持不同的内容类型，包括虚拟机磁盘、备份、容器卷、ISO 镜像和模板。 
+---
+= Proxmox 虚拟环境支持的存储类型
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Proxmox 虚拟环境 (VE) 支持多种与NetApp ONTAP兼容的存储协议，包括用于 NAS 的 NFS 和 SMB 以及用于 SAN 的 FC、iSCSI 和 NVMe-oF。每种协议都支持不同的 Proxmox VE 内容类型，包括 VM 磁盘、备份、容器卷、ISO 镜像和模板。
+
+
+
+== NAS协议支持
+
+NAS 协议（NFS 和 SMB）支持所有 Proxmox VE 内容类型，通常在数据中心级别配置一次。客户虚拟机可以在 NAS 存储上使用 raw、qcow2 或 VMDK 磁盘格式。ONTAP快照可以对客户端可见，以便访问特定时间点的数据副本。
+
+
+
+== SAN协议支持
+
+SAN 协议（FC、iSCSI 和 NVMe-oF）通常按主机进行配置，并支持 Proxmox VE 中的 VM 磁盘和容器映像内容类型。客户虚拟机可以在块存储上使用原始磁盘格式、VMDK 磁盘格式或 qcow2 磁盘格式。
+
+
+
+== 存储类型兼容性矩阵
+
+[cols="25% 15% 15% 15% 15% 15%"]
+|===
+| 内容类型 | NFS | SMB/CIFS | FC | iSCSI | NVMe-oF 
+
+
+| 备份 | 是 | 是  a| 
+否^1^
+ a| 
+否^1^
+ a| 
+否^1^
+
+
+
+| VM 磁盘 | 是 | 是  a| 
+是的^2^
+ a| 
+是的^2^
+ a| 
+是的^2^
+
+
+
+| CT体积 | 是 | 是  a| 
+是的^2^
+ a| 
+是的^2^
+ a| 
+是的^2^
+
+
+
+| ISO 映像 | 是 | 是  a| 
+否^1^
+ a| 
+否^1^
+ a| 
+否^1^
+
+
+
+| CT模板 | 是 | 是  a| 
+否^1^
+ a| 
+否^1^
+ a| 
+否^1^
+
+
+
+| 片段 | 是 | 是  a| 
+否^1^
+ a| 
+否^1^
+ a| 
+否^1^
+
+|===
+*笔记：*
+
+. 需要集群文件系统创建共享文件夹并使用目录存储类型。
+. 使用LVM存储类型。
+

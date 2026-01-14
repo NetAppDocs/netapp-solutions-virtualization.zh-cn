@@ -1,0 +1,35 @@
+---
+sidebar: sidebar 
+permalink: proxmox/proxmox-pbs-architecture.html 
+keywords: netapp, proxmox, proxmox ve, proxmox backup server, ontap, storage, architecture, backup, data protection, snapmirror, s3 
+summary: Proxmox备份服务器与NetApp ONTAP存储集成，为Proxmox虚拟环境工作负载提供企业级备份功能。该架构利用ONTAP SnapMirror复制提供增量备份、重复数据删除、压缩和灾难恢复。 
+---
+= 了解 Proxmox Backup Server 与NetApp ONTAP的架构
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Proxmox Backup Server (PBS) 与NetApp ONTAP存储集成，为 Proxmox Virtual Environment (VE) 工作负载提供企业级备份功能。该架构利用ONTAP SnapMirror复制提供增量备份、重复数据删除、压缩、加密和灾难恢复。
+
+Proxmox备份服务器提供专为Proxmox虚拟环境设计的企业级备份功能。PBS 为虚拟机和容器提供高效可靠的备份和恢复操作，其功能包括增量备份、重复数据删除、压缩和加密。
+
+PBS 支持多种存储后端，包括本地存储、NFS、iSCSI 和 S3 兼容的对象存储。当与NetApp ONTAP存储集成时，PBS 可以利用高性能、可扩展的存储作为备份数据存储和异地备份目标。
+
+
+
+== 解决方案架构
+
+该解决方案包含以下组件：
+
+* *Proxmox VE 集群* - 提供虚拟化功能，并管理跨多个节点的虚拟机 (VM) 和容器。
+* *Proxmox备份服务器* - 为Proxmox VE工作负载提供专用备份和恢复功能，并与ONTAP存储集成。
+* * NetApp ONTAP存储* - 为 Proxmox VE 集群和 PBS 备份数据存储提供高性能、可扩展的存储。
+* *网络基础设施* - 确保 Proxmox VE 节点、PBS 和ONTAP存储之间低延迟、高吞吐量的连接。
+* * NetApp Console* - 提供对多个NetApp存储系统和数据服务的集中管理。
+
+
+下图展示了采用ONTAP存储的 Proxmox 备份服务器的高级架构：
+
+image::proxmox-pbs-architecture-001.png[Proxmox VE 工作负载数据保护与 PBS 和NetApp ONTAP架构]

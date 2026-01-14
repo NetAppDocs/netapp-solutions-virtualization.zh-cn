@@ -1,0 +1,123 @@
+---
+sidebar: sidebar 
+permalink: proxmox/proxmox-ontap-fc.html 
+keywords: netapp, proxmox, proxmox ve, fc, fibre channel, lvm, ontap, storage 
+summary: '使用ONTAP为 Proxmox 虚拟环境配置逻辑卷管理器 (LVM) 和光纤通道。此过程包括多路径配置、LUN 配置、igroup 设置和共享存储的卷组创建。' 
+---
+= 为 Proxmox VE 配置 LVM 和 FC
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+使用光纤通道协议和NetApp ONTAP配置 Proxmox 虚拟环境 (VE) 主机之间的共享存储的逻辑卷管理器 (LVM)。这种配置能够实现高性能、低延迟的块级存储访问。
+
+
+
+== 初始虚拟化管理员任务
+
+完成这些初始任务，为 Proxmox VE 主机准备 FC 连接，并收集存储管理员所需的必要信息。
+
+. 确认是否有两个HBA接口可用。
+. 确保所有 Proxmox VE 主机上都安装了 multipath-tools，并且开机启动。
++
+[source, shell]
+----
+apt list | grep multipath-tools
+# If need to install, execute the following line.
+apt-get install multipath-tools
+systemctl enable multipathd
+----
+. 收集所有 Proxmox VE 主机的 WWPN 并将其提供给存储管理员。
++
+[source, shell]
+----
+cat /sys/class/fc_host/host*/port_name
+----
+
+
+
+
+== 存储管理员任务
+
+如果您是ONTAP新手，请使用系统管理器以获得更好的体验。
+
+. 确保SVM可用且已启用FC协议。跟随 link:https://docs.netapp.com/us-en/ontap/san-admin/provision-storage.html["ONTAP 9 文档"]。
+. 每个控制器创建两个专用于 FC 的 LIF。
++
+image:proxmox-ontap-fc-001.png["FC接口详情"]
+
+. 创建 igroup 并填充主机 FC 发起程序。
+. 在 SVM 上创建所需大小的 LUN，并将其呈现给上一步创建的 igroup。确保在ASA系统的“安全”选项卡上启用反勒索软件保护，并在AFF/ FAS系统的“卷安全”选项卡上启用反勒索软件保护。
++
+image:proxmox-ontap-fc-002.png["lun详情"]
+
+. 通知虚拟化管理员 LUN 已创建。
+
+
+
+
+== 最终虚拟化管理员任务
+
+完成以下任务，将 LUN 配置为 Proxmox VE 中的共享 LVM 存储。
+
+. 在集群中的每个 Proxmox VE 主机上导航到 shell，并验证磁盘是否可见。
++
+[source, shell]
+----
+lsblk -S
+rescan-scsi-bus.sh
+lsblk -S
+----
+. 确认设备是否出现在多路径列表中。
++
+[source, shell]
+----
+multipath -ll
+multipath -a /dev/sdX  # replace sdX with the device name
+multipath -r
+multipath -ll
+----
+. 创建卷组。
++
+[source, shell]
+----
+vgcreate <volume group name> /dev/mapper/<device id>
+# Where <volume group name> is the desired name for the volume group and <device id> is the multipath device id.
+pvs
+# Verify the physical volume is part of the volume group.
+vgs
+# Verify the volume group is created.
+----
+. 使用管理用户界面 `https:<proxmox node>:8006`单击“数据中心”，选择“存储”，单击“添加”，然后选择“LVM”。
++
+.显示示例
+[%collapsible]
+====
+image:proxmox-ontap-fc-003.png["lvm存储导航"]
+
+====
+. 提供存储 ID 名称，选择现有卷组，然后选择刚刚使用 CLI 创建的卷组。勾选共享选项。使用 Proxmox VE 9 及更高版本，启用以下功能： `Allow Snapshots as Volume-Chain` 启用“高级”复选框后，此选项才会显示。
++
+.显示示例
+[%collapsible]
+====
+image:proxmox-ontap-fc-004.png["lvm存储创建"]
+
+====
+. 下面展示了使用 FC 的 LVM 的示例存储配置文件：
++
+.显示示例
+[%collapsible]
+====
+image:proxmox-ontap-fc-005.png["lvm fc 配置"]
+
+====
++
+在 Proxmox VE 9 及更高版本中，存储配置文件包含以下附加选项 `snapshot-as-volume-chain 1` 什么时候 `Allow Snapshots as Volume-Chain` 已启用。
+
+

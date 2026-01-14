@@ -1,0 +1,97 @@
+---
+sidebar: sidebar 
+permalink: proxmox/proxmox-ontap-iscsi.html 
+keywords: netapp, proxmox, proxmox ve, iscsi, lvm, ontap, storage 
+summary: '使用ONTAP为 Proxmox 虚拟环境配置 iSCSI 逻辑卷管理器 (LVM)。此过程包括多路径配置、LUN 配置、igroup 设置和共享存储的卷组创建。' 
+---
+= 为 Proxmox VE 配置 iSCSI 的 LVM
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+使用 iSCSI 协议和NetApp ONTAP配置 Proxmox 虚拟环境 (VE) 主机之间的共享存储的逻辑卷管理器 (LVM)。此配置支持通过标准以太网进行块级存储访问，并支持多路径。
+
+.使用ONTAP 的iSCSI LVM 共享池
+video::d66ef67f-bcc2-4ced-848e-b22e01588e8c[panopto,width=360]
+
+
+== 初始虚拟化管理员任务
+
+完成这些初始任务，为 Proxmox VE 主机准备 iSCSI 连接，并收集存储管理员所需的必要信息。
+
+. 确认两个 Linux VLAN 接口可用。
+. 确保所有 Proxmox VE 主机上都安装了 multipath-tools，并且开机启动。
++
+[source, shell]
+----
+apt list | grep multipath-tools
+# If need to install, execute the following line.
+apt-get install multipath-tools
+systemctl enable multipathd
+----
+. 收集所有 Proxmox VE 主机的 iSCSI 主机 IQN，并将其提供给存储管理员。
++
+[source, shell]
+----
+cat /etc/iscsi/initiator.name
+----
+
+
+
+
+== 存储管理员任务
+
+如果您是ONTAP新手，请使用系统管理器以获得更好的体验。
+
+. 确保SVM可用且已启用iSCSI协议。跟随 link:https://docs.netapp.com/us-en/ontap/san-admin/provision-storage.html["ONTAP 9 文档"]。
+. 每个控制器创建两个专用于 iSCSI 的 LIF。
++
+image:proxmox-ontap-iscsi-001.png["iSCSI接口详细信息"]
+
+. 创建 igroup 并填充主机 iSCSI 发起程序。
+. 在 SVM 上创建所需大小的 LUN，并将其呈现给上一步创建的 igroup。确保在ASA系统的安全选项卡中启用反勒索软件保护。对于AFF/ FAS系统，请确保在卷的安全选项卡上启用反勒索软件保护。
++
+image:proxmox-ontap-iscsi-002.png["iscsi lun 详细信息"]
+
+. 通知虚拟化管理员 LUN 已创建。
+
+
+
+
+== 最终虚拟化管理员任务
+
+完成以下任务，将 iSCSI LUN 配置为 Proxmox VE 中的共享 LVM 存储。
+
+. 使用管理用户界面 `https:<proxmox node>:8006`单击“数据中心”，选择“存储”，单击“添加”，然后选择“iSCSI”。
++
+image:proxmox-ontap-iscsi-003.png["iscsi存储导航"]
+
+. 请提供存储ID名称。当没有通信问题时， ONTAP的 iSCSI LIF 地址应该能够选择目标。如果不想直接向来宾虚拟机提供 LUN 访问权限，请取消选中该选项。
++
+image:proxmox-ontap-iscsi-004.png["iscsi存储类型创建"]
+
+. 点击“添加”，然后选择 LVM。
++
+image:proxmox-ontap-iscsi-005.png["lvm存储导航"]
+
+. 提供存储 ID 名称，并选择与上一步创建的 iSCSI 存储匹配的基本存储。选择基础卷的 LUN，并提供卷组名称。请确保已选择共享选项。使用 Proxmox VE 9 及更高版本，启用以下功能： `Allow Snapshots as Volume-Chain` 启用“高级”复选框后，此选项才会显示。
++
+image:proxmox-ontap-iscsi-006.png["lvm存储创建"]
+
+. 下面展示了使用 iSCSI 的 LVM 的示例存储配置文件：
++
+.显示示例
+[%collapsible]
+====
+image:proxmox-ontap-iscsi-007.png["lvm iscsi配置"]
+
+====
++
+在 Proxmox VE 9 及更高版本中，存储配置文件包含以下附加选项 `snapshot-as-volume-chain 1` 什么时候 `Allow Snapshots as Volume-Chain` 已启用。
+
+

@@ -1,0 +1,89 @@
+---
+sidebar: sidebar 
+permalink: proxmox/proxmox-ontap-architecture.html 
+keywords: netapp, proxmox, proxmox ve, ontap, storage, architecture, nas, san, nfs, smb, iscsi, fc, nvme, flexgroup, flexcache, snapmirror 
+summary: NetApp ONTAP与 Proxmox 虚拟环境集成，通过 NAS 和 SAN 协议提供企业级存储功能。ONTAP为虚拟化工作负载提供高级数据管理功能，包括快照、克隆、复制和勒索软件防护。 
+---
+= 了解适用于 Proxmox 虚拟环境的ONTAP存储架构
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+NetApp ONTAP与 Proxmox 虚拟环境 (VE) 集成，通过 NAS 和 SAN 协议提供企业级存储功能。ONTAP为在 Proxmox VE 集群上运行的虚拟化工作负载提供高级数据管理功能，包括快照、克隆、复制和勒索软件防护。
+
+
+
+== 解决方案架构
+
+该解决方案架构包含以下关键组件：
+
+* *Proxmox VE 集群：* Proxmox VE 节点集群，提供虚拟化功能并管理虚拟机 (VM) 和容器。
+* * NetApp ONTAP存储：* 一种高性能、可扩展的存储系统，可为 Proxmox VE 集群提供共享存储。
+* *网络基础设施：* 强大的网络设置，确保 Proxmox VE 节点和ONTAP存储之间低延迟、高吞吐量的连接。
+* * NetApp Console：* 用于管理多个NetApp存储系统和数据服务的集中式管理界面。
+* *Proxmox备份服务器：* 专为Proxmox VE设计的备份解决方案，可与ONTAP存储集成，实现高效的数据保护。
+
+
+下图展示了实验室设置的高级架构：
+
+image::proxmox-deploy-guidelines-001.png[Proxmox VE 与NetApp ONTAP架构]
+
+
+
+== 适用于 Proxmox VE 的ONTAP功能
+
+ONTAP提供了一套全面的企业存储功能，可增强 Proxmox VE 部署。这些特性涵盖了 NAS 和 SAN 存储架构的数据管理、保护、效率和协议支持。
+
+
+
+=== 核心数据管理功能
+
+* 横向扩展集群架构
+* 安全身份验证和基于角色的访问控制 (RBAC) 支持
+* 零信任多管理员支持
+* 安全的多租户
+* 使用SnapMirror进行数据复制
+* 具有快照的时间点副本
+* 节省空间的克隆
+* 存储效率特性包括重复数据删除和压缩
+* Trident CSI 对 Kubernetes 的支持
+* SnapLock合规性
+* 防篡改快照副本锁定
+* 具备自主威胁检测功能的勒索软件防护
+* 静态数据和传输中数据加密
+* FabricPool将冷数据分层存储到对象存储中
+* NetApp Console和Data Infrastructure Insights集成
+* Microsoft 卸载数据传输 (Offloaded Data Transfer, ODX)
+
+
+
+
+=== NAS协议特性
+
+* FlexGroup卷为横向扩展的 NAS 容器提供高性能、负载均衡和可扩展性。
+* FlexCache将数据在全球范围内分发，同时提供本地读写访问。
+* 多协议支持使得同一数据可以通过 SMB 和 NFS 访问。
+* NFS nConnect 允许每个连接建立多个 TCP 会话，从而提高网络吞吐量并利用高速网卡。
+* NFS会话中继可提供更高的数据传输速度、高可用性和容错能力。
+* SMB多通道可提供更高的数据传输速度、更高的可用性和容错能力。
+* 与 Active Directory 和 LDAP 集成以实现文件权限
+* 通过 TLS 使用 NFS 建立安全连接。
+* NFS Kerberos 身份验证支持
+* 通过 RDMA 使用 NFS 实现低延迟访问
+* Windows 和 Unix 身份之间的名称映射
+* 具备内置威胁检测功能的自主勒索软件防护
+* 文件系统分析，获取容量和使用情况洞察
+
+
+
+
+=== SAN协议特性
+
+* 使用SnapMirror主动同步功能将集群扩展到故障域（始终检查 https://mysupport.netapp.com/matrix/#welcome["互操作性表工具"] （适用于支持的配置）
+* ASA型号提供主动-主动多路径和快速路径故障转移。
+* 支持 FC、iSCSI 和 NVMe-oF 协议
+* iSCSI CHAP 相互认证
+* 选择性 LUN 映射和端口集以增强安全性
+
