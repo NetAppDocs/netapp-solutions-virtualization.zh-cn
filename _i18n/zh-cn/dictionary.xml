@@ -8285,4 +8285,5 @@
   <block id="33944cf48dae6085e379419638e7f045" category="sidebar">使用ONTAP为 Proxmox VE 配置存储协议</block>
   <block id="00e4880b550e40d823bf3e2f64737181" category="sidebar">存储协议概述</block>
   <block id="df98233fcbd5f7d34a38d94575306755" category="sidebar">使用 Proxmox Backup Server 和NetApp ONTAP实现 Proxmox VE 工作负载数据保护</block>
+  <block id="7b5595669a13f02ed040dc13960eabba" category="video-title">从 ESX 到 Red Hat OpenShift Virtualization (OSV) 的零接触迁移</block>
 </blocks>
