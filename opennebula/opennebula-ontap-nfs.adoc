@@ -1,0 +1,158 @@
+---
+sidebar: sidebar 
+permalink: opennebula/opennebula-ontap-nfs.html 
+keywords: netapp, opennebula, kvm, nfs, ontap, storage, nconnect, session trunking 
+summary: 为 OpenNebula 配置 NFS 数据存储存储，使用 ONTAP。此过程包括 SVM 启用、LIF 创建、导出策略配置、卷创建和 nConnect 或会话中继设置，以实现容错和性能。 
+---
+= 使用 ONTAP 为 OpenNebula 配置 NFS 存储
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+使用 NetApp ONTAP 为 OpenNebula 配置 NFS 存储。在使用 FlexGroup 卷时，使用 nConnect 或带有 pNFS（v4.1 或更高版本）的会话分组，以实现高效的资源管理、容错和性能提升。单个 NFS 导出可用于 OpenNebula 集群的 Image 和 System 数据存储。计划使用 FlexCache 时，请仅为 Image 数据存储专用 nfs 导出。
+
+考虑高可用性和灾难恢复方案的 MetroCluster 配置。
+
+如果您是ONTAP新手，请使用系统管理器界面完成这些任务。
+
+
+
+== 存储管理员任务
+
+完成这些任务，在 ONTAP 上配置 NFS 存储以便与 OpenNebula 配合使用。
+
+. 为 NFS 启用 SVM。请参阅 link:https://docs.netapp.com/us-en/ontap/nfs-config/verify-protocol-enabled-svm-task.html["ONTAP 9 文档"]。
+. 每个控制器至少创建两个 LIF。请按照文档中的步骤操作。作为参考，这里是实验室中使用的 LIF 的屏幕截图。
++
+.显示示例
+[%collapsible]
+====
+image:opennebula-ontap-nfs-001.png["nas接口详情"]
+
+====
+. 创建或更新 NFS 导出策略以提供对 OpenNebula 主机 IP 地址或子网的访问。请参阅 link:https://docs.netapp.com/us-en/ontap/nfs-config/create-export-policy-task.html["出口政策制定"] 和 link:https://docs.netapp.com/us-en/ontap/nfs-config/add-rule-export-policy-task.html["向导出策略添加规则"]。
+. link:https://docs.netapp.com/us-en/ontap/nfs-config/create-volume-task.html["创建卷"]。对于大容量需求（>100TB），请选中在集群中分发数据以使用 FlexGroup 的选项。如果使用 FlexGroup，请考虑在 SVM 上启用 pNFS，以便通过以下方式获得更好的性能 link:https://docs.netapp.com/us-en/ontap/pnfs/pnfs-commands.html#enable-nfsv4-1["在 SVM 上启用 pNFS"]。使用 pNFS 时，确保 OpenNebula 主机可以访问所有控制器（数据 LIF）的数据。确保已在卷上启用反勒索软件保护。
++
+.显示示例
+[%collapsible]
+====
+image:opennebula-ontap-nfs-002.png["FlexGroup选项"]
+
+====
+. 通知虚拟化管理员 NFS 卷已就绪，并提供 NFS 导出路径详细信息。
+
+
+
+
+== 虚拟化管理员任务
+
+完成这些任务以将 NFS 卷添加为 OpenNebula 中的数据存储区，并配置 nConnect 或会话中继以提高性能。
+
+. 为了实现容错，请确保至少有两个接口配置在不同的 VLAN 中。使用网卡绑定。
+. SSH 到前端服务器之一，并根据所需的 Datastore 类型创建配置文件。示例文件如下所示：
++
+[role="tabbed-block"]
+====
+.备份
+--
+.. 对于 Restic，
+
+
+[listing]
+----
+$cat nfs-restic.conf
+NAME = "Backup-Restic-NFS"
+TYPE = "BACKUP_DS"
+
+DS_MAD = "restic"
+TM_MAD = "-"
+
+RESTIC_PASSWORD = "<restic_password>"
+RESTIC_SFTP_SERVER = "<backup server>"
+----
+.. 对于 Rsync，
+
+
+[listing]
+----
+$cat nfs-rsync.conf
+NAME = "Backup-Rsync-NFS"
+TYPE = "BACKUP_DS"
+
+DS_MAD = "rsync"
+TM_MAD = "-"
+
+RSYNC_USER = "<rsync_user>"
+RSYNC_HOST = "<backup server>"
+----
+--
+.文件
+[source, shell]
+----
+$cat nfs-kernel.conf
+NAME = "File-Kernel-NFS"
+TYPE = "FILE_DS"
+DS_MAD = "fs"
+TM_MAD = "local"
+SAFE_DIRS = "/var/tmp/files"
+----
+.映像
+[source, shell]
+----
+$cat nfs-image.conf
+NAME = "Image-NFS"
+TYPE = "IMAGE_DS"
+DS_MAD = "fs"
+TM_MAD = "shared"
+----
+.系统
+[source, shell]
+----
+$cat nfs-system.conf
+NAME = "System-NFS"
+TYPE = "SYSTEM_DS"
+TM_MAD = "shared"
+----
+====
+. 执行 `onedatastore create <configuration file>`。请注意创建后返回的数据存储 ID。
++
+[]
+====
+onedatastore create nfs-system.conf ID: 101
+
+====
+. 使用 `id oneadmin` 命令收集 oneadmin 用户的 uid 和 gid。
+. 更新 /etc/fstab 或 automount 配置，以使用所需的挂载选项挂载数据存储库。假设默认数据存储库位置为 /var/lib/one/datastores。可通过  `onedatastore show <datastore_id>` 进行验证。如果没有，请检查 /etc/one/oned.conf 中的 DATASTORE_LOCATION 参数。确保 <datastore_id> 文件夹存在于数据存储库位置下。示例条目如下所示：
++
+[role="tabbed-block"]
+====
+.使用 /etc/fstab
+--
+[source, shell]
+----
+# To use session trunking, use the option trunkdiscovery
+//<nfs_server>/<nfs_share> /var/lib/one/datastores/<datastore_id> nfs nconnect=8,max_channels=16,_netdev,noauto,x-systemd.automount,nofail,uid=<oneadmin uid>,gid=<oneadmin gid> 0 0
+----
+--
+.使用 automount
+--
+[source, shell]
+----
+# To use session trunking, use the option trunkdiscovery
+/var/lib/one/datastores/<datastore_id> -fstype=nfs,nconnect=8,max_channels=16,_netdev,noauto,x-systemd.automount,nofail,uid=<oneadmin uid>,gid=<oneadmin gid> <nfs_server>:/<nfs_share>
+----
+--
+====
+. 使用 `mount -a` 或 `systemctl reload autofs` 命令挂载数据存储库。
+. 使用 mount 命令验证数据存储库是否已装载，并使用 `onedatastore show <datastore_id>`命令验证数据存储库容量。
+. 确保 oneadmin 用户和组拥有数据存储文件夹。使用 `chown -R oneadmin:oneadmin /var/lib/one/datastores/<datastore_id>`命令调整权限。
+. 要验证 nConnect 选项是否已设置，请在任何 OpenNebula 主机上运行  `ss -an | grep :2049` 并检查到 NFS 服务器 IP 的多个连接。要验证 pNFS 是否已启用，请运行  `nfsstat -c` 并检查与布局相关的指标。根据数据流量，应该可以看到与数据 LIF 的多个连接。
+
+
+
+NOTE: 在会话中继中，nconnect 选项仅在一个中继接口上设置。对于 pNFS，nconnect 选项设置在元数据和数据接口上。对于生产环境，请使用 nConnect 或会话中继，不要同时使用两者。

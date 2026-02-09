@@ -1,0 +1,112 @@
+---
+sidebar: sidebar 
+permalink: opennebula/opennebula-storage-types.html 
+keywords: netapp, opennebula, ontap, storage, nfs, smb, cifs, iscsi, fc, nvme, content types, vm disks, backups, templates 
+summary: OpenNebula 支持使用 ONTAP 的多种存储类型，包括用于 NAS 协议的 NFS 和 SMB 以及用于 SAN 协议的 FC、iSCSI 和 NVMe-oF。 
+---
+= OpenNebula 支持的存储类型
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+OpenNebula 支持使用 NetApp ONTAP 的多种存储协议，包括用于 NAS 的 NFS 和 SMB 以及用于 SAN 的 FC、iSCSI 和 NVMe-oF。根据现有技能和要求，用户可以选择合适的存储协议。如果不打算使用 ONTAP 提供的任何数据服务，请考虑使用 FC、iSCSI、InfiniBand 和 NVMe-oF 协议提供块存储的 SANtricity 系统。
+
+OpenNebula 使用通常装载在 /var/lib/one/datastores 文件夹中或由 /etc/one/oned.conf 文件中的 DATASTORE_LOCATION 属性定义的 Datastores。可以使用 /etc/fstab 文件装载存储，也可以使用 Automounter 或您的环境支持的其他过程进行动态装载。大多数文件夹权限都设置为由 oneadmin 用户和组拥有。请确保虚拟机监控程序主机可以使用所需的协议访问存储系统。
+
+使用 automounter 时，使用直接挂载以避免 automounter 控制父文件夹的问题。要创建直接挂载，请在 /etc/auto.master.d/ 下创建文件。例如，使用以下命令创建名为 one.autofs 的文件：
+
+[source, bash]
+----
+echo "/-    /etc/auto.one --timeout=60 --ghost" > /etc/auto.master.d/one.autofs
+----
+前端服务器需要有权访问映像数据存储。在虚拟机监控程序主机上装载映像数据存储是可选的，但建议这样做以获得更好的性能。系统数据存储需要安装在虚拟机监控程序主机上，因为它们托管虚拟机磁盘。内核和文件数据存储用于 VM 内核、ramdisk 和通过情境化过程向 VM 提供的其他文件。它可以安装在前端服务器和虚拟机监控程序主机上。备份数据存储用于 VM 备份，可以装载在 OpenNebula 集群上的所有主机上。如果 KVM 主机可以使用 SSH for rsync、SFTP for restic 访问备份数据存储主机，则其他集群上的 VM 也可以使用相同的备份数据存储。如果使用 Veeam，oVirtAPI 应可用。
+
+
+
+== NAS协议支持
+
+NAS 协议（NFS 和 SMB）支持跨前端和虚拟机监控程序主机的共享文件系统。ONTAP 快照可以对客户端可见，以访问数据的时间点副本。ONTAP FlexCache 可用于地理分布区域内的图像数据存储。ONTAP NFS 支持 nConnect，通过在每个会话中使用多个连接来提高性能。在使用 FlexGroup 用于大型数据存储区（> 100TB）时，建议使用 pNFS 将负载分布在多个节点上。请记住，在 ONTAP 群集中为每个控制器配置至少一个数据 lif，并且虚拟机监控程序主机需要具有连接性。
+
+所有数据存储区类型（映像、系统、内核和文件以及备份）都支持 NAS 协议。
+
+
+
+== SAN协议支持
+
+企业版包括与 AFF 和 FAS 系统上的 iSCSI 协议兼容的 NetApp 驱动程序。其他 SAN 协议（FC、InfiniBand 和 NVMe-oF）通常配置为 LVM 驱动程序。每个虚拟机都会创建 LVM 精简池，以支持精简配置和快照。虚拟机监控程序主机需要连接到存储系统。使用 LVM 存储类型不需要群集 LVM 支持。
+
+要与 NetApp 驱动程序一起使用，需要在虚拟机监控程序主机上配置 iSCSI 会话和多路径。对于 LVM 驱动程序，除了系统数据存储之外，逻辑卷需要创建和装载文件系统。对于系统数据存储区，卷组需要命名为"vg-one-<datastore_id>"，其中 <datastore_id> 是 OpenNebula 中的数据存储区的数字标识符。所有数据存储区类型（映像、系统、内核和文件以及备份）都支持 SAN 协议。
+
+
+
+== NetApp ONTAP API 驱动程序
+
+OpenNebula 的本机 NetApp 集成使用 ONTAP 的 API 自动创建和管理卷、LUN、快照和映射。这种方法提供了最佳的自动化水平，并避免了手动 iSCSI 和 LVM 设置。有关详细信息，请参见 link:https://docs.opennebula.io/7.0/integrations/storage_extensions/netapp/["OpenNebula 文档"]。
+
+
+
+== 存储类型兼容性矩阵
+
+[cols="25% 15% 15% 15% 15% 15%"]
+|===
+| 数据存储库类型 | NFS | SMB/CIFS | FC | iSCSI | NVMe-oF 
+
+
+| 映像 | 是 | 是 | 是  a| 
+是^1^
+| 是 
+
+
+| 系统 | 是 | 是 | 是  a| 
+是^1^
+| 是 
+
+
+| 内核和文件 | 是 | 是 | 是 | 是 | 是 
+
+
+| 备份 | 是 | 是 | 是 | 是 | 是 
+|===
+*笔记：*
+
+. NetApp 驱动程序在企业版中可用于 iSCSI 协议，以利用本机 ONTAP 功能。
+
+
+
+
+== ONTAP 支持的 OpenNebula 集群存储类型
+
+以下是在使用 NetApp ONTAP 作为后端时，OpenNebula 不同存储类型所支持功能的对比。
+
+[cols="30% 20% 20% 20%"]
+|===
+| 功能 | NetApp ONTAP API | LVM-thin | NFS/SMB 
+
+
+| VM 磁盘 | 是 | 是 | 是 
+
+
+| 图像存储^1^ | 是 | 是 | 是 
+
+
+| 实时快照 | 是 | 是 | 是 
+
+
+| 克隆 VM 或映像 | 是 | 是 | 是 
+
+
+| 增量备份^2^ | 是 | 是 | 是 
+|===
+*笔记：*
+
+. 图像存储是指使用 OpenNebula 图像数据存储区的后端。LVM-thin 和 ONTAP API 方法涉及从图像源复制或创建块设备。
+. 增量备份适用于 `qcow2`磁盘（在 NFS/SMB 上）或支持跟踪更改的数据块设备。OpenNebula NetApp ONTAP 驱动程序使用滚动快照进行增量备份。
+
+
+
+NOTE: 增量备份需要加载  `nbd` 内核模块。

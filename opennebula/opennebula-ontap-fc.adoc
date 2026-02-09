@@ -1,0 +1,186 @@
+---
+sidebar: sidebar 
+permalink: opennebula/opennebula-ontap-fc.html 
+keywords: netapp, opennebula, lvm thin, fc, fibre channel, lvm, ontap, storage 
+summary: '使用 ONTAP 为 OpenNebula 配置带有光纤通道的逻辑卷管理器 (LVM) 数据存储区。此过程包括为共享数据存储区进行多路径配置、LUN 调配、igroup 设置和卷组创建。' 
+---
+= 使用 ONTAP FC 为 OpenNebula 配置 LVM Thin
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+使用 Fibre Channel 协议配置逻辑卷管理器 (LVM) 数据存储，以便在 OpenNebula 主机之间使用 NetApp ONTAP 实现共享存储。此配置可实现高性能和低延迟的块级存储访问。
+
+
+
+== 初始虚拟化管理员任务
+
+完成这些初始任务，让 OpenNebula 主机为 FC 连接做好准备，并为存储管理员收集必要的信息。
+
+. 确认是否有两个HBA接口可用。
+. 确保已在所有 OpenNebula 主机上安装 multipath-tools，并在启动时启动。
++
+[role="tabbed-block"]
+====
+.Debian/Ubuntu
+--
+[source, shell]
+----
+apt list | grep multipath-tools
+# If need to install, execute the following line.
+apt-get install multipath-tools
+# If /etc/multipath.conf is not present, first make sure the multipathd service is started.
+systemctl enable --now multipathd
+----
+--
+.RHEL/AlmaLinux
+--
+[source, shell]
+----
+dnf list installed | grep device-mapper-multipath
+# If need to install, execute the following line.
+dnf install device-mapper-multipath
+# If /etc/multipath.conf is not present, first make sure the multipathd service is started.
+systemctl enable --now multipathd
+----
+--
+====
+. 收集所有 OpenNebula 主机的 WWPN，并将其提供给负责结构分区的存储管理员和管理员。
++
+[source, shell]
+----
+cat /sys/class/fc_host/host*/port_name
+----
+
+
+
+
+== 存储管理员任务
+
+如果您是ONTAP新手，请使用系统管理器以获得更好的体验。
+
+. 确保SVM可用且已启用FC协议。跟随 link:https://docs.netapp.com/us-en/ontap/san-admin/provision-storage.html["ONTAP 9 文档"]。
+. 为 FC 专用的每个控制器创建两个 LIF。收集为 FC LIF 创建的 WWPN 地址，并将其提供给负责光纤分区的管理员。
+. 创建一个 igroup 并填充主机 FC 启动程序。通常为一个 OpenNebula 集群创建一个 igroup。将前端服务器和虚拟机监控程序主机包括在同一个 igroup 中，以支持 Image 和 System 数据存储。
+. 在 SVM 上创建所需大小的 LUN，并将其呈现给上一步创建的 igroup。确保在ASA系统的“安全”选项卡上启用反勒索软件保护，并在AFF/ FAS系统的“卷安全”选项卡上启用反勒索软件保护。
+. 通知虚拟化管理员 LUN 已创建。
+
+
+
+
+== 最终虚拟化管理员任务
+
+完成这些任务以在 OpenNebula 中将 FC LUN 配置为共享 LVM 数据存储。
+
+. SSH 到所有 OpenNebula 服务器，并在每台主机上完成以下步骤。
+. 执行 `rescan-scsi-bus.sh` 或 `echo "- - -" > /sys/class/scsi_host/host*/scan` 重新扫描 SCSI 总线并检测新 LUN。
+. 使用 `lsblk -S`或 fdisk -l 命令验证 LUN 在所有 OpenNebula 主机上均可见。记下创建的 LUN 的设备名称（例如，sde、sdf）。
+. 通过执行 `multipath -a /dev/<device_name>`将设备添加到多路径配置。然后，执行 `multipath -r`以重新加载多路径配置。通过执行 `multipath -ll`命令验证多路径配置。
+. SSH 到其中一个 frontend 服务器并根据所需的 Datastore 类型创建配置文件。有关完整的属性列表，请参阅 https://docs.opennebula.io/7.0/product/cluster_configuration/san_storage/lvm_drivers/["OpenNebula LVM 文档"]。示例文件如下所示：
++
+[role="tabbed-block"]
+====
+.备份
+--
+.. 对于 Restic，
+
+
+[listing]
+----
+$cat fc-restic.conf
+NAME = "Backup-Restic-FC"
+TYPE = "BACKUP_DS"
+
+DS_MAD = "restic"
+TM_MAD = "-"
+
+RESTIC_PASSWORD = "<restic_password>"
+RESTIC_SFTP_SERVER = "<backup server>"
+----
+.. 对于 Rsync，
+
+
+[listing]
+----
+$cat fc-rsync.conf
+NAME = "Backup-Rsync-FC"
+TYPE = "BACKUP_DS"
+
+DS_MAD = "rsync"
+TM_MAD = "-"
+
+RSYNC_USER = "<rsync_user>"
+RSYNC_HOST = "<backup server>"
+----
+--
+.文件
+[source, shell]
+----
+$cat fc-kernel.conf
+NAME = "File-Kernel-FC"
+TYPE = "FILE_DS"
+DS_MAD = "fs"
+TM_MAD = "local"
+SAFE_DIRS = "/var/tmp/files"
+----
+.映像
+[source, shell]
+----
+$cat fc-image.conf
+NAME = "Image-FC01"
+TYPE = "IMAGE_DS"
+DS_MAD = "fs"
+TM_MAD = "fs_lvm_ssh"
+DISK_TYPE = "block"
+LVM_THIN_ENABLE = "yes"
+----
+.系统
+[source, shell]
+----
+$cat fc-system.conf
+NAME = "System-FC02"
+TYPE = "SYSTEM_DS"
+TM_MAD = "fs_lvm_ssh"
+DISK_TYPE = "block"
+BRIDGE_LIST = "<space-separated list of OpenNebula hosts>" # If LUN not presented to frontend hosts
+LVM_THIN_ENABLE = "yes"
+----
+====
+. 执行 `onedatastore create <configuration file>`。请注意创建后返回的数据存储 ID。
++
+[]
+====
+onedatastore 创建 fc-system.conf ID: 107
+
+====
+. 使用 `vgcreate <vg_name> <multipath_device>` 命令在 FC LUN 上创建卷组。对于映像数据存储，卷组名称可以命名为任何所需的名称。对于系统数据存储，卷组名称必须为格式 `vg-one-<datastore id>`。这是 OpenNebula 识别系统数据存储的正确卷组所必需的。如果要创建备份/文件/映像数据存储，请执行以下步骤。对于系统数据存储，请停止此处。
+. 使用 `lvcreate -l 100%FREE -n <logical volume name> <volume group name>` 命令创建逻辑卷精简池。对于系统数据存储区，OpenNebula 在需要时自动创建 LVM 精简池。
+. 使用 `mkfs.ext4 /dev/<volume group>/<logical volume>` 命令在逻辑卷上创建文件系统。系统数据存储不需要创建文件系统。
+. 更新 /etc/fstab 或 automount 配置，以使用所需的挂载选项挂载数据存储库。假设默认数据存储库位置为 /var/lib/one/datastores。可通过  `onedatastore show <datastore_id>` 进行验证。如果没有，请检查 /etc/one/oned.conf 中的 DATASTORE_LOCATION 参数。确保 <datastore_id> 文件夹存在于数据存储库位置下。示例条目如下所示：
++
+[role="tabbed-block"]
+====
+.使用 /etc/fstab
+--
+[source, shell]
+----
+/dev/<vg name>/<logical volume> /var/lib/one/datastores/<datastore_id> ext4 _netdev,noauto,x-systemd.automount,nofail 0 2
+----
+--
+.使用 automount
+--
+[source, shell]
+----
+/var/lib/one/datastores/<datastore_id> -fstype=ext4,_netdev,noauto,x-systemd.automount,nofail,rw :/dev/<vg name>/<logical volume>
+----
+--
+====
+. 使用 `mount -a` 或 `systemctl reload autofs` 命令挂载数据存储库。
+. 使用 mount 命令验证数据存储库是否已装载，并使用 `onedatastore show <datastore_id>`命令验证数据存储库容量。
+. 确保 oneadmin 用户和组拥有数据存储文件夹。使用 `chown -R oneadmin:oneadmin /var/lib/one/datastores/<datastore_id>`命令调整权限。
+

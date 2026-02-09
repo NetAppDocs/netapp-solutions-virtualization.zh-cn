@@ -1,0 +1,42 @@
+---
+sidebar: sidebar 
+permalink: opennebula/opennebula-netapp-protocols.html 
+keywords: netapp, opennebula, all-flash, nfs, iscsi, ontap, storage, aff 
+summary: 为 OpenNebula 使用 NAS 协议（NFS、SMB）和 SAN 协议（FC、iSCSI、NVMe）提供 ONTAP 存储。选择适当的特定于协议的过程，为您的 OpenNebula 环境配置共享存储。 
+---
+= 了解适用于 OpenNebula 与 NetApp ONTAP 的存储协议
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+为 OpenNebula 使用 NAS 协议（NFS、SMB）和 SAN 协议（FC、iSCSI、NVMe）提供 ONTAP 存储。选择适当的特定于协议的过程，为您的 OpenNebula 环境配置共享存储。
+
+确保 OpenNebula 前端和虚拟机监控程序主机具有连接到交换机的 FC、以太网或其他支持的接口，并与 ONTAP 逻辑接口进行通信。始终检查 https://mysupport.netapp.com/matrix/#welcome["互操作性表工具"]以获取支持的配置。创建示例场景时假设每台 OpenNebula 主机上有两个高速网络接口卡，它们连接在一起以创建用于容错和性能的绑定接口。所有网络流量都使用相同的上行链路连接，包括主机管理、VM/容器流量和存储访问。当有更多的网络接口可用时，请考虑将存储流量与其他类型的流量分开。
+
+有关 ONTAP 存储体系结构和支持的存储类型的信息，请参见 link:opennebula-netapp-architecture.html["了解 NetApp 存储架构，适用于 OpenNebula"] 和 link:opennebula-storage-types.html["了解 OpenNebula 支持的存储类型"]。
+
+
+NOTE: 当使用 LVM 和 SAN 协议（FC、iSCSI、NVMe-oF）时，卷组可以包含多个 LUN 或 NVMe 命名空间。在这种情况下，所有 LUN 或命名空间都必须属于同一个一致性组，以确保数据完整性。我们不支持跨越多个ONTAP SVM 的卷组。每个卷组必须由同一 SVM 中的 LUN 或命名空间创建。
+
+
+
+== 选择存储协议
+
+选择符合您环境和要求的协议：
+
+* link:opennebula-netapp-iscsi.html["使用 iSCSI 配置 NetApp 驱动程序"] - 使用 iSCSI 配置 OpenNebula NetApp 驱动程序，以便在支持多路径的标准以太网网络上进行块存储访问。这是仅限企业版的功能。它利用 ONTAP 本机克隆来实现高效的虚拟机配置。
+* link:opennebula-ontap-smb.html["配置 SMB/CIFS 存储"] - 为 OpenNebula 配置 SMB/CIFS 文件共享，支持多通道以实现容错和通过多个网络连接增强性能。
+* link:opennebula-ontap-nfs.html["配置 NFS 存储"] - 使用多个网络连接为 OpenNebula 配置带有 nConnect 或会话中继的 NFS 存储，以实现容错和性能增强。
+* link:opennebula-ontap-fc.html["使用 FC 配置 LVM Thin"] - 使用光纤通道配置逻辑卷管理器 (LVM)，以实现跨 OpenNebula 主机的高性能、低延迟块存储访问。
+* link:opennebula-ontap-iscsi.html["使用 iSCSI 配置 LVM Thin"] - 使用 iSCSI 配置逻辑卷管理器 (LVM)，以便通过支持多路径的标准以太网网络进行块存储访问。
+* link:opennebula-ontap-nvme-fc.html["使用 NVMe/FC 配置 LVM Thin"] - 使用 NVMe over Fibre Channel 配置 Logical Volume Manager (LVM)，以便使用现代 NVMe 协议实现高性能块存储。
+* link:opennebula-ontap-nvme-tcp.html["使用 NVMe/TCP 配置 LVM Thin"] - 使用 NVMe over TCP 配置 Logical Volume Manager (LVM)，以便使用现代 NVMe 协议在标准以太网网络上实现高性能块存储。
+
+
+
+NOTE: 如果需要有关 E-Series 或 EF-Series 存储协议的帮助，请查看链接 https://docs.netapp.com/us-en/e-series/config-linux/index.html["用于在 Linux 环境中设置 LVM 的 NetApp E 系列和 EF 系列文档"]以及 LVM Thin 文档之一以供参考。

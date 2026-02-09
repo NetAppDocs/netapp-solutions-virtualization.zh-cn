@@ -10,6 +10,18 @@ indexpage:
       url: kvm-overview.html
     - title: 适用于 KVM 虚拟化环境的NetApp ONTAP存储
       url: kvm-ontap.html
+  - title: KVM 的 OpenNebula 资源
+    links:
+    - title: 了解 OpenNebula
+      url: "../opennebula/opennebula-overview.html"
+    - title: 安装 OpenNebula
+      url: https://docs.opennebula.io/7.0/software/installation_process/
+    - title: OpenNebula 和 NetApp 架构
+      url: "../opennebula/opennebula-netapp-architecture.html"
+    - title: 支持的存储类型
+      url: "../opennebula/opennebula-storage-types.html"
+    - title: 配置存储协议
+      url: "../opennebula/opennebula-netapp-protocols.html"
   - title: 其他资源
     links:
     - title: 在 Rocky Linux 上设置 libvirt

@@ -1,0 +1,192 @@
+---
+sidebar: sidebar 
+permalink: opennebula/opennebula-ontap-nvme-fc.html 
+keywords: netapp, opennebula, lvm thin, nvme, nvme-fc, lvm, ontap, storage 
+summary: '使用 ONTAP 为 OpenNebula 配置基于光纤通道 NVMe 的逻辑卷管理器 (LVM) 数据存储。此过程包括 nvme-cli 安装、命名空间配置、子系统设置和共享数据存储的卷组创建。' 
+---
+= 使用 ONTAP NVMe/FC 为 OpenNebula 配置 LVM Thin
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+使用 NVMe over Fibre Channel 协议和 NetApp ONTAP，为 OpenNebula 主机配置 Logical Volume Manager (LVM) 以实现共享数据存储。此配置通过现代 NVMe 协议提供高性能、低延迟的块级存储访问。
+
+
+
+== 初始虚拟化管理员任务
+
+完成这些初始任务，让 OpenNebula 主机为 NVMe/FC 连接做好准备，并为存储管理员收集必要的信息。
+
+. 确认是否有两个HBA接口可用。
+. 在群集中的每个 OpenNebula 主机上，运行以下命令以收集 WWPN 信息并验证是否已安装 nvme-cli 包。
++
+[role="tabbed-block"]
+====
+.Debian/Ubuntu
+--
+[source, shell]
+----
+apt update
+apt install nvme-cli
+cat /sys/class/fc_host/host*/port_name
+nvme show-hostnqn
+----
+--
+.RHEL/AlmaLinux
+--
+[source, shell]
+----
+dnf update
+dnf install nvme-cli
+cat /sys/class/fc_host/host*/port_name
+nvme show-hostnqn
+----
+--
+====
+. 向存储管理员提供收集的主机 NQN 和 WWPN 信息，并请求所需大小的 NVMe 命名空间。织物分区需要 WWPN。将这些信息提供给负责织物分区的管理员。
+
+
+
+
+== 存储管理员任务
+
+如果您是ONTAP新手，请使用系统管理器以获得更好的体验。
+
+. 确保SVM可用且已启用NVMe协议。请参阅 link:https://docs.netapp.com/us-en/ontap/san-admin/create-nvme-namespace-subsystem-task.html["ONTAP 9 上的 NVMe 任务文档"]。
+. 确保为每个控制器创建两个 LIF，并专用于 NVMe/FC。收集为创建的 NVMe/FC LIF 的 WWPN 地址，并将其提供给负责结构分区的管理员。
+. 创建 NVMe 命名空间。
+. 创建子系统并分配主机 NQN。
+. 请确保在安全选项卡中启用反勒索软件保护。
+. 通知虚拟化管理员 NVMe 命名空间已创建。
+
+
+
+
+== 最终虚拟化管理员任务
+
+完成这些任务，以将 NVMe 命名空间配置为 OpenNebula 中的共享 LVM 存储。
+
+. 导航到集群中每个 OpenNebula 主机上的 shell，并验证新命名空间是否可见。
+. 检查命名空间详细信息。
++
+[source, shell]
+----
+nvme list
+----
+. 检查并收集设备详细信息。
++
+[source, shell]
+----
+nvme list
+nvme netapp ontapdevices
+nvme list-subsys
+lsblk -N
+----
+. SSH 到其中一个 frontend 服务器并根据所需的 Datastore 类型创建配置文件。有关完整的属性列表，请参阅 https://docs.opennebula.io/7.0/product/cluster_configuration/san_storage/lvm_drivers/["OpenNebula LVM 文档"]。示例文件如下所示：
++
+[role="tabbed-block"]
+====
+.备份
+--
+.. 对于 Restic，
+
+
+[listing]
+----
+$cat nvmefc-restic.conf
+NAME = "Backup-Restic-NVMEFC"
+TYPE = "BACKUP_DS"
+
+DS_MAD = "restic"
+TM_MAD = "-"
+
+RESTIC_PASSWORD = "<restic_password>"
+RESTIC_SFTP_SERVER = "<backup server>"
+----
+.. 对于 Rsync，
+
+
+[listing]
+----
+$cat nvmefc-rsync.conf
+NAME = "Backup-Rsync-NVMEFC"
+TYPE = "BACKUP_DS"
+
+DS_MAD = "rsync"
+TM_MAD = "-"
+
+RSYNC_USER = "<rsync_user>"
+RSYNC_HOST = "<backup server>"
+----
+--
+.文件
+[source, shell]
+----
+$cat nvmefc-kernel.conf
+NAME = "File-Kernel-NVMEFC"
+TYPE = "FILE_DS"
+DS_MAD = "fs"
+TM_MAD = "local"
+SAFE_DIRS = "/var/tmp/files"
+----
+.映像
+[source, shell]
+----
+$cat nvmefc-image.conf
+NAME = "Image-NVMEFC01"
+TYPE = "IMAGE_DS"
+DS_MAD = "fs"
+TM_MAD = "fs_lvm_ssh"
+DISK_TYPE = "block"
+LVM_THIN_ENABLE = "yes"
+----
+.系统
+[source, shell]
+----
+$cat nvmefc-system.conf
+NAME = "System-NVMEFC02"
+TYPE = "SYSTEM_DS"
+TM_MAD = "fs_lvm_ssh"
+DISK_TYPE = "block"
+BRIDGE_LIST = "<space-separated list of OpenNebula hosts>" # If NVMe namespace not presented to frontend hosts
+LVM_THIN_ENABLE = "yes"
+----
+====
+. 执行 `onedatastore create <configuration file>`。请注意创建后返回的数据存储 ID。
++
+[]
+====
+onedatastore 创建 nvmefc-system.conf ID: 108
+
+====
+. 使用 `vgcreate <vg_name> <nvme_device>` 命令在 NVMe 命名空间上创建卷组。对于映像数据存储，卷组名称可以命名为任何所需的名称。对于系统数据存储，卷组名称必须为格式 `vg-one-<datastore id>`。这是 OpenNebula 识别系统数据存储的正确卷组所必需的。如果要创建备份/文件/映像数据存储，请执行以下步骤。对于系统数据存储，请停止此处。
+. 使用 `lvcreate -l 100%FREE -n <logical volume name> <volume group name>` 命令创建逻辑卷精简池。对于系统数据存储区，OpenNebula 在需要时自动创建 LVM 精简池。
+. 使用 `mkfs.ext4 /dev/<volume group>/<logical volume>` 命令在逻辑卷上创建文件系统。系统数据存储不需要创建文件系统。
+. 更新 /etc/fstab 或 automount 配置，以使用所需的挂载选项挂载数据存储库。假设默认数据存储库位置为 /var/lib/one/datastores。可通过  `onedatastore show <datastore_id>` 进行验证。如果没有，请检查 /etc/one/oned.conf 中的 DATASTORE_LOCATION 参数。确保 <datastore_id> 文件夹存在于数据存储库位置下。示例条目如下所示：
++
+[role="tabbed-block"]
+====
+.使用 /etc/fstab
+--
+[source, shell]
+----
+/dev/<vg name>/<logical volume> /var/lib/one/datastores/<datastore_id> ext4 _netdev,noauto,x-systemd.automount,nofail 0 2
+----
+--
+.使用 automount
+--
+[source, shell]
+----
+/var/lib/one/datastores/<datastore_id> -fstype=ext4,_netdev,noauto,x-systemd.automount,nofail,rw :/dev/<vg name>/<logical volume>
+----
+--
+====
+. 使用 `mount -a` 或 `systemctl reload autofs` 命令挂载数据存储库。
+. 使用 mount 命令验证数据存储库是否已装载，并使用 `onedatastore show <datastore_id>`命令验证数据存储库容量。
+. 确保 oneadmin 用户和组拥有数据存储文件夹。使用 `chown -R oneadmin:oneadmin /var/lib/one/datastores/<datastore_id>`命令调整权限。
+

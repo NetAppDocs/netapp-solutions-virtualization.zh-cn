@@ -30,6 +30,8 @@ indexpage:
       url: "/proxmox/index.html"
     - title: KVM 和 libvirt
       url: "/kvm/index.html"
+    - title: OpenNebula
+      url: "/opennebula/index.html"
   - title: 虚拟机迁移和转换
     links:
     - title: 使用 Shift Toolkit 迁移虚拟机

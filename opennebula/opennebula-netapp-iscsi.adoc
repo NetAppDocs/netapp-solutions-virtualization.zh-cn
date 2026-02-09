@@ -1,0 +1,172 @@
+---
+sidebar: sidebar 
+permalink: opennebula/opennebula-netapp-iscsi.html 
+keywords: netapp, opennebula, opennebula, iscsi, snapshot, ontap, storage 
+summary: 使用 ONTAP 配置带有 iSCSI 的 OpenNebula 数据存储。此过程包括 iSCSI 连接和数据存储配置所需的初始设置。 
+---
+= 为 OpenNebula 配置带有 iSCSI 的 NetApp 数据存储
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+使用 iSCSI 协议配置 OpenNebula 数据存储，在 AFF 或 FAS 系统上运行 NetApp ONTAP。此配置可通过支持多路径的标准以太网网络实现块级存储访问。此数据存储设置利用本机 ONTAP 功能（包括快照和克隆）来提高存储效率和数据保护。
+
+
+
+== 初始虚拟化管理员任务
+
+完成这些初始任务，让 OpenNebula 主机为 iSCSI 连接做好准备，并为存储管理员收集必要的信息。
+
+. 确认两个 Linux VLAN 接口可用。
+. 确保在所有 OpenNebula 主机上安装了多路径工具和 iSCSI 启动程序实用程序，并在启动时启动。
++
+[role="tabbed-block"]
+====
+.Debian/Ubuntu
+--
+[source, shell]
+----
+apt list | grep multipath-tools
+# If need to install, execute the following line.
+apt-get install multipath-tools open-iscsi
+# If /etc/multipath.conf is not present, first make sure the multipathd service is started.
+systemctl enable --now multipathd
+systemctl enable --now open-iscsi
+----
+--
+.RHEL/AlmaLinux
+--
+[source, shell]
+----
+dnf list installed | grep device-mapper-multipath
+# If need to install, execute the following line.
+dnf install device-mapper-multipath iscsi-initiator-utils
+# If /etc/multipath.conf is not present, first make sure the multipathd service is started.
+systemctl enable --now multipathd
+systemctl enable --now iscsid
+----
+--
+====
+. 收集所有 OpenNebula 主机的 iSCSI 主机 IQN 并将其提供给存储管理员。
++
+[source, shell]
+----
+cat /etc/iscsi/initiator.name
+----
+
+
+
+
+== 存储管理员任务
+
+如果您是ONTAP新手，请使用系统管理器以获得更好的体验。
+
+. 确保SVM可用且已启用iSCSI协议。跟随 link:https://docs.netapp.com/us-en/ontap/san-admin/provision-storage.html["ONTAP 9 文档"]。
+. 为每个控制器创建两个专用于 iSCSI 的 LIF。建议每个控制器使用两个 LIF，以实现冗余和多路径性能。确保在 OpenNebula 主机上配置的 VLAN 接口上创建 LIF。建议使用巨型帧 (MTU 9000) 以提高性能。
++
+image:opennebula-netapp-iscsi-001.png["iSCSI接口详细信息"]
+
+. 创建一个 igroup 并填充主机 iSCSI 启动程序。通常为一个 OpenNebula 集群创建一个 igroup。在同一 igroup 中包括前端服务器和虚拟机监控程序主机，以支持映像和系统数据存储。
+. 创建一个具有 ONTAP REST API 访问权限并限定于目标 SVM 的 ONTAP 角色和用户帐户。此用户将由 OpenNebula 中的 NetApp 驱动程序使用。有关更多信息，请参阅 link:https://docs.netapp.com/us-en/ontap-automation/rest/rbac_overview.html["使用用户和角色"] ONTAP 文档。请记录用户名和密码，以便在虚拟化配置任务中使用。
+. 为虚拟化配置任务中使用的以下资源收集 SVM iSCSI 目标 IQN 和 UUID：
++
+** SVM
+** 要使用的聚合/层
+** 与 OpenNebula 主机的 igroup
+** iSCSI 目标 IQN（通常与 SVM IQN 相同）。虚拟化管理员可以在登录其中一个 OpenNebula 主机并发现 iSCSI 目标后，使用  `iscsiadm -m session` 命令检索此信息。+
+
+
+
+
+[listing]
+----
+NETAPP_SVM="85c23687-d5d9-11f0-86c4-d039eac4d4b3"
+NETAPP_AGGREGATES="6e8f9995-42dd-400a-a440-646639dc5d0b"
+NETAPP_IGROUP="5ad9faf3-d62c-11f0-86c4-d039eac4d4b3"
+NETAPP_TARGET="iqn.1992-08.com.netapp:sn.85c23687d5d911f086c4d039eac4d4b3:vs.6"
+----
+ TIP: System Manager displays the UUID in the URL when viewing the resource details.
+
+
+== 最终虚拟化管理员任务
+
+完成这些任务以在 OpenNebula 上配置 iSCSI 数据存储区。
+
+. SSH 到前端服务器之一，并通过提供 iSCSI 数据 lif 地址之一来发现所有 iSCSI Lif 门户。
++
+[source, shell]
+----
+iscsiadm -m discovery -t sendtargets -p <iscsi data lif address>
+iscsiadm -m node
+iscsiadm -m node -l
+----
+. 根据所需的 Datastore 类型创建配置文件。有关完整的属性列表，请参阅 https://docs.opennebula.io/7.0/product/cluster_configuration/san_storage/netapp/#datastore-optional-attributes["OpenNebula NetApp SAN 文档"]。示例文件如下所示：
++
+[role="tabbed-block"]
+====
+.映像
+[source, shell]
+----
+$cat netapp-image.conf
+NAME = "Image-NetApp-iSCSI"
+TYPE = "IMAGE_DS"
+DS_MAD = "netapp"
+TM_MAD = "netapp"
+DISK_TYPE = "BLOCK"
+NETAPP_HOST = "<ontap_cluster_ip>"
+NETAPP_USER = "<ontap_api_user>"
+NETAPP_PASS = "<ontap_api_password>"
+NETAPP_SVM = "<ontap_svm_uuid>"
+NETAPP_AGGREGATES = "<ontap_aggregate_uuid>"
+NETAPP_IGROUP = "<ontap_igroup_uuid>"
+NETAPP_TARGET = "<ontap_iscsi_target_iqn>"
+# Optional suffix to share SVM across multiple tenants
+NETAPP_SUFFIX = "t1"
+----
+.系统
+[source, shell]
+----
+$cat netapp-system.conf
+NAME = "System-NetApp-iSCSI"
+TYPE = "SYSTEM_DS"
+TM_MAD = "netapp"
+DISK_TYPE = "BLOCK"
+NETAPP_HOST = "<ontap_cluster_ip>"
+NETAPP_USER = "<ontap_api_user>"
+NETAPP_PASS = "<ontap_api_password>"
+NETAPP_SVM = "<ontap_svm_uuid>"
+NETAPP_AGGREGATES = "<ontap_aggregate_uuid>"
+NETAPP_IGROUP = "<ontap_igroup_uuid>"
+NETAPP_TARGET = "<ontap_iscsi_target_iqn>"
+# Optional suffix to share SVM across multiple tenants
+NETAPP_SUFFIX = "t1"
+----
+====
+. 执行 `onedatastore create <configuration file>`。请注意创建后返回的数据存储 ID。
++
+[]
+====
+onedatastore 创建 netapp-system.conf ID: 105
+
+====
+. 通过执行 `onedatastore show <datastore_id>`验证是否已成功创建数据存储区。
+. 在映像数据存储库上下载应用程序，并使用模板在系统数据存储库上配置虚拟机。
+. 检查在 ONTAP 上为映像和虚拟机磁盘创建的 LUN。使用的命名约定如下：
++
+.. 映像数据存储：one_<datastore_id>_<image_id>_<suffix>（卷），one_<datastore_id>_<image_id>_<suffix>_lun（LUN）
+.. 系统数据存储库：one_<vm_id>_disk_<disk_id>_<suffix> (卷)，one_<datastore_id>_<vm_id>_disk_<disk_id>_<suffix>_lun (LUN)
++
+.显示示例
+[%collapsible]
+====
+image:opennebula-netapp-iscsi-002.png["OpenNebula 映像和虚拟机的 ONTAP LUN"]
+
+====
+
+
+

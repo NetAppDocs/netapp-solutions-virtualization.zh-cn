@@ -8286,4 +8286,282 @@
   <block id="00e4880b550e40d823bf3e2f64737181" category="sidebar">存储协议概述</block>
   <block id="df98233fcbd5f7d34a38d94575306755" category="sidebar">使用 Proxmox Backup Server 和NetApp ONTAP实现 Proxmox VE 工作负载数据保护</block>
   <block id="7b5595669a13f02ed040dc13960eabba" category="video-title">从 ESX 到 Red Hat OpenShift Virtualization (OSV) 的零接触迁移</block>
+  <block id="2c7abf64cf5bc53047e0f575042cc8bc" category="summary">NetApp 与 OpenNebula 集成，通过 NAS 和 SAN 协议提供企业级存储功能。ONTAP 为虚拟化工作负载提供高级数据管理功能，包括快照、克隆、复制和勒索软件保护。</block>
+  <block id="b6729c1b5864beb18a31872f7474df28" category="doc">了解适用于 OpenNebula 的 ONTAP 存储架构</block>
+  <block id="4b8d44718779beeffbff75e5c061268e" category="paragraph">NetApp 产品与 OpenNebula 集成，通过 NAS 和 SAN 协议提供企业级存储功能。ONTAP 为运行在 OpenNebula 集群上的虚拟化工作负载提供高级数据管理功能，包括快照、克隆、复制和勒索软件保护。</block>
+  <block id="b531ef3f249b6d82313c971d1a89bb81" category="list-text">*OpenNebula 前端服务器：* 一组 OpenNebula 前端服务器，提供云管理功能来管理虚拟机 (VM) 和 Kubernetes 集群。</block>
+  <block id="5af6aa75f9c7af007c1ed8ac3dec506e" category="list-text">*OpenNebula 计算节点：* 一组托管由 OpenNebula 管理的虚拟机和 Kubernetes 集群的计算节点。</block>
+  <block id="5af6207972f43d822f26f742318b718c" category="list-text">*NetApp ONTAP 存储：*为 OpenNebula 集群提供共享存储的高性能、可扩展存储系统。</block>
+  <block id="c518ea1773e5bab7d661a37bfe7e9eb3" category="list-text">*网络基础设施：* 强大的网络设置，确保 OpenNebula 节点和 ONTAP 存储之间的低延迟和高吞吐量连接。</block>
+  <block id="200414c044de46f0990c59a4dc9df400" category="paragraph">下图显示了集成了 NetApp ONTAP 存储的 OpenNebula 的高级架构：</block>
+  <block id="cff46d0d8da865da116dc2c71f8d4cfa" category="image-alt">OpenNebula 采用 NetApp ONTAP 架构</block>
+  <block id="988db06d34a5dfc111f8b60e786566d9" category="section-title">适用于 OpenNebula 的 ONTAP 功能</block>
+  <block id="c41fc4bc569c004f45275755b4256006" category="paragraph">ONTAP 提供了一套全面的企业存储功能，增强了 OpenNebula 部署能力。这些功能跨越 NAS 和 SAN 存储体系结构的数据管理、保护、效率和协议支持。</block>
+  <block id="51c34d78961c12ecfb8efbe9d821d164" category="summary">使用 ONTAP 配置带有 iSCSI 的 OpenNebula 数据存储。此过程包括 iSCSI 连接和数据存储配置所需的初始设置。</block>
+  <block id="8742f2442d0185cb2016b8d2793c4556" category="doc">为 OpenNebula 配置带有 iSCSI 的 NetApp 数据存储</block>
+  <block id="f918f3d3b42f603446ab707f36e3a729" category="paragraph">使用 iSCSI 协议配置 OpenNebula 数据存储，在 AFF 或 FAS 系统上运行 NetApp ONTAP。此配置可通过支持多路径的标准以太网网络实现块级存储访问。此数据存储设置利用本机 ONTAP 功能（包括快照和克隆）来提高存储效率和数据保护。</block>
+  <block id="9505804803f81ee12f96109877fb0d63" category="paragraph">完成这些初始任务，让 OpenNebula 主机为 iSCSI 连接做好准备，并为存储管理员收集必要的信息。</block>
+  <block id="fd60d09bafcb9e536c65f41827650019" category="list-text">确保在所有 OpenNebula 主机上安装了多路径工具和 iSCSI 启动程序实用程序，并在启动时启动。</block>
+  <block id="c19a5136e6e64a709af249d718cc1ee5" category="open-title">Debian/Ubuntu</block>
+  <block id="bceba73db6465411debc3d0724362e99" category="open-title">RHEL/AlmaLinux</block>
+  <block id="58fff862bda20ccb797aff94a9b3d8f4" category="list-text">收集所有 OpenNebula 主机的 iSCSI 主机 IQN 并将其提供给存储管理员。</block>
+  <block id="3aabc971bf72243a27868c68c67e39d5" category="list-text">为每个控制器创建两个专用于 iSCSI 的 LIF。建议每个控制器使用两个 LIF，以实现冗余和多路径性能。确保在 OpenNebula 主机上配置的 VLAN 接口上创建 LIF。建议使用巨型帧 (MTU 9000) 以提高性能。</block>
+  <block id="4ea49b77ede882c5ccf164045dbaf8c1" category="paragraph"><block ref="4ea49b77ede882c5ccf164045dbaf8c1" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="4f44abd78c089260c8d2e50444bf8173" category="list-text">创建一个 igroup 并填充主机 iSCSI 启动程序。通常为一个 OpenNebula 集群创建一个 igroup。在同一 igroup 中包括前端服务器和虚拟机监控程序主机，以支持映像和系统数据存储。</block>
+  <block id="195bc0f7ca20c9266f1ccb140e708a72" category="inline-link-macro">使用用户和角色</block>
+  <block id="17318ec39be3037ef779a02b124d682a" category="list-text">创建一个具有 ONTAP REST API 访问权限并限定于目标 SVM 的 ONTAP 角色和用户帐户。此用户将由 OpenNebula 中的 NetApp 驱动程序使用。有关更多信息，请参阅 <block ref="51876464e6b9e25e089d976dc8332fac" category="inline-link-macro-rx"></block> ONTAP 文档。请记录用户名和密码，以便在虚拟化配置任务中使用。</block>
+  <block id="b30a14e32a1b461c2fb438819f20a255" category="list-text">为虚拟化配置任务中使用的以下资源收集 SVM iSCSI 目标 IQN 和 UUID：</block>
+  <block id="69e1645b8055ac8ea719f16a6f3091dc" category="list-text">SVM</block>
+  <block id="21a1df59c45d028d43e90afe76f2c308" category="list-text">要使用的聚合/层</block>
+  <block id="8b632ff18a9c7e75e0539c7efa8a3a75" category="list-text">与 OpenNebula 主机的 igroup</block>
+  <block id="e073788453b4894dc8bb53edb25ac932" category="list-text">iSCSI 目标 IQN（通常与 SVM IQN 相同）。虚拟化管理员可以在登录其中一个 OpenNebula 主机并发现 iSCSI 目标后，使用 <block ref="0d3f69bc64054f4afeca7380b613ea30" prefix=" " category="inline-code"></block> 命令检索此信息。+</block>
+  <block id="dd6ae39515913d359c1d14f7ef36851a" category="paragraph">完成这些任务以在 OpenNebula 上配置 iSCSI 数据存储区。</block>
+  <block id="0cc3ef97c36f5143f1550335a7c95546" category="list-text">SSH 到前端服务器之一，并通过提供 iSCSI 数据 lif 地址之一来发现所有 iSCSI Lif 门户。</block>
+  <block id="032ddcc8fc890517b1cc865978b418a8" category="inline-link">OpenNebula NetApp SAN 文档</block>
+  <block id="537919b63aad89089d51a09707232239" category="list-text">根据所需的 Datastore 类型创建配置文件。有关完整的属性列表，请参阅<block ref="21f0c34a7b5be89fac6d7e483d1eba97" category="inline-link-rx"></block>。示例文件如下所示：</block>
+  <block id="be53a0541a6d36f6ecb879fa2c584b08" category="listing-title">映像</block>
+  <block id="a45da96d0bf6575970f2d27af22be28a" category="listing-title">系统</block>
+  <block id="7f5cd5e125beea30cdf233567a5534f2" category="list-text">执行<block ref="b89ad7d542028bf71b40f3dde9f806c9" prefix=" " category="inline-code"></block>。请注意创建后返回的数据存储 ID。</block>
+  <block id="fe42fef0c71b51617458e1d4baaa855c" category="paragraph">onedatastore 创建 netapp-system.conf ID: 105</block>
+  <block id="e2a1d51250603371fadb070ed0f75b5e" category="list-text">通过执行<block ref="e69b33baa959cb98b8e5317d45137a84" prefix=" " category="inline-code"></block>验证是否已成功创建数据存储区。</block>
+  <block id="53058c0a7856c4c1db78a70284a3d3a1" category="list-text">在映像数据存储库上下载应用程序，并使用模板在系统数据存储库上配置虚拟机。</block>
+  <block id="a0d9e03643df30b216f64d246887bb1d" category="list-text">检查在 ONTAP 上为映像和虚拟机磁盘创建的 LUN。使用的命名约定如下：</block>
+  <block id="13bd75f83ddbfc9aa307ffb01b4a90e5" category="list-text">映像数据存储：one_&lt;datastore_id&gt;_&lt;image_id&gt;_&lt;suffix&gt;（卷），one_&lt;datastore_id&gt;_&lt;image_id&gt;_&lt;suffix&gt;_lun（LUN）</block>
+  <block id="4a0179736de3508524957c80e8bc4336" category="list-text">系统数据存储库：one_&lt;vm_id&gt;_disk_&lt;disk_id&gt;_&lt;suffix&gt; (卷)，one_&lt;datastore_id&gt;_&lt;vm_id&gt;_disk_&lt;disk_id&gt;_&lt;suffix&gt;_lun (LUN)</block>
+  <block id="5b869a429e69915cefaceefde2c33e69" category="inline-image-macro">OpenNebula 映像和虚拟机的 ONTAP LUN</block>
+  <block id="fdd96bc655cc4dcad1803d044ad460f3" category="paragraph"><block ref="fdd96bc655cc4dcad1803d044ad460f3" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="259fe9e397592fd7d7821b8ff3235c4b" category="summary">为 OpenNebula 使用 NAS 协议（NFS、SMB）和 SAN 协议（FC、iSCSI、NVMe）提供 ONTAP 存储。选择适当的特定于协议的过程，为您的 OpenNebula 环境配置共享存储。</block>
+  <block id="cf85b11875ed1f5ba8de50e24e931dc9" category="doc">了解适用于 OpenNebula 与 NetApp ONTAP 的存储协议</block>
+  <block id="97a184557eedf5f6dcd9d405a811e04c" category="paragraph">确保 OpenNebula 前端和虚拟机监控程序主机具有连接到交换机的 FC、以太网或其他支持的接口，并与 ONTAP 逻辑接口进行通信。始终检查<block ref="8d006c87830f7172fd7400f1c17c0928" category="inline-link-rx"></block>以获取支持的配置。创建示例场景时假设每台 OpenNebula 主机上有两个高速网络接口卡，它们连接在一起以创建用于容错和性能的绑定接口。所有网络流量都使用相同的上行链路连接，包括主机管理、VM/容器流量和存储访问。当有更多的网络接口可用时，请考虑将存储流量与其他类型的流量分开。</block>
+  <block id="882d82680f8075fbd12d8fedbba37209" category="inline-link-macro">了解 NetApp 存储架构，适用于 OpenNebula</block>
+  <block id="01734c2ddffa9d7dcae05af087a9d97b" category="inline-link-macro">了解 OpenNebula 支持的存储类型</block>
+  <block id="e6bb4b4e116ceafbc7da6adf44c83b27" category="paragraph">有关 ONTAP 存储体系结构和支持的存储类型的信息，请参见 <block ref="0e164bc3b4da0aeb445801606345b935" category="inline-link-macro-rx"></block> 和 <block ref="16d64e76d0edd6cd754c3bb92f85e154" category="inline-link-macro-rx"></block>。</block>
+  <block id="641b870ef296fa51ceaac1b326e343d2" category="inline-link-macro">使用 iSCSI 配置 NetApp 驱动程序</block>
+  <block id="d3952f998b5fae5e7b81c07b5eeeecc8" category="list-text"><block ref="4265bc00f1b6224a20b20d017f65545b" category="inline-link-macro-rx"></block> - 使用 iSCSI 配置 OpenNebula NetApp 驱动程序，以便在支持多路径的标准以太网网络上进行块存储访问。这是仅限企业版的功能。它利用 ONTAP 本机克隆来实现高效的虚拟机配置。</block>
+  <block id="92a0d78c47513b2a05a59d2c0fb50d8c" category="list-text"><block ref="f2aa138b807cf428be3b4487dad63e9e" category="inline-link-macro-rx"></block> - 为 OpenNebula 配置 SMB/CIFS 文件共享，支持多通道以实现容错和通过多个网络连接增强性能。</block>
+  <block id="62fdf68378913865989c6847d72ed1e4" category="list-text"><block ref="8eefb8b2711131c9a51c6087a5b1aaca" category="inline-link-macro-rx"></block> - 使用多个网络连接为 OpenNebula 配置带有 nConnect 或会话中继的 NFS 存储，以实现容错和性能增强。</block>
+  <block id="785ddb8ac7e53074e4411feb51875206" category="inline-link-macro">使用 FC 配置 LVM Thin</block>
+  <block id="d2016f25849851987e6f2166b92f584b" category="list-text"><block ref="b32503c2dcad8ea66979196ff9409660" category="inline-link-macro-rx"></block> - 使用光纤通道配置逻辑卷管理器 (LVM)，以实现跨 OpenNebula 主机的高性能、低延迟块存储访问。</block>
+  <block id="261e16ec0e49bef3ab0d5b0884512e90" category="inline-link-macro">使用 iSCSI 配置 LVM Thin</block>
+  <block id="5e2ca5b5eec893bde806dd820238e6ff" category="list-text"><block ref="583097b225e99b2d8e21fd6fb0458693" category="inline-link-macro-rx"></block> - 使用 iSCSI 配置逻辑卷管理器 (LVM)，以便通过支持多路径的标准以太网网络进行块存储访问。</block>
+  <block id="d2b25705aef863eee3f970f627530a50" category="inline-link-macro">使用 NVMe/FC 配置 LVM Thin</block>
+  <block id="dd901d456dad3f17d1fb24c4c8833e32" category="list-text"><block ref="29e3f22b995639046aaa666212d8d596" category="inline-link-macro-rx"></block> - 使用 NVMe over Fibre Channel 配置 Logical Volume Manager (LVM)，以便使用现代 NVMe 协议实现高性能块存储。</block>
+  <block id="7b400f7569f544588bf429b88f4747c0" category="inline-link-macro">使用 NVMe/TCP 配置 LVM Thin</block>
+  <block id="c9bf59d2a24893ce679e23adf049780c" category="list-text"><block ref="072c45785e68a8f7ad2c2aae1ff6b58e" category="inline-link-macro-rx"></block> - 使用 NVMe over TCP 配置 Logical Volume Manager (LVM)，以便使用现代 NVMe 协议在标准以太网网络上实现高性能块存储。</block>
+  <block id="ad6fbaabb93d5ac12ab114b26d25ebbd" category="inline-link">用于在 Linux 环境中设置 LVM 的 NetApp E 系列和 EF 系列文档</block>
+  <block id="4a27e96b7b530cd4ba1bc766e3ed5d9f" category="admonition">如果需要有关 E-Series 或 EF-Series 存储协议的帮助，请查看链接<block ref="0b8e2907fb2926f419cb398b355e70c0" category="inline-link-rx"></block>以及 LVM Thin 文档之一以供参考。</block>
+  <block id="ca6dab67286366b2c72180532807b226" category="summary">使用 ONTAP 为 OpenNebula 配置带有光纤通道的逻辑卷管理器 (LVM) 数据存储区。此过程包括为共享数据存储区进行多路径配置、LUN 调配、igroup 设置和卷组创建。</block>
+  <block id="3012ad72c100309f5ff0a07f89adbc5e" category="doc">使用 ONTAP FC 为 OpenNebula 配置 LVM Thin</block>
+  <block id="667ef9be3fd1cedfcd7f5f9e21445948" category="paragraph">使用 Fibre Channel 协议配置逻辑卷管理器 (LVM) 数据存储，以便在 OpenNebula 主机之间使用 NetApp ONTAP 实现共享存储。此配置可实现高性能和低延迟的块级存储访问。</block>
+  <block id="742aea93402054fe9d05ab462d974010" category="paragraph">完成这些初始任务，让 OpenNebula 主机为 FC 连接做好准备，并为存储管理员收集必要的信息。</block>
+  <block id="fb0ff59f8798ae41a2f44f858b36629c" category="list-text">确保已在所有 OpenNebula 主机上安装 multipath-tools，并在启动时启动。</block>
+  <block id="7056d586f7113ca4f46213cd7716a012" category="list-text">收集所有 OpenNebula 主机的 WWPN，并将其提供给负责结构分区的存储管理员和管理员。</block>
+  <block id="bc449b982cc9658ff502a5e9e20edc6a" category="list-text">为 FC 专用的每个控制器创建两个 LIF。收集为 FC LIF 创建的 WWPN 地址，并将其提供给负责光纤分区的管理员。</block>
+  <block id="83841d0bcb53643d2f66e0d8870e69a2" category="list-text">创建一个 igroup 并填充主机 FC 启动程序。通常为一个 OpenNebula 集群创建一个 igroup。将前端服务器和虚拟机监控程序主机包括在同一个 igroup 中，以支持 Image 和 System 数据存储。</block>
+  <block id="085e608eb6e1ac3153ebf95b97b7f638" category="paragraph">完成这些任务以在 OpenNebula 中将 FC LUN 配置为共享 LVM 数据存储。</block>
+  <block id="7573d4a5f0598ae9607aa7cd832bcbae" category="list-text">SSH 到所有 OpenNebula 服务器，并在每台主机上完成以下步骤。</block>
+  <block id="3a4ba201e29c968ede56e45c1d87882c" category="list-text">执行<block ref="b6f75508bf2af141e9de6f862662661e" prefix=" " category="inline-code"></block> 或<block ref="a20cac89e64616c4c3026958a60b08fe" prefix=" " category="inline-code"></block> 重新扫描 SCSI 总线并检测新 LUN。</block>
+  <block id="058b1bbe8e6cc750360618435c4853e1" category="list-text">使用<block ref="63875f71627d9fa9b6daaafabf333924" prefix=" " category="inline-code"></block>或 fdisk -l 命令验证 LUN 在所有 OpenNebula 主机上均可见。记下创建的 LUN 的设备名称（例如，sde、sdf）。</block>
+  <block id="080512fabd714defe890ba9aa75d5602" category="list-text">通过执行<block ref="2947ef651781d76ad25558ac75d30ec8" prefix=" " category="inline-code"></block>将设备添加到多路径配置。然后，执行<block ref="800be20e72a4397d094e0267a68f6475" prefix=" " category="inline-code"></block>以重新加载多路径配置。通过执行<block ref="3d80983fc82ff72fd51e5d1f7e90c56d" prefix=" " category="inline-code"></block>命令验证多路径配置。</block>
+  <block id="31fd37db47a7c904f1f75ab9b179c730" category="inline-link">OpenNebula LVM 文档</block>
+  <block id="2e37bf451f0fc32a4097af300f504a58" category="list-text">SSH 到其中一个 frontend 服务器并根据所需的 Datastore 类型创建配置文件。有关完整的属性列表，请参阅<block ref="087f027b7fba6e51c173ca6f4bd39fe1" category="inline-link-rx"></block>。示例文件如下所示：</block>
+  <block id="3500ba09d0538297440ca620c9dd46bf" category="open-title">备份</block>
+  <block id="5ec0ee8d66ef5f73a9e220943a61baa6" category="list-text">对于 Restic，</block>
+  <block id="d2f285bd0936b2d23fb25ee519a1b0ff" category="list-text">对于 Rsync，</block>
+  <block id="0b27918290ff5323bea1e3b78a9cf04e" category="listing-title">文件</block>
+  <block id="4322fdfea99bf85054d08fbc0a206341" category="paragraph">onedatastore 创建 fc-system.conf ID: 107</block>
+  <block id="80e13143387b598923ae9b740bf5086f" category="list-text">使用<block ref="daa34eb369bfb2a80dfd312749312999" prefix=" " category="inline-code"></block> 命令在 FC LUN 上创建卷组。对于映像数据存储，卷组名称可以命名为任何所需的名称。对于系统数据存储，卷组名称必须为格式<block ref="995c5831059c2f1713db1c1093459789" prefix=" " category="inline-code"></block>。这是 OpenNebula 识别系统数据存储的正确卷组所必需的。如果要创建备份/文件/映像数据存储，请执行以下步骤。对于系统数据存储，请停止此处。</block>
+  <block id="335ef8c2d0676db660b6fa840586e11a" category="list-text">使用<block ref="5f0786bfa20f32d146f87b10181bcc04" prefix=" " category="inline-code"></block> 命令创建逻辑卷精简池。对于系统数据存储区，OpenNebula 在需要时自动创建 LVM 精简池。</block>
+  <block id="d28dcc7232ead501031c036caafb2eda" category="list-text">使用<block ref="8a43b6cd03c1c0783207d4a8fd04d036" prefix=" " category="inline-code"></block> 命令在逻辑卷上创建文件系统。系统数据存储不需要创建文件系统。</block>
+  <block id="c6cf45fc9ea1f147abf77c34c13be307" category="list-text">更新 /etc/fstab 或 automount 配置，以使用所需的挂载选项挂载数据存储库。假设默认数据存储库位置为 /var/lib/one/datastores。可通过 <block ref="e69b33baa959cb98b8e5317d45137a84" prefix=" " category="inline-code"></block> 进行验证。如果没有，请检查 /etc/one/oned.conf 中的 DATASTORE_LOCATION 参数。确保 &lt;datastore_id&gt; 文件夹存在于数据存储库位置下。示例条目如下所示：</block>
+  <block id="49e8b6faa2cec31ed56643bfca9f4a15" category="open-title">使用 /etc/fstab</block>
+  <block id="1ba75fd5b8a70a4cb6b3c2afc36b634c" category="open-title">使用 automount</block>
+  <block id="e43da615b923cf4aca25782c59cc7bdf" category="list-text">使用<block ref="9f7a2b0acd2325ca01c92df6a9e32ef7" prefix=" " category="inline-code"></block> 或<block ref="73f79b2f7670ec56d69347d47c78820c" prefix=" " category="inline-code"></block> 命令挂载数据存储库。</block>
+  <block id="2c7a5d1eb553391b8d93d35dab2e86f8" category="list-text">使用 mount 命令验证数据存储库是否已装载，并使用<block ref="e69b33baa959cb98b8e5317d45137a84" prefix=" " category="inline-code"></block>命令验证数据存储库容量。</block>
+  <block id="f570ff0e8b568f612fb9ff9657ca0816" category="list-text">确保 oneadmin 用户和组拥有数据存储文件夹。使用<block ref="381cd9bcb940d8da2c8d7d574acd18d0" prefix=" " category="inline-code"></block>命令调整权限。</block>
+  <block id="23b6ef5c94f01cbafca2d7d9272af1c0" category="summary">使用 ONTAP 为 OpenNebula 配置带有 iSCSI 的逻辑卷管理器 (LVM) 数据存储。此过程包括 iSCSI 和多路径配置以及卷组创建。</block>
+  <block id="bde2b0fd258b4819d1f7d2cfb6c65107" category="doc">使用 ONTAP iSCSI 为 OpenNebula 配置 LVM Thin</block>
+  <block id="1e89da1651c859ffd448e644da48f926" category="paragraph">使用 iSCSI 协议和 NetApp ONTAP，为 OpenNebula 主机配置 Logical Volume Manager (LVM) 数据存储，实现共享存储。此配置支持在标准以太网网络上通过多路径实现块级存储访问。</block>
+  <block id="f0a02f9acfad2c63936dfbf8a7d8cb42" category="paragraph"><block ref="f0a02f9acfad2c63936dfbf8a7d8cb42" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="0b20478ce5e4c12b9d972d0aeba50423" category="list-text">创建 LUN 并呈现给主机 iSCSI 启动程序。通常为一个 OpenNebula 集群创建一个 igroup。在同一 igroup 中包括前端服务器和虚拟机监控程序主机，以支持映像和系统数据存储。</block>
+  <block id="5e474f07be3407ba06a8a52aae901a79" category="paragraph">完成这些任务，将 iSCSI LUN 配置为 OpenNebula 中的共享 LVM 数据存储区。</block>
+  <block id="59fc5fb377dd88505b75de1c4fc5f3d1" category="list-text">使用<block ref="63875f71627d9fa9b6daaafabf333924" prefix=" " category="inline-code"></block> 或 fdisk -l 命令验证 LUN 在所有 OpenNebula 主机上均可见。</block>
+  <block id="0358520a4abb71f9dff86022f80134b2" category="list-text">执行<block ref="a7d7ddaddfa0d0d7fbdc5667c3a89d1f" prefix=" " category="inline-code"></block>以检索 LUN 到设备名称的映射。</block>
+  <block id="219c1b7969e84426151496587e7ad51b" category="list-text">根据所需的 Datastore 类型创建配置文件。有关完整属性列表，请参阅<block ref="087f027b7fba6e51c173ca6f4bd39fe1" category="inline-link-rx"></block>。示例文件如下所示：</block>
+  <block id="53752c06e4d10d49960ba0789cf78feb" category="paragraph">onedatastore 创建 iscsi-system.conf ID: 106</block>
+  <block id="8781d200fee7c68532fe247746e432c3" category="list-text">使用<block ref="daa34eb369bfb2a80dfd312749312999" prefix=" " category="inline-code"></block> 命令在 iSCSI LUN 上创建卷组。对于映像数据存储，卷组名称可以命名为任何所需的名称。对于系统数据存储，卷组名称必须为格式<block ref="995c5831059c2f1713db1c1093459789" prefix=" " category="inline-code"></block>。这是 OpenNebula 识别系统数据存储的正确卷组所必需的。如果要创建备份/文件/映像数据存储，请继续执行以下步骤。对于系统数据存储，请停止此处。</block>
+  <block id="d34a7a73cc395afbef4d8f7d036f7b6f" category="summary">为 OpenNebula 配置 NFS 数据存储存储，使用 ONTAP。此过程包括 SVM 启用、LIF 创建、导出策略配置、卷创建和 nConnect 或会话中继设置，以实现容错和性能。</block>
+  <block id="d29059b6ebc17e13edc7ff575947d419" category="doc">使用 ONTAP 为 OpenNebula 配置 NFS 存储</block>
+  <block id="4394335426016b74de254e7c1ff84e22" category="paragraph">使用 NetApp ONTAP 为 OpenNebula 配置 NFS 存储。在使用 FlexGroup 卷时，使用 nConnect 或带有 pNFS（v4.1 或更高版本）的会话分组，以实现高效的资源管理、容错和性能提升。单个 NFS 导出可用于 OpenNebula 集群的 Image 和 System 数据存储。计划使用 FlexCache 时，请仅为 Image 数据存储专用 nfs 导出。</block>
+  <block id="d924286d739497862e4b3a91351bbd3c" category="paragraph">考虑高可用性和灾难恢复方案的 MetroCluster 配置。</block>
+  <block id="f7f844d59e9b0e8df77d83ee9b9f3abf" category="paragraph">完成这些任务，在 ONTAP 上配置 NFS 存储以便与 OpenNebula 配合使用。</block>
+  <block id="75620478464fa125e50a6f318c95923a" category="paragraph"><block ref="75620478464fa125e50a6f318c95923a" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="cb865b75d4914d67e9da9ba4dbe3c6f5" category="list-text">创建或更新 NFS 导出策略以提供对 OpenNebula 主机 IP 地址或子网的访问。请参阅 <block ref="b6cdedc51193f9caaca77e2632283688" category="inline-link-macro-rx"></block> 和 <block ref="b5d322c6e909917ad1a552e8b76cf85d" category="inline-link-macro-rx"></block>。</block>
+  <block id="b49a90fe7c5935b08c7620105703fa73" category="list-text"><block ref="4f9b59515117e496741261619ceb2f90" category="inline-link-macro-rx"></block>。对于大容量需求（&gt;100TB），请选中在集群中分发数据以使用 FlexGroup 的选项。如果使用 FlexGroup，请考虑在 SVM 上启用 pNFS，以便通过以下方式获得更好的性能 <block ref="854bcee8457651505ac814a9db484771" category="inline-link-macro-rx"></block>。使用 pNFS 时，确保 OpenNebula 主机可以访问所有控制器（数据 LIF）的数据。确保已在卷上启用反勒索软件保护。</block>
+  <block id="d75002d12ad22f16df912587caefe324" category="paragraph"><block ref="d75002d12ad22f16df912587caefe324" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="3340a09586d9d080af856e36cabd6867" category="list-text">通知虚拟化管理员 NFS 卷已就绪，并提供 NFS 导出路径详细信息。</block>
+  <block id="7be061e818679f562c32c68a4d6ce9d0" category="paragraph">完成这些任务以将 NFS 卷添加为 OpenNebula 中的数据存储区，并配置 nConnect 或会话中继以提高性能。</block>
+  <block id="627d684f8ea3a59394ce5357e4ee28ac" category="list-text">SSH 到前端服务器之一，并根据所需的 Datastore 类型创建配置文件。示例文件如下所示：</block>
+  <block id="cf7b4a909752ef9cd30d0af173a6fdb0" category="paragraph">onedatastore create nfs-system.conf ID: 101</block>
+  <block id="6f3b0cd05b7a72cbced8e18920cc7c46" category="list-text">使用<block ref="3945ab45180ffdc14f310b31c478e98d" prefix=" " category="inline-code"></block> 命令收集 oneadmin 用户的 uid 和 gid。</block>
+  <block id="c3bb623e69808d336c99d8ca2c2e9a1f" category="list-text">要验证 nConnect 选项是否已设置，请在任何 OpenNebula 主机上运行 <block ref="e2ceece4f96cddcbbae5e7b846bbd74f" prefix=" " category="inline-code"></block> 并检查到 NFS 服务器 IP 的多个连接。要验证 pNFS 是否已启用，请运行 <block ref="8a92f0e754bc887dcd9163230c1af4a1" prefix=" " category="inline-code"></block> 并检查与布局相关的指标。根据数据流量，应该可以看到与数据 LIF 的多个连接。</block>
+  <block id="ee53a491b66e61730ddf8906996cab80" category="summary">使用 ONTAP 为 OpenNebula 配置基于光纤通道 NVMe 的逻辑卷管理器 (LVM) 数据存储。此过程包括 nvme-cli 安装、命名空间配置、子系统设置和共享数据存储的卷组创建。</block>
+  <block id="18582014ad1a9ac5eadda9f87f1bf8c2" category="doc">使用 ONTAP NVMe/FC 为 OpenNebula 配置 LVM Thin</block>
+  <block id="866c7d4333fe71459cc4047796d545c5" category="paragraph">使用 NVMe over Fibre Channel 协议和 NetApp ONTAP，为 OpenNebula 主机配置 Logical Volume Manager (LVM) 以实现共享数据存储。此配置通过现代 NVMe 协议提供高性能、低延迟的块级存储访问。</block>
+  <block id="ae2d7def7dd6ed4afe2e525d5675ec0d" category="paragraph">完成这些初始任务，让 OpenNebula 主机为 NVMe/FC 连接做好准备，并为存储管理员收集必要的信息。</block>
+  <block id="b50eca45af7cfac7d7cd17a60760b504" category="list-text">在群集中的每个 OpenNebula 主机上，运行以下命令以收集 WWPN 信息并验证是否已安装 nvme-cli 包。</block>
+  <block id="733ee11ce9d7ccffe56c4f57c63a55b6" category="list-text">向存储管理员提供收集的主机 NQN 和 WWPN 信息，并请求所需大小的 NVMe 命名空间。织物分区需要 WWPN。将这些信息提供给负责织物分区的管理员。</block>
+  <block id="3864fbafa775b151fa00fd7c3415d04f" category="list-text">确保为每个控制器创建两个 LIF，并专用于 NVMe/FC。收集为创建的 NVMe/FC LIF 的 WWPN 地址，并将其提供给负责结构分区的管理员。</block>
+  <block id="8b4a367a358cdf8a829925109e6f615a" category="list-text">创建子系统并分配主机 NQN。</block>
+  <block id="e3dad76b2e4af7a256a8efb103134ecc" category="paragraph">完成这些任务，以将 NVMe 命名空间配置为 OpenNebula 中的共享 LVM 存储。</block>
+  <block id="d16160bc1e13d9c5e1583598d8c4f004" category="list-text">导航到集群中每个 OpenNebula 主机上的 shell，并验证新命名空间是否可见。</block>
+  <block id="a80a12d2b5aecbf10a64f584a58cc238" category="paragraph">onedatastore 创建 nvmefc-system.conf ID: 108</block>
+  <block id="d5cbc8667ebf93d9536915b969e6172f" category="list-text">使用<block ref="0473e0ba86272c80a0e0451c5a4b3b07" prefix=" " category="inline-code"></block> 命令在 NVMe 命名空间上创建卷组。对于映像数据存储，卷组名称可以命名为任何所需的名称。对于系统数据存储，卷组名称必须为格式<block ref="995c5831059c2f1713db1c1093459789" prefix=" " category="inline-code"></block>。这是 OpenNebula 识别系统数据存储的正确卷组所必需的。如果要创建备份/文件/映像数据存储，请执行以下步骤。对于系统数据存储，请停止此处。</block>
+  <block id="2f3ce28c3108f2bda351bce9a002a22d" category="summary">使用 ONTAP 为 OpenNebula 配置基于 NVMe over TCP 的逻辑卷管理器 (LVM) 数据存储。此过程包括 nvme-cli 安装、发现配置、命名空间配置、子系统设置和共享存储的卷组创建。</block>
+  <block id="6734a0612e49cdceebc6a086ae4761dd" category="doc">使用 ONTAP NVMe/TCP 为 OpenNebula 配置 LVM Thin</block>
+  <block id="26f5e8c9f712c7a4a304eb37b3ba4646" category="paragraph">使用 NVMe over TCP 协议，在 OpenNebula 主机之间配置 Logical Volume Manager (LVM) 数据存储，以实现 NetApp ONTAP 的共享存储。此配置通过现代 NVMe 协议，在标准以太网网络上提供高性能的块级存储访问。</block>
+  <block id="a9f2c1c53aa79501aec3d22f3e5d1816" category="paragraph">完成这些初始任务，让 OpenNebula 主机为 NVMe/TCP 连接做好准备，并为存储管理员收集必要的信息。</block>
+  <block id="8d1591eb30d5db52427395589b407f8e" category="list-text">在每台 OpenNebula 主机上，运行以下命令来收集主机启动器信息。</block>
+  <block id="e792cd3f2806775ef7f1caed5c760da3" category="list-text">向存储管理员提供收集的主机 NQN 信息以及主机名，并请求所需大小的 NVMe 命名空间。</block>
+  <block id="be9c8441acc980992a39945646b44c16" category="list-text">创建子系统并分配给主机 NQN。为集群中的所有 OpenNebula 主机以及前端服务器创建一个子系统。前端服务器在子系统分配中是可选的，但对于图像数据存储是必需的。</block>
+  <block id="21c37092b4618c8f37f322efa7cf5692" category="paragraph">完成这些任务，以在 OpenNebula 中将 NVMe 命名空间配置为共享 LVM 数据存储。</block>
+  <block id="e6db8e2fbe4fd54cb2c792f5bd6bc419" category="list-text">导航到群集中每个 OpenNebula 主机上的 shell 并创建 /etc/nvme/discovery.conf 文件。更新特定于您的环境的内容。</block>
+  <block id="128dbeae0d6bec72e1fad3b774b91cd4" category="list-text">若要在重新启动时保留 NVMe 命名空间，请启用 nvmf-autoconnect 服务。</block>
+  <block id="e343423a8c02cd76a8e3b41c46b09cdd" category="paragraph">onedatastore 创建 nvmetcp-system.conf ID: 109</block>
+  <block id="ed9c488c949ec854a6ba8ec7ef0b3d1f" category="summary">使用 ONTAP 为 OpenNebula 虚拟环境配置 SMB/CIFS 存储。此过程包括 SVM 启用、LIF 创建、Active Directory 配置、卷创建以及用于容错和增强性能的多通道设置。</block>
+  <block id="b056cef78a8c5ed6894127c231640bab" category="doc">为 OpenNebula 配置 SMB/CIFS 数据存储</block>
+  <block id="3d4d99e1003ea322fe027a04250c1d27" category="paragraph">为 OpenNebula 配置 SMB/CIFS 数据存储存储，使用 NetApp ONTAP。SMB 多通道通过与存储系统的多个网络连接提供容错并提升性能。</block>
+  <block id="f08d71790c9e2c6ebac2874a7991d597" category="admonition">密码保存在明文文件中，只有 root 用户可以访问。确保采取适当的安全措施来保护敏感信息。</block>
+  <block id="1488a472abafdf198fc3a20607115286" category="paragraph"><block ref="1488a472abafdf198fc3a20607115286" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="87ba514902a47250aa537a985690365d" category="paragraph"><block ref="87ba514902a47250aa537a985690365d" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="0ce3794cb6a49d60c835c9da72b46ac5" category="paragraph"><block ref="0ce3794cb6a49d60c835c9da72b46ac5" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="dd254ae5b61bed32f0b6bd29b0e67f2c" category="paragraph"><block ref="dd254ae5b61bed32f0b6bd29b0e67f2c" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="1a28ac7e0df5c719148089ce615b8353" category="paragraph">完成这些任务可将 SMB 共享添加为 OpenNebula 中的数据存储区，并启用多通道以提高性能和容错。</block>
+  <block id="85f3a628eb755df404e4e3abb5a6d511" category="list-text">确保在 Fedora 上安装以下软件包 sssd realmd adcli oddjob oddjob-mkhomedir samba-common-tools krb5-workstation cifs-utils，用于 Active Directory 集成和 SMB 挂载支持。Debian 软件包是 realmd sssd sssd-tools libnss-sss libpam-sss adcli samba-common-bin packagekit krb5-user cifs-utils。</block>
+  <block id="592e7d0ee27351e92605051817b75f1c" category="paragraph">onedatastore 创建 smb-system.conf ID: 100</block>
+  <block id="3123bee0a468f2993557ca9a63272d65" category="list-text">在 /etc/ 中创建 smb 凭据文件。如果使用 kerberos 身份验证（KVM 主机已加入 &lt;domain&gt;），则无需执行此步骤。</block>
+  <block id="d2876df10496670fa38988da5287ed5b" category="list-text">对凭据文件设置适当的权限 (640)。如果需要，将所有权更改为 oneadmin 用户和组。</block>
+  <block id="c10835fea72755790978aacf179eefdb" category="list-text">更新 /etc/fstab 或 automount 配置以启用多通道。假设默认数据存储区位置为 /var/lib/one/datastores。如果不是，请检查 /etc/one/oned.conf 中的 DATASTORE_LOCATION 参数。确保 &lt;datastore_id&gt; 文件夹存在于数据存储区位置下。示例条目如下所示：</block>
+  <block id="157ffc39377f93e942e71195a6ab724d" category="doc">了解 OpenNebula</block>
+  <block id="947ef2c54b411ed8c8dcd109afc89935" category="paragraph">OpenNebula 是一个用于管理异构分布式数据中心基础设施的开源云管理平台。它提供了一个简单但模块化且功能丰富的解决方案来构建云和边缘计算平台。OpenNebula 支持具有 KVM 的虚拟机、具有 LXC 的 Linux 容器和基于 SUSE Rancher 的 CNCF 认证的 Kubernetes 集群。</block>
+  <block id="7aeb058e963d7aa079e612f31c5068d3" category="paragraph">OpenNebula 提供了一套全面的功能来管理虚拟机和容器的整个生命周期，包括部署、监控、扩展和停用。它支持广泛的存储和网络选项，使其灵活适用于各种用例。</block>
+  <block id="3400f68284455f2b06be358ce8104a39" category="inline-image-macro">OpenNebula 概述</block>
+  <block id="4f43700cf1f52b8de143a66162204e60" category="paragraph"><block ref="4f43700cf1f52b8de143a66162204e60" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="00308efadd5c1f707319eed49a12042d" category="paragraph">OpenNebula 提供了用户友好的 Web 界面和强大的命令行界面 (CLI)，供管理员和用户与平台进行交互。它还提供了一个 RESTful API，用于自动化和与其他工具的集成。该平台支持多租户，允许多个用户和组安全地共享同一个基础设施。</block>
+  <block id="78be3b46c4c6be1d3c94c2e768f10d76" category="inline-image-macro">OpenNebula 模块化架构</block>
+  <block id="63ccdc3b48dfec62cf07b5fe78632441" category="paragraph"><block ref="63ccdc3b48dfec62cf07b5fe78632441" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="74a74665c681a0cc35b3f4520695fc9c" category="paragraph">OpenNebula 具有模块化架构，可轻松与第三方工具和服务集成。它可以通过插件和驱动程序进行扩展，以轻松适应特定要求。</block>
+  <block id="dbafbf15b1acdde60bc7fb2f09f051ab" category="section-title">前端用户界面</block>
+  <block id="4244c3d60f37d1cbc096d0d23b9f8d02" category="paragraph">OpenNebula 提供了一个名为 Sunstone 的基于 Web 的用户界面，允许用户轻松管理其虚拟机和容器。界面直观且用户友好，使管理员和最终用户都可以轻松导航和执行任务。默认情况下，它在端口 2616 上运行。持久数据存储在后端数据库中，后端数据库可以是 SQLite（小工作负载的默认值）或 MySQL/MariaDB（生产环境）。可以部署多个前端服务器实例，以确保高可用性和负载平衡。</block>
+  <block id="76b68fff3686d83a32e511304f4d0d8f" category="inline-image-macro">OpenNebula Sunstone 接口</block>
+  <block id="76db73e51d306c5a158d6a759c95448c" category="paragraph"><block ref="76db73e51d306c5a158d6a759c95448c" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="54288d10a2f9363caa869018baf5b2da" category="paragraph">OpenNebula Sunstone 提供可自定义的视图和仪表板，允许用户根据自己的特定需求定制界面。它还支持基于角色的访问控制 (RBAC)，使管理员能够为用户和组定义不同级别的访问。</block>
+  <block id="3e9c0b177b0cc92686faaf6e196f2bf5" category="paragraph">控制台访问功能允许用户直接从 Web 界面连接到他们的虚拟机，为管理和与他们的实例交互提供无缝体验。它还包括一个市场，用户可以在其中浏览和部署预配置的虚拟机模板和应用程序。用户还可以通过 SSH 或其他远程访问方法从 Web 界面访问虚拟机。</block>
+  <block id="352519322d164f6984822b8fcdc5ee1c" category="paragraph">联合功能允许连接多个 OpenNebula 实例（区域），从而实现不同数据中心或地理位置之间的资源共享和工作负载分配。访问策略是在整个联盟范围内定义的，其中用户可以限制到某些区域或区域内的特定群集。</block>
+  <block id="61495a1698657f73ac2ab166c7ff9e02" category="paragraph">OpenNebula 支持适用于虚拟机的 KVM 和适用于 Linux 容器的 LXC。支持的操作系统包括 Ubuntu、Debian、RHEL 和 AlmaLinux。可以从预配置的模板或自定义映像部署虚拟机。还可以使用服务模板部署一组虚拟机（服务）。OneFlow 允许定义和管理由多个互连虚拟机组成的多层应用程序。OneGate 允许从虚拟机内部与 OpenNebula 后端通信，从而实现高级监控和管理功能。</block>
+  <block id="02cfdd1f329cc337612bc7cbe06e2d2b" category="inline-link">OpenNebula 操作参考</block>
+  <block id="4cf9a49e78a874c239b9684b19abb15d" category="paragraph">虚拟机自定义功能允许在部署期间自定义虚拟机设置，包括网络配置、主机名、密码和 SSH 密钥。上下文化功能允许在启动时将配置数据注入虚拟机，从而实现基于部署环境的动态配置。有关 VM 上下文化的详细信息，请参见<block ref="11f3284523afcf711ba11149797db863" category="inline-link-rx"></block>。</block>
+  <block id="52b0849be89345d5ce63d4e4b5a4b2f9" category="paragraph">一组虚拟机监控程序被分组到群集中，用于资源管理和调度。OneDRS （分布式资源调度程序）允许基于资源利用率和预定义策略跨可用虚拟机管理程序自动放置和负载平衡虚拟机。策略可以是打包或平衡。</block>
+  <block id="a8f628aea6d8627b91ed982e801f92d1" category="inline-image-macro">OpenNebula 计算管理</block>
+  <block id="ace84b89d4c2ad284fe9db9dbad74fd0" category="paragraph"><block ref="ace84b89d4c2ad284fe9db9dbad74fd0" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="ba244fe904fab888a7743c5645041e31" category="paragraph">OpenNebula 还支持虚拟机的实时迁移，无需停机即可实现无缝工作负载平衡和维护。</block>
+  <block id="0d78c96304963ef032453c069463f0b7" category="paragraph">物理主机一次可以成为一个集群的成员。但可以跨集群共享存储和网络资源。集群资源子集可以分配给特定虚拟数据中心（VDC），以便为不同用户组提供资源隔离。</block>
+  <block id="74e30b26f2f73e197d09d62895818931" category="inline-image-macro">OpenNebula 集群和 VDC</block>
+  <block id="035a219e3846c709bec73648981689f1" category="paragraph"><block ref="035a219e3846c709bec73648981689f1" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="1f5f99059e817c6b306047256fede34b" category="paragraph">扩展群集允许跨多个物理站点部署具有高可用性的虚拟机。在站点故障的情况下，虚拟机可以继续从其他站点运行而不会中断。</block>
+  <block id="613133eeabdc21d32626e38449b467f4" category="admonition">拉伸的群集需要可从所有站点访问的共享存储。通常使用同步复制来确保跨站点的数据一致性。</block>
+  <block id="e2ba41d0a35bad98069317035f822cd5" category="paragraph">可以定义 VM 到 VM 亲和性/反亲和性规则来控制虚拟机在物理主机上的放置。这允许确保某些虚拟机始终根据应用程序要求一起部署或彼此分开部署。同样，可以定义主机亲和性/反亲和性规则来控制虚拟机在特定物理主机上的放置。角色被定义为对具有相似亲和性/反亲和性规则的虚拟机进行分组。</block>
+  <block id="9fb3bb6b8db6d6cf7fc03cb6120d7f28" category="paragraph">Kubernetes 集群可以使用 OneKE 服务进行部署。OneKE 允许基于 SUSE Rancher 创建和管理 CNCF 认证的 Kubernetes 集群。Kubernetes 集群可以部署在 OpenNebula 虚拟机之上，提供云基础设施和容器编排之间的无缝集成。</block>
+  <block id="834d55c8284b6eab70b3b2993c8d6bfc" category="paragraph">OpenNebula 支持适用于虚拟机的 NVIDIA vGPU 和 MIG（多实例 GPU），以利用 GPU 的强大功能实现高性能计算、机器学习和其他 GPU 密集型工作负载。</block>
+  <block id="bbd1086c6b9ab5e6b581713a641b65db" category="paragraph">OpenNebula 提供四种类型的数据存储来管理存储资源：System、Image、File 和 Backup 数据存储。System 数据存储用于存储虚拟机磁盘和配置文件。Image 数据存储用于存储虚拟机映像、ISO 和数据磁盘。File 数据存储用于存储可由虚拟机访问的文件。Backup 数据存储用于存储虚拟机及其数据的备份。</block>
+  <block id="9768be91bf570d0cb6ec78c24696d1f4" category="admonition">映像数据存储可以在集群和前端服务器之间共享，而系统、文件和备份数据存储则分配给特定集群。</block>
+  <block id="28017a33d215609e9fd42a664b88996e" category="paragraph">每个系统数据存储指定一个模块来处理从前端服务器到虚拟机监控程序的传输管理。支持的传输管理器包括 SSH、共享文件系统（例如，NFS、GlusterFS）等。数据存储通常挂载在 /var/lib/one/datastores 文件夹中，或由 /etc/one/oned.conf 文件中的 DATASTORE_LOCATION 属性定义。每个系统数据存储定义相应的镜像数据存储。部署虚拟机时，通常使用定义的传输管理器将其磁盘从镜像数据存储克隆到系统数据存储。</block>
+  <block id="3aeb86d3631dc93c9bcd3f82be88e8ac" category="inline-image-macro">OpenNebula 存储示例目录结构</block>
+  <block id="e8259869d896a5840d9be1ed91fc912d" category="paragraph"><block ref="e8259869d896a5840d9be1ed91fc912d" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="9d62e9903da061cfd3da5edb978bbcee" category="paragraph">ONTAP FlexCache 可用于同一 OpenNebula Zone 内远程位置的 Image 数据存储。这允许在本地缓存频繁访问的镜像，从而减少延迟并提高虚拟机部署的性能。</block>
+  <block id="68dbfdb0308b175684bbcb957462a1a4" category="paragraph">OpenNebula 企业版包含 NetApp 驱动程序，可使用 ONTAP API 在 NetApp 存储系统上创建和管理虚拟机磁盘。这允许利用虚拟机磁盘的高级存储功能，例如精简配置、重复数据删除和快照。</block>
+  <block id="509c33f64532d3b7b7b8dfe8d71ce19d" category="paragraph">可以从公共或专用映像存储库下载映像，例如托管在 http 或 S3 存储上的 OpenNebula Marketplace、Linux Container 或 Private Marketplace。私有市场允许组织为联盟中的用户维护一组精心策划的映像。</block>
+  <block id="4cecc3e4a380df2ef3680308270f61d2" category="paragraph">Cloud Images 需要与 OpenNebula 一起使用情境化层。映像可以是持久的，也可以是非持久的。持久映像保留在虚拟机运行时所做的更改，而非持久映像在终止后将不会保留 VM 所做的任何更改。但是，当系统关闭时，将在系统数据存储中保留更改。</block>
+  <block id="e57976deec4ced5a02257746552260ff" category="paragraph">持久映像通常用于创建自定义虚拟机映像。一次只能从持久映像部署一个虚拟机。</block>
+  <block id="292f909a45c3ab8d2897274f621cfc5b" category="paragraph">VM 磁盘快照可用于从运行的虚拟机数据创建映像。VM 磁盘大小可以在部署或运行时调整大小（在线调整大小）。</block>
+  <block id="16571ceca4ce19655d3698f95ca6353c" category="paragraph">Trident CSI 驱动程序用于在使用 OneKE 部署的 Kubernetes 集群上创建持久卷。这允许 Kubernetes 工作负载利用 ONTAP 存储功能。Trident Protect 允许为 Kubernetes 工作负载定义应用程序级别的灾难恢复策略。</block>
+  <block id="cb8b227ce32650f0eb699b34764fd884" category="paragraph">OpenNebula 可插入现有网络基础设施，为虚拟机和容器提供网络功能。它支持各种网络模型，包括 Linux 网桥、802.1Q VLAN、VXLAN 和 Open vSwitch 网络。对于类似 VPC 的网络，可以使用带有 EVPN 的 VXLAN 来隔离租户网络。</block>
+  <block id="13fc7b48e8f8c270da558ad9b1e0ac2f" category="inline-image-macro">OpenNebula 网络模型</block>
+  <block id="3fd1a3f1b424544497301d8d21ef5435" category="paragraph"><block ref="3fd1a3f1b424544497301d8d21ef5435" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="161f0d929aafae3cf858c44859418e1c" category="paragraph">每个虚拟网络都需要定义一个地址范围。它可以是 IPv4、IPv6，两者都有，甚至是 MAC 地址范围（如果使用外部 DHCP 服务器）。IPAM（IP 地址管理）功能允许从定义的地址范围管理和分配 IP 地址。它支持自动和手动 IP 地址分配，以及为虚拟机保留特定 IP 地址。</block>
+  <block id="d0d8f3edbcd8f2acbb56a4ab7a461835" category="inline-image-macro">使用 IPAM 的 OpenNebula 虚拟网络</block>
+  <block id="40b27e495d91f460699a18caa395fec4" category="paragraph"><block ref="40b27e495d91f460699a18caa395fec4" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="d9e4e30cd4f89b887ae1b6532c56e503" category="paragraph">在虚拟机部署期间，将根据定义的虚拟网络和 IP 地址分配自动配置网络接口。可以使用虚拟机上下文化功能自定义网络配置。</block>
+  <block id="c0876e4e4d439a2c804d553829aa0d3d" category="paragraph">上下文信息也可以使用 Sunstone 界面中的 Update VM Configuration 按钮进行更新。其他网络接口可以热插拔到正在运行的虚拟机。</block>
+  <block id="4a2bbbb02bc3a095a00b0a08ed023fbd" category="paragraph">可以部署虚拟路由器，为虚拟网络提供路由和 NAT 服务。虚拟网络可以跨越多个集群，实现灵活的网络拓扑。</block>
+  <block id="9890271de2f4963455c5a74268b91dfa" category="section-title">监控和操作</block>
+  <block id="92df0b85672fe7244e0a7ade6669b9db" category="paragraph">OpenNebula 包括一个全面的监控系统，可提供对云基础架构的性能和健康状况的实时洞察。它从虚拟机管理程序、虚拟机、存储和网络组件收集指标，使管理员能够监控资源利用率并识别潜在问题。</block>
+  <block id="fa12717a520f164728d2441d1730918e" category="paragraph">OpenNebula 包括 Prometheus 导出器，用于为基于 Prometheus 的监控系统收集指标。它还与 Grafana 集成，提供可定制的仪表板，用于可视化收集的指标。</block>
+  <block id="efbfc5589bbf02cb9ae647f7dc8620f7" category="inline-image-macro">使用 Grafana 进行 OpenNebula 监控</block>
+  <block id="0d4717396cb9d60ded8854c3ca70d0cd" category="paragraph"><block ref="0d4717396cb9d60ded8854c3ca70d0cd" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="244a3a99360bfd33fa5450c744bb3386" category="paragraph">NetApp Data Infrastructure Insights 可用于监控与 OpenNebula 一起使用的 ONTAP 存储系统。它可提供有关存储性能、容量和运行状况的详细见解，使管理员能够为虚拟机优化存储资源。</block>
+  <block id="1d6684cc4d7c458ffe8ae20fef24e4d9" category="inline-link">OpenNebula CLI 参考</block>
+  <block id="eecd9cbf7713bc646fb4f1d55126cc3c" category="inline-link">CLI 配置参考</block>
+  <block id="6b705a689fcabe7da1a2abd331723a65" category="paragraph">OpenNebula CLI 用于在云基础架构上执行各种操作，包括虚拟机管理、存储管理和网络管理。它提供了一种强大而灵活的方式来自动化任务并与其他工具集成。有关 OpenNebula CLI 的详细信息，请参见<block ref="b9efa49f0ee5d9b9f1631ad54cdabb38" category="inline-link-rx"></block>。有关自定义 CLI 输出，请参见<block ref="522ad94017b32835f9f4c765cd18d756" category="inline-link-rx"></block>。</block>
+  <block id="eef272697681d2a82d43d857b5a0c012" category="paragraph">自定义脚本也可以作为虚拟机生命周期的一部分执行。钩子允许根据 OpenNebula 平台中的特定事件触发自定义操作，例如虚拟机部署、终止或迁移。这使管理员能够自动化工作流程并与外部系统集成。</block>
+  <block id="8df468cd001ad62b0b6009884162e32f" category="inline-image-macro">OpenNebula 挂钩和 VM 生命周期</block>
+  <block id="c93b7f0b272fc924391907cf1d4fac98" category="paragraph"><block ref="c93b7f0b272fc924391907cf1d4fac98" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="713e0a53fc866de19a1fc24fdd0917ec" category="inline-link">OpenNebula 使用挂钩</block>
+  <block id="a6119bebceabeca100208406f4b56c9b" category="paragraph">有关 OpenNebula Hooks 的详细信息，请参见<block ref="17fd9bd4715d0782d3995cfad07ca40c" category="inline-link-rx"></block>。</block>
+  <block id="6b1a4deb1d19ae1ab998477d8b29d528" category="inline-link-macro">Shift Toolkit 转换</block>
+  <block id="8a0fe58e4bfcc1167b439d211100a77d" category="inline-link">OneSwap 工具</block>
+  <block id="b3eab7392cfcd7470fe5831208c57a7b" category="paragraph"><block ref="252fed8c15c95ef9364f2ab0d73e7bca" category="inline-link-rx"></block> 允许将虚拟机从 vSphere 迁移到 OpenNebula KVM 环境。它从 vSphere VMDK 文件创建映像并生成相应的 OpenNebula VM 模板。NetApp Shift 工具包可以将 vSphere VMDK 文件转换为 QCOW2 格式，以便与 OpenNebula 一起使用。使用 NetApp Shift 工具包 API 与 OneSwap 可以快速有效地自动化 ONTAP 文件共享上的迁移过程。有关 NetApp Shift 工具包的详细信息，请参见<block ref="061684e1b8f3eb4af428a4701a29ad48" category="inline-link-macro-rx"></block>。</block>
+  <block id="5539d24fbdf3da155c088fa08d5b20d6" category="paragraph">OpenNebula 为使用 rsync、restic 和 Veeam 的备份提供支持。Veeam 集成仅适用于企业版。备份数据存储用于存储虚拟机及其数据的备份。可以安排备份作业按特定时间间隔运行，确保定期备份虚拟机。</block>
+  <block id="8f731981731e712ca2afabc4e47202d0" category="paragraph">备份可以是增量快照或完整备份，具体视备份策略而定。增量快照仅捕获自上次备份以来所做的更改，从而减少存储要求和备份时间。完整备份创建虚拟机及其数据的完整副本。qcow2 格式允许对增量备份使用更改块跟踪。</block>
+  <block id="a7cd46ee2fb19493f6bd784eda4faa3f" category="inline-link">OpenNebula Veeam 集成</block>
+  <block id="19f83e0fc349756261187e552a574fa0" category="paragraph">OpenNebula 提供 oVirt 兼容的 REST API 服务器，以与 Veeam Backup &amp; Replication 软件集成。有关详细信息，请参见<block ref="7a7b26bb64b02307360a4feb2ff72c72" category="inline-link-rx"></block>。</block>
+  <block id="ced8e2d5fd839c48d740c3ee526aaef9" category="summary">OpenNebula 支持使用 ONTAP 的多种存储类型，包括用于 NAS 协议的 NFS 和 SMB 以及用于 SAN 协议的 FC、iSCSI 和 NVMe-oF。</block>
+  <block id="5975f35c9c4cfd024173a3a90d97b9d2" category="doc">OpenNebula 支持的存储类型</block>
+  <block id="cce1c22be134c83b936a3baed8b4d3b3" category="paragraph">OpenNebula 支持使用 NetApp ONTAP 的多种存储协议，包括用于 NAS 的 NFS 和 SMB 以及用于 SAN 的 FC、iSCSI 和 NVMe-oF。根据现有技能和要求，用户可以选择合适的存储协议。如果不打算使用 ONTAP 提供的任何数据服务，请考虑使用 FC、iSCSI、InfiniBand 和 NVMe-oF 协议提供块存储的 SANtricity 系统。</block>
+  <block id="eec628affe69d3fe1fb0c91e5499ab6e" category="paragraph">OpenNebula 使用通常装载在 /var/lib/one/datastores 文件夹中或由 /etc/one/oned.conf 文件中的 DATASTORE_LOCATION 属性定义的 Datastores。可以使用 /etc/fstab 文件装载存储，也可以使用 Automounter 或您的环境支持的其他过程进行动态装载。大多数文件夹权限都设置为由 oneadmin 用户和组拥有。请确保虚拟机监控程序主机可以使用所需的协议访问存储系统。</block>
+  <block id="799333ae726a3ebc527f6b5c7eca25e0" category="paragraph">使用 automounter 时，使用直接挂载以避免 automounter 控制父文件夹的问题。要创建直接挂载，请在 /etc/auto.master.d/ 下创建文件。例如，使用以下命令创建名为 one.autofs 的文件：</block>
+  <block id="616c588c0543ef568c5cc7ebaab66b90" category="paragraph">前端服务器需要有权访问映像数据存储。在虚拟机监控程序主机上装载映像数据存储是可选的，但建议这样做以获得更好的性能。系统数据存储需要安装在虚拟机监控程序主机上，因为它们托管虚拟机磁盘。内核和文件数据存储用于 VM 内核、ramdisk 和通过情境化过程向 VM 提供的其他文件。它可以安装在前端服务器和虚拟机监控程序主机上。备份数据存储用于 VM 备份，可以装载在 OpenNebula 集群上的所有主机上。如果 KVM 主机可以使用 SSH for rsync、SFTP for restic 访问备份数据存储主机，则其他集群上的 VM 也可以使用相同的备份数据存储。如果使用 Veeam，oVirtAPI 应可用。</block>
+  <block id="0c63dd24f835ff78f1197849f9edd470" category="paragraph">NAS 协议（NFS 和 SMB）支持跨前端和虚拟机监控程序主机的共享文件系统。ONTAP 快照可以对客户端可见，以访问数据的时间点副本。ONTAP FlexCache 可用于地理分布区域内的图像数据存储。ONTAP NFS 支持 nConnect，通过在每个会话中使用多个连接来提高性能。在使用 FlexGroup 用于大型数据存储区（&gt; 100TB）时，建议使用 pNFS 将负载分布在多个节点上。请记住，在 ONTAP 群集中为每个控制器配置至少一个数据 lif，并且虚拟机监控程序主机需要具有连接性。</block>
+  <block id="b27971c437b8bab4647edf6c174461ed" category="paragraph">所有数据存储区类型（映像、系统、内核和文件以及备份）都支持 NAS 协议。</block>
+  <block id="a32a029e75c86ef516811ab347990d89" category="paragraph">企业版包括与 AFF 和 FAS 系统上的 iSCSI 协议兼容的 NetApp 驱动程序。其他 SAN 协议（FC、InfiniBand 和 NVMe-oF）通常配置为 LVM 驱动程序。每个虚拟机都会创建 LVM 精简池，以支持精简配置和快照。虚拟机监控程序主机需要连接到存储系统。使用 LVM 存储类型不需要群集 LVM 支持。</block>
+  <block id="f107720b30db1a57f5598dafea82e9b1" category="paragraph">要与 NetApp 驱动程序一起使用，需要在虚拟机监控程序主机上配置 iSCSI 会话和多路径。对于 LVM 驱动程序，除了系统数据存储之外，逻辑卷需要创建和装载文件系统。对于系统数据存储区，卷组需要命名为"vg-one-&lt;datastore_id&gt;"，其中 &lt;datastore_id&gt; 是 OpenNebula 中的数据存储区的数字标识符。所有数据存储区类型（映像、系统、内核和文件以及备份）都支持 SAN 协议。</block>
+  <block id="f319d038f117a09b806943c972c0db2b" category="section-title">NetApp ONTAP API 驱动程序</block>
+  <block id="20c35723a515cded1517c13454fddb47" category="inline-link-macro">OpenNebula 文档</block>
+  <block id="5dd619828db0039008bb07d0701175ed" category="paragraph">OpenNebula 的本机 NetApp 集成使用 ONTAP 的 API 自动创建和管理卷、LUN、快照和映射。这种方法提供了最佳的自动化水平，并避免了手动 iSCSI 和 LVM 设置。有关详细信息，请参见 <block ref="61c64c712bee83ba2c24cfdf5cf294e9" category="inline-link-macro-rx"></block>。</block>
+  <block id="4de362d9eeba7c0023d5549db3fe28f7" category="cell">数据存储库类型</block>
+  <block id="19f48d00111bb15ab0110744dfbbc78f" category="paragraph">是^1^</block>
+  <block id="fc4308c3caa893409bcd4515c8b9cdae" category="cell">内核和文件</block>
+  <block id="2756400dc25a9ea5ba8cede9ef2fccb8" category="list-text">NetApp 驱动程序在企业版中可用于 iSCSI 协议，以利用本机 ONTAP 功能。</block>
+  <block id="65deb566e2e31fd371e9f59d432e4746" category="section-title">ONTAP 支持的 OpenNebula 集群存储类型</block>
+  <block id="6c96d1af69c2a351926791397eebf724" category="paragraph">以下是在使用 NetApp ONTAP 作为后端时，OpenNebula 不同存储类型所支持功能的对比。</block>
+  <block id="21021ea0e52be8e9c599f4dff41e5be0" category="cell">功能</block>
+  <block id="502de0ca02b6a1c74a8a9c374793c768" category="cell">NetApp ONTAP API</block>
+  <block id="feca737b127a39f2a1d5c365031937c0" category="cell">LVM-thin</block>
+  <block id="08c1ff38b0725dfc2641157c092122a8" category="cell">NFS/SMB</block>
+  <block id="5fb3ed27e0993f4b76024933682f11a2" category="cell">图像存储^1^</block>
+  <block id="b8efeecbddea7e32fc8fd850746fde72" category="cell">实时快照</block>
+  <block id="3e787b783e255f23ac8c29e00d0ea2c1" category="cell">克隆 VM 或映像</block>
+  <block id="bd6abf1796163a6193857ca46e714aca" category="cell">增量备份^2^</block>
+  <block id="c325b0e50c2b1c81fda897465948fbac" category="list-text">图像存储是指使用 OpenNebula 图像数据存储区的后端。LVM-thin 和 ONTAP API 方法涉及从图像源复制或创建块设备。</block>
+  <block id="e5098ba4bba01463768e02b291bd044d" category="list-text">增量备份适用于<block ref="947f13878c6bd4981c91c790c5d83ff5" prefix=" " category="inline-code"></block>磁盘（在 NFS/SMB 上）或支持跟踪更改的数据块设备。OpenNebula NetApp ONTAP 驱动程序使用滚动快照进行增量备份。</block>
+  <block id="ea055808a5b40821bde7d56469cd291b" category="admonition">增量备份需要加载 <block ref="1373d0cb4ac444c16b7b2e6f8f402381" prefix=" " category="inline-code"></block> 内核模块。</block>
+  <block id="c86f6ad61f8c60248afe050d27971d29" category="sidebar">OpenNebula</block>
+  <block id="ae02d3be4b0b9f2c4295c4c13c37a38b" category="sidebar">KVM 的 OpenNebula 资源</block>
+  <block id="50bf63442df1bb911b591132e177c57d" category="sidebar">了解 OpenNebula</block>
+  <block id="df6cab6f3e31b663a0a4c1599e6d83b5" category="sidebar">安装 OpenNebula</block>
+  <block id="e4eb59430ae7a41fdd4dc826485f5ddf" category="sidebar">OpenNebula 和 NetApp 架构</block>
+  <block id="13317dc2edd0e239b522c5700ae38a66" category="sidebar">NetApp OpenNebula 解决方案是一套技术能力，展示了 NetApp 存储在使用 OpenNebula 进行虚拟化时的能力。</block>
+  <block id="5a8c64fcb779ba2581399c2a0a9dd5e4" category="sidebar">NetApp OpenNebula 解决方案</block>
+  <block id="40a9571f884dff614eb1fca2dafa2740" category="sidebar">为 OpenNebula 配置 NetApp 存储</block>
+  <block id="f46248b53f7bd6fb008d2301896857b2" category="sidebar">OpenNebula 7.0 文档</block>
+  <block id="d910364c8ddf307ddf0398afc7618007" category="sidebar">为 OpenNebula Enterprise Edition 配置 NetApp SAN 数据存储</block>
+  <block id="3c1b0c01a0c4c7cfec573316ba9e13b1" category="sidebar">OpenNebula 文档（以前的版本 - 4.x 至 6.x）</block>
+  <block id="8c09c6c876281c4f63f0e35750f7f328" category="sidebar">OpenNebula YouTube 频道</block>
+  <block id="fc5c3064b1a297be89cf61bfd623c55f" category="sidebar">OpenNebula 论坛</block>
+  <block id="d7e29a10c09f4896443875d8258d08b9" category="sidebar">OpenNebula GitHub 存储库</block>
+  <block id="ed1404c8c64bb02204a9576a14bf3bfa" category="sidebar">关于 OpenNebula</block>
+  <block id="67749e6e266ee5ff64ea0ea2e983405d" category="sidebar">OpenNebula 在 NetApp 上的概述</block>
+  <block id="fae50285a56e2519a749a9e6f1e7aa21" category="sidebar">NetApp 存储用于 OpenNebula</block>
+  <block id="8629e03df0633263ab40227fe3986a47" category="sidebar">使用 NetApp 为 OpenNebula 配置存储协议</block>
+  <block id="ff9a52b1a7c26847f2ab026a07420444" category="sidebar">配置 NetApp ONTAP iSCSI 存储</block>
 </blocks>

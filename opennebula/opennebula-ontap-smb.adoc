@@ -1,0 +1,182 @@
+---
+sidebar: sidebar 
+permalink: opennebula/opennebula-ontap-smb.html 
+keywords: netapp, opennebula, opennebula ve, smb, cifs, ontap, storage 
+summary: 使用 ONTAP 为 OpenNebula 虚拟环境配置 SMB/CIFS 存储。此过程包括 SVM 启用、LIF 创建、Active Directory 配置、卷创建以及用于容错和增强性能的多通道设置。 
+---
+= 为 OpenNebula 配置 SMB/CIFS 数据存储
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+为 OpenNebula 配置 SMB/CIFS 数据存储存储，使用 NetApp ONTAP。SMB 多通道通过与存储系统的多个网络连接提供容错并提升性能。
+
+SMB/CIFS 文件共享需要存储管理员和虚拟化管理员进行配置。更多详情请参阅 link:https://www.netapp.com/pdf.html?item=/media/17136-tr4740.pdf["TR4740 - SMB 3.0 多通道"]。
+
+
+NOTE: 密码保存在明文文件中，只有 root 用户可以访问。确保采取适当的安全措施来保护敏感信息。
+
+
+
+== 存储管理员任务
+
+如果您是ONTAP新手，请使用系统管理器界面完成这些任务。
+
+. 为 SMB 启用 SVM。跟随 link:https://docs.netapp.com/us-en/ontap/smb-config/configure-access-svm-task.html["ONTAP 9 文档"] 了解更多信息。
+. 每个控制器至少创建两个 LIF。请按照文档中的步骤操作。作为参考，这里是此解决方案中使用的 LIF 的屏幕截图。
++
+.显示示例
+[%collapsible]
+====
+image:opennebula-ontap-smb-001.png["nas接口详情"]
+
+====
+. 配置基于 Active Directory 或工作组的身份验证。请按照文档中的步骤操作。
++
+.显示示例
+[%collapsible]
+====
+image:opennebula-ontap-smb-002.png["加入域信息"]
+
+====
+. 创建卷。选中“将数据分布到集群中”选项以使用FlexGroup。请确保该卷已启用反勒索软件保护。
++
+.显示示例
+[%collapsible]
+====
+image:opennebula-ontap-smb-003.png["FlexGroup选项"]
+
+====
+. 创建 SMB 共享并调整权限。跟随link:https://docs.netapp.com/us-en/ontap/smb-config/configure-client-access-shared-storage-concept.html["ONTAP 9 文档"]了解更多信息。
++
+.显示示例
+[%collapsible]
+====
+image:opennebula-ontap-smb-004.png["SMB 共享信息"]
+
+====
+. 向虚拟化管理员提供 SMB 服务器、共享名称和凭据。
+
+
+
+
+== 虚拟化管理员任务
+
+完成这些任务可将 SMB 共享添加为 OpenNebula 中的数据存储区，并启用多通道以提高性能和容错。
+
+. 收集用于共享身份验证的 SMB 服务器、共享名称和凭据。
+. 确保在 Fedora 上安装以下软件包 sssd realmd adcli oddjob oddjob-mkhomedir samba-common-tools krb5-workstation cifs-utils，用于 Active Directory 集成和 SMB 挂载支持。Debian 软件包是 realmd sssd sssd-tools libnss-sss libpam-sss adcli samba-common-bin packagekit krb5-user cifs-utils。
+. 为了实现容错，请确保至少有两个接口配置在不同的 VLAN 中。确认网卡支持 RSS。
+. SSH 到前端服务器之一，并根据所需的 Datastore 类型创建配置文件。示例文件如下所示：
++
+[role="tabbed-block"]
+====
+.备份
+--
+.. 对于 Restic，
+
+
+[listing]
+----
+$cat smb-restic.conf
+NAME = "Backup-Restic-SMB"
+TYPE = "BACKUP_DS"
+
+DS_MAD = "restic"
+TM_MAD = "-"
+
+RESTIC_PASSWORD = "<restic_password>"
+RESTIC_SFTP_SERVER = "<backup server>"
+----
+.. 对于 Rsync，
+
+
+[listing]
+----
+$cat smb-rsync.conf
+NAME = "Backup-Rsync-SMB"
+TYPE = "BACKUP_DS"
+
+DS_MAD = "rsync"
+TM_MAD = "-"
+
+RSYNC_USER = "<rsync_user>"
+RSYNC_HOST = "<backup server>"
+----
+--
+.文件
+[source, shell]
+----
+$cat smb-kernel.conf
+NAME = "File-Kernel-SMB"
+TYPE = "FILE_DS"
+DS_MAD = "fs"
+TM_MAD = "local"
+SAFE_DIRS = "/var/tmp/files"
+----
+.映像
+[source, shell]
+----
+$cat smb-image.conf
+NAME = "Image-SMB"
+TYPE = "IMAGE_DS"
+DS_MAD = "fs"
+TM_MAD = "shared"
+----
+.系统
+[source, shell]
+----
+$cat smb-system.conf
+NAME = "System-SMB"
+TYPE = "SYSTEM_DS"
+TM_MAD = "shared"
+----
+====
+. 执行 `onedatastore create <configuration file>`。请注意创建后返回的数据存储 ID。
++
+[]
+====
+onedatastore 创建 smb-system.conf ID: 100
+
+====
+. 在 /etc/ 中创建 smb 凭据文件。如果使用 kerberos 身份验证（KVM 主机已加入 <domain>），则无需执行此步骤。
++
+[source, shell]
+----
+$cat /etc/smb-credentials-<datastore_id>.cfg
+username=<smb_username>
+password=<smb_password>
+domain=<smb_domain>
+----
+. 对凭据文件设置适当的权限 (640)。如果需要，将所有权更改为 oneadmin 用户和组。
+. 使用 `id oneadmin` 命令收集 oneadmin 用户的 uid 和 gid。
+. 更新 /etc/fstab 或 automount 配置以启用多通道。假设默认数据存储区位置为 /var/lib/one/datastores。如果不是，请检查 /etc/one/oned.conf 中的 DATASTORE_LOCATION 参数。确保 <datastore_id> 文件夹存在于数据存储区位置下。示例条目如下所示：
++
+[role="tabbed-block"]
+====
+.使用 /etc/fstab
+--
+[source, shell]
+----
+# credentials mapping to file option is not required when using kerberos authentication
+//<smb_server>/<smb_share> /var/lib/one/datastores/<datastore_id> cifs credentials=/etc/smb-credentials-<datastore_id>.cfg,_netdev,noauto,x-systemd.automount,vers=3.0,multichannel,max_channels=16,nofail,uid=<oneadmin uid>,gid=<oneadmin gid> 0 0
+----
+--
+.使用 automount
+--
+[source, shell]
+----
+# credentials mapping to file option is not required when using kerberos authentication
+/var/lib/one/datastores/<datastore_id> -fstype=cifs,credentials=/etc/smb-credentials-<datastore_id>.cfg,vers=3.0,multichannel,max_channels=16,uid=<oneadmin uid>,gid=<oneadmin gid> ://<smb_server>/<smb_share>
+----
+--
+====
+. 使用 `mount -a` 或 `systemctl reload autofs` 命令挂载数据存储库。
+. 使用 mount 命令验证数据存储库是否已装载，并使用 `onedatastore show <datastore_id>`命令验证数据存储库容量。
+. 确保 oneadmin 用户和组拥有数据存储文件夹。使用 `chown -R oneadmin:oneadmin /var/lib/one/datastores/<datastore_id>`命令调整权限。
+
