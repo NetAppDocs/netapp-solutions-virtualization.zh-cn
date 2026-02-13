@@ -75,6 +75,7 @@ ONTAP提供了一套全面的企业存储功能，可增强 Proxmox VE 部署。
 * Windows 和 Unix 身份之间的名称映射
 * 具备内置威胁检测功能的自主勒索软件防护
 * 文件系统分析，获取容量和使用情况洞察
+* Metrocluster 支持高可用性。
 
 
 
@@ -82,6 +83,7 @@ ONTAP提供了一套全面的企业存储功能，可增强 Proxmox VE 部署。
 === SAN协议特性
 
 * 使用SnapMirror主动同步功能将集群扩展到故障域（始终检查 https://mysupport.netapp.com/matrix/#welcome["互操作性表工具"] （适用于支持的配置）
+* Metrocluster 支持高可用性。
 * ASA型号提供主动-主动多路径和快速路径故障转移。
 * 支持 FC、iSCSI 和 NVMe-oF 协议
 * iSCSI CHAP 相互认证

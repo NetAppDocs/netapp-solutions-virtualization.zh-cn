@@ -32,8 +32,12 @@ video::d66ef67f-bcc2-4ced-848e-b22e01588e8c[panopto,width=360]
 apt list | grep multipath-tools
 # If need to install, execute the following line.
 apt-get install multipath-tools
-systemctl enable multipathd
+systemctl enable --now multipathd
 ----
++
+
+NOTE: ONTAP 设备多路径所需的配置已包含在包中。有关详细信息，请参见 link:https://docs.netapp.com/us-en/ontap-sanhost/hu-proxmox-ve-9x.html#step-1-confirm-the-multipath-configuration-for-your-host["Proxmox VE 9.x 上使用 ONTAP 存储的 FCP 和 iSCSI 的 ONTAP 9 文档"]
+
 . 收集所有 Proxmox VE 主机的 iSCSI 主机 IQN，并将其提供给存储管理员。
 +
 [source, shell]
