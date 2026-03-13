@@ -32,11 +32,11 @@ image:redhat-openshift-ocpv-tp-003.png["安装在 source-ns 命名空间中的 O
 
 
 
-== 使用ONTAP S3 创建 App Vault
+== 使用 ONTAP S3 创建 AppVault
 
-本节介绍如何使用 ontap S3 对象存储在 trident protected 中设置应用程序保管库。
+本节演示如何使用 ONTAP S3 对象存储在 Trident Protect 中设置 AppVault 对象。
 
-使用 oc 命令和下面显示的 yaml 文件为 ontap s3 创建机密和 appvault 自定义资源。确保在 trident protected 命名空间中创建它们。
+使用 oc 命令和下面显示的 yaml 文件为 ONTAP s3 创建密钥和 AppVault 自定义资源。请确保在 trident protect 命名空间中创建它们。
 
 [source, cli]
 ----
@@ -91,9 +91,9 @@ spec:
         name: appvault-secret
   providerType: OntapS3
 ----
-确保 ONTAP S3 保管库已创建且处于可用状态
+确保 ONTAP S3 保管库已创建且处于"可用"状态
 
-image:redhat-openshift-ocpv-tp-002.png["trident-protect 命名空间中的 OCP-v appvault"]
+image:redhat-openshift-ocpv-tp-002.png["trident-protect 命名空间中的 OCP-v AppVault"]
 
 
 
