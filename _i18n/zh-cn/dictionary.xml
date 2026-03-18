@@ -1942,51 +1942,18 @@
   <block id="a5ad64d595144c185c9cf2065162dec3" category="section-title">演示视频</block>
   <block id="05c17630778983e447b6370533d21bce" category="video-title">使用Amazon FSx for NetApp ONTAP在 ROSA 上的 OpenShift 虚拟化中实时迁移虚拟机</block>
   <block id="2b7e117eab3a25ef9a4cb8b21ec218ae" category="paragraph">可以找到更多关于 Red Hat OpenShift 和 OpenShift 虚拟化解决方案的视频<block ref="7006d3b77ce0dcb153b683809f4deece" category="inline-link-macro-rx"></block>。</block>
-  <block id="c9612a89b2e174ba9a909c4798e4517f" category="doc">在 Red Hat OpenShift 集群上安装Trident并创建存储对象</block>
-  <block id="4f6b6d929b66b3b0f4de7b3ebe2eb8fb" category="paragraph">使用 Red Hat 认证的Trident Operator 在 OpenShift 集群上安装Trident ，并准备工作节点以进行块访问。为ONTAP和 FSxN 存储创建Trident后端和存储类对象，以实现容器和虚拟机的动态卷配置。</block>
-  <block id="83861393d0e371db4472e447e6c25c9c" category="admonition">如果您需要在 OpenShift Virtualization 中创建虚拟机，则必须安装Trident ，并且必须在集群（本地和 ROSA）上安装 OpenShift Virtualization 之前在 openShift 集群中创建后端对象和存储类对象。默认存储类和默认卷快照类必须设置为集群中的Trident存储和快照类。仅当配置完成后，OpenShift Virtualization 才能在本地提供黄金映像，以便使用模板创建 VM。</block>
-  <block id="2a18b4196fe1f4c92e053de5073d1362" category="admonition">如果在安装Trident之前安装了 OpenShift Virtualization Operator，则可以使用以下命令删除使用不同存储类创建的黄金映像，然后通过确保设置了Trident Storage 和 Volume Snapshot 类默认值，让 OpenShift Virtualization 使用Trident存储类创建黄金映像。</block>
-  <block id="6245240ddc2852058ed4e5e93e9c1ec1" category="admonition">要获取示例 yaml 文件来为 ROSA 集群的 FSxN 存储创建 trident 对象，以及获取 VolumeSnapshotClass 的示例 yaml 文件，请向下滚动此页面。</block>
-  <block id="09914449e44bcb5555dfb76d1f571192" category="paragraph">**安装Trident**</block>
-  <block id="aa3964d90fe7887abfe6c827f3eadca8" category="example-title">使用 Red Hat 认证操作员安装Trident</block>
-  <block id="d395b65028363e22f513fce3272e039b" category="inline-link-macro">请参阅Trident文档</block>
-  <block id="49db5b19b05384fc8a444e1533c39263" category="paragraph">本节将提供使用 Red Hat 认证Trident Operator 安装Trident的详细信息<block ref="0cb2fccb1d24045cc423ae3f231dad13" category="inline-link-macro-rx"></block>了解安装Trident的其他方法。随着Trident 25.02 的发布，Red Hat OpenShift 本地和云端的Trident用户以及 AWS 上的 Red Hat OpenShift Service 等托管服务现在可以使用来自 Operator Hub 的Trident Certified Operator 安装Trident 。这对于 OpenShift 用户社区来说意义重大，因为Trident之前仅作为社区运营商提供。</block>
-  <block id="f520e657783a7cb0f10ad8094d1a8869" category="paragraph">Red Hat 认证Trident操作员的优势在于，当与 OpenShift 一起使用时（无论是在本地、在云端，还是作为 ROSA 的托管服务），操作员及其容器的基础完全受到NetApp的支持。此外， NetApp Trident对客户免费，因此您只需使用经过验证可与 Red Hat OpenShift 无缝协作且打包以便于生命周期管理的认证操作员进行安装即可。</block>
-  <block id="cf9fc770ab387d622be7e78a966b6008" category="paragraph">此外， Trident 25.02 操作员（以及未来版本）提供了为 iSCSI 准备工作节点的可选好处。如果您计划在 ROSA 集群上部署工作负载并打算将 iSCSI 协议与 FSxN 一起使用，这尤其有利，尤其是对于 OpenShift Virtualization VM 工作负载。在集群上安装Trident时，此功能减轻了使用 FSxN 在 ROSA 集群上为 iSCSI 准备工作节点的挑战。</block>
   <block id="87096c51eb6c59e8c95d6ee2b08426c5" category="inline-image-macro">运营商枢纽</block>
-  <block id="1f37d72ee5779c3f59f266ead6a777b0" category="paragraph">无论您是在本地集群还是在 ROSA 上安装，使用操作员的安装步骤都是相同的。要使用 Operator 安装Trident ，请单击 Operator hub 并选择 Certified NetApp Trident。在安装页面中，默认选择最新版本。单击“安装”。<block ref="27e858d202d18d0c991b690f896d5938" category="inline-image-macro-rx" type="image"></block></block>
   <block id="19ad89bc3e3c9d7ef68b89523eff1987" category="inline-image-macro">安装</block>
   <block id="93c32acf3dda7bce9559bcd06ca77b3e" category="paragraph"><block ref="93c32acf3dda7bce9559bcd06ca77b3e" category="inline-image-macro-rx" type="image"></block></block>
-  <block id="5e455174c9ce22a932417d0593b301ca" category="paragraph">安装操作员后，单击查看操作员，然后创建Trident Orchestrator 的实例。如果要为 iSCSI 存储访问准备工作节点，请转到 yaml 视图并通过添加 iscsi 来修改 nodePrep 参数。</block>
   <block id="866adcc871feebfbb147b790517f0ff1" category="inline-image-macro">添加 iscsi 以准备节点</block>
   <block id="47aec90c62aa9cfb9fef3b54824c872e" category="paragraph"><block ref="47aec90c62aa9cfb9fef3b54824c872e" category="inline-image-macro-rx" type="image"></block></block>
   <block id="06188d1b14559c7901e64b986bb75929" category="inline-image-macro">安装Trident</block>
-  <block id="934963f2cf647707a1706d36099ccebd" category="paragraph">现在，所有 trident pod 都应该在集群中运行。<block ref="c32538f377adbf5cda894f0b2a0552c7" category="inline-image-macro-rx" type="image"></block></block>
-  <block id="aa868e6cc53e86874544b334466b15e3" category="paragraph">要验证 OpenShift 集群的工作节点上是否已启用 iSCSI 工具，请登录工作节点并验证您是否看到 iscsid、multipathd active 以及 multipath.conf 文件中的条目，如图所示。</block>
   <block id="ace58951a1d0114ebe17a94638f0978e" category="inline-image-macro">iscsid 正在运行</block>
   <block id="0a4ff19b4460e3dda01c6dec8500e833" category="paragraph"><block ref="0a4ff19b4460e3dda01c6dec8500e833" category="inline-image-macro-rx" type="image"></block></block>
   <block id="392686c08d55f296f205814359126be6" category="inline-image-macro">多路径运行</block>
   <block id="16ca7c7698aade2cbd77783beaaf0464" category="paragraph"><block ref="16ca7c7698aade2cbd77783beaaf0464" category="inline-image-macro-rx" type="image"></block></block>
-  <block id="af4bb3b0c04ccd213f94ce1c7d9043b9" category="inline-image-macro">multipathconf 文件正在运行</block>
-  <block id="80ffd662af5965497a7b70b8416af163" category="paragraph"><block ref="80ffd662af5965497a7b70b8416af163" category="inline-image-macro-rx" type="image"></block></block>
   <block id="24be39109d688432f5ee440fde866163" category="section-title">视频演示</block>
-  <block id="541a87bc44b955a29ea91fc8091708dd" category="paragraph">以下视频演示了如何使用 Red Hat 认证Trident Operator 安装Trident</block>
   <block id="5136fc31257cf6ca095317e1efdf0753" category="video-title">在 OpenShift 中使用经过认证的Trident Operator 安装Trident 25.02.1</block>
-  <block id="abbc7269bfb6b6a2f7add547446bf40f" category="section-title">本地 OpenShift 集群的Trident配置</block>
-  <block id="69b6a1e53b5d6dce61f48f2c5bda5b81" category="example-title">Trident后端和 NAS 存储类</block>
-  <block id="900dad5c9d3b7b3c5cad01033b1f4d6d" category="example-title">用于 iSCSI 的Trident后端和存储类</block>
-  <block id="b905e959dfe73db72f2ff0d159cae2c6" category="example-title">NVMe/TCP 的Trident后端和存储类</block>
-  <block id="93eb916f10b4859f816ddd97afe64a6b" category="example-title">FC 的Trident后端和存储类</block>
-  <block id="4748f53b730edf90e635cff498f0242f" category="section-title">使用 FSxN 存储的 ROSA 集群的Trident配置</block>
-  <block id="a28864ce783e0f5cccb950d321da3c79" category="example-title">FSxN NAS 的Trident后端和存储类</block>
-  <block id="5e038b97850f988b25700bca553235c7" category="example-title">FSxN iSCSI 的Trident后端和存储类</block>
-  <block id="ceb10a9480c98975ae72b84c14030aed" category="section-title">创建Trident卷快照类</block>
-  <block id="f78c7f1d09e1b584eaf9fcef3fb48737" category="example-title">Trident卷快照类</block>
-  <block id="98a8a8a399ed74d89bae671eca7bb98e" category="paragraph">准备好后端配置、存储类配置和快照配置所需的 yaml 文件后，您可以使用以下命令创建 trident 后端、存储类和快照类对象</block>
-  <block id="1ab5b17f23708e0a275f362bda05f0b7" category="section-title">使用Trident Storage 和 Snapshot Class 设置默认值</block>
-  <block id="6b0f3f36078f78e86a1bff3be304a129" category="paragraph">现在，您可以将所需的 trident 存储类和卷快照类设为 OpenShift 集群中的默认类。如前所述，需要设置默认存储类和卷快照类，以允许 OpenShift Virtualization 使黄金映像源可用于从默认模板创建虚拟机。</block>
-  <block id="c67c9373cee1717dbb0c14260fe0c08b" category="paragraph">您可以通过从控制台编辑注释或从命令行进行修补，将Trident存储类和快照类设置为默认值。</block>
-  <block id="e0745757c0d6e417ef96fb47b15212fe" category="paragraph">设置完成后，您可以使用以下命令删除任何预先存在的 dv 和 VolumeSnapShot 对象：</block>
   <block id="d5bcf1a34550ae3fddc4fcd4b2c61d26" category="doc">使用 Velero 在 Red Hat OpenShift Virtualization 中删除备份 CR 或恢复 CR</block>
   <block id="a108954c4cbffbc960f59695440379c5" category="paragraph">使用 Velero 删除 OpenShift Virtualization 中虚拟机的备份和恢复资源。使用 OpenShift CLI 删除备份同时保留对象存储数据，或者使用 Velero CLI 删除备份自定义资源 (CR) 和相关存储数据。</block>
   <block id="4574586aa737250bfcda95872412374c" category="section-title">删除备份</block>
@@ -8567,4 +8534,76 @@
   <block id="4035a79b3668307381cda3c40c13747d" category="paragraph">确保 ONTAP S3 保管库已创建且处于"可用"状态</block>
   <block id="6cd1f4dd55f2126ac98b438f1fa31844" category="inline-image-macro">trident-protect 命名空间中的 OCP-v AppVault</block>
   <block id="c047817699debbb2dda60dae4514bd1c" category="paragraph"><block ref="c047817699debbb2dda60dae4514bd1c" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="58f8a5ad07b9b865dfb170b6925c3368" category="summary">使用 Red Hat Certified Trident Operator 安装 Trident 并为 ONTAP 和 Amazon FSx for NetApp ONTAP 创建存储对象，以启用容器和虚拟机的动态卷配置。</block>
+  <block id="71c10905c106308a36d20ad2d09340f3" category="doc">在 Red Hat OpenShift 集群上安装 Trident 并创建存储对象</block>
+  <block id="fdf8d92889997f86e680068bdbf5ce8c" category="paragraph">使用 Red Hat Certified Trident Operator 安装 Trident 并为 ONTAP 和 Amazon FSx for NetApp ONTAP 创建存储对象，以启用容器和虚拟机的动态卷配置。在需要时为块访问准备工作节点。</block>
+  <block id="ca25d5926421bf578f808e761554a9f4" category="list-text">在安装 OpenShift Virtualization 之前，请完成此页面上的步骤。OpenShift Virtualization 需要默认的 Trident 支持的 StorageClass 和 VolumeSnapshotClass 来为 VM 模板创建黄金映像。</block>
+  <block id="6a5d787b56f7645a5715b8532d522454" category="list-text">如果您在配置 Trident 之前已经安装了 OpenShift Virtualization，请删除使用不同存储类创建的所有黄金映像。将 Trident 设置为默认值后，OpenShift Virtualization 会使用 Trident 存储重新创建黄金映像。</block>
+  <block id="b2461639d488a2678dcf1e7da7965d99" category="section-title">步骤 1：安装 Trident</block>
+  <block id="54ef27c356459524260701e9c62b3eea" category="paragraph">红帽认证 Trident Operator 由 NetApp 支持，适用于本地、公共云和 ROSA 等托管服务中的 OpenShift。从 Trident 25.02 开始，当您使用 Amazon FSx for NetApp ONTAP 并计划运行 OpenShift Virtualization VM 工作负载时，操作员还可以为 iSCSI 准备工作节点。</block>
+  <block id="ba22cc52e939ed0ba487fee9ae5354d4" category="inline-link-macro">Trident 文档</block>
+  <block id="2c9188d0467505bea367d4fc4fe01f4c" category="paragraph">有关其他安装选项，请参见 <block ref="c6cbd542c6ab8663d4932537ae509393" category="inline-link-macro-rx"></block>。</block>
+  <block id="72fd6c2e674c57c622e1676f44c1caf5" category="list-text">在 *OperatorHub* 中，选择 *Certified NetApp Trident*。</block>
+  <block id="27e858d202d18d0c991b690f896d5938" category="paragraph"><block ref="27e858d202d18d0c991b690f896d5938" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="70bbfaa36d7e35101be4683113eac4a3" category="list-text">在 *Install* 页面上，保留最新版本并选择 *Install*。</block>
+  <block id="1eb37fb891ef1d675cbf7c1869f86442" category="list-text">操作员安装后，选择 *查看操作员* 并创建 Trident Orchestrator 的实例。</block>
+  <block id="f9f1c5acef55b495037b9b2105333ec8" category="paragraph">如果要为 iSCSI 准备工作节点，请切换到 YAML 视图并添加<block ref="39eea648dab96b0ee6022dabb38bc420" prefix=" " category="inline-code"></block>到<block ref="e9a7558decb5e432d8b7c4d536cc9876" prefix=" " category="inline-code"></block>。</block>
+  <block id="9d7759b7820f505203830ffef3f6c946" category="list-text">确认所有 Trident Pod 都在集群中运行。</block>
+  <block id="c32538f377adbf5cda894f0b2a0552c7" category="paragraph"><block ref="c32538f377adbf5cda894f0b2a0552c7" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="730bb664cdd520d3ec117dfef6bb699c" category="list-text">如果已启用 iSCSI 节点准备，请登录到工作节点并验证<block ref="3fe4dc8de876aca2c78fa0cd9c6d0b65" prefix=" " category="inline-code"></block>和<block ref="8732863da72605a20ed96b4eee87a5fb" prefix=" " category="inline-code"></block>是否处于活动状态，以及<block ref="9ac80d53ede05256c28cf9e043eb423c" prefix=" " category="inline-code"></block>是否包含条目。</block>
+  <block id="7c98b4ecb9729a59ac05737cdb8dcb8a" category="inline-image-macro">multipath.conf 文件正在运行</block>
+  <block id="6cdcf32b2161a2accfa3801f97b896e4" category="paragraph"><block ref="6cdcf32b2161a2accfa3801f97b896e4" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="14c7cb6ded73e02c82e337ac58a1d911" category="paragraph">以下视频展示了使用红帽认证 Trident Operator 安装 Trident 的演示。</block>
+  <block id="6ec27d6e344a42252d23134a8c186d3d" category="section-title">步骤 2：为您的环境准备存储后端和 StorageClass 配置文件</block>
+  <block id="510175c7e7df1bef30a4d9e5ce54528c" category="paragraph">为您的环境创建 TridentBackendConfig 和 StorageClass 定义。您可以在环境中配置多个存储协议。为要使用的每个协议创建 YAML 文件，并将占位符值替换为特定的配置详细信息。</block>
+  <block id="25b93904b5989cd76cc433a9ec024553" category="admonition">根据您的环境完成下面的本地或 ROSA 部分，然后继续执行步骤 3。</block>
+  <block id="0e5f68714fc1bcbb0d1011514253785b" category="section-title">本地 OpenShift 集群</block>
+  <block id="106dc260dbea145c83e84c4495335456" category="paragraph">为要配置的每个协议创建 YAML 文件。您可以配置以下一个或多个协议：NAS 用于基于 NFS 的文件存储、iSCSI 用于 iSCSI 块存储、NVMe/TCP 用于高性能 NVMe over TCP 块存储，或 FC 用于光纤通道块存储。</block>
+  <block id="c07ee5debf5f3a3fef16c1ee5e8e4942" category="open-title">NAS</block>
+  <block id="2c568adc5195a4d85cdf4d59ffce58bb" category="paragraph">为 ONTAP NAS 创建 TridentBackendConfig 和 StorageClass，以启用基于 NFS 的持久存储配置。后端配置包括存储在 Kubernetes Secret 中的凭据，并引用您的 ONTAP SVM 和管理 LIF。</block>
+  <block id="867bcd6a3f551cb4f977f5c95da4073d" category="paragraph">后端 secret 和后端配置文件（另存为<block ref="9d65a5d97819dedebcef81a9ba5516ec" prefix=" " category="inline-code"></block>）：</block>
+  <block id="e2c8626d7ee949e6b81cdecce03999d8" category="paragraph">StorageClass 定义（另存为<block ref="4f57c59c0ac5ff4e6699e0838271f085" prefix=" " category="inline-code"></block>）：</block>
+  <block id="8793dec20f46f0d249738659dc4a55a3" category="paragraph">为 ONTAP SAN 创建 TridentBackendConfig 和 StorageClass，以启用基于 iSCSI 的块存储配置。后端配置使用 ontap-san 驱动程序，包括存储在 Kubernetes Secret 中的凭据。</block>
+  <block id="c3ea4e3f7d547c03e53f0433ddfc4342" category="paragraph">后端 secret 和后端配置文件（另存为<block ref="5c59c4795168e3359ec88086b84ae37d" prefix=" " category="inline-code"></block>）：</block>
+  <block id="785b719c87759bd8b21cb9fbf35ffc67" category="paragraph">StorageClass 定义（另存为<block ref="f091cd084faa9dfe2abdf5b6029b9697" prefix=" " category="inline-code"></block>）：</block>
+  <block id="2da1196c238657f8ac8bc1bdeb1ef335" category="paragraph">为 ONTAP SAN 创建 TridentBackendConfig 和 StorageClass，使用 NVMe over TCP 以实现高性能块存储调配。后端配置使用针对 NVMe/TCP 传输优化的 ontap-san 驱动程序，并包括存储在 Kubernetes Secret 中的凭据。</block>
+  <block id="93ed3022bb0c6e7f749779ea66c93e3b" category="paragraph">后端 secret 和后端配置文件（另存为<block ref="4a18f0898bbae244ac9211686c34e11f" prefix=" " category="inline-code"></block>）：</block>
+  <block id="fece5ab5f4bcac93cf419657de20d688" category="paragraph">StorageClass 定义（另存为<block ref="d9fdbb97e3fc35a178409db49d8f7a9e" prefix=" " category="inline-code"></block>）：</block>
+  <block id="0071a005f333576c1574e9e2d2109d0b" category="paragraph">为具有光纤通道的 ONTAP SAN 创建 TridentBackendConfig 和 StorageClass，以启用基于 FC 的块存储配置。后端配置使用指定了 FCP 协议的 ontap-san 驱动程序，并包括存储在 Kubernetes Secret 中的凭据。</block>
+  <block id="e417afb5c305ce432010d92ee911d0d5" category="paragraph">后端 secret 和后端配置文件（另存为<block ref="cba3274042d62103b1bc947e2dd929f8" prefix=" " category="inline-code"></block>）：</block>
+  <block id="d5efbef75cf3f721a9b9286169eb6995" category="paragraph">StorageClass 定义（另存为<block ref="f7d4964f399b921ac49f72af47bb009c" prefix=" " category="inline-code"></block>）：</block>
+  <block id="51004832f95d16a65b01a170b0019386" category="section-title">使用 Amazon FSx for NetApp ONTAP 的 ROSA 集群</block>
+  <block id="f9ee5e40894192e44ece1bdeca387bd1" category="paragraph">为要配置的每个协议创建 YAML 文件。可以配置以下协议之一或两者：用于基于 NFS 的文件存储的 NAS 或用于块存储的 iSCSI。</block>
+  <block id="79a3f06cdf05e88891648edc5f16c2b5" category="paragraph">为 Amazon FSx for NetApp ONTAP 创建 TridentBackendConfig 和 StorageClass，并使用 ONTAP NAS，以便在 ROSA 集群上启用基于 NFS 的持久存储配置。后端配置使用 Amazon FSx for NetApp ONTAP 的 DNS 名称来管理和数据 LIF，并包含存储在 trident 命名空间的 Kubernetes Secret 中的凭据。</block>
+  <block id="959622ac91a7a9010acf3f9768b0419e" category="paragraph">后端 secret 和后端配置文件（另存为<block ref="ab9b5de551872e11f1efd80a46b0e383" prefix=" " category="inline-code"></block>）：</block>
+  <block id="4ced02deb420a368b1f92b44b71ebce7" category="paragraph">StorageClass 定义（另存为<block ref="19716e7660944c3cb7baa6a41ac02e48" prefix=" " category="inline-code"></block>）：</block>
+  <block id="6de1aaf91d73222c1d80f63cc1821785" category="paragraph">为 Amazon FSx for NetApp ONTAP 配置 ONTAP SAN，创建 TridentBackendConfig 和 StorageClass，以便在 ROSA 集群上启用基于 iSCSI 的块存储配置。后端配置使用 ontap-san 驱动，并包含存储在 Kubernetes Secret 中的凭据。确保工作节点已为 iSCSI 访问做好准备。</block>
+  <block id="2010227cfe877b55fcbf795db38b6d45" category="paragraph">后端 secret 和后端配置文件（另存为<block ref="3d38c95545ab2f89360a6b8095e45191" prefix=" " category="inline-code"></block>）：</block>
+  <block id="c41909d9defaeedc6dc2d4009b1de6b1" category="paragraph">StorageClass 定义（另存为<block ref="ad9f375d4b84877dc3fdb5163fddddce" prefix=" " category="inline-code"></block>）：</block>
+  <block id="a58424f71358b8733295654f4a20b6ef" category="section-title">步骤 3：创建 VolumeSnapshotClass 配置文件</block>
+  <block id="d28547fce897a594a1f89866317ad1c8" category="paragraph">为本地和 ROSA 部署创建 VolumeSnapshotClass 定义。此配置为持久卷启用基于快照的操作。</block>
+  <block id="495a4549848b0f63fa110edf587aacc6" category="paragraph">VolumeSnapshotClass 定义（另存为<block ref="3438c97e431dbcae49b7b56154974e02" prefix=" " category="inline-code"></block>）：</block>
+  <block id="6c48bd1306acf1c0e9fb7e130238217a" category="section-title">步骤 4：将配置文件应用于集群</block>
+  <block id="be18375c1bb85d4a2be829cff6b8bf36" category="paragraph">将前面步骤中创建的配置文件应用于 OpenShift 集群。</block>
+  <block id="4fc324fbf4cc5f6d18f047c2ad752854" category="list-text">为您配置的每个协议应用 TridentBackendConfig 和 StorageClass 文件。</block>
+  <block id="49413c8a61f4db8f496bb118401f7267" category="paragraph">对于本地集群：</block>
+  <block id="5e40c124fc571c410cf4b8ef4b3688bd" category="paragraph">对于 ROSA 集群：</block>
+  <block id="500ae8b4a1cfe8db8050e55275a491c2" category="list-text">应用 VolumeSnapshotClass 配置。</block>
+  <block id="dc912a84a0350308555bd45e75bd8eff" category="list-text">验证资源是否已成功创建。</block>
+  <block id="cf9b96a6ec27b184dafaf41c9b4a5561" category="paragraph">检查 TridentBackendConfig 对象：</block>
+  <block id="cf262d139d6a367df74e2fcf9f31dc75" category="paragraph">检查 StorageClass 对象：</block>
+  <block id="48c08f151329d895f2478a4e91ff105b" category="paragraph">检查 VolumeSnapshotClass：</block>
+  <block id="1f3bb360187fa7ba699da72d7d173cd3" category="section-title">第 5 步：设置默认 Trident 存储和快照类</block>
+  <block id="080cb0d7c4d02a279d68392e13b5d33d" category="paragraph">将 Trident StorageClass 和 VolumeSnapshotClass 设置为 OpenShift 集群中的默认值。这是 OpenShift Virtualization 为 VM 模板创建黄金映像源所必需的。</block>
+  <block id="6898d4d38f453903c82b548a70adce2b" category="list-text">设置默认 Trident StorageClass。</block>
+  <block id="be6bf70224a47ac7bdd53127429f11ce" category="paragraph">将 Trident 支持的 StorageClass 设置为集群默认值，以便在未指定存储类时 PersistentVolumeClaims 自动使用它。您需要配置两个注释：一个用于集群范围的默认值，一个特定于 OpenShift Virtualization。</block>
+  <block id="e916ed7492f05ce2cdcfda05e2908113" category="list-text">设置集群范围的默认 StorageClass 注释。</block>
+  <block id="90771a58383aa0873211b5f637765307" category="paragraph">确保仅将一个 StorageClass 设置为默认值。如果另一个 StorageClass 已设置为默认值，则将其注释设置为 false。</block>
+  <block id="5e91e594aa3729fa1ba3abeeedd07139" category="paragraph">在控制台中，编辑标注：</block>
+  <block id="f02c73ab3a19cea27c6c461f9e18a5e1" category="paragraph">从 CLI：</block>
+  <block id="a83f589d8053dfac4e71056f08e39e60" category="list-text">设置 OpenShift Virtualization 特定的默认注释。</block>
+  <block id="60be35cecfb32201480b23cab98d804c" category="paragraph">OpenShift Virtualization 使用优先于集群常规<block ref="624737949ea10f07a12f395b4665ed3f" prefix=" " category="inline-code"></block>注释的特定注释。如果另一个 StorageClass 已设置为默认值，则将其注释设置为 false。</block>
+  <block id="f7e80f1783a43b249090b162d24eea2c" category="list-text">设置默认 Trident VolumeSnapshotClass。</block>
+  <block id="571d665b9a28f3b3c6d1a45d55491578" category="paragraph">将 Trident 支持的 VolumeSnapshotClass 设置为集群默认值，为持久卷启用基于快照的操作。这可确保在未指定快照类时 VolumeSnapshots 自动使用 Trident CSI 驱动程序，并允许 OpenShift Virtualization 创建黄金映像的快照。</block>
+  <block id="27e9d9aa3e804e13ad6e9fd40486a99e" category="paragraph">确保仅将一个 VolumeSnapshotClass 设置为默认值。如果另一个 VolumeSnapshotClass 已设置为默认值，则将其注释设置为 false。</block>
 </blocks>
