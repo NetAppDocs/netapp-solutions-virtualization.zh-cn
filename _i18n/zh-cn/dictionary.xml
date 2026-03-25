@@ -8606,4 +8606,75 @@
   <block id="f7e80f1783a43b249090b162d24eea2c" category="list-text">设置默认 Trident VolumeSnapshotClass。</block>
   <block id="571d665b9a28f3b3c6d1a45d55491578" category="paragraph">将 Trident 支持的 VolumeSnapshotClass 设置为集群默认值，为持久卷启用基于快照的操作。这可确保在未指定快照类时 VolumeSnapshots 自动使用 Trident CSI 驱动程序，并允许 OpenShift Virtualization 创建黄金映像的快照。</block>
   <block id="27e9d9aa3e804e13ad6e9fd40486a99e" category="paragraph">确保仅将一个 VolumeSnapshotClass 设置为默认值。如果另一个 VolumeSnapshotClass 已设置为默认值，则将其注释设置为 false。</block>
+  <block id="4af3fe57a1c87e7a23768b6f4ed1b530" category="summary">通过准备虚拟机、转换磁盘格式和配置目标环境，使用 Shift Toolkit 将虚拟机从 VMware ESXi 迁移到 Proxmox VE。</block>
+  <block id="223e68066579ca3b50850d29277d5158" category="doc">使用 Shift Toolkit 将 VM 从 VMware ESXi 迁移到 Proxmox VE</block>
+  <block id="57e13573114577b3af8a0a24aa24d576" category="list-title">Proxmox VE</block>
+  <block id="a20c9efbe4fc687660840bb12400e19e" category="list-text">使用 Proxmox VE 9.x 及更高版本和 ONTAP NFS 存储作为存储池的具有仲裁的运行最少 3+ 节点集群。</block>
+  <block id="3c10f8538271b0bbf5b0e6aad5547885" category="list-text">Proxmox 版本 &gt;= 9.x</block>
+  <block id="3370e032ea4d765dac8075c8e33030c2" category="list-text">Proxmox 节点可通过网络连接</block>
+  <block id="fc8a13c7ea360b2bb6cc441b35f94c32" category="list-text">使用相应的卷和 qtree 配置的 NFSv3 存储池</block>
+  <block id="912dd6c652b1afd2721db34835106f0a" category="list-text">应使用正确的 vLAN 配置网络（网桥）</block>
+  <block id="abdc31a04150712ce84289f73ab3537d" category="list-title">虚拟机要求</block>
+  <block id="19e2dc96aba500cfce75cdbf644dcb3f" category="list-text">确保 VM VMDK 放置在 NFSv3 卷上（给定 VM 的所有 VMDK 都应属于同一个卷）。</block>
+  <block id="b602f1269fd54599e3d82ef714f1007b" category="list-text">VMware 工具应在来宾虚拟机上运行，以便成功进行虚拟机准备</block>
+  <block id="76d027b643130c57a22646bbec3237dd" category="list-text">确保需要迁移的 VM 处于 RUNNING 状态以进行准备</block>
+  <block id="9ab04320db6bcd44cd8ecddf185e46c9" category="list-text">Shift 工具包通过将脚本注入到以下位置来执行虚拟机准备：</block>
+  <block id="70217e773ca948bec42549ff247f99e3" category="list-text">添加 VirtIO 驱动程序</block>
+  <block id="fae49a8b4ce58c4a3669537c72392b9f" category="list-text">删除 VMware 工具</block>
+  <block id="9012f3c3d4c29804ac1455f40cc34f5d" category="list-text">备份 IP 地址、路由和 DNS 信息</block>
+  <block id="2250ade21f70f3898f30d19c23e4f560" category="admonition">在触发迁移之前，应先关闭虚拟机的电源</block>
+  <block id="643765be95e96ba0bd0d50b581f23ba9" category="admonition">一旦虚拟机通电，VMware 工具就会在目标虚拟机监控程序上删除</block>
+  <block id="e0a9da9332918532fa3fb3eadaa4ed4e" category="list-text">运行 Invoke-VMScript 时使用本地管理员帐户来准备 Windows VM 或使用属于本地 Administrators 组的 Active Directory 帐户。对于 Linux 系统，使用无需密码即可执行命令的帐户（例如通过无密码 sudo）。</block>
+  <block id="f1229500f6a7c4d3c2d90804fdb089b8" category="list-text">对于 Windows 虚拟机，请确保已装载 VirtIO ISO；否则，准备过程将失败。VirtIO ISO 驱动程序可从此处下载。该脚本将检测已装载的驱动器并自动复制所需的文件。</block>
+  <block id="bc0f647d8dee9e215c7b045379244a6e" category="list-text">确保将链接中指定的 ISO 用作准备脚本，使用 .msi 包安装驱动程序和 qemu-guest-agents。先决条件到位后，登录到 Shift toolkit UI 并使用 Proxmox VE 作为目标虚拟机监控程序配置站点。要添加，请点击"Add New Site"，然后选择"Destination"。</block>
+  <block id="165d8350def49f049896fbe15e76a272" category="section-title">步骤 1：添加目标站点（Proxmox VE）</block>
+  <block id="58c19cc9f30ac5f53cecad2b57f1b183" category="paragraph">将目标 Proxmox VE 环境添加到 Shift Toolkit。</block>
+  <block id="2be3d66150efaf11bc807c60b267e960" category="paragraph"><block ref="2be3d66150efaf11bc807c60b267e960" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="2acce3a2c4dd37bf9036f0a7d4bcfc84" category="paragraph">*Site Name*：提供站点的名称 *Hypervisor*：选择 Proxmox VE (PVE) 作为目标 *Site Location*：选择默认选项 *Connector*：选择默认选择</block>
+  <block id="8eda3033073599e5cbcf2a5d38cba848" category="inline-image-macro">添加目标站点详细信息</block>
+  <block id="ee3954b1103fd177553ee384083be5b3" category="paragraph"><block ref="ee3954b1103fd177553ee384083be5b3" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="1331794d0701cabb76a8c6f3d5f72781" category="list-text">输入目标 PVE 详细信息</block>
+  <block id="bbe692f98338107fba878a05e33e3deb" category="paragraph">*端点*：Proxmox 节点的 IP 地址或 FQDN *用户名*：要访问的 linux 用户名（格式：username）* 例如，ntapshift。无需提及 @pam。*密码*：访问密码</block>
+  <block id="bce994a9f9bede9fa68eb9281875dd9a" category="inline-image-macro">Proxmox VE 详细信息</block>
+  <block id="250d60b1842f217ab2a88fb3cb984e07" category="paragraph"><block ref="250d60b1842f217ab2a88fb3cb984e07" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="2771f022ed5f5f583d4395d47cb8a2b5" category="admonition">源卷和目标卷将是相同的，因为磁盘格式转换发生在卷级别并且在同一个卷内进行。</block>
+  <block id="06066e46220d7638f084677fc888c691" category="list-text">选择 *Destination Proxmox 条目*</block>
+  <block id="c9eb69f4e408f5bdde670c86e8222c94" category="admonition">将虚拟机从 ESXi 转换为 Proxmox VE 时，确保将目标路径（存储转换后的虚拟机的位置）设置为 qtree。可以创建多个 qtree 并用于存储转换后的虚拟机磁盘。</block>
+  <block id="a73dc566fd2c9e47b8aa24b66c5a5bc1" category="list-text">选择 *目标站点* 和关联的 Proxmox VE 目标</block>
+  <block id="f2e5093c7e8d132b5770d5d3a8f2fbb4" category="admonition">对于测试迁移，默认选择"不配置网络"，Shift toolkit 不执行 IP 地址分配。磁盘转换完成并在 PVE 端启动虚拟机后，手动分配气泡逻辑网络，以避免与生产网络发生任何冲突。</block>
+  <block id="076080a9aa5b6c47e1275f693b87b82f" category="admonition">配置选择允许选择磁盘映像格式并跳过覆盖 prepareVM。如果是磁盘映像格式，工作流默认为 QCOW2，但如果需要 RAW 格式，则可以选择它。覆盖 prepareVM 允许跳过虚拟机的准备，这允许管理员运行自行生成的脚本，使虚拟机为迁移做好准备。如果选中，Shift 工具包将不会注入任何脚本或添加 VirtIO 驱动程序。</block>
+  <block id="ad331c61674b2ff82bbb2c984cca24e8" category="paragraph">触发迁移工作流程，将虚拟机从 VMware ESXi 转换为 Proxmox VE。</block>
+  <block id="7eb490629894ef4f37ef16cb38cff104" category="list-text">触发 Blueprint 的 VM 快照 – 在源端</block>
+  <block id="d726770cca98cb9501f61242cdb2f6e2" category="list-text">创建与虚拟磁盘关联的虚拟机</block>
+  <block id="07f956e7f7cae30976a7c1a613856ee6" category="list-text">将所有虚拟机的 VMDK 转换为 QCOW2 或 RAW 格式，并覆盖虚拟磁盘</block>
+  <block id="95f4840a3d59a7bf04083fa862982bde" category="list-text">在目标位置开启资源组中的 VM 电源</block>
+  <block id="5a1884bfad159a38dad4daa51b199b90" category="list-text">删除 VMware 工具，并根据操作系统类型使用触发器脚本或 cron 作业分配 IP 地址</block>
+  <block id="ec01f73a17f3b90d53635ac15e437c0b" category="image-alt">Proxmox VE 中的 VM</block>
+  <block id="38ffc8cae96a8ac59aef58b15da6168d" category="section-title">Shift 工具包工作流</block>
+  <block id="9aa9e231f950da618c182450dfecb607" category="paragraph">以下部分介绍了 Shift 工具包触发哪些步骤来转换 VMDK 并在 Proxmox VE 端创建 VM。</block>
+  <block id="f293d7a41626208fcbb41b3a794a30a2" category="paragraph-title">将 QCOW2 或 RAW 映像上传到基于 PVE NFS 的存储池</block>
+  <block id="f2ff48db9876dd928f72f730cad6c55e" category="paragraph">通过将虚拟机磁盘映像转换为 qcow2 或 RAW 格式，Shift 工具包将文件放置到适当的存储池中，并将每个磁盘添加到相应的 VM ID 文件夹中。</block>
+  <block id="5d23268a1279c853582c3863ce0d4b7e" category="image-alt">shift toolkit 469</block>
+  <block id="0bdfa5286269feba4d23388e0c2f0e21" category="paragraph-title">创建虚拟机</block>
+  <block id="9f6129bd27c47f979bd135fd817b20d3" category="paragraph">Shift 工具包根据操作系统调用 REST API 来创建每个虚拟机。</block>
+  <block id="7201b4542207ea349ce6ee4e5fe1a1ef" category="admonition">VM 在各个 Proxmox 节点下创建</block>
+  <block id="7641a3ca4515625b9827a125208ce9ba" category="paragraph-title">首次启动虚拟机</block>
+  <block id="9dc7d1078613a016bf38c424e804e54a" category="paragraph">根据虚拟机操作系统，Shift 工具包将自动分配虚拟机启动选项以及存储控制器界面。对于 Linux 发行版，使用 VirtIO 或 VirtIO scsi。对于 Windows，虚拟机使用 SATA 接口开机，然后计划的脚本自动安装 VirtIO 驱动程序，然后将接口更改为 VirtIO。将根据选择相应地分配网络。</block>
+  <block id="c29becbd9ac7907756f253805d95aaab" category="image-alt">Proxmox VE VM 详细信息</block>
+  <block id="4918b90fd1eb5748df0a72a0f3de43d4" category="section-title">在 Proxmox VE 中迁移和创建 VM 的最低权限</block>
+  <block id="1d0423aa9ff2fd874f6c9b380106ba8a" category="paragraph">本节概述了创建具有执行 VM 迁移所需的最低权限的专用用户帐户所需的步骤。</block>
+  <block id="f5610950ce6657d3b8826a4379287f7b" category="list-text">创建 Linux 用户</block>
+  <block id="4ca68372b56079d277fe5298a55ab7a8" category="list-text">useradd -m -s /bin/bash ntapshift</block>
+  <block id="148b90dd37d3754dde03d3810acfdf49" category="list-text">passwd ntapshift</block>
+  <block id="9cbc8cbbe9b7a06b2f829a9608888377" category="list-text">将用户添加到 Proxmox</block>
+  <block id="9ba701ad3ee3fcb83ee90e774154e521" category="list-text">pveum useradd ntapshift@pam</block>
+  <block id="524cd4c33285ea1520dc8af155e589e1" category="list-text">创建迁移角色</block>
+  <block id="8ee3f22e8ee8bc07f094ef26df67e586" category="list-text">pveum roleadd ntapshift-migrator -privs "Datastore.AllocateSpace, Datastore.AllocateTemplate, Datastore.Audit, SDN.Audit,SDN.Use, Sys.AccessNetwork, Sys.Audit, Sys.Modify, VM.Allocate, VM.Audit, VM.Config.CDROM, VM.Config.CPU, VM.Config.Cloudinit, VM.Config.Disk, VM.Config.HWType, VM.Config.Memory, VM.Config.Network, VM.Config.Options, VM.Console, VM.Migrate, VM.PowerMgmt"</block>
+  <block id="c70a8c59834b0cf9d63d3f66717d5d02" category="list-text">在集群根目录分配角色</block>
+  <block id="bc26ef423585194309ee26b38f980a04" category="list-text">pveum aclmod / -user ntapshift@pam -role ntapshift-migrator</block>
+  <block id="430ac9da617b7671d2470aac7aabeb61" category="list-text">将角色分配给特定节点</block>
+  <block id="904571716d757dd2366380f38f6a8c7d" category="list-text">pveum aclmod /nodes/&lt;node-name&gt; -user ntapshift@pam -role ntapshift-migrator</block>
+  <block id="c88d9b30e97598ef05d325b4506788d5" category="admonition">（将 <block ref="5229e8d2d27b318b34969f09afea3c3e" prefix=" " category="inline-code"></block> 替换为每个实际的 Proxmox 节点名称）</block>
+  <block id="e5b30de22f0b345a82ac611f3074c604" category="paragraph">Shift 工具包针对运行 9.X 及更高版本的 Proxmox VE 进行了验证。</block>
+  <block id="6490ec34510eacbfef4a5a0912755642" category="sidebar">将虚拟机从 VMware ESXi 迁移到 Proxmox VE</block>
 </blocks>

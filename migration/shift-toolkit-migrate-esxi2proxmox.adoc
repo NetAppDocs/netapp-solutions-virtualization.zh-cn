@@ -1,0 +1,455 @@
+---
+sidebar: sidebar 
+permalink: migration/shift-toolkit-migrate-esxi2proxmox.html 
+keywords: netapp, vmware, esxi, vm, migration, virtualization, proxmox, proxmox ve 
+summary: 通过准备虚拟机、转换磁盘格式和配置目标环境，使用 Shift Toolkit 将虚拟机从 VMware ESXi 迁移到 Proxmox VE。 
+---
+= 使用 Shift Toolkit 将 VM 从 VMware ESXi 迁移到 Proxmox VE
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+通过准备虚拟机、转换磁盘格式和配置目标环境，使用 Shift Toolkit 将虚拟机从 VMware ESXi 迁移到 Proxmox VE。
+
+Shift Toolkit 能够通过目标环境中的磁盘格式转换和网络重新配置，实现虚拟化平台之间的虚拟机迁移。
+
+
+
+== 开始之前
+
+开始迁移之前，请确认满足以下先决条件。
+
+.Proxmox VE
+. 使用 Proxmox VE 9.x 及更高版本和 ONTAP NFS 存储作为存储池的具有仲裁的运行最少 3+ 节点集群。
++
+** 集群管理员级别权限
+** Proxmox 版本 >= 9.x
+** Proxmox 节点可通过网络连接
+** 使用相应的卷和 qtree 配置的 NFSv3 存储池
+** 应使用正确的 vLAN 配置网络（网桥）
+
+
+
+
+.虚拟机要求
+* 确保 VM VMDK 放置在 NFSv3 卷上（给定 VM 的所有 VMDK 都应属于同一个卷）。
+* VMware 工具应在来宾虚拟机上运行，以便成功进行虚拟机准备
+* 确保需要迁移的 VM 处于 RUNNING 状态以进行准备
+* Shift 工具包通过将脚本注入到以下位置来执行虚拟机准备：
++
+** 添加 VirtIO 驱动程序
+** 删除 VMware 工具
+** 备份 IP 地址、路由和 DNS 信息
+
+
+
+
+
+NOTE: 在触发迁移之前，应先关闭虚拟机的电源
+
+
+NOTE: 一旦虚拟机通电，VMware 工具就会在目标虚拟机监控程序上删除
+
+* 运行 Invoke-VMScript 时使用本地管理员帐户来准备 Windows VM 或使用属于本地 Administrators 组的 Active Directory 帐户。对于 Linux 系统，使用无需密码即可执行命令的帐户（例如通过无密码 sudo）。
+* 对于 Windows 虚拟机，请确保已装载 VirtIO ISO；否则，准备过程将失败。VirtIO ISO 驱动程序可从此处下载。该脚本将检测已装载的驱动器并自动复制所需的文件。
++
+** 确保将链接中指定的 ISO 用作准备脚本，使用 .msi 包安装驱动程序和 qemu-guest-agents。先决条件到位后，登录到 Shift toolkit UI 并使用 Proxmox VE 作为目标虚拟机监控程序配置站点。要添加，请点击"Add New Site"，然后选择"Destination"。
+
+
+
+
+
+
+== 步骤 1：添加目标站点（Proxmox VE）
+
+将目标 Proxmox VE 环境添加到 Shift Toolkit。
+
+.步骤
+. 点击“添加新站点”，然后选择“目标位置”。
++
+.显示示例
+[%collapsible]
+====
+image:shift-toolkit-450.png["添加目标站点"]
+
+====
+. 请输入目的地站点详细信息：
++
+*Site Name*：提供站点的名称 *Hypervisor*：选择 Proxmox VE (PVE) 作为目标 *Site Location*：选择默认选项 *Connector*：选择默认选择
+
+. 单击“继续”。
++
+.显示示例
+[%collapsible]
+====
+image:shift-toolkit-451.png["添加目标站点详细信息"]
+
+====
+. 输入目标 PVE 详细信息
++
+*端点*：Proxmox 节点的 IP 地址或 FQDN *用户名*：要访问的 linux 用户名（格式：username）* 例如，ntapshift。无需提及 @pam。*密码*：访问密码
+
+. 选择“接受自签名证书”，然后单击“继续”。
++
+.显示示例
+[%collapsible]
+====
+image:shift-toolkit-452.png["Proxmox VE 详细信息"]
+
+====
+. 单击“创建站点”。
++
+.显示示例
+[%collapsible]
+====
+image::shift-toolkit-453.png[创建网站]
+
+====
++
+
+NOTE: 源卷和目标卷将是相同的，因为磁盘格式转换发生在卷级别并且在同一个卷内进行。
+
+
+
+
+
+== 步骤 2：创建资源组
+
+将虚拟机组织成资源组，以保留启动顺序和启动延迟配置。
+
+.开始之前
+* 在创建资源组之前，请确保已配置 Qtree（如先决条件部分所述）。
+
+
+.步骤
+. 导航至“资源组”，然后单击“创建新资源组”。
+. 从下拉菜单中选择*源站点*，然后单击*创建*。
+. 提供资源组详细信息并选择工作流程：
++
+** *基于克隆的迁移*：执行从源虚拟机到目标虚拟机的端到端迁移
+** *基于克隆的转换*：将磁盘格式转换为选定的虚拟机管理程序类型
++
+.显示示例
+[%collapsible]
+====
+image::shift-toolkit-454.png[资源组详情]
+
+====
+
+
+. 单击“继续”。
+. 使用搜索选项选择虚拟机（默认筛选条件为“数据存储”）。
++
+
+NOTE: 在转换之前，将虚拟机移动以进行转换或迁移到新创建的ONTAP SVM 上的指定数据存储库。这有助于隔离生产 NFS 数据存储，并且指定的数据存储可用于暂存虚拟机。
+
++
+
+NOTE: 数据存储下拉菜单仅显示 NFSv3 数据存储。  NFSv4 数据存储不显示。
+
++
+.显示示例
+[%collapsible]
+====
+image::shift-toolkit-455.png[虚拟机选择]
+
+====
+. 更新迁移详情：
++
+** 选择*目标站点*
+** 选择 *Destination Proxmox 条目*
+** 配置数据存储到 Qtree 的映射
++
+.显示示例
+[%collapsible]
+====
+image::shift-toolkit-456.png[迁移详情]
+
+====
++
+
+NOTE: 将虚拟机从 ESXi 转换为 Proxmox VE 时，确保将目标路径（存储转换后的虚拟机的位置）设置为 qtree。可以创建多个 qtree 并用于存储转换后的虚拟机磁盘。
+
++
+
+NOTE: 可以创建多个 qtree 并用于相应地存储转换后的 VM 磁盘。
+
+
+
+. 配置所有选定虚拟机的启动顺序和启动延迟：
++
+** *1*：第一个启动的虚拟机
+** *3*：默认值
+** *5*：最后一个启动的虚拟机
+
+
+. 单击“创建资源组”。
++
+.显示示例
+[%collapsible]
+====
+image::shift-toolkit-457.png[创建资源组]
+
+====
+
+
+.结果
+资源组已创建，可以进行蓝图配置。
+
+
+
+== 步骤 3：创建迁移蓝图
+
+创建迁移计划蓝图，包括平台映射、网络配置和虚拟机设置。
+
+.步骤
+. 导航至“蓝图”并单击“创建新蓝图”。
+. 为蓝图命名并配置主机映射：
++
+** 选择“源站点”和关联的 vCenter
+** 选择 *目标站点* 和关联的 Proxmox VE 目标
+** 配置集群和主机映射
++
+.显示示例
+[%collapsible]
+====
+image::shift-toolkit-458.png[主机映射]
+
+====
++
+.显示示例
+[%collapsible]
+====
+image::shift-toolkit-459.png[主机映射]
+
+====
+
+
+. 选择资源组详细信息，然后单击“继续”。
++
+.显示示例
+[%collapsible]
+====
+image::shift-toolkit-460.png[资源组详情]
+
+====
+. 如果存在多个资源组，请设置资源组的执行顺序。
+. 配置网络映射到相应的虚拟交换机。
++
+
+NOTE: 对于测试迁移，默认选择"不配置网络"，Shift toolkit 不执行 IP 地址分配。磁盘转换完成并在 PVE 端启动虚拟机后，手动分配气泡逻辑网络，以避免与生产网络发生任何冲突。
+
++
+.显示示例
+[%collapsible]
+====
+image::shift-toolkit-461.png[网络映射]
+
+====
+. 查看存储映射（根据虚拟机选择自动选择）。
++
+
+NOTE: 请确保事先配置好 qtree 并分配必要的权限，以便可以从 SMB 共享创建和启动虚拟机。
+
+. 在虚拟机详细信息下，选择配置详细信息，并为每种操作系统类型提供服务帐户凭据：
++
+** *Windows*：使用具有本地管理员权限的用户（也可以使用域凭据，但请确保在转换之前虚拟机上存在该用户配置文件）。
+** *Linux*：使用可以无需密码提示即可执行 sudo 命令的用户（该用户应在 sudoers 列表中或已添加到 sudoers 列表中）。 `/etc/sudoers.d/`文件夹）
++
+.显示示例
+[%collapsible]
+====
+image::shift-toolkit-462.png[VM 凭证]
+
+====
++
+.显示示例
+[%collapsible]
+====
+image::shift-toolkit-463.png[VM 凭证]
+
+====
++
+
+NOTE: 配置选择允许选择磁盘映像格式并跳过覆盖 prepareVM。如果是磁盘映像格式，工作流默认为 QCOW2，但如果需要 RAW 格式，则可以选择它。覆盖 prepareVM 允许跳过虚拟机的准备，这允许管理员运行自行生成的脚本，使虚拟机为迁移做好准备。如果选中，Shift 工具包将不会注入任何脚本或添加 VirtIO 驱动程序。
+
+
+
+. 配置IP设置：
++
+** *无需配置*：默认选项
+** *保留 IP 地址*：保持与源系统相同的 IP 地址
+** *DHCP*：为目标虚拟机分配 DHCP 权限
++
+在 prepareVM 阶段，确保虚拟机已启动，VMware Tools 已安装，并且准备脚本以适当的权限运行。
+
+
+
+. 配置虚拟机设置：
++
+** 调整 CPU/RAM 参数（可选）
+** 修改启动顺序和启动延迟
+** *开启电源*：选择在迁移后开启虚拟机电源（默认：开启）
+** *移除 VMware Tools*：转换后移除 VMware Tools（默认：已选中）
+** *虚拟机固件*：第一代 > BIOS 和第二代 > EFI（自动）
+** *保留 MAC 地址*：出于许可要求，请保留 MAC 地址。
+** *服务帐户覆盖*：如有需要，请指定单独的服务帐户
+** *VLAN覆盖*：当目标虚拟机管理程序使用不同的VLAN名称时，选择正确的标记VLAN名称
++
+.显示示例
+[%collapsible]
+====
+image::shift-toolkit-464.png[VM 配置]
+
+====
+
+
+. 单击“继续”。
+. 选择日期和时间安排迁移。
++
+
+NOTE: 至少提前 30 分钟安排迁移，以便留出时间准备虚拟机。
+
+. 点击“创建蓝图”。
+
+
+.结果
+Shift Toolkit 会启动 prepareVM 作业，该作业会在源虚拟机上运行脚本，为迁移做好准备。
+
+.显示示例
+[%collapsible]
+====
+image::shift-toolkit-465.png[PrepareVM 作业]
+
+====
+准备过程：
+
+* 注入脚本以添加驱动程序（RHEL/CentOS、Alma Linux）、移除 VMware 工具以及备份 IP/路由/DNS 信息
+* 使用 invoke-VMScript 连接到客户虚拟机并执行准备任务
+* 对于 Windows 虚拟机：将脚本存储在 `C:\NetApp`
+* 对于 Linux 虚拟机：将脚本存储在 `/NetApp`和 `/opt`
+
+
+.显示示例
+[%collapsible]
+====
+image::shift-toolkit-466.png[Windows 准备脚本]
+
+====
+当 prepareVM 成功完成后，蓝图状态将更新为“Active”。迁移将按计划时间进行，或者也可以点击“迁移”选项手动启动。
+
+
+
+== 步骤 4：执行迁移
+
+触发迁移工作流程，将虚拟机从 VMware ESXi 转换为 Proxmox VE。
+
+.开始之前
+* 所有虚拟机均按照计划的维护时间表正常关机。
+* 确保 Shift VM 是域的一部分
+* 确保 CIFS 共享配置了适当的权限
+* 用于迁移或转换的 qtree 具有正确的安全风格
+
+
+.步骤
+. 在蓝图上，单击“迁移”。
+. Shift Toolkit 会执行以下操作：
++
+** 删除蓝图中所有虚拟机的现有快照
+** 触发 Blueprint 的 VM 快照 – 在源端
+** 磁盘转换前触发卷快照
+** 创建与虚拟磁盘关联的虚拟机
+** 将所有虚拟机的 VMDK 转换为 QCOW2 或 RAW 格式，并覆盖虚拟磁盘
+** 在目标位置开启资源组中的 VM 电源
+** 在每个虚拟机上注册网络
+** 删除 VMware 工具，并根据操作系统类型使用触发器脚本或 cron 作业分配 IP 地址
+
+
+
+
+转换过程只需几秒钟即可完成，这是最快的迁移方法，并可减少虚拟机停机时间。
+
+.结果
+任务完成后，蓝图状态将变为“迁移完成”。
+
+.显示示例
+[%collapsible]
+====
+image::shift-toolkit-467.png[迁移完成]
+
+====
+.显示示例
+[%collapsible]
+====
+image::shift-toolkit-468.png[Proxmox VE 中的 VM]
+
+====
+
+
+== Shift 工具包工作流
+
+以下部分介绍了 Shift 工具包触发哪些步骤来转换 VMDK 并在 Proxmox VE 端创建 VM。
+
+.转换 VMDK
+Shift 工具包将自动查找与每个虚拟机关联的 VMDK，包括主启动磁盘。
+
+
+NOTE: 如果存在多个 VMDK 文件，则每个 VMDK 文件都会被转换。
+
+.将 QCOW2 或 RAW 映像上传到基于 PVE NFS 的存储池
+通过将虚拟机磁盘映像转换为 qcow2 或 RAW 格式，Shift 工具包将文件放置到适当的存储池中，并将每个磁盘添加到相应的 VM ID 文件夹中。
+
+image::shift-toolkit-469.png[shift toolkit 469]
+
+.创建虚拟机
+Shift 工具包根据操作系统调用 REST API 来创建每个虚拟机。
+
+
+NOTE: VM 在各个 Proxmox 节点下创建
+
+.首次启动虚拟机
+根据虚拟机操作系统，Shift 工具包将自动分配虚拟机启动选项以及存储控制器界面。对于 Linux 发行版，使用 VirtIO 或 VirtIO scsi。对于 Windows，虚拟机使用 SATA 接口开机，然后计划的脚本自动安装 VirtIO 驱动程序，然后将接口更改为 VirtIO。将根据选择相应地分配网络。
+
+image::shift-toolkit-470.png[Proxmox VE VM 详细信息]
+
+
+
+== 在 Proxmox VE 中迁移和创建 VM 的最低权限
+
+本节概述了创建具有执行 VM 迁移所需的最低权限的专用用户帐户所需的步骤。
+
+. 创建 Linux 用户
++
+.. useradd -m -s /bin/bash ntapshift
+.. passwd ntapshift
+
+
+. 将用户添加到 Proxmox
++
+.. pveum useradd ntapshift@pam
+
+
+. 创建迁移角色
++
+.. pveum roleadd ntapshift-migrator -privs "Datastore.AllocateSpace, Datastore.AllocateTemplate, Datastore.Audit, SDN.Audit,SDN.Use, Sys.AccessNetwork, Sys.Audit, Sys.Modify, VM.Allocate, VM.Audit, VM.Config.CDROM, VM.Config.CPU, VM.Config.Cloudinit, VM.Config.Disk, VM.Config.HWType, VM.Config.Memory, VM.Config.Network, VM.Config.Options, VM.Console, VM.Migrate, VM.PowerMgmt"
+
+
+. 在集群根目录分配角色
++
+.. pveum aclmod / -user ntapshift@pam -role ntapshift-migrator
+
+
+. 将角色分配给特定节点
++
+.. pveum aclmod /nodes/<node-name> -user ntapshift@pam -role ntapshift-migrator
+
+
+
+
+
+NOTE: （将  `<node-name>` 替换为每个实际的 Proxmox 节点名称）
