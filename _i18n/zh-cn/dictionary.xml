@@ -8677,4 +8677,364 @@
   <block id="c88d9b30e97598ef05d325b4506788d5" category="admonition">（将 <block ref="5229e8d2d27b318b34969f09afea3c3e" prefix=" " category="inline-code"></block> 替换为每个实际的 Proxmox 节点名称）</block>
   <block id="e5b30de22f0b345a82ac611f3074c604" category="paragraph">Shift 工具包针对运行 9.X 及更高版本的 Proxmox VE 进行了验证。</block>
   <block id="6490ec34510eacbfef4a5a0912755642" category="sidebar">将虚拟机从 VMware ESXi 迁移到 Proxmox VE</block>
+  <block id="bc6a2417f633d0e9c233879fd2818db0" category="summary">Storage Manager for Proxmox (SMP) 为使用 NetApp ONTAP 存储系统的 Proxmox 环境中的虚拟机提供全面的存储配置和生命周期管理。SMP 使管理员能够直接管理存储，通过自动配置、备份、还原和克隆功能简化操作。</block>
+  <block id="a15b66fd2b17e8407ea544d0292babd1" category="doc">配置和使用 Storage Manager for Proxmox</block>
+  <block id="4a897ef7b3ac1f395f7fc32000401ab7" category="section-title">了解 Storage Manager for Proxmox</block>
+  <block id="80793f5ab012f8005ce06374421179c2" category="paragraph">Storage Manager for Proxmox (SMP) 为使用 NetApp 存储系统的 Proxmox 环境中的虚拟机提供端到端的存储管理。通过允许管理员直接管理存储，SMP 简化了 Proxmox 环境中的存储和数据管理任务。</block>
+  <block id="be01a357ae2c9752875b5385c732b017" category="section-title">主要特点</block>
+  <block id="d71818a28a60a5c8e015bcc81aae0c7b" category="list-text">*端到端存储管理*：SMP 为虚拟机提供完整的生命周期管理，从调配存储到备份和恢复。</block>
+  <block id="f13331afcedbe440081b36b55cb2a0c4" category="list-text">*直接存储管理*：Proxmox 管理员可以直接管理存储，简化操作并降低复杂性。</block>
+  <block id="98954d29674a2f7985969e1396bf1c3a" category="list-text">*独立安装程序*：SMP 作为独立安装程序交付，通过 API 无缝连接到 Proxmox 节点。</block>
+  <block id="82ec2cd6fda87713f588da75c3b1d0ed" category="section-title">功能</block>
+  <block id="6b2dc2f3d66855df0d015639656d24b4" category="paragraph">SMP 的每个组件都旨在提高存储管理效率：</block>
+  <block id="cb5de5f5a505032ccd94d2648d62f68e" category="list-text">*存储配置*：轻松为 Proxmox 主机和相关虚拟机分配和管理存储资源。</block>
+  <block id="3a01d360c0f0cb0cdc0585daa3df9da1" category="list-text">*NFS 存储配置*：设置和配置要与 Proxmox 环境一起使用的 ONTAP NFS 存储。</block>
+  <block id="77288ba781bf399318385705a17429b2" category="list-text">*iSCSI 存储配置*：实施具有多路径的厚 LVM，以实现强大而高效的 iSCSI 存储管理。</block>
+  <block id="14837468729ce3fa1f8d89ed60795450" category="list-text">*备份和恢复*：执行可靠的备份和快速恢复，以确保数据的完整性和可用性。</block>
+  <block id="21ef6967068b9a36d21040af10adf612" category="list-text">*崩溃一致性和文件一致性备份*：通过设置崩溃一致性和文件一致性备份机制来确保数据完整性。</block>
+  <block id="3c97bebeef02907e93ed87d5f20f8c41" category="list-text">*VM 还原操作*：执行虚拟机还原流程以恢复数据并维护系统可用性。</block>
+  <block id="8a45d50515bd9e571096bde2388b55ae" category="list-text">*存储效率*：ONTAP 提供全面的存储效率技术套件，旨在最大限度地减少数据所需的存储。这些技术不仅可以降低存储消耗，还可以提高系统性能，从而提供：</block>
+  <block id="01b243a08d1ef96305ff0b40bc25a88b" category="list-text">*快速 VM 配置*：简化虚拟机配置，以加快部署。</block>
+  <block id="621b04303152f01982bc0e44364360b3" category="list-text">*更快的数据集拷贝*：加快数据集的复制，实现高效的数据管理。</block>
+  <block id="bd6369bb4bd91954198f97950a94e3f8" category="paragraph">在继续之前，请确保您已完成以下操作：</block>
+  <block id="2f3184544c8c7698027d88c9c8a44ff6" category="list-text">工作的 Proxmox Virtual Environment (PVE) 9.x 或更高版本集群。</block>
+  <block id="7746ab2c9b8a6b3bfe8917fa9b70e926" category="inline-link-macro">使用 ONTAP 配置 NFS 数据存储</block>
+  <block id="36b6fd653ba77e90e118f89284094d0e" category="inline-link-macro">使用 ONTAP 存储为 iSCSI 配置 Proxmox VE 9.x</block>
+  <block id="622870bd7d4035e7b855ef12105eb676" category="list-text">ONTAP All Flash FAS (AFF) 存储，在 SVM 级别启用 NFS 和 iSCSI 协议。有关说明，请参见 <block ref="6e56f4d15b7c1e04ae5f08c29f7b144a" category="inline-link-macro-rx"></block> 和 <block ref="86a5c73f1afc30bff858818023498f37" category="inline-link-macro-rx"></block>。</block>
+  <block id="40dcafe19d809afae187eec1ba7f3ae1" category="paragraph">对于 iSCSI LUN 配置，应启用以下内容：</block>
+  <block id="5d8fa5d13a4a7190dd10930f1269a464" category="paragraph">*在所有 Proxmox 主机上安装多路径和 iSCSI：*</block>
+  <block id="bcd0ddd05db26a82faebbf6a48c41aaf" category="paragraph">*配置 iSCSI 启动程序并通过 iSCSI 连接（在 Proxmox 主机上）：*</block>
+  <block id="c650bec305174b8a20f8ffefbf65cecb" category="paragraph">创建或更新<block ref="dd5ff67ba72768d33f75e645aa2b8e56" prefix=" " category="inline-code"></block>：</block>
+  <block id="8c73154034873df50b02311c9347af03" category="paragraph">或使用：</block>
+  <block id="1a6df8aa35122b13273963fc33dce3e5" category="list-text">Proxmox 主机和 ONTAP 存储可从 SMP 主机进行网络访问。</block>
+  <block id="7cb380268ba5ef101fd192503c03a851" category="section-title">安装和设置 Storage Manager for Proxmox</block>
+  <block id="8ef7d23c0a4123be31ad9a21042f57e9" category="paragraph">要开始使用 SMP，请在指定的虚拟机上使用 Windows 操作系统。SMP 可以在 Windows Server 2019、2022 和 2025 上运行。</block>
+  <block id="f75fc37643c9a38461b3a62dab08a144" category="inline-link">NetApp Console 自动化中心</block>
+  <block id="29deacf315fbfe62c3462b416af7aba5" category="list-text">从<block ref="0398c7fb0cc5a396466a8e016035628d" category="inline-link-rx"></block>下载 SMP 包（约 17MB）。</block>
+  <block id="b7982d00d3982934a62491f7e24e253c" category="example-title">查看 SMP 下载页面</block>
+  <block id="e6b01aba18ae9101d6eae1b7f434703b" category="image-alt">NetApp Console 自动化中心上的 SMP 安装程序下载页面</block>
+  <block id="c77cdfc65f1e1add4c6d39d770ada25d" category="list-text">解压缩软件包。</block>
+  <block id="2ede026ae04efeec809da7ed27a096e1" category="list-text">运行可执行文件以安装并启动服务。</block>
+  <block id="6c51aa3a59b87c82c1dfecea3cba474d" category="admonition">不需要额外的包依赖项，因为 SMP 利用可用的 API 来协调配置和数据保护工作流。</block>
+  <block id="624d744496b3011fbdadc16faba348c4" category="example-title">查看 SMP 安装向导</block>
+  <block id="16729ea42110f60c273634471fc22e67" category="image-alt">SMP 安装向导</block>
+  <block id="a5ae2b6d11cc9b270d9d7650d47f8470" category="paragraph">*使用 Shift 工具包的替代安装*</block>
+  <block id="f4ff31b41b86276ccb2df87283fae960" category="paragraph">作为独立安装程序的替代方案，您可以使用 Shift 工具包安装 Proxmox VE Storage Manager：</block>
+  <block id="1d0745cbec37f3d4d7845f08528310c1" category="list-text">Open Shift Toolkit。</block>
+  <block id="9c3bf8b2581b9a27a83600260b27a7cf" category="list-text">导航到 *Settings* &gt; *Advanced* &gt; *Storage Manager*。</block>
+  <block id="9d608322f3f4f1d41a875e9e7fdf1552" category="list-text">使用切换开关启用 Proxmox VE。</block>
+  <block id="1d73fea09ff2c41139aaaf8f795e18f8" category="list-text">等待系统自动安装必要的组件。</block>
+  <block id="ee16a42e32bf023103544c9f7c590ada" category="list-text">安装完成后，通过单击 *查看* 或打开 Web 浏览器访问 Storage Manager<block ref="17c02bfa253344cd8c235e1435ecfead" prefix=" " category="inline-code"></block></block>
+  <block id="344f4624c197942068a6539cdc4138e0" category="paragraph">例如：<block ref="abad16881186eb7f5a53f159fcbe4243" prefix=" " category="inline-code"></block></block>
+  <block id="d82fbaed65c0ae471da1583d14a37bca" category="list-text">打开 Web 浏览器，通过输入<block ref="05b17a751d9f33ab7e7a878a6ab984a2" prefix=" " category="inline-code"></block>访问 SMP UI</block>
+  <block id="6e4d0d0f8b4808f7b2807bccfe8483da" category="example-title">查看 SMP 登录屏幕</block>
+  <block id="e85bb40f2eb4ebf12cc2fb9761d2a1cd" category="image-alt">SMP 登录屏幕</block>
+  <block id="870cd4e95860fe235c8a2e3b15aede36" category="example-title">查看 SMP 主屏幕</block>
+  <block id="5cabdedbe16d03ed8c01d60e3260a89c" category="image-alt">SMP 用户界面主屏幕</block>
+  <block id="205499e4288d7067c81c08fe68e9e9cc" category="section-title">为 Proxmox 配置 Storage Manager</block>
+  <block id="01da4c32453f80a763a5a7b1d91f6196" category="paragraph">正确配置到存储和 Proxmox 节点的存储和连接后，配置 SMP 以利用 ONTAP Snapshot 和 FlexClone 功能自动配置和保护虚拟机。</block>
+  <block id="63e6512e5da4c75e0e171d297a4608a1" category="paragraph">第一步是发现并添加 ONTAP 存储端点，然后将目标 Proxmox 节点添加到 SMP。</block>
+  <block id="9ded8ea6a281a01a3456d85998d83b17" category="list-text">已安装 SMP</block>
+  <block id="ef9e26869071d5005aa4111633260be5" category="list-text">SMP 实例可连接到 Proxmox 节点和存储系统</block>
+  <block id="03f72d2db79bfe8b5850b37ad9b9a285" category="list-text">ONTAP 集群提供 NFS 或 iSCSI 存储池</block>
+  <block id="b14099e7ba86d616328d732ee99beb44" category="list-text">使用 DNS 名称时，DNS 解析已到位。否则，请使用 IP 地址进行发现。</block>
+  <block id="335b860fa96e5474db8806bfe459f4f6" category="list-text">环境具有受支持版本的 Proxmox Virtual Environment 服务器</block>
+  <block id="bbe48fb854ea022537208eeeff822f91" category="paragraph-title">关于此任务</block>
+  <block id="17dcd852dac7514645776d7846d2d176" category="paragraph">在虚拟机管理程序和存储之间建立连接后，只需单击几下即可进行配置，大约需要 2 分钟。</block>
+  <block id="bca24abb65c6e351027b3a72dd3245ba" category="list-text">登录到 SMP。</block>
+  <block id="9033b9f2b9513307f04b2778ad5d66d4" category="list-text">在 SMP 左侧导航栏中，选择 *Plan*。</block>
+  <block id="4f703335310e496b01946356b7d9f417" category="list-text">单击 *Add Plan* 。</block>
+  <block id="0445149019781b80dd8425105e8817d4" category="example-title">查看添加计划</block>
+  <block id="0fb052fdf5d002de705400662cf6c4c7" category="image-alt">显示添加计划选项的 SMP 计划配置页面</block>
+  <block id="fbb3f533d5596fce457e767126cd2462" category="list-text">单击 *Add ONTAP* 添加 ONTAP 存储系统的凭据。</block>
+  <block id="39aa8694c9f0165a9c255d63c639b5e8" category="paragraph">您可以使用集群端点或 SVM 管理 LIF 添加 ONTAP。</block>
+  <block id="f5d0c85beea9633b8f3d05b0669c6ad3" category="list-text">要使用集群端点添加，请提供以下详细信息：</block>
+  <block id="31f73799da3f96581a68124442f89562" category="list-text">集群 IP 地址或 FQDN</block>
+  <block id="3fc42626d7c1a7d96c4d684631cd9cc5" category="list-text">用于访问 ONTAP 集群的用户名</block>
+  <block id="1d1745d0584caa4931777498d2038276" category="list-text">用于访问 ONTAP 集群的密码</block>
+  <block id="306eb1afd5424875f511d22f89332ddf" category="list-text">选择 *Accept self-signed certificate* ，然后单击 *Add Storage Cluster*</block>
+  <block id="5ee8fea254025adf13dac2405698c62d" category="example-title">查看 Add ONTAP：集群端点</block>
+  <block id="703e44a0bb06fd03b9192a2a6a64fac9" category="image-alt">为集群端点凭据添加 ONTAP 对话框</block>
+  <block id="f97d55206680ad20ffd744636a3a5583" category="list-text">要使用 SVM 管理 LIF 添加，请提供以下详细信息：</block>
+  <block id="28e3edf5dd553a107c254772d2730dde" category="list-text">SVM 管理 LIF 或 FQDN</block>
+  <block id="7368e2b2f35207aeac657a1d72574622" category="list-text">用于访问 SVM 的用户名</block>
+  <block id="a4f5d0b677d71448697549ef4b1b73e8" category="list-text">用于访问 SVM 的密码</block>
+  <block id="263dad744b8989444b7352a836f7d6c6" category="example-title">查看 Add ONTAP：SVM 管理 LIF</block>
+  <block id="6d65021c4f4e8afb9b9e1055de01a49d" category="image-alt">为 SVM 管理 LIF 凭据添加 ONTAP 对话框</block>
+  <block id="46680ca9e229ee1ee29c8608d11b2f6c" category="list-text">单击 *Add Proxmox* 以添加要在 SMP 中注册的 Proxmox 节点的凭据。</block>
+  <block id="d82ffddae26af45128fa07949e25e6f8" category="paragraph">要添加 Proxmox 节点，请指定其中一个现有 Proxmox 节点的 IP 地址。发现作业会自动查询群集以收集所有基本配置详细信息。</block>
+  <block id="0de11488ec479f7728a12eaa20900087" category="list-text">请提供以下详细信息：</block>
+  <block id="5b25773ba32209a4fe725200a2a3d634" category="list-text">Proxmox 独立 IP 地址或 FQDN</block>
+  <block id="97d74590db36cd4ca2d90356f9bfb36c" category="list-text">用于访问 Proxmox 的用户名</block>
+  <block id="9c32dec3011d3653626baa10712791e8" category="list-text">访问 Proxmox 主机以执行资源库存的密码</block>
+  <block id="a3527c00de3093aedfe39e88dee0476f" category="list-text">选择 *Accept self-signed certificate* 并单击 *Continue*</block>
+  <block id="981948c481297b86b99312dac33aa22b" category="example-title">查看添加 Proxmox：节点凭据</block>
+  <block id="24687c1cf4224ade86dc3a2613ba621e" category="image-alt">添加节点凭据的 Proxmox 对话框</block>
+  <block id="1360763f6d72571f7396ab687a83c4ee" category="paragraph">或者，使用 API 令牌通过提供以下内容来访问 API：</block>
+  <block id="5ef6d12c6ab7cf8827b9f830e2522cb1" category="list-text">API 令牌 ID</block>
+  <block id="9eb805b09c2a753bc3c84670ec1edee0" category="list-text">API 令牌密钥</block>
+  <block id="ec74e3326911e584dc27bfd7179f01df" category="admonition">在此版本中，API 令牌仅允许用于 NFS 操作。</block>
+  <block id="29fb3fbf9e6f05a465ffb384ec62fb96" category="example-title">查看添加 Proxmox：API 令牌</block>
+  <block id="7008d62c12095e070626d8e0ea00a96e" category="image-alt">使用 API 令牌选项添加 Proxmox 对话框</block>
+  <block id="077e2eb82a78c0cb2cf132d6d29a3f93" category="list-text">验证发现作业是否成功，每个计划的状态是否标记为 *Success*。</block>
+  <block id="f8db156bcd939938d7f93316ea6313e3" category="paragraph">添加后， SMP 会自动执行发现扫描并显示虚拟机及其关联的元数据。还会检测到任何现有的存储卷或映射的 LUN 。</block>
+  <block id="da9ebfcb56d64b8f5ee1e1d8fbacde53" category="example-title">查看 Plan 发现结果</block>
+  <block id="462b9f75ff02bea828ab596b793f5251" category="image-alt">SMP Plan 发现显示 VM 和关联元数据</block>
+  <block id="bd965e38a0c9cf27aa1bde099308e23f" category="list-title">完成后</block>
+  <block id="e6e9b89e862bc003978f1af7f280869a" category="list-text">如果对 Proxmox 节点或存储进行了任何修改，请运行发现以获取最新信息。单击计划名称上的三个点，然后单击 *发现*。</block>
+  <block id="474bf458cc30e4b8fdd736bd925c3b12" category="list-text">确保首先添加 ONTAP 存储系统，以便发现作业可以相应地映射现有资源。如果首先添加了 Proxmox，则针对 ONTAP 运行发现作业。</block>
+  <block id="f8d4ea7341264eb50afe80834dc061a0" category="list-text">如果凭据或 API 令牌稍后需要更新，请导航到*设置*并选择*更新凭据*选项。</block>
+  <block id="a535082aff98ea1d38f0f35ac647e12e" category="example-title">查看更新凭据</block>
+  <block id="6af2e498843e4f1854eb7d456772431f" category="image-alt">成功配置后的 SMP 计划概述</block>
+  <block id="032bb3c77a75d4bae0f58801b4d5326a" category="section-title">配置存储</block>
+  <block id="79bdba7e9c2ce1634948cacedeb044e9" category="paragraph">将卷设置为存储池（通常称为数据存储）可为虚拟机及其虚拟磁盘（QCOW2 或 RAW）创建逻辑容器。SMP 可以调配数据存储区，然后将其连接到单个主机或群集中的所有主机。</block>
+  <block id="6a419d81a161181f12d8850f1a012be6" category="section-title">配置 NFS 存储</block>
+  <block id="98985c7468b8d060b8c69adb35e858e9" category="paragraph">使用 SMP 将 ONTAP 卷配置和挂载为 NFS 数据存储库。</block>
+  <block id="63938bc948beb2e55c02dc31502b9ffb" category="list-text">在 SMP GUI 中，转到 *Provision* 选项卡。</block>
+  <block id="1a6f577e0fac07b666b2bef4ad1272e8" category="list-text">导航到 *Add Volume*。</block>
+  <block id="ebcdf9f15e57fc8163fdf3bd6b029a29" category="example-title">查看配置选项卡：添加卷</block>
+  <block id="dee1ab712ba700ad30a35856d4fe5038" category="image-alt">带有添加卷选项的 SMP 配置选项卡</block>
+  <block id="d2772b4842c5dd40946a37c0d6d287ba" category="list-text">在"新建卷"向导的"快速设置"步骤中，选择 *NFS*。</block>
+  <block id="74ba153df4d42d15015bd8a896cd8461" category="admonition">默认情况下选择 NFS。快速配置可使用标准部署的默认设置提供更快的设置。高级配置为 HA 和 BCDR 功能提供了扩展选项，将在未来版本中引入。</block>
+  <block id="c93f8b9a833b2738c6cb10c2367c7225" category="example-title">查看新卷向导：NFS</block>
+  <block id="5f27d041642bb5d9a9067c02a896e458" category="image-alt">在快速设置步骤中选择 NFS 的新建卷向导</block>
+  <block id="4f12d9e0baa36a3f41168d307ba51dcb" category="list-text">在 *ONTAP 详细信息* 部分中，提供以下信息：</block>
+  <block id="41f3847d09f22a55e99809db2c6104a6" category="list-text">从 *Storage Cluster* 下拉列表中选择 ONTAP 集群或指定的 Storage Virtual Machine (SVM)</block>
+  <block id="036c26a9b4ed3c17621e432898966f30" category="list-text">在 *Volume Name* 字段中提供一个唯一值</block>
+  <block id="206f3e721cf4a8f1e513c322a1726779" category="list-text">在 *Size* 字段中输入数据存储卷所需的容量</block>
+  <block id="0b702b379d2eaa087216d0256bc0070f" category="list-text">通过选择适当的选项来选择 ONTAP 存储资源：</block>
+  <block id="ccaf0d2d7033af92241b8ff76cd0c8db" category="list-text">聚合名称</block>
+  <block id="40bb64e121f0b3462502ccc0affca51a" category="list-text">Storage Virtual Machine (SVM)</block>
+  <block id="051e905db307c71f9aef8ac8cbd29613" category="list-text">要用于数据存储访问的首选 LIF</block>
+  <block id="b49ec07b8b611f7adc0a33efcc9fb5ff" category="list-text">选择现有的 *Export Policy* 或根据需要单击 (+) 创建自定义策略</block>
+  <block id="24e0372bf95564bbd3c0e2d60241582e" category="example-title">查看 ONTAP 详细信息：NFS</block>
+  <block id="9e73cd568f4995015468e5ea7fc21267" category="image-alt">NFS 卷配置的 ONTAP 详细信息部分</block>
+  <block id="6ee2cb1f2ad53a8713dc4b5f1d14b00c" category="list-text">在 *Proxmox 详细信息* 部分中，提供以下信息：</block>
+  <block id="4848d7a5dd5d5f219b1906134f7e4c12" category="list-text">在 *Proxmox* 字段中，选择目标集群，然后选择所有需要访问数据存储的节点</block>
+  <block id="7af504db4b1ab9a9b5d93aebd258cd70" category="list-text">在 *NFS Version* 字段中，选择首选 NFS 协议（NFS v3 或 NFS v4.1）</block>
+  <block id="7aa9f53296ff77ea0b117972e899efb5" category="list-text">在 *Content* 部分中，选择要为此数据存储区启用的内容类型：</block>
+  <block id="c1fbc1bfb34660ddc938357ccdacd9b1" category="list-text">磁盘映像</block>
+  <block id="803b8db87be0f8173c99010aeed59929" category="list-text">ISO 映像</block>
+  <block id="c6a7da7c822ee3f8597e8d2cfa6274e3" category="list-text">容器模板</block>
+  <block id="72d6d7a1885885bb55a565fd1070581a" category="list-text">导入</block>
+  <block id="ab09f6cb8731d936fd24ffd11c121a3e" category="list-text">或选择 *所有* 内容类型</block>
+  <block id="26cd09e3b55760a82de4221c32adc7f3" category="list-text">（可选）如果需要多个 TCP 连接，请激活 *nconnect* 选项</block>
+  <block id="717c5ff6ded1c053f9df755524e37b13" category="list-text">确保选中 *Mount the datastore* ，以便将数据存储库挂载到选定的 Proxmox 节点上</block>
+  <block id="5ae972fbea5178d385ae37c43066181b" category="example-title">查看 Proxmox 详细信息：NFS</block>
+  <block id="b17325a720e27a475e7f826f3a66d026" category="image-alt">NFS 数据存储区配置的 Proxmox 详细信息部分</block>
+  <block id="2b401be828228e91a07a7d0b6e9d7794" category="list-text">单击 *Provision* 以创建 ONTAP 卷并在选定的 Proxmox 集群中注册数据存储区（存储池）。</block>
+  <block id="e257c7937069b319a144ecbf019c12bb" category="example-title">查看 NFS 配置结果</block>
+  <block id="16c20084d0dbc8857e5bbc2e8f85e80d" category="image-alt">正在执行 NFS 卷配置</block>
+  <block id="20d6bee48d0adbc3786a290b5f2e14db" category="image-alt">NFS 数据存储库配置已成功完成</block>
+  <block id="b42c1df509703b4a4200ff23a9dc7fa5" category="example-title">在 Proxmox 中查看 NFS 数据存储</block>
+  <block id="6a5c4804d4d14230471b6e084363c227" category="image-alt">在 Proxmox 集群中注册的 NFS 数据存储</block>
+  <block id="a3b80f6e3aada23e186b29e38ccb39f7" category="section-title">编辑已配置的卷</block>
+  <block id="ea7c1ae20bb3c6c9907d9cf757343b83" category="paragraph">使用 SMP 在配置后修改卷设置。</block>
+  <block id="b2a0a59da3d8bd2591e0f79ece6df392" category="list-text">在 SMP GUI 中，在 *Provision* 选项卡中找到卷。</block>
+  <block id="7462ca72b115e3154b561b0b3ff80e42" category="list-text">单击卷旁边的三个垂直圆点 (⋮)。</block>
+  <block id="12b03368679477fc48ed14b8f217a115" category="list-text">从上下文菜单中选择 *编辑* 以打开卷设置。</block>
+  <block id="c2b2b3d9b51f35b3503181a7ecdcc51e" category="example-title">查看编辑卷对话框</block>
+  <block id="7e445e8e62314fedc43a80d6c9051319" category="image-alt">显示卷配置选项的"编辑卷"对话框</block>
+  <block id="6e7b977049eccdb5e457228b56adb54d" category="list-text">根据需要修改卷设置：</block>
+  <block id="7b4d237e75c218fc19cae448bcf6a5dd" category="list-text">*调整卷大小*：调整卷的存储容量</block>
+  <block id="f38236b839f962d250e8138a4c223039" category="admonition">调整大小仅适用于 NFS 卷。</block>
+  <block id="65e1a411ade11648599055e27e9c97db" category="list-text">*Snapshot 锁定*：启用以防止删除或更改快照</block>
+  <block id="37538b44cf133013e7d2e698c3a4403f" category="admonition">这需要在集群上安装 SnapLock 许可证，并且必须初始化集群的合规时钟。</block>
+  <block id="f2e9125c3ba8ab3c9d84f43698e5461f" category="list-text">*Anti-Ransomware Protection*：启用以主动检测并警告可能表明勒索软件攻击的异常活动</block>
+  <block id="94817b5c04e567acd05c78c40aeddbca" category="list-text">*导出策略*：更新或修改导出策略</block>
+  <block id="1c57870dbe054c795b276d38e3ad3796" category="list-text">单击 *Save* 以应用更改。</block>
+  <block id="c87d29528a937487ad7e7249ee2d9608" category="section-title">预配 iSCSI 存储</block>
+  <block id="5d1cab6f57f8464f77145e7938ba9be2" category="paragraph">使用 SMP 为虚拟机设置 iSCSI 后端。</block>
+  <block id="bd12dc2dcbdc0e148685df55534b34f3" category="list-text">在"新建卷"向导的"快速设置"步骤中，选择 *iSCSI*。</block>
+  <block id="5d8ead293ea75a0a9ae617006275a11e" category="example-title">查看新卷向导：iSCSI</block>
+  <block id="bf9d13dff3a0005aabec67bf48434b37" category="image-alt">在快速设置步骤中选择 iSCSI 的新建卷向导</block>
+  <block id="811a6b259240c7547f143de52c15e89a" category="list-text">在 iSCSI 协议下，在 *ONTAP 详细信息* 部分中，提供以下信息：</block>
+  <block id="0398656c0b0fd22f03e9901463fd7f15" category="list-text">从 *Storage Cluster* 下拉列表中选择适当的 ONTAP 集群或指定的 Storage Virtual Machine (SVM)</block>
+  <block id="559a2a2d08113e7678c2e8ee2ce06fc2" category="list-text">选择以下项的选项：</block>
+  <block id="4b56968db9c546567d13d4a0e030cb38" category="list-text">在 *LUN 名称* 字段中输入唯一值</block>
+  <block id="344d4f645ac6f57b81a633ba1fd49e58" category="list-text">在 *Number of LUNs* 字段中提供所需的 LUN 数量（默认值为 1；可以并行创建相同大小的其他 LUN）</block>
+  <block id="63bba23f10fee9a9eb2088e0af4abfbb" category="list-text">在 *每个 LUN 的容量* 字段中输入每个 LUN 所需的大小</block>
+  <block id="0c4ebcc189c7ff27b6d0ad5bf0170527" category="list-text">为 iSCSI 访问控制选择一个*启动器组*（igroup）。可以选择现有的 igroup 或创建新的 igroup。</block>
+  <block id="66ff2e6484d13c3dacf6512016f91421" category="example-title">查看 ONTAP 详细信息：iSCSI LUN 配置</block>
+  <block id="6ab0fd4c90fb9261d42864b6707f18bc" category="image-alt">显示 LUN 配置选项的 iSCSI ONTAP 详细信息部分</block>
+  <block id="b4108f8f34e4c29aceae0441e02b0d90" category="example-title">查看 iSCSI igroup 选择</block>
+  <block id="fb1ab9362f8b5e54aac4d9add259668d" category="image-alt">用于访问控制的 iSCSI igroup 选择</block>
+  <block id="ce343df19283b3cf14c42054bd3834c2" category="list-text">从 *Proxmox* 下拉列表中，选择目标集群，然后选择需要访问存储的所有节点</block>
+  <block id="7c2fa397eae5c7cff275d9af220677ff" category="list-text">选择适当的 *LVM ID*，它将代表 Proxmox 中支持 iSCSI 的存储池</block>
+  <block id="55e55645eb48f6dd80eaae0011772935" category="list-text">在 *节点* 字段中，选择所有需要访问显示的 iSCSI 目标的节点</block>
+  <block id="399ca814d2465ee55ab50696b86e124e" category="list-text">（可选）如果需要 VLAN 分段，请选择所需的 *Storage VLAN*</block>
+  <block id="44048d9edfce2d1039880fd65f5c1bd5" category="list-text">在 *Content* 部分中，选择此数据存储区支持的内容类型：</block>
+  <block id="0e7278cda02a9c0446dcc75a4df34eb2" category="list-text">容器</block>
+  <block id="32789d1bf615b3466cc67e73ee046c0a" category="list-text">确保已选择 *Mount the datastore*，以便存储在选定的 Proxmox 节点上可用</block>
+  <block id="73c2e3d4f22c3855b4ca093f9153b16a" category="list-text">（可选）如果存储池将被多个节点同时访问，则启用 *Shared*</block>
+  <block id="c0789c6619eaef189013c5b5b6b6349c" category="example-title">查看 Proxmox 详细信息：iSCSI</block>
+  <block id="8a4e8882437f1ab8676e2e8ad20a56f0" category="image-alt">显示存储池配置的 iSCSI Proxmox 详细信息部分</block>
+  <block id="b996a550e92087f66181379c0877d761" category="list-text">单击 *Provision* 以创建 ONTAP LUN 并在选定的 Proxmox 集群中注册数据存储区（存储池）。</block>
+  <block id="d750a964f886223afef79dcc3d71aa65" category="example-title">查看 iSCSI LUN 配置</block>
+  <block id="c59a1d58649b275a2d12a059e4c993bc" category="image-alt">正在执行 iSCSI LUN 设置</block>
+  <block id="5ba878b8ae6fb27568603861f9773239" category="example-title">查看 iSCSI 配置已完成</block>
+  <block id="a3db89a7992cf0b790613bd2f3fc68f6" category="image-alt">iSCSI LUN 配置已完成</block>
+  <block id="1bfe13b881d23c16a7e27351bd95424e" category="example-title">在 Proxmox 中查看 iSCSI 数据存储</block>
+  <block id="1f441e4c8f3f026105202e4280eeac59" category="image-alt">在 Proxmox 集群中注册的 iSCSI 数据存储</block>
+  <block id="12d76d1fd798f359377beceb6da3367b" category="list-text">通过访问 Proxmox 端点验证已连接 NFS 和 iSCSI LUN。</block>
+  <block id="ba6c6bdf8e13f558c64819daf5ddf1fd" category="paragraph">现在，连接的存储可用于配置虚拟机。</block>
+  <block id="503dfebeb8af3b374d8aaa098ab0454b" category="example-title">查看 Proxmox 存储视图</block>
+  <block id="385d4bd896742ff9689e051c0ebce19d" category="image-alt">Proxmox 存储视图确认 NFS 和 iSCSI 数据存储已连接</block>
+  <block id="1e797690fda2b7281d18e75ad4be1d9a" category="section-title">卷配置选项</block>
+  <block id="27defa684e9847f2a767a36772762b75" category="paragraph">当 SMP 配置新的 ONTAP FlexVol 卷和 LUN 时，会自动应用几个默认配置值：</block>
+  <block id="91b115a1144549ca8093901ee18c25eb" category="cell">ONTAP 设置</block>
+  <block id="6b66a61fa66288a9a7ad6474d2e686ec" category="cell">默认值</block>
+  <block id="5938fe448c8661febcef3f4e779e3adb" category="cell">Snapshot 预留 (-percent-snapshot-space)</block>
+  <block id="9f1ef07877f9d85a82bd500f408b4814" category="cell">0%</block>
+  <block id="7218aec62575561a6de1cae8d5658390" category="cell">分数预留 (-fractional-reserve)</block>
+  <block id="3a7e09ff0fa38663ffe6d91324ea75d9" category="cell">访问时间更新 (-atime-update)</block>
+  <block id="b9f5c797ebbf55adccdd8539a65a0241" category="cell">已禁用</block>
+  <block id="e93200d5b0d16915bf04236790544b2f" category="cell">最小预读数 (-min-readahead)</block>
+  <block id="c877d89702fdd14e51b02028a20c7d07" category="cell">计划快照</block>
+  <block id="6adf97f83acf6453d4a6a4b1070f3754" category="cell">无</block>
+  <block id="fd18465573ec21a6218982055981f6b1" category="cell">存储效率</block>
+  <block id="00d23a76e43b46dae9ec7aa9dcbebb32" category="cell">已启用</block>
+  <block id="f65fd63b63c9e9f25bf6bc141e83de34" category="cell">卷保证</block>
+  <block id="c2410aebdf425dabcc65e546e506b03e" category="cell">无（精简配置）</block>
+  <block id="8285885018fdba6d87edc774237f0e24" category="cell">卷自动调整</block>
+  <block id="d89f4f8b1d7c18847b88b46142f61535" category="cell">grow_shrink</block>
+  <block id="ace72ec54e17777d27eb8bdb9d57e782" category="cell">LUN 空间预留</block>
+  <block id="514aa7792a71ab4ab677eb2385131aae" category="cell">LUN 空间分配</block>
+  <block id="d40a66b12af7a3ddd7bf63dedceda40d" category="section-title">NConnect 行为</block>
+  <block id="aeaaa17f83b9bc3b25ec5374560c9fac" category="paragraph">将 NFS 存储与 Proxmox VE 一起使用时，请注意 Linux NFS 客户端（由 Proxmox VE 的基本操作系统 Debian 使用）中的特定行为。Linux 内核可能会重用首次在节点上挂载 NFS 导出时的挂载参数。如果使用不同的挂载选项再次挂载相同的导出，则可能不会应用这些新选项。</block>
+  <block id="a9c60c99077ebc97689e44fb06b4dabc" category="paragraph">作为最佳做法，创建和装载单独的导出并使用不同的 NFS 服务器 IP 地址，例如不同的数据 LIF。SMP 自动检测现有连接及其关联的 nconnect 值，并将相应的 nconnect 值应用于任何新连接。</block>
+  <block id="c724784c65896d8b16350f4b0580dfd4" category="section-title">保护虚拟机</block>
+  <block id="d70d176974da5b5a7b4b5ad4a15f6cb4" category="paragraph">当虚拟机在 ONTAP 支持的 NFS 数据存储上运行时，最简化的保护方法是让 Proxmox 建立文件系统一致性，而 ONTAP 在存储层捕获实际备份点。ONTAP 快照提供数据存储卷的快速、节省空间的时间点副本，以后可用于恢复整个数据存储、单个文件或 VM 内容。</block>
+  <block id="fb6d475c3e4b5d4d1fff6a48627a808d" category="paragraph">SMP 为崩溃一致和 VM 一致的数据保护和克隆管理提供了一个简单的协调器。此软件通过创建可应用于多个作业的备份策略来简化备份、还原和克隆生命周期。这些策略可以定义计划、保留、复制和其他功能。它们允许可选地选择文件一致性快照；这种方法使用 QEMU 在拍摄 ONTAP 快照之前停止 I/O 的能力。</block>
+  <block id="5b08cbb5dca11f05981a75cbf1c5a88c" category="paragraph">SMP 允许保护整个数据存储库，其中一个 ONTAP NFS 卷包含多个虚拟机、可能跨越多个数据存储库的虚拟机组或单个虚拟机级别。</block>
+  <block id="c0819302c0fdeaa2de0e53290c2af810" category="section-title">备份虚拟机</block>
+  <block id="acc5bd6a5c43a1a496c47e8be0d7563c" category="paragraph">配置 ONTAP 卷后，使用备份选项列出在 Proxmox 集群上运行的所有虚拟机，并对虚拟机执行崩溃一致性或文件一致性备份。</block>
+  <block id="a86ce101da91da022fd2c8030492a31f" category="list-text">从左侧导航窗格访问 *Protect* &gt; *Backup*。</block>
+  <block id="f06b701302ab96036d80b4ba50678b1c" category="example-title">查看 Protect Backup 页面</block>
+  <block id="7b801bff3f4a3d2cb930e2d4090b8e35" category="image-alt">SMP Protect Backup 页面列出 Proxmox 虚拟机</block>
+  <block id="4ed0369f06813efcb56c84dd64276a93" category="list-text">选择要备份的虚拟机，然后单击 *Backup*。</block>
+  <block id="b43081f5a187c5dfefa3af565ec9c78c" category="example-title">查看备份对话框：VM 选择</block>
+  <block id="2cfb32e272e11167a228d801ed1d797d" category="image-alt">显示虚拟机选择和备份选项的备份对话框</block>
+  <block id="bb543620c1bb165f129729db39bd1075" category="list-text">备份工作流允许在崩溃一致性保护和文件一致性保护之间进行选择。</block>
+  <block id="a3d657430454923a672a6de3e8e78f9b" category="paragraph">文件一致模式可选地使用 QEMU fsfreeze 来确保在拍摄快照之前来宾文件系统处于静止状态。如果 fsfreeze 失败，系统将回退到使用 Proxmox 快照。</block>
+  <block id="b177c3761c50975267181c6f181ed49f" category="admonition">此回退机制仅适用于存储在 NFS 卷上的虚拟机。</block>
+  <block id="80fe339027f54b313e56c02f221b7784" category="example-title">查看备份对话框：一致性选项</block>
+  <block id="9621aa748c18fae5b11563535ae693f1" category="image-alt">显示崩溃一致性和文件一致性保护选项的备份对话框</block>
+  <block id="1e0e0805ed47d989edfb7740bc02050d" category="example-title">查看备份进度</block>
+  <block id="9edba21feb47e7c3c7b34a1e8c6a6082" category="image-alt">显示临时 Proxmox 快照和 ONTAP 快照创建的备份进度</block>
+  <block id="63744fa62a74bb5137c7a7e404682cde" category="admonition">ONTAP 快照是在卷级别拍摄的，在单个快照中捕获 NFS 数据存储区内的所有 VM 磁盘和配置文件。当选择 VM 一致性保护时，仅对所选 VM 发出 fsfreeze；卷中的所有其他 VM 都作为崩溃一致性包含在同一个 ONTAP 快照中。</block>
+  <block id="31efa25c2184d1a291da989772d74d65" category="list-title">其他备份选项</block>
+  <block id="af871268b13c30a1719d3d01305cee2c" category="list-text">要备份单个数据存储库，请选择 *Storage* 选项卡并选择 *Backup* 选项。</block>
+  <block id="4ab34f1635594c4c74f476705e4288ff" category="list-text">要将多个数据存储区备份为一个单元或保护跨越不同数据存储区的 VM 组，请使用 *Resource Group* 选项。资源组允许将数据存储区或 VM 组织成逻辑保护集。</block>
+  <block id="a80be1806697091cb40b260b8e6f3c81" category="example-title">查看资源组选项卡</block>
+  <block id="6f4b2c196e7e8c39991576c94413d72b" category="image-alt">资源组选项卡，带有创建新资源组的选项</block>
+  <block id="548b49f4267cb06525a994818f01fc03" category="list-title">创建资源组</block>
+  <block id="1d02e93ad2b503d0c9762050ad044fee" category="list-text">打开 *Resource Group* 选项卡并选择 *Add*。</block>
+  <block id="1cd35697f1c0958282da2047aa540e6c" category="list-text">输入新资源组的名称。</block>
+  <block id="6f9eb8c5e682f5484f8c4fdbaa8131d4" category="list-text">选择资源类型：*VM* 或 *Datastore*。</block>
+  <block id="7295c5b603e686bf0646426684fb3ae9" category="list-text">选择适当的 *Protocol*。</block>
+  <block id="4ef65ae9ac839b3a1389a2fbd696a8dc" category="list-text">根据所选资源类型选择要包含的特定虚拟机或数据存储区。</block>
+  <block id="dbd123bbb8208a33626f3887f73e976c" category="list-text">单击 *Create Resource Group* 完成设置。</block>
+  <block id="d27880785e191bcc12e62da6a8bfc940" category="example-title">查看"创建资源组"对话框</block>
+  <block id="089d83d5d30a9c34646b3c72a7bc6e48" category="image-alt">使用 VM 和数据存储选择选项创建资源组对话框</block>
+  <block id="5eb544767dc93e1d6b3c354ae8456713" category="admonition">在数据存储区（卷）级别进行的备份始终是崩溃一致的。一个资源组只能包含一种资源类型：虚拟机或数据存储区。对于基于 iSCSI 的存储，备份始终是崩溃一致的。</block>
+  <block id="e39661913d7ec84708217eb35b00f945" category="section-title">备份工作流详细信息</block>
+  <block id="2b9b1f8453bf370c2983188160a5c1ab" category="paragraph">高级备份工作流程包括：</block>
+  <block id="32475fd8913ed22e08f766a205aa16c5" category="list-text">*定义保护范围*：选择保护目标是数据存储区（ONTAP 卷）、资源组（多个卷或 VM）还是单个 VM。</block>
+  <block id="88c4013e231d0fdb60dcb5e0d79c1f49" category="list-text">*确认一致性方法*：选择在 ONTAP 快照之前创建一致性的方式：</block>
+  <block id="a6c936939df5f921cea1c4b9c3cd87c1" category="list-text">QEMU 来宾代理冻结/解冻，用于来宾文件系统静止和 Windows VSS 集成。</block>
+  <block id="f6c02bd07995293ad23fff6bd04bf820" category="list-text">*转储 VM 配置文件*。</block>
+  <block id="b45ca7816f29e4fc929df7e0df740dfa" category="list-text">*获取 ONTAP 快照*：在虚拟机处于一致状态时捕获数据存储卷的 ONTAP 快照。这将成为保留的备份副本。</block>
+  <block id="6d61f9389a3601895c88c1cb0fd62835" category="list-text">*删除临时 Proxmox 快照*：在 ONTAP 快照完成后删除 Proxmox 快照，以防止增量文件增长。</block>
+  <block id="c7b74349395edac1a2ff66c56cba9a2b" category="list-text">*应用保留和复制策略（使用策略）*：如果启用了灾难恢复复制，则应用配置的 ONTAP 保留策略并复制快照集。</block>
+  <block id="28997d4ea5adb79d15126c8647eeecad" category="paragraph">这种方法通过仅存储更改的信息来最大限度地减少存储空间和网络带宽。使用 Snapshot 副本可快速复制虚拟机或数据存储，而不会影响性能，然后使用 NetApp SnapMirror 技术将其发送到辅助系统，以实现长期的异地数据保护。</block>
+  <block id="3b448b799a5495c4f9a7ebc4d0689ab1" category="section-title">自动化 VM 备份任务</block>
+  <block id="9adeeaa50234f5358601746b9c22415e" category="paragraph">通过配置计划自动执行 Proxmox VM 备份。创建定期备份对于数据保护和灾难恢复至关重要。</block>
+  <block id="efedc938c8804069e43eef3afb7a50e2" category="list-text">转到 *Protect* &gt; *Backup* &gt; *Policies* ，然后单击 *Add* 以添加新的备份策略和计划。</block>
+  <block id="79d49b4251609d45520d82a59fc9f8a0" category="example-title">查看备份策略页面</block>
+  <block id="c4bdda0624f27abf6bf63530e27a4861" category="image-alt">具有添加新策略选项的备份策略页面</block>
+  <block id="dd5c5779b00c1e6410c5f1448d8032e5" category="list-text">配置常规设置：</block>
+  <block id="14658415a5afeaa1957fb4873b7e1cef" category="list-text">输入策略的名称</block>
+  <block id="083e281621716e4b47dd6127eb863f69" category="list-text">选择 *策略类型*（卷或资源组）</block>
+  <block id="26328790446c107cdf06d8061cfe4b23" category="list-text">根据选定的类型选择 *Target*</block>
+  <block id="0e2a78870984b898edf24cfaeaaf4cbb" category="list-text">设置 *备份频率*（每小时、每天、每周或每月）</block>
+  <block id="bd10dede615581ca9fb0ad15a5f80c8d" category="list-text">使用"保留天数"或"保留数量"配置*保留*（默认保留值为 7）</block>
+  <block id="162f053cfc588cae1387c277ab05bebc" category="list-text">选择 *复制模式*（在当前版本中禁用）：</block>
+  <block id="fa23470db7b9905492d6e4cdd14b03e5" category="list-text">备份后更新 Snapmirror</block>
+  <block id="05c92158f412c4a911e0b21a09762bf2" category="list-text">备份后更新 SnapVault</block>
+  <block id="b7162d5707ff1ce8659c81b10fe1360a" category="admonition">必须使用 CLI 或 System Manager 在 ONTAP 中配置 SnapMirror 复制。</block>
+  <block id="5c9c0ce957626de1ba61e3b223edc18a" category="list-text">在 *Advanced Options* 中，如果应在触发 ONTAP 快照之前使用 Proxmox 快照或 fsfreeze，请启用 *VM Consistency*。</block>
+  <block id="e6e88ad731fa7394b0549c9bf8984e93" category="list-text">单击 *Create Policy* 保存配置。</block>
+  <block id="483807e364a731ef25e37332431b95df" category="example-title">查看备份策略：计划和保留</block>
+  <block id="88e210e3874392c98a1a15ecca60983a" category="image-alt">显示计划和保留设置的备份策略配置</block>
+  <block id="eb056378ebe1219f725292058c7c3cb2" category="example-title">查看备份策略：复制和高级选项</block>
+  <block id="f199ab5a74d87f7506da5be17063933c" category="image-alt">显示复制和高级选项的备份策略配置</block>
+  <block id="d546319060294cd6fed0a27c0300de85" category="admonition">VM 备份作业也可以通过单击 *Backup* 立即触发，而不是等待资源组的计划执行时间。</block>
+  <block id="7cf83ed16229466716adaf95b4893815" category="section-title">还原虚拟机或数据存储库</block>
+  <block id="a03236b29afd0ed2851a5d5eebd6f8f7" category="paragraph">使用 SMP 从备份还原 Proxmox VM。</block>
+  <block id="c3d97c5d3055ae2da516925a70f7565a" category="paragraph">在执行还原操作之前，必须关闭虚拟机的电源。</block>
+  <block id="0701fbb9ba9af7c70c62fc8becce8a3d" category="list-text">在 Web 界面左侧的导航窗格中选择 *Restore* 选项。</block>
+  <block id="b9ae03a3aa993a2dbf24b77952323ceb" category="list-text">选择需要还原的虚拟机、存储或资源组。</block>
+  <block id="e22a96d780914e2328ea1c5c0bb7ac1c" category="example-title">查看还原页面</block>
+  <block id="ec66ca040e1e451014ab1b2b97b8effd" category="image-alt">还原页面列出虚拟机</block>
+  <block id="0163772b712a4596fe39e31c0df953e4" category="list-text">单击 *Restore* 图标。</block>
+  <block id="8fb4c89a75e57cf95a7f11f9928c0598" category="paragraph">根据所选内容（无论是 VM、存储还是资源组），还原弹出窗口将打开。</block>
+  <block id="2177dd98be441da52cc94c64c5652ff5" category="admonition">根据所选资源，将显示为相应组件创建的快照。例如，在资源组级别创建的快照将仅在选择资源组时显示。这同样适用于存储。但是，对于虚拟机，将显示跨组件创建的所有快照以供选择。</block>
+  <block id="d98b474b7ce96c0602b08184f998981b" category="example-title">查看还原对话框：快照选择</block>
+  <block id="d39a68c53f468994b8eb2a9969319d58" category="image-alt">还原对话框，显示用于时间点恢复的快照选择</block>
+  <block id="9bad64a194489c724280a9f3aa290a8d" category="list-text">选择所需选项：</block>
+  <block id="34c80f37ec67f13e69bc00b969766355" category="list-text">*还原目标*：还原到同一主机或备用主机的选项</block>
+  <block id="4b57a9d53c1e5195b99e11692bf50a88" category="list-text">*Host*：如果选择了备用主机，则可以通过下拉菜单选择集群中的任何可用主机</block>
+  <block id="e0352dab27ca2a00303bd958e5b9af54" category="list-text">*Snapshot*：为时间点恢复选择适当的快照</block>
+  <block id="357a35aedd0c37deb3a881df778a9bb4" category="list-text">单击 *还原*。</block>
+  <block id="aeec9a15068a9fe8072320311bfbd325" category="example-title">查看正在进行的还原</block>
+  <block id="57702f528c052b11afb86f0c827392fd" category="image-alt">正在执行还原操作</block>
+  <block id="411c886732d838d7a4e7fc81c8995348" category="example-title">查看还原已完成</block>
+  <block id="af4a1b82397eb169184c4e1b3d7827ac" category="image-alt">还原操作已成功完成</block>
+  <block id="54f7813f0b2baaac12855f24a30bfa0b" category="admonition">启动存储级还原时，该卷或 LUN 上的所有虚拟机都将断电，系统将作为一个整体还原整个存储实体。</block>
+  <block id="421758f15e3278f12d9d030800b20ddd" category="example-title">查看存储级还原</block>
+  <block id="f92cc5baf6c3e188fd199b32593c2872" category="image-alt">存储级还原，显示选定卷上的所有 VM</block>
+  <block id="d750ce3dc8c069b7e10707fa9bb26b37" category="section-title">还原工作流详细信息</block>
+  <block id="4f7185469f5cf0defb7436df5f9a2cd2" category="paragraph">还原工作流程因基础存储类型而异，涉及以下关键步骤：</block>
+  <block id="32f048225f9de5f0b3fa497280cda9a9" category="list-text">*定义还原范围*：选择保护目标是数据存储区（ONTAP 卷）、资源组（多个卷或 VM）还是单个 VM。</block>
+  <block id="9f948cd2f711de107337701cc6554fdd" category="list-text">*执行还原操作*：VM 还原过程因存储协议而异：</block>
+  <block id="4d697b61940b6c4b91e32653112ce2de" category="list-text">*基于 NFS 的恢复*：在 NFS 上恢复卷或数据存储时，SMP 会在目标卷上启动卷快照恢复操作。对于托管在 NFS 卷上的虚拟机，SMP 会验证还原参数，包括 VM ID、快照名称、站点 ID 和存储类型。如果 VM 正在运行，SMP 通过轮询其状态并发出停止命令来停止它。然后，系统使用文件级还原操作从快照中还原 VM 磁盘。</block>
+  <block id="cd2c64c9ab903c66b4d2a7891b0b587c" category="list-text">*基于 iSCSI 的恢复*：对于 iSCSI 数据存储或 LUN，SMP 从快照恢复 LUN，验证恢复的设备，跨 Proxmox 节点执行 iSCSI 重新扫描，并确保设备可访问性。对于驻留在 iSCSI 存储上的 VM，SMP 克隆快照 LUN，将克隆的 LUN 映射到 Proxmox 主机，并执行 iSCSI 发现以导入它们。然后添加恢复的存储，并更新 VM 配置。VM 磁盘被移回其原始存储，每个 VM 都跟踪进度。该过程以清理活动结束，包括移除临时存储和删除克隆的 LUN。</block>
+  <block id="e28fdf4c2bbea67ab8cc9435c052542f" category="section-title">克隆虚拟机</block>
+  <block id="25f522b1df2d8fb6114e43bf0917c615" category="paragraph">使用 SMP 创建虚拟机克隆以进行开发、测试或快速配置。</block>
+  <block id="369f99486f571e9d472f89e3e7909776" category="list-text">打开 *Protect* 部分，然后从左侧导航菜单中选择 *Clone*。</block>
+  <block id="f27e1184902281b008fe3673a73b481f" category="list-text">在虚拟机列表中，找到所需的虚拟机，然后单击 Actions 列中的 *Clone*。</block>
+  <block id="f816cf33cefdfc199db4d0e92ff91311" category="list-text">在克隆虚拟机窗口中，选择创建克隆的 *目标节点*。</block>
+  <block id="55e53a61f3c7477f7f167b8c721251ce" category="example-title">查看克隆 VM 对话框</block>
+  <block id="55b2ea0ea4963799e0e5c2a04635ae8f" category="image-alt">克隆 VM 对话框显示目标节点选择</block>
+  <block id="cb3b692663c8fd9237a884fb13461b59" category="list-text">选择要用作克隆源的 *Snapshot*。</block>
+  <block id="734fb61fdd53b835cc4e8ac836428082" category="admonition">在当前版本中，对活动文件系统执行克隆。在即将发布的版本中，克隆工作流将允许选择快照，在这种情况下，使用从所选快照创建的新卷执行文件克隆。</block>
+  <block id="9214466080a06b7cc3b0de5c9dd22c97" category="list-text">指定克隆虚拟机的*副本数*、*CPU 核心*、*套接字*和*内存*。</block>
+  <block id="e9b8051d934919e3a647130ed4789bde" category="list-text">（可选）如果克隆的虚拟机应在创建后自动启动，请启用 *Power on after clone*。</block>
+  <block id="125f902d6277dea35f1e73bba93e1797" category="list-text">（可选）如果克隆应放置在新创建的数据存储上，请选择 *Create a new datastore*。</block>
+  <block id="48cdc65f398e691ca79d2ceb2bcb0653" category="list-text">在 *高级选项* 下，如果网络设置应自动应用于克隆，请启用 *网络配置*。</block>
+  <block id="c1a914c3772512c513133c46f5ce43da" category="list-text">单击 *Clone* 开始克隆过程。</block>
+  <block id="2d7e9a210f45284500629a7e1a5fc757" category="paragraph">克隆工作流程使用 ONTAP 的快速克隆 API 配置新虚拟机，并为克隆实例分配唯一的五位数 GUID。</block>
+  <block id="44e078a9c2786bafcf05cfed912ff8dd" category="example-title">查看克隆操作</block>
+  <block id="ebb2db61be8173b99d7dbdc86bd6c162" category="image-alt">正在使用 ONTAP FlexClone 进行克隆操作</block>
+  <block id="757d94a4727d30a7bc055dc6ffc9650a" category="admonition">克隆的虚拟机同时出现在备份和克隆列表中，可以使用现有备份策略进行保护。要使克隆的虚拟机在这些列表中可见，请对 Proxmox 和 ONTAP 计划运行发现。</block>
+  <block id="58cf380dd375a1ad9b72382c9ae4f20e" category="example-title">在列表中查看克隆的 VM</block>
+  <block id="24e1c51d79344374eb88c6a0cdf413ee" category="image-alt">备份和克隆列表中显示的克隆虚拟机</block>
+  <block id="1ee9044092621cd1ac75e063c280d1d2" category="section-title">克隆工作流详细信息</block>
+  <block id="c6e2c6c6ce1a4b9e896ef549e6c70631" category="paragraph">SMP 通过将繁重的工作卸载到 ONTAP 来执行存储端克隆而不是主机端文件复制，从而实现快速 VM 克隆的自动化。在底层，SMP 利用 ONTAP FlexClone 语义（基于快照、可写、节省空间的克隆），因此克隆可以快速创建，最初消耗的容量很少；它尽可能避免通过 Proxmox 主机进行数据读取/写入。</block>
+  <block id="9d90d398f0f9f9ef3e46da5b04cdcbe2" category="paragraph">这种方法通过将克隆工作推入 ONTAP，提供适合开发/测试、实验室和快速刷新周期的快速、精简、存储效率高的克隆，从而加速 VM 配置。</block>
+  <block id="7e91228a15629a7b130a4ae105648554" category="paragraph">默认情况下，对活动文件系统执行克隆。克隆工作流还允许选择快照，在这种情况下，使用从所选快照创建的新卷执行文件克隆。</block>
+  <block id="00ae0cd12340f0b4bbba6b466e757a65" category="section-title">监控操作</block>
+  <block id="6eee01cbde07288dfe00892f0ee5ae71" category="paragraph">使用过程日志和仪表板视图来监控和跟踪 SMP 操作。</block>
+  <block id="828650695d5b304f8a1a5f742391c024" category="section-title">处理日志</block>
+  <block id="e74eddb0eb9d008549f59ed36fc89956" category="paragraph">Process Logs 视图提供了通过 Storage Manager for Proxmox 执行的所有操作的合并记录。每个条目显示作业状态、作业 ID、执行的操作、开始时间和持续时间。这样可以轻松跟踪已完成的任务，识别任何失败或部分操作，并查看在环境中执行的操作顺序。</block>
+  <block id="0cdd52f44ae71cc4850ce3088798caf9" category="paragraph">筛选器和搜索选项可用于快速定位特定作业或按状态缩小列表。</block>
+  <block id="75d25c20dd3b1c1a301cf7b82672460f" category="example-title">查看 Process Logs 视图</block>
+  <block id="7b5c02009e94ce335684cc92f06d3dca" category="image-alt">显示作业历史记录和操作状态的过程日志视图</block>
+  <block id="2938c7f7e560ed972f8a4f68e80ff834" category="section-title">信息板</block>
+  <block id="ff49c5e7d30b99b8015363798dfe94ee" category="paragraph">仪表板一目了然地概述了整个 Storage Manager for Proxmox 环境。它总结了关键清单，例如 Proxmox 群集、主机、数据存储区、ONTAP 群集和受保护虚拟机的数量。还会显示容量使用情况、总存储卷、保护策略和资源组，以清晰显示系统利用率。</block>
+  <block id="9f1f0ff0117a0c038ed3aeea004c9590" category="paragraph">群集健康状况突出显示，指示所有连接节点的状态。仪表板的下半部分突出显示虚拟机分配（总计、运行和停止），并提供用于内存、存储和 CPU 的实时 Proxmox 资源利用率。此视图有助于快速评估系统运行状况、识别资源压力并监控整体运营状态。</block>
+  <block id="3b512de059a0505d85337f42502cc459" category="example-title">查看信息板</block>
+  <block id="a203c70d64ac00a0da7baa307e769325" category="image-alt">显示集群运行状况的 SMP Dashboard</block>
+  <block id="f0000b12e34e9d2e8ad82c701c4729db" category="paragraph">Storage Manager for Proxmox 提供了一种简化和统一的方式来管理 Proxmox 环境中的保护、克隆和恢复操作。通过与 ONTAP 直接集成，该解决方案将企业级存储的效率、可靠性和性能融入到日常 VM 工作流程中。ONTAP 的节省空间的快照、快速克隆功能和内置复制提供了一致和可预测的数据保护，而 SMP 将这些功能简化为直观的、以任务为中心的界面。</block>
 </blocks>

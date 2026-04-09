@@ -1,0 +1,931 @@
+---
+sidebar: sidebar 
+permalink: proxmox/proxmox-smp.html 
+keywords: proxmox, storage manager, smp, ontap, nfs, iscsi, backup, restore, clone, data protection 
+summary: 'Storage Manager for Proxmox (SMP) 为使用 NetApp ONTAP 存储系统的 Proxmox 环境中的虚拟机提供全面的存储配置和生命周期管理。SMP 使管理员能够直接管理存储，通过自动配置、备份、还原和克隆功能简化操作。' 
+---
+= 配置和使用 Storage Manager for Proxmox
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+:linkattrs: 
+
+
+[role="lead"]
+Storage Manager for Proxmox (SMP) 为使用 NetApp ONTAP 存储系统的 Proxmox 环境中的虚拟机提供全面的存储配置和生命周期管理。SMP 使管理员能够直接管理存储，通过自动配置、备份、还原和克隆功能简化操作。
+
+
+
+== 了解 Storage Manager for Proxmox
+
+Storage Manager for Proxmox (SMP) 为使用 NetApp 存储系统的 Proxmox 环境中的虚拟机提供端到端的存储管理。通过允许管理员直接管理存储，SMP 简化了 Proxmox 环境中的存储和数据管理任务。
+
+
+
+=== 主要特点
+
+* *端到端存储管理*：SMP 为虚拟机提供完整的生命周期管理，从调配存储到备份和恢复。
+* *直接存储管理*：Proxmox 管理员可以直接管理存储，简化操作并降低复杂性。
+* *独立安装程序*：SMP 作为独立安装程序交付，通过 API 无缝连接到 Proxmox 节点。
+
+
+
+
+=== 功能
+
+SMP 的每个组件都旨在提高存储管理效率：
+
+* *存储配置*：轻松为 Proxmox 主机和相关虚拟机分配和管理存储资源。
++
+** *NFS 存储配置*：设置和配置要与 Proxmox 环境一起使用的 ONTAP NFS 存储。
+** *iSCSI 存储配置*：实施具有多路径的厚 LVM，以实现强大而高效的 iSCSI 存储管理。
+
+
+* *备份和恢复*：执行可靠的备份和快速恢复，以确保数据的完整性和可用性。
++
+** *崩溃一致性和文件一致性备份*：通过设置崩溃一致性和文件一致性备份机制来确保数据完整性。
+** *VM 还原操作*：执行虚拟机还原流程以恢复数据并维护系统可用性。
+
+
+* *存储效率*：ONTAP 提供全面的存储效率技术套件，旨在最大限度地减少数据所需的存储。这些技术不仅可以降低存储消耗，还可以提高系统性能，从而提供：
++
+** *快速 VM 配置*：简化虚拟机配置，以加快部署。
+** *更快的数据集拷贝*：加快数据集的复制，实现高效的数据管理。
+
+
+
+
+
+
+=== 前提条件
+
+在继续之前，请确保您已完成以下操作：
+
+* 工作的 Proxmox Virtual Environment (PVE) 9.x 或更高版本集群。
+* ONTAP All Flash FAS (AFF) 存储，在 SVM 级别启用 NFS 和 iSCSI 协议。有关说明，请参见 link:proxmox-ontap-nfs.html["使用 ONTAP 配置 NFS 数据存储"] 和 link:proxmox-ontap-iscsi.html["使用 ONTAP 存储为 iSCSI 配置 Proxmox VE 9.x"]。
++
+[NOTE]
+====
+对于 iSCSI LUN 配置，应启用以下内容：
+
+*在所有 Proxmox 主机上安装多路径和 iSCSI：*
+
+[source, shell]
+----
+apt update
+apt install open-iscsi multipath-tools -y
+systemctl enable --now iscsid multipathd
+----
+*配置 iSCSI 启动程序并通过 iSCSI 连接（在 Proxmox 主机上）：*
+
+创建或更新 `/etc/multipath.conf`：
+
+[source, shell]
+----
+touch /etc/multipath.conf
+----
+或使用：
+
+[source, shell]
+----
+cat << 'EOF' > /etc/multipath.conf
+defaults {
+   user_friendly_names yes
+   find_multipaths yes
+}
+blacklist {
+   devnode "^sd[a]$"
+}
+EOF
+----
+====
+* Proxmox 主机和 ONTAP 存储可从 SMP 主机进行网络访问。
+
+
+
+
+== 安装和设置 Storage Manager for Proxmox
+
+要开始使用 SMP，请在指定的虚拟机上使用 Windows 操作系统。SMP 可以在 Windows Server 2019、2022 和 2025 上运行。
+
+.步骤
+. 从 https://console.bluexp.netapp.com/automationHub["NetApp Console 自动化中心"^]下载 SMP 包（约 17MB）。
++
+.查看 SMP 下载页面
+[%collapsible]
+====
+image::proxmox-smp-image1.png[NetApp Console 自动化中心上的 SMP 安装程序下载页面]
+
+====
+. 解压缩软件包。
+. 运行可执行文件以安装并启动服务。
++
+
+NOTE: 不需要额外的包依赖项，因为 SMP 利用可用的 API 来协调配置和数据保护工作流。
+
++
+.查看 SMP 安装向导
+[%collapsible]
+====
+image::proxmox-smp-image2.png[SMP 安装向导]
+
+====
++
+*使用 Shift 工具包的替代安装*
+
++
+作为独立安装程序的替代方案，您可以使用 Shift 工具包安装 Proxmox VE Storage Manager：
+
++
+** Open Shift Toolkit。
+** 导航到 *Settings* > *Advanced* > *Storage Manager*。
+** 使用切换开关启用 Proxmox VE。
+** 等待系统自动安装必要的组件。
+** 安装完成后，通过单击 *查看* 或打开 Web 浏览器访问 Storage Manager `https://<Shift_server_IP>:4001`
++
+例如： `https://10.61.187.117:4001`
+
+
+
+. 打开 Web 浏览器，通过输入 `http://<IP address specified during installation>:4001`访问 SMP UI
++
+.查看 SMP 登录屏幕
+[%collapsible]
+====
+image::proxmox-smp-image4.png[SMP 登录屏幕]
+
+====
++
+.查看 SMP 主屏幕
+[%collapsible]
+====
+image::proxmox-smp-image5.png[SMP 用户界面主屏幕]
+
+====
+
+
+
+
+== 为 Proxmox 配置 Storage Manager
+
+正确配置到存储和 Proxmox 节点的存储和连接后，配置 SMP 以利用 ONTAP Snapshot 和 FlexClone 功能自动配置和保护虚拟机。
+
+第一步是发现并添加 ONTAP 存储端点，然后将目标 Proxmox 节点添加到 SMP。
+
+.开始之前
+确保满足以下先决条件：
+
+* 已安装 SMP
+* SMP 实例可连接到 Proxmox 节点和存储系统
+* ONTAP 集群提供 NFS 或 iSCSI 存储池
+* 使用 DNS 名称时，DNS 解析已到位。否则，请使用 IP 地址进行发现。
+* 环境具有受支持版本的 Proxmox Virtual Environment 服务器
+
+
+.关于此任务
+在虚拟机管理程序和存储之间建立连接后，只需单击几下即可进行配置，大约需要 2 分钟。
+
+.步骤
+. 登录到 SMP。
+. 在 SMP 左侧导航栏中，选择 *Plan*。
+. 单击 *Add Plan* 。
++
+.查看添加计划
+[%collapsible]
+====
+image::proxmox-smp-image6.png[显示添加计划选项的 SMP 计划配置页面]
+
+====
+. 单击 *Add ONTAP* 添加 ONTAP 存储系统的凭据。
++
+您可以使用集群端点或 SVM 管理 LIF 添加 ONTAP。
+
+. 要使用集群端点添加，请提供以下详细信息：
++
+.. 集群 IP 地址或 FQDN
+.. 用于访问 ONTAP 集群的用户名
+.. 用于访问 ONTAP 集群的密码
+.. 选择 *Accept self-signed certificate* ，然后单击 *Add Storage Cluster*
++
+.查看 Add ONTAP：集群端点
+[%collapsible]
+====
+image::proxmox-smp-image7.png[为集群端点凭据添加 ONTAP 对话框]
+
+====
+
+
+. 要使用 SVM 管理 LIF 添加，请提供以下详细信息：
++
+.. SVM 管理 LIF 或 FQDN
+.. 用于访问 SVM 的用户名
+.. 用于访问 SVM 的密码
+.. 选择 *Accept self-signed certificate* ，然后单击 *Add Storage Cluster*
++
+.查看 Add ONTAP：SVM 管理 LIF
+[%collapsible]
+====
+image::proxmox-smp-image8.png[为 SVM 管理 LIF 凭据添加 ONTAP 对话框]
+
+====
+
+
+. 单击 *Add Proxmox* 以添加要在 SMP 中注册的 Proxmox 节点的凭据。
++
+要添加 Proxmox 节点，请指定其中一个现有 Proxmox 节点的 IP 地址。发现作业会自动查询群集以收集所有基本配置详细信息。
+
+. 请提供以下详细信息：
++
+.. Proxmox 独立 IP 地址或 FQDN
+.. 用于访问 Proxmox 的用户名
+.. 访问 Proxmox 主机以执行资源库存的密码
+.. 选择 *Accept self-signed certificate* 并单击 *Continue*
++
+.查看添加 Proxmox：节点凭据
+[%collapsible]
+====
+image::proxmox-smp-image9.png[添加节点凭据的 Proxmox 对话框]
+
+====
++
+或者，使用 API 令牌通过提供以下内容来访问 API：
+
++
+*** API 令牌 ID
+*** API 令牌密钥
++
+
+NOTE: 在此版本中，API 令牌仅允许用于 NFS 操作。
+
++
+.查看添加 Proxmox：API 令牌
+[%collapsible]
+====
+image::proxmox-smp-image10.png[使用 API 令牌选项添加 Proxmox 对话框]
+
+====
+
+
+
+
+. 验证发现作业是否成功，每个计划的状态是否标记为 *Success*。
++
+添加后， SMP 会自动执行发现扫描并显示虚拟机及其关联的元数据。还会检测到任何现有的存储卷或映射的 LUN 。
+
++
+.查看 Plan 发现结果
+[%collapsible]
+====
+image::proxmox-smp-image11.png[SMP Plan 发现显示 VM 和关联元数据]
+
+====
+
+
+.完成后
+* 如果对 Proxmox 节点或存储进行了任何修改，请运行发现以获取最新信息。单击计划名称上的三个点，然后单击 *发现*。
+* 确保首先添加 ONTAP 存储系统，以便发现作业可以相应地映射现有资源。如果首先添加了 Proxmox，则针对 ONTAP 运行发现作业。
+* 如果凭据或 API 令牌稍后需要更新，请导航到*设置*并选择*更新凭据*选项。
+
+
+.查看更新凭据
+[%collapsible]
+====
+image::proxmox-smp-image12.png[成功配置后的 SMP 计划概述]
+
+====
+
+
+== 配置存储
+
+将卷设置为存储池（通常称为数据存储）可为虚拟机及其虚拟磁盘（QCOW2 或 RAW）创建逻辑容器。SMP 可以调配数据存储区，然后将其连接到单个主机或群集中的所有主机。
+
+
+
+=== 配置 NFS 存储
+
+使用 SMP 将 ONTAP 卷配置和挂载为 NFS 数据存储库。
+
+.步骤
+. 在 SMP GUI 中，转到 *Provision* 选项卡。
+. 导航到 *Add Volume*。
++
+.查看配置选项卡：添加卷
+[%collapsible]
+====
+image::proxmox-smp-image13.png[带有添加卷选项的 SMP 配置选项卡]
+
+====
+. 在"新建卷"向导的"快速设置"步骤中，选择 *NFS*。
++
+
+NOTE: 默认情况下选择 NFS。快速配置可使用标准部署的默认设置提供更快的设置。高级配置为 HA 和 BCDR 功能提供了扩展选项，将在未来版本中引入。
+
++
+.查看新卷向导：NFS
+[%collapsible]
+====
+image::proxmox-smp-image14.png[在快速设置步骤中选择 NFS 的新建卷向导]
+
+====
+. 在 *ONTAP 详细信息* 部分中，提供以下信息：
++
+.. 从 *Storage Cluster* 下拉列表中选择 ONTAP 集群或指定的 Storage Virtual Machine (SVM)
+.. 在 *Volume Name* 字段中提供一个唯一值
+.. 在 *Size* 字段中输入数据存储卷所需的容量
+.. 通过选择适当的选项来选择 ONTAP 存储资源：
++
+*** 聚合名称
+*** Storage Virtual Machine (SVM)
+*** 要用于数据存储访问的首选 LIF
+
+
+.. 选择现有的 *Export Policy* 或根据需要单击 (+) 创建自定义策略
++
+.查看 ONTAP 详细信息：NFS
+[%collapsible]
+====
+image::proxmox-smp-image15.png[NFS 卷配置的 ONTAP 详细信息部分]
+
+====
+
+
+. 在 *Proxmox 详细信息* 部分中，提供以下信息：
++
+.. 在 *Proxmox* 字段中，选择目标集群，然后选择所有需要访问数据存储的节点
+.. 在 *NFS Version* 字段中，选择首选 NFS 协议（NFS v3 或 NFS v4.1）
+.. 在 *Content* 部分中，选择要为此数据存储区启用的内容类型：
++
+*** 磁盘映像
+*** ISO 映像
+*** 容器模板
+*** 备份
+*** 片段
+*** 导入
+*** 或选择 *所有* 内容类型
+
+
+.. （可选）如果需要多个 TCP 连接，请激活 *nconnect* 选项
+.. 确保选中 *Mount the datastore* ，以便将数据存储库挂载到选定的 Proxmox 节点上
++
+.查看 Proxmox 详细信息：NFS
+[%collapsible]
+====
+image::proxmox-smp-image16.png[NFS 数据存储区配置的 Proxmox 详细信息部分]
+
+====
+
+
+. 单击 *Provision* 以创建 ONTAP 卷并在选定的 Proxmox 集群中注册数据存储区（存储池）。
++
+.查看 NFS 配置结果
+[%collapsible]
+====
+image::proxmox-smp-image18a.png[正在执行 NFS 卷配置]
+
+image::proxmox-smp-image18.png[NFS 数据存储库配置已成功完成]
+
+====
++
+.在 Proxmox 中查看 NFS 数据存储
+[%collapsible]
+====
+image::proxmox-smp-image17.png[在 Proxmox 集群中注册的 NFS 数据存储]
+
+====
+
+
+
+
+==== 编辑已配置的卷
+
+使用 SMP 在配置后修改卷设置。
+
+.步骤
+. 在 SMP GUI 中，在 *Provision* 选项卡中找到卷。
+. 单击卷旁边的三个垂直圆点 (⋮)。
+. 从上下文菜单中选择 *编辑* 以打开卷设置。
++
+.查看编辑卷对话框
+[%collapsible]
+====
+image::proxmox-smp-image18b.png[显示卷配置选项的"编辑卷"对话框]
+
+====
+. 根据需要修改卷设置：
++
+** *调整卷大小*：调整卷的存储容量
++
+
+NOTE: 调整大小仅适用于 NFS 卷。
+
+** *Snapshot 锁定*：启用以防止删除或更改快照
++
+
+NOTE: 这需要在集群上安装 SnapLock 许可证，并且必须初始化集群的合规时钟。
+
+** *Anti-Ransomware Protection*：启用以主动检测并警告可能表明勒索软件攻击的异常活动
+** *导出策略*：更新或修改导出策略
+
+
+. 单击 *Save* 以应用更改。
+
+
+
+
+=== 预配 iSCSI 存储
+
+使用 SMP 为虚拟机设置 iSCSI 后端。
+
+.步骤
+. 在 SMP GUI 中，转到 *Provision* 选项卡。
+. 导航到 *Add Volume*。
+. 在"新建卷"向导的"快速设置"步骤中，选择 *iSCSI*。
++
+.查看新卷向导：iSCSI
+[%collapsible]
+====
+image::proxmox-smp-image19.png[在快速设置步骤中选择 iSCSI 的新建卷向导]
+
+====
+. 在 iSCSI 协议下，在 *ONTAP 详细信息* 部分中，提供以下信息：
++
+.. 从 *Storage Cluster* 下拉列表中选择适当的 ONTAP 集群或指定的 Storage Virtual Machine (SVM)
+.. 选择以下项的选项：
++
+*** 聚合名称
+*** Storage Virtual Machine (SVM)
+
+
+.. 在 *LUN 名称* 字段中输入唯一值
+.. 在 *Number of LUNs* 字段中提供所需的 LUN 数量（默认值为 1；可以并行创建相同大小的其他 LUN）
+.. 在 *每个 LUN 的容量* 字段中输入每个 LUN 所需的大小
+.. 为 iSCSI 访问控制选择一个*启动器组*（igroup）。可以选择现有的 igroup 或创建新的 igroup。
++
+.查看 ONTAP 详细信息：iSCSI LUN 配置
+[%collapsible]
+====
+image::proxmox-smp-image20.png[显示 LUN 配置选项的 iSCSI ONTAP 详细信息部分]
+
+====
++
+.查看 iSCSI igroup 选择
+[%collapsible]
+====
+image::proxmox-smp-image21.png[用于访问控制的 iSCSI igroup 选择]
+
+====
+
+
+. 在 *Proxmox 详细信息* 部分中，提供以下信息：
++
+.. 从 *Proxmox* 下拉列表中，选择目标集群，然后选择需要访问存储的所有节点
+.. 选择适当的 *LVM ID*，它将代表 Proxmox 中支持 iSCSI 的存储池
+.. 在 *节点* 字段中，选择所有需要访问显示的 iSCSI 目标的节点
+.. （可选）如果需要 VLAN 分段，请选择所需的 *Storage VLAN*
+.. 在 *Content* 部分中，选择此数据存储区支持的内容类型：
++
+*** 磁盘映像
+*** 容器
+*** 或选择 *所有* 内容类型
+
+
+.. 确保已选择 *Mount the datastore*，以便存储在选定的 Proxmox 节点上可用
+.. （可选）如果存储池将被多个节点同时访问，则启用 *Shared*
++
+.查看 Proxmox 详细信息：iSCSI
+[%collapsible]
+====
+image::proxmox-smp-image22.png[显示存储池配置的 iSCSI Proxmox 详细信息部分]
+
+====
+
+
+. 单击 *Provision* 以创建 ONTAP LUN 并在选定的 Proxmox 集群中注册数据存储区（存储池）。
++
+.查看 iSCSI LUN 配置
+[%collapsible]
+====
+image::proxmox-smp-image23.png[正在执行 iSCSI LUN 设置]
+
+====
++
+.查看 iSCSI 配置已完成
+[%collapsible]
+====
+image::proxmox-smp-image24.png[iSCSI LUN 配置已完成]
+
+====
++
+.在 Proxmox 中查看 iSCSI 数据存储
+[%collapsible]
+====
+image::proxmox-smp-image25.png[在 Proxmox 集群中注册的 iSCSI 数据存储]
+
+====
+. 通过访问 Proxmox 端点验证已连接 NFS 和 iSCSI LUN。
++
+现在，连接的存储可用于配置虚拟机。
+
++
+.查看 Proxmox 存储视图
+[%collapsible]
+====
+image::proxmox-smp-image26.png[Proxmox 存储视图确认 NFS 和 iSCSI 数据存储已连接]
+
+====
+
+
+
+
+=== 卷配置选项
+
+当 SMP 配置新的 ONTAP FlexVol 卷和 LUN 时，会自动应用几个默认配置值：
+
+[cols="2*"]
+|===
+| ONTAP 设置 | 默认值 
+
+
+| Snapshot 预留 (-percent-snapshot-space) | 0% 
+
+
+| 分数预留 (-fractional-reserve) | 0% 
+
+
+| 访问时间更新 (-atime-update) | 已禁用 
+
+
+| 最小预读数 (-min-readahead) | 已禁用 
+
+
+| 计划快照 | 无 
+
+
+| 存储效率 | 已启用 
+
+
+| 卷保证 | 无（精简配置） 
+
+
+| 卷自动调整 | grow_shrink 
+
+
+| LUN 空间预留 | 已禁用 
+
+
+| LUN 空间分配 | 已启用 
+|===
+
+
+=== NConnect 行为
+
+将 NFS 存储与 Proxmox VE 一起使用时，请注意 Linux NFS 客户端（由 Proxmox VE 的基本操作系统 Debian 使用）中的特定行为。Linux 内核可能会重用首次在节点上挂载 NFS 导出时的挂载参数。如果使用不同的挂载选项再次挂载相同的导出，则可能不会应用这些新选项。
+
+作为最佳做法，创建和装载单独的导出并使用不同的 NFS 服务器 IP 地址，例如不同的数据 LIF。SMP 自动检测现有连接及其关联的 nconnect 值，并将相应的 nconnect 值应用于任何新连接。
+
+
+
+== 保护虚拟机
+
+当虚拟机在 ONTAP 支持的 NFS 数据存储上运行时，最简化的保护方法是让 Proxmox 建立文件系统一致性，而 ONTAP 在存储层捕获实际备份点。ONTAP 快照提供数据存储卷的快速、节省空间的时间点副本，以后可用于恢复整个数据存储、单个文件或 VM 内容。
+
+SMP 为崩溃一致和 VM 一致的数据保护和克隆管理提供了一个简单的协调器。此软件通过创建可应用于多个作业的备份策略来简化备份、还原和克隆生命周期。这些策略可以定义计划、保留、复制和其他功能。它们允许可选地选择文件一致性快照；这种方法使用 QEMU 在拍摄 ONTAP 快照之前停止 I/O 的能力。
+
+SMP 允许保护整个数据存储库，其中一个 ONTAP NFS 卷包含多个虚拟机、可能跨越多个数据存储库的虚拟机组或单个虚拟机级别。
+
+
+
+=== 备份虚拟机
+
+配置 ONTAP 卷后，使用备份选项列出在 Proxmox 集群上运行的所有虚拟机，并对虚拟机执行崩溃一致性或文件一致性备份。
+
+.步骤
+. 从左侧导航窗格访问 *Protect* > *Backup*。
++
+.查看 Protect Backup 页面
+[%collapsible]
+====
+image::proxmox-smp-image27.png[SMP Protect Backup 页面列出 Proxmox 虚拟机]
+
+====
+. 选择要备份的虚拟机，然后单击 *Backup*。
++
+.查看备份对话框：VM 选择
+[%collapsible]
+====
+image::proxmox-smp-image28.png[显示虚拟机选择和备份选项的备份对话框]
+
+====
+. 备份工作流允许在崩溃一致性保护和文件一致性保护之间进行选择。
++
+文件一致模式可选地使用 QEMU fsfreeze 来确保在拍摄快照之前来宾文件系统处于静止状态。如果 fsfreeze 失败，系统将回退到使用 Proxmox 快照。
+
++
+
+NOTE: 此回退机制仅适用于存储在 NFS 卷上的虚拟机。
+
++
+.查看备份对话框：一致性选项
+[%collapsible]
+====
+image::proxmox-smp-image29.png[显示崩溃一致性和文件一致性保护选项的备份对话框]
+
+====
++
+.查看备份进度
+[%collapsible]
+====
+image::proxmox-smp-image30.png[显示临时 Proxmox 快照和 ONTAP 快照创建的备份进度]
+
+====
++
+
+NOTE: ONTAP 快照是在卷级别拍摄的，在单个快照中捕获 NFS 数据存储区内的所有 VM 磁盘和配置文件。当选择 VM 一致性保护时，仅对所选 VM 发出 fsfreeze；卷中的所有其他 VM 都作为崩溃一致性包含在同一个 ONTAP 快照中。
+
+
+
+.其他备份选项
+* 要备份单个数据存储库，请选择 *Storage* 选项卡并选择 *Backup* 选项。
+* 要将多个数据存储区备份为一个单元或保护跨越不同数据存储区的 VM 组，请使用 *Resource Group* 选项。资源组允许将数据存储区或 VM 组织成逻辑保护集。
++
+.查看资源组选项卡
+[%collapsible]
+====
+image::proxmox-smp-image31.png[资源组选项卡，带有创建新资源组的选项]
+
+====
+
+
+.创建资源组
+. 打开 *Resource Group* 选项卡并选择 *Add*。
+. 输入新资源组的名称。
+. 选择资源类型：*VM* 或 *Datastore*。
+. 选择适当的 *Protocol*。
+. 根据所选资源类型选择要包含的特定虚拟机或数据存储区。
+. 单击 *Create Resource Group* 完成设置。
++
+.查看"创建资源组"对话框
+[%collapsible]
+====
+image::proxmox-smp-image32.png[使用 VM 和数据存储选择选项创建资源组对话框]
+
+====
+
+
+
+NOTE: 在数据存储区（卷）级别进行的备份始终是崩溃一致的。一个资源组只能包含一种资源类型：虚拟机或数据存储区。对于基于 iSCSI 的存储，备份始终是崩溃一致的。
+
+
+
+=== 备份工作流详细信息
+
+高级备份工作流程包括：
+
+. *定义保护范围*：选择保护目标是数据存储区（ONTAP 卷）、资源组（多个卷或 VM）还是单个 VM。
+. *确认一致性方法*：选择在 ONTAP 快照之前创建一致性的方式：
++
+** QEMU 来宾代理冻结/解冻，用于来宾文件系统静止和 Windows VSS 集成。
+
+
+. *转储 VM 配置文件*。
+. *获取 ONTAP 快照*：在虚拟机处于一致状态时捕获数据存储卷的 ONTAP 快照。这将成为保留的备份副本。
+. *删除临时 Proxmox 快照*：在 ONTAP 快照完成后删除 Proxmox 快照，以防止增量文件增长。
+. *应用保留和复制策略（使用策略）*：如果启用了灾难恢复复制，则应用配置的 ONTAP 保留策略并复制快照集。
+
+
+这种方法通过仅存储更改的信息来最大限度地减少存储空间和网络带宽。使用 Snapshot 副本可快速复制虚拟机或数据存储，而不会影响性能，然后使用 NetApp SnapMirror 技术将其发送到辅助系统，以实现长期的异地数据保护。
+
+
+
+=== 自动化 VM 备份任务
+
+通过配置计划自动执行 Proxmox VM 备份。创建定期备份对于数据保护和灾难恢复至关重要。
+
+.步骤
+. 转到 *Protect* > *Backup* > *Policies* ，然后单击 *Add* 以添加新的备份策略和计划。
++
+.查看备份策略页面
+[%collapsible]
+====
+image::proxmox-smp-image33.png[具有添加新策略选项的备份策略页面]
+
+====
+. 配置常规设置：
++
+.. 输入策略的名称
+.. 选择 *策略类型*（卷或资源组）
+.. 根据选定的类型选择 *Target*
+.. 设置 *备份频率*（每小时、每天、每周或每月）
+.. 使用"保留天数"或"保留数量"配置*保留*（默认保留值为 7）
+.. 选择 *复制模式*（在当前版本中禁用）：
++
+*** 备份后更新 Snapmirror
+*** 备份后更新 SnapVault
++
+
+NOTE: 必须使用 CLI 或 System Manager 在 ONTAP 中配置 SnapMirror 复制。
+
+
+
+
+
+. 在 *Advanced Options* 中，如果应在触发 ONTAP 快照之前使用 Proxmox 快照或 fsfreeze，请启用 *VM Consistency*。
+. 单击 *Create Policy* 保存配置。
++
+.查看备份策略：计划和保留
+[%collapsible]
+====
+image::proxmox-smp-image34.png[显示计划和保留设置的备份策略配置]
+
+====
++
+.查看备份策略：复制和高级选项
+[%collapsible]
+====
+image::proxmox-smp-image35.png[显示复制和高级选项的备份策略配置]
+
+====
+
+
+
+NOTE: VM 备份作业也可以通过单击 *Backup* 立即触发，而不是等待资源组的计划执行时间。
+
+
+
+== 还原虚拟机或数据存储库
+
+使用 SMP 从备份还原 Proxmox VM。
+
+.开始之前
+在执行还原操作之前，必须关闭虚拟机的电源。
+
+.步骤
+. 在 Web 界面左侧的导航窗格中选择 *Restore* 选项。
+. 选择需要还原的虚拟机、存储或资源组。
++
+.查看还原页面
+[%collapsible]
+====
+image::proxmox-smp-image36.png[还原页面列出虚拟机,storage,and resource groups]
+
+====
+. 单击 *Restore* 图标。
++
+根据所选内容（无论是 VM、存储还是资源组），还原弹出窗口将打开。
+
++
+
+NOTE: 根据所选资源，将显示为相应组件创建的快照。例如，在资源组级别创建的快照将仅在选择资源组时显示。这同样适用于存储。但是，对于虚拟机，将显示跨组件创建的所有快照以供选择。
+
++
+.查看还原对话框：快照选择
+[%collapsible]
+====
+image::proxmox-smp-image37.png[还原对话框，显示用于时间点恢复的快照选择]
+
+====
+. 选择所需选项：
++
+.. *还原目标*：还原到同一主机或备用主机的选项
+.. *Host*：如果选择了备用主机，则可以通过下拉菜单选择集群中的任何可用主机
+.. *Snapshot*：为时间点恢复选择适当的快照
+
+
+. 单击 *还原*。
++
+.查看正在进行的还原
+[%collapsible]
+====
+image::proxmox-smp-image38.png[正在执行还原操作]
+
+====
++
+.查看还原已完成
+[%collapsible]
+====
+image::proxmox-smp-image39.png[还原操作已成功完成]
+
+====
+
+
+
+NOTE: 启动存储级还原时，该卷或 LUN 上的所有虚拟机都将断电，系统将作为一个整体还原整个存储实体。
+
+.查看存储级还原
+[%collapsible]
+====
+image::proxmox-smp-image40.png[存储级还原，显示选定卷上的所有 VM]
+
+====
+
+
+=== 还原工作流详细信息
+
+还原工作流程因基础存储类型而异，涉及以下关键步骤：
+
+. *定义还原范围*：选择保护目标是数据存储区（ONTAP 卷）、资源组（多个卷或 VM）还是单个 VM。
+. *执行还原操作*：VM 还原过程因存储协议而异：
++
+** *基于 NFS 的恢复*：在 NFS 上恢复卷或数据存储时，SMP 会在目标卷上启动卷快照恢复操作。对于托管在 NFS 卷上的虚拟机，SMP 会验证还原参数，包括 VM ID、快照名称、站点 ID 和存储类型。如果 VM 正在运行，SMP 通过轮询其状态并发出停止命令来停止它。然后，系统使用文件级还原操作从快照中还原 VM 磁盘。
+** *基于 iSCSI 的恢复*：对于 iSCSI 数据存储或 LUN，SMP 从快照恢复 LUN，验证恢复的设备，跨 Proxmox 节点执行 iSCSI 重新扫描，并确保设备可访问性。对于驻留在 iSCSI 存储上的 VM，SMP 克隆快照 LUN，将克隆的 LUN 映射到 Proxmox 主机，并执行 iSCSI 发现以导入它们。然后添加恢复的存储，并更新 VM 配置。VM 磁盘被移回其原始存储，每个 VM 都跟踪进度。该过程以清理活动结束，包括移除临时存储和删除克隆的 LUN。
+
+
+
+
+
+
+== 克隆虚拟机
+
+使用 SMP 创建虚拟机克隆以进行开发、测试或快速配置。
+
+.步骤
+. 打开 *Protect* 部分，然后从左侧导航菜单中选择 *Clone*。
+. 在虚拟机列表中，找到所需的虚拟机，然后单击 Actions 列中的 *Clone*。
+. 在克隆虚拟机窗口中，选择创建克隆的 *目标节点*。
++
+.查看克隆 VM 对话框
+[%collapsible]
+====
+image::proxmox-smp-image41.png[克隆 VM 对话框显示目标节点选择]
+
+====
+. 选择要用作克隆源的 *Snapshot*。
++
+
+NOTE: 在当前版本中，对活动文件系统执行克隆。在即将发布的版本中，克隆工作流将允许选择快照，在这种情况下，使用从所选快照创建的新卷执行文件克隆。
+
+. 指定克隆虚拟机的*副本数*、*CPU 核心*、*套接字*和*内存*。
+. （可选）如果克隆的虚拟机应在创建后自动启动，请启用 *Power on after clone*。
+. （可选）如果克隆应放置在新创建的数据存储上，请选择 *Create a new datastore*。
+. 在 *高级选项* 下，如果网络设置应自动应用于克隆，请启用 *网络配置*。
+. 单击 *Clone* 开始克隆过程。
++
+克隆工作流程使用 ONTAP 的快速克隆 API 配置新虚拟机，并为克隆实例分配唯一的五位数 GUID。
+
++
+.查看克隆操作
+[%collapsible]
+====
+image::proxmox-smp-image42.png[正在使用 ONTAP FlexClone 进行克隆操作]
+
+====
+
+
+
+NOTE: 克隆的虚拟机同时出现在备份和克隆列表中，可以使用现有备份策略进行保护。要使克隆的虚拟机在这些列表中可见，请对 Proxmox 和 ONTAP 计划运行发现。
+
+.在列表中查看克隆的 VM
+[%collapsible]
+====
+image::proxmox-smp-image43.png[备份和克隆列表中显示的克隆虚拟机]
+
+====
+
+
+=== 克隆工作流详细信息
+
+SMP 通过将繁重的工作卸载到 ONTAP 来执行存储端克隆而不是主机端文件复制，从而实现快速 VM 克隆的自动化。在底层，SMP 利用 ONTAP FlexClone 语义（基于快照、可写、节省空间的克隆），因此克隆可以快速创建，最初消耗的容量很少；它尽可能避免通过 Proxmox 主机进行数据读取/写入。
+
+这种方法通过将克隆工作推入 ONTAP，提供适合开发/测试、实验室和快速刷新周期的快速、精简、存储效率高的克隆，从而加速 VM 配置。
+
+默认情况下，对活动文件系统执行克隆。克隆工作流还允许选择快照，在这种情况下，使用从所选快照创建的新卷执行文件克隆。
+
+
+
+== 监控操作
+
+使用过程日志和仪表板视图来监控和跟踪 SMP 操作。
+
+
+
+=== 处理日志
+
+Process Logs 视图提供了通过 Storage Manager for Proxmox 执行的所有操作的合并记录。每个条目显示作业状态、作业 ID、执行的操作、开始时间和持续时间。这样可以轻松跟踪已完成的任务，识别任何失败或部分操作，并查看在环境中执行的操作顺序。
+
+筛选器和搜索选项可用于快速定位特定作业或按状态缩小列表。
+
+.查看 Process Logs 视图
+[%collapsible]
+====
+image::proxmox-smp-image44.png[显示作业历史记录和操作状态的过程日志视图]
+
+====
+
+
+=== 信息板
+
+仪表板一目了然地概述了整个 Storage Manager for Proxmox 环境。它总结了关键清单，例如 Proxmox 群集、主机、数据存储区、ONTAP 群集和受保护虚拟机的数量。还会显示容量使用情况、总存储卷、保护策略和资源组，以清晰显示系统利用率。
+
+群集健康状况突出显示，指示所有连接节点的状态。仪表板的下半部分突出显示虚拟机分配（总计、运行和停止），并提供用于内存、存储和 CPU 的实时 Proxmox 资源利用率。此视图有助于快速评估系统运行状况、识别资源压力并监控整体运营状态。
+
+.查看信息板
+[%collapsible]
+====
+image::proxmox-smp-image45.png[显示集群运行状况的 SMP Dashboard,VM distribution,and resource utilization]
+
+====
+
+
+== 摘要
+
+Storage Manager for Proxmox 提供了一种简化和统一的方式来管理 Proxmox 环境中的保护、克隆和恢复操作。通过与 ONTAP 直接集成，该解决方案将企业级存储的效率、可靠性和性能融入到日常 VM 工作流程中。ONTAP 的节省空间的快照、快速克隆功能和内置复制提供了一致和可预测的数据保护，而 SMP 将这些功能简化为直观的、以任务为中心的界面。
