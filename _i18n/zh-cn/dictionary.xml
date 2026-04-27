@@ -8625,8 +8625,6 @@
   <block id="2250ade21f70f3898f30d19c23e4f560" category="admonition">在触发迁移之前，应先关闭虚拟机的电源</block>
   <block id="643765be95e96ba0bd0d50b581f23ba9" category="admonition">一旦虚拟机通电，VMware 工具就会在目标虚拟机监控程序上删除</block>
   <block id="e0a9da9332918532fa3fb3eadaa4ed4e" category="list-text">运行 Invoke-VMScript 时使用本地管理员帐户来准备 Windows VM 或使用属于本地 Administrators 组的 Active Directory 帐户。对于 Linux 系统，使用无需密码即可执行命令的帐户（例如通过无密码 sudo）。</block>
-  <block id="f1229500f6a7c4d3c2d90804fdb089b8" category="list-text">对于 Windows 虚拟机，请确保已装载 VirtIO ISO；否则，准备过程将失败。VirtIO ISO 驱动程序可从此处下载。该脚本将检测已装载的驱动器并自动复制所需的文件。</block>
-  <block id="bc0f647d8dee9e215c7b045379244a6e" category="list-text">确保将链接中指定的 ISO 用作准备脚本，使用 .msi 包安装驱动程序和 qemu-guest-agents。先决条件到位后，登录到 Shift toolkit UI 并使用 Proxmox VE 作为目标虚拟机监控程序配置站点。要添加，请点击"Add New Site"，然后选择"Destination"。</block>
   <block id="165d8350def49f049896fbe15e76a272" category="section-title">步骤 1：添加目标站点（Proxmox VE）</block>
   <block id="58c19cc9f30ac5f53cecad2b57f1b183" category="paragraph">将目标 Proxmox VE 环境添加到 Shift Toolkit。</block>
   <block id="2be3d66150efaf11bc807c60b267e960" category="paragraph"><block ref="2be3d66150efaf11bc807c60b267e960" category="inline-image-macro-rx" type="image"></block></block>
@@ -9037,4 +9035,6 @@
   <block id="3b512de059a0505d85337f42502cc459" category="example-title">查看信息板</block>
   <block id="a203c70d64ac00a0da7baa307e769325" category="image-alt">显示集群运行状况的 SMP Dashboard</block>
   <block id="f0000b12e34e9d2e8ad82c701c4729db" category="paragraph">Storage Manager for Proxmox 提供了一种简化和统一的方式来管理 Proxmox 环境中的保护、克隆和恢复操作。通过与 ONTAP 直接集成，该解决方案将企业级存储的效率、可靠性和性能融入到日常 VM 工作流程中。ONTAP 的节省空间的快照、快速克隆功能和内置复制提供了一致和可预测的数据保护，而 SMP 将这些功能简化为直观的、以任务为中心的界面。</block>
+  <block id="cb2322662ab0efc3a672040563903109" category="list-text">对于 Windows 虚拟机，请确保已挂载 VirtIO ISO；否则，准备过程将失败。VirtIO ISO 驱动程序可从 <block ref="a0c092fa69648d84887cd7b874e6d0bb" category="inline-link-macro-rx"></block> 下载。该脚本将检测已装载的驱动器并自动复制所需的文件。</block>
+  <block id="20bd4f3e222783e1dc397b4d18429ecc" category="list-text">确保使用链接中指定的 ISO，因为准备脚本使用 .msi 包安装驱动程序和 qemu-guest-agents。先决条件到位后，登录到 Shift toolkit UI 并使用 Proxmox VE 作为目标虚拟机监控程序配置站点。要添加，请点击"Add New Site"并选择"Destination"。</block>
 </blocks>

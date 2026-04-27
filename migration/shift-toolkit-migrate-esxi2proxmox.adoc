@@ -56,9 +56,9 @@ NOTE: 在触发迁移之前，应先关闭虚拟机的电源
 NOTE: 一旦虚拟机通电，VMware 工具就会在目标虚拟机监控程序上删除
 
 * 运行 Invoke-VMScript 时使用本地管理员帐户来准备 Windows VM 或使用属于本地 Administrators 组的 Active Directory 帐户。对于 Linux 系统，使用无需密码即可执行命令的帐户（例如通过无密码 sudo）。
-* 对于 Windows 虚拟机，请确保已装载 VirtIO ISO；否则，准备过程将失败。VirtIO ISO 驱动程序可从此处下载。该脚本将检测已装载的驱动器并自动复制所需的文件。
+* 对于 Windows 虚拟机，请确保已挂载 VirtIO ISO；否则，准备过程将失败。VirtIO ISO 驱动程序可从 link:https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/archive-virtio/virtio-win-0.1.271-1/virtio-win-0.1.271.iso["此处"] 下载。该脚本将检测已装载的驱动器并自动复制所需的文件。
 +
-** 确保将链接中指定的 ISO 用作准备脚本，使用 .msi 包安装驱动程序和 qemu-guest-agents。先决条件到位后，登录到 Shift toolkit UI 并使用 Proxmox VE 作为目标虚拟机监控程序配置站点。要添加，请点击"Add New Site"，然后选择"Destination"。
+** 确保使用链接中指定的 ISO，因为准备脚本使用 .msi 包安装驱动程序和 qemu-guest-agents。先决条件到位后，登录到 Shift toolkit UI 并使用 Proxmox VE 作为目标虚拟机监控程序配置站点。要添加，请点击"Add New Site"并选择"Destination"。
 
 
 
