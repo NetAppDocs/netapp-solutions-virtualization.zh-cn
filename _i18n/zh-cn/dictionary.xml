@@ -9037,4 +9037,8 @@
   <block id="f0000b12e34e9d2e8ad82c701c4729db" category="paragraph">Storage Manager for Proxmox 提供了一种简化和统一的方式来管理 Proxmox 环境中的保护、克隆和恢复操作。通过与 ONTAP 直接集成，该解决方案将企业级存储的效率、可靠性和性能融入到日常 VM 工作流程中。ONTAP 的节省空间的快照、快速克隆功能和内置复制提供了一致和可预测的数据保护，而 SMP 将这些功能简化为直观的、以任务为中心的界面。</block>
   <block id="cb2322662ab0efc3a672040563903109" category="list-text">对于 Windows 虚拟机，请确保已挂载 VirtIO ISO；否则，准备过程将失败。VirtIO ISO 驱动程序可从 <block ref="a0c092fa69648d84887cd7b874e6d0bb" category="inline-link-macro-rx"></block> 下载。该脚本将检测已装载的驱动器并自动复制所需的文件。</block>
   <block id="20bd4f3e222783e1dc397b4d18429ecc" category="list-text">确保使用链接中指定的 ISO，因为准备脚本使用 .msi 包安装驱动程序和 qemu-guest-agents。先决条件到位后，登录到 Shift toolkit UI 并使用 Proxmox VE 作为目标虚拟机监控程序配置站点。要添加，请点击"Add New Site"并选择"Destination"。</block>
+  <block id="de8e5a1efd59fd3016154d032cf04a70" category="inline-link-macro">使用虚拟化迁移工具包 (MTV) 从 VMware ESXi 迁移到 Red Hat OpenShift 虚拟化</block>
+  <block id="ff9844b2de7cfcbbdfa55375ab39a06f" category="list-text"><block ref="ff9844b2de7cfcbbdfa55375ab39a06f" category="inline-link-macro-rx"></block></block>
+  <block id="990fa9f57e4aad9dabc3374936fa135c" category="inline-link-macro">VMware ESXi 到 Proxmox VE</block>
+  <block id="0844e7bd233e5a61e8cb4e245ed8e467" category="list-text"><block ref="0844e7bd233e5a61e8cb4e245ed8e467" category="inline-link-macro-rx"></block></block>
 </blocks>
