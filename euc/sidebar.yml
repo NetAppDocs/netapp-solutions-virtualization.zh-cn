@@ -1,0 +1,15 @@
+---
+section: euc
+title: 最终用户计算使用 NetApp
+url: "/euc/index.html"
+entries:
+- title: 了解最终用户计算与 NetApp
+  pdf-filename: 使用 NetApp 的最终用户计算概述
+  entries:
+  - title: 使用 NetApp 的最终用户计算概述
+    url: "/euc/euc-overview.html"
+  - title: NetApp 存储对最终用户计算的好处
+    url: "/euc/euc-benefits.html"
+- title: Omnissa Horizon 和 NetApp 架构
+  pdf-filename: Omnissa Horizon 和 NetApp 架构
+  url: "/euc/omnissa-netapp-architecture.html"

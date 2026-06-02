@@ -1,0 +1,20 @@
+---
+indexpage:
+  title: 最终用户计算使用 NetApp
+  summary: NetApp 最终用户计算解决方案可帮助组织向任何设备上的用户提供安全、可扩展的虚拟桌面和应用程序。
+  lead: NetApp 最终用户计算解决方案可帮助组织向任何设备上的用户提供安全、可扩展的虚拟桌面和应用程序。
+  tiles:
+  - title: 开始使用
+    links:
+    - title: 了解最终用户计算与 NetApp
+      url: euc-overview.html
+    - title: NetApp 存储对最终用户计算的好处
+      url: euc-benefits.html
+  - title: 使用 Omnissa Horizon 和 NetApp 的最终用户计算
+    links:
+    - title: Omnissa Horizon 和 NetApp 架构
+      url: omnissa-netapp-architecture.html
+  - title: 其他资源
+    links:
+    - title: Omnissa Tech Zone
+      url: https://techzone.omnissa.com

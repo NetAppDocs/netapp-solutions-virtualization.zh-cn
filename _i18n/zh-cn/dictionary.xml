@@ -9063,4 +9063,96 @@
   <block id="d54ff9be113864ba45f6c548b61f0360" category="image-alt">高级虚拟机监控程序设置选项</block>
   <block id="891154c0cb3c52a4cadf0de9b589ee45" category="image-alt">高级 Hypervisor 设置配置</block>
   <block id="8639d82053466ca0d28ba6da8779cf53" category="image-alt">高级虚拟机监控程序设置作业详细信息</block>
+  <block id="c9bfa7e35e22b3061d9eb74b1ff7494b" category="doc">NetApp 存储对最终用户计算的好处</block>
+  <block id="5f2e969f190d1741f6bc35bcf1ec84b6" category="paragraph">NetApp 存储解决方案为最终用户计算（EUC）环境提供了多种优势，包括提高性能、可扩展性和安全性。借助 NetApp 的存储解决方案，组织可以优化其 EUC 部署，并为最终用户提供更好的用户体验。</block>
+  <block id="27589ff0e4cd2f57a1552778c44b53ba" category="paragraph">以下是 NetApp 存储用于最终用户计算的一些主要优势：</block>
+  <block id="b9647d1c0897ae3d3d777028103d0664" category="section-title">支持 Windows 和 Linux 虚拟桌面</block>
+  <block id="5970ac09fb1509172aad01f55577e0af" category="paragraph">NetApp 存储解决方案支持 Windows 和 Linux 虚拟桌面，使组织能够选择最适合其需求的操作系统。这种灵活性可以帮助组织优化其 EUC 部署，并为其最终用户提供更好的用户体验。相同的文件共享可用于 Windows 和 Linux 虚拟桌面，无论用户使用何种操作系统，都可以为用户提供一致的体验。支持 SMB 和 NFS 协议，允许与现有基础设施无缝集成。</block>
+  <block id="e813ad3717b5d7ba26d75c4e1ac00cf6" category="section-title">安全多租户</block>
+  <block id="bf22bb50d2ed74c5ac5198424482dbcc" category="paragraph">NetApp 存储解决方案提供安全的多租户，使组织能够安全地隔离不同用户和组的数据和资源。这可以帮助组织增强 EUC 环境中的安全性并降低数据泄露的风险。借助 NetApp 的安全多租户功能，组织可以确保安全高效地存储数据，同时还为用户提供从任何地点的任何设备访问其文件和数据的权限。SVM 的作用类似于虚拟存储设备，为每个租户提供安全和隔离的环境，同时还允许高效的资源利用和管理。</block>
+  <block id="9f723c3a3edf5e4f32e28a09ae1cbd25" category="paragraph">文件共享和主目录可以针对不同的用户和组进行安全隔离，从而为 EUC 环境中的数据管理提供安全高效的方式。借助 NetApp 的安全多租户功能，组织可以确保安全高效地存储数据，同时还为用户提供从任何地点的任何设备访问其文件和数据的权限。借助 NetApp 的安全多租户功能，组织可以在 EUC 环境中轻松管理和保护其数据，为最终用户提供更好的用户体验。</block>
+  <block id="d6cfb3b5096cf7508f117e9df48b212b" category="paragraph">自加密驱动器 (SED) 为 EUC 环境提供了额外的安全层，使组织能够保护其静态数据。借助 NetApp 的 SED 技术，即使物理驱动器丢失或被盗，组织也可以确保其数据受到保护。借助 NetApp 的 SED 技术，组织可以轻松加密其静态数据，从而为增强 EUC 环境中的安全性提供强大的工具。</block>
+  <block id="7f6c6b143d53fc7ade20babc2c67acde" category="paragraph">Fpolicy 是一个框架，允许组织在其 EUC 环境中实施文件访问策略，为增强安全性和合规性提供了强大的工具。Vscan 是由 NetApp 开发的防病毒扫描解决方案，允许客户保护其数据免受病毒或其他恶意代码的侵害。借助 NetApp 的 Fpolicy 和 Vscan 技术，组织可以轻松实施文件访问策略，并保护其数据免受病毒和其他恶意代码的侵害，从而为增强 EUC 环境中的安全性提供了强大的工具。</block>
+  <block id="c8978165598777516b77461a7ead5e0b" category="paragraph">ONTAP 能够为文件共享和主目录设置配额，使组织能够有效地管理存储资源，并防止用户消耗过多的存储空间。Qtree 配额可用于对文件共享中的特定目录设置限制，从而对 EUC 环境中的存储资源提供更精细的控制。借助 NetApp 的配额管理功能，组织可以在其 EUC 环境中轻松管理和优化其存储资源，从而为最终用户提供更好的用户体验。</block>
+  <block id="cc23553864c40865e69299f19d704af3" category="section-title">高性能和可扩展性</block>
+  <block id="40144a38a93e7237abcc91adefae405e" category="paragraph">NetApp 存储解决方案旨在为 EUC 环境提供高性能和可扩展性。借助 NetApp 的存储解决方案，组织可以优化其 EUC 部署，并为最终用户提供更好的用户体验。NetApp 的存储解决方案旨在满足 EUC 环境的需求，提供高性能和可扩展性，以支持大量用户和应用程序。借助 NetApp 的存储解决方案，组织可以根据需要轻松扩展其 EUC 部署，确保它们能够随着用户和应用程序的增长而满足其需求。</block>
+  <block id="c6db74f381427861302b14efc85c7c2f" category="paragraph">FlexGroup 卷可以增长至 PB 级大小，可为 EUC 环境提供充足的存储容量。借助 NetApp 的存储解决方案，组织可以根据需要轻松扩展其 EUC 部署，确保它们能够随着用户和应用程序的增长而满足其需求。</block>
+  <block id="662295bc4796ec09855a47ab6fef4dd8" category="paragraph">支持 SMB 多通道和 NFS nConnect 和会话中继，可在 EUC 环境中提高性能和可靠性。借助 NetApp 的存储解决方案，组织可以优化其 EUC 部署，并为最终用户提供更好的用户体验。</block>
+  <block id="85b25e0986b70c550473ff5135889c8c" category="paragraph">ONTAP WideLink 功能允许组织创建可从 SMB 和 NFS 客户端访问的全局命名空间。链接目标可以在本地或远程 ONTAP 群集上，甚至可以在第三方存储系统上。这允许组织创建可由客户端访问的横向扩展文件共享。</block>
+  <block id="bba66623f885ad003f9c1cff60ff2770" category="paragraph">NetApp 快照为 EUC 环境提供了强大的数据保护和灾难恢复解决方案。借助 NetApp 的快照技术，组织可以创建空间高效的数据时间点副本，从而快速从数据丢失或损坏中恢复。这可以帮助组织最大限度地减少停机时间，并确保其最终用户可以继续访问其桌面和应用程序而不会中断。借助 NetApp 的快照技术，组织可以轻松创建和管理其数据的快照，从而为其 EUC 环境中的数据保护和灾难恢复提供强大的工具。</block>
+  <block id="890050506e1dfe6003360d588fe23746" category="paragraph">用户可以从快照中恢复自己的文件，为 EUC 环境中的自助数据恢复提供了强大的工具。借助 NetApp 的快照技术，组织可以使其最终用户恢复自己的数据，从而减轻 IT 员工的负担，并改善 EUC 环境中的整体用户体验。</block>
+  <block id="49a88c443aac8f85c3dd65e8ec87840c" category="paragraph">NetApp 的 MetroCluster 为文件共享提供强大的灾难恢复解决方案，使组织能够跨多个站点复制其数据以获得额外的保护。借助 NetApp 的 MetroCluster 技术，即使在发生站点故障或灾难时，组织也可以确保其数据始终可用并受到保护。借助 NetApp 的 MetroCluster 技术，组织可以轻松地跨多个站点复制其数据，从而为其 EUC 环境中的灾难恢复提供强大的工具。</block>
+  <block id="a1a6cf4e87fd84da3adfca750b48761d" category="paragraph">FlexCache 为 EUC 环境提供强大的缓存解决方案，使组织能够提高性能并减少最终用户的延迟。借助 NetApp 的 FlexCache 技术，组织可以将频繁访问的数据缓存到更接近最终用户的位置，从而提供更好的用户体验，并提高其 EUC 环境中的整体性能。借助 NetApp 的 FlexCache 技术，组织可以轻松地在多个站点之间缓存数据，从而提供强大的工具来提高性能并减少 EUC 环境中的延迟。与 Microsoft DFS 结合使用时，用户可以使用相同的路径访问其数据，无论其位置如何，从而为多个站点的用户提供无缝体验，同时保持数据访问本地化。</block>
+  <block id="84dd41d73aec142ab9c1740e2d9df4fa" category="section-title">vSphere 集成</block>
+  <block id="6c3df3112b18fa82917392821d9aab2c" category="paragraph">NetApp 存储支持 VAAI（vStorage APIs for Array Integration），允许将某些存储操作卸载到存储阵列，从而提高性能并降低 vSphere 主机负载。借助 NetApp 的 VAAI 支持，组织可以优化其 EUC 部署，并为最终用户提供更快的配置和更好的性能。VAAI 支持适用于 NFS 和块协议，允许与现有基础设施无缝集成。</block>
+  <block id="22fda9528a02f73beadb1baf2d335134" category="paragraph">ONTAP tools for VMware vSphere 为EUC环境提供了强大的管理解决方案，使组织能够在 vSphere 环境中轻松管理其 NetApp 存储。支持 VMware Cloud Foundation，单个已部署实例即可管理多个 VCF 域中的 vCenter 实例。用户可以在 vSphere 环境中配置和保护其数据存储库，监控性能，并管理其存储资源。FlexGroup 卷支持适用于大规模EUC部署，为虚拟桌面和应用程序提供充足的存储容量和高性能。</block>
+  <block id="85b937f873668911a102ce1607590588" category="paragraph">NFS nConnect 允许在 vSphere 主机和 NetApp 存储阵列之间建立多个连接，从而提高 EUC 环境中的性能。借助 NetApp 的 NFS nConnect 支持，组织可以优化其 EUC 部署，并为最终用户提供更好的用户体验。</block>
+  <block id="44c13f27eb3688713d42b371d2647f22" category="section-title">数据服务和管理</block>
+  <block id="4cde8ccd5dbe876d8f20760b4a09df0f" category="paragraph">NetApp Console 提供数据服务，以发现、映射和分析您的数据，以满足治理和合规要求。借助 NetApp Console，组织可以轻松地将数据分层到适当的存储类，确保他们可以优化存储资源并满足其性能和成本要求。复制和同步功能允许在站点之间进行高效的数据移动，为在 EUC 环境中管理数据提供了强大的工具。借助 NetApp Console，组织可以在 EUC 环境中轻松管理和优化数据，为最终用户提供更好的用户体验。</block>
+  <block id="901476af8d57555fc3507325617cc4c5" category="paragraph">NetApp 的 Autonomous Ransomware Protection 为保护文件共享免受勒索软件攻击提供了强大的解决方案。使用 NetApp 的 Autonomous Ransomware Protection，组织可以自动检测和响应勒索软件威胁，确保其数据受到保护，最终用户可以继续访问其桌面和应用程序而不会中断。借助 NetApp 的 Autonomous Ransomware Protection，组织可以轻松保护其数据免受勒索软件攻击，为增强其 EUC 环境中的安全性提供了强大的工具。</block>
+  <block id="5989c8a73359c50e18c611cc383b620b" category="paragraph">文件系统分析提供了对文件使用和访问模式的见解，使组织能够优化其存储资源并提高其 EUC 环境中的性能。借助 NetApp 的文件系统分析，组织可以轻松识别存储的顶级消费者，监控数据增长，并就数据管理和优化做出明智的决策。</block>
+  <block id="3e70928619f8424cc7294cfe4faa0d55" category="paragraph">XCP 为 EUC 环境中的数据复制和同步提供了强大的工具，使组织能够跨多个站点有效地管理其数据。借助 NetApp 的 XCP 技术，组织可以进行多流数据传输，从而提高性能并减少数据移动所需的时间。该工具还可用于从第三方存储系统提取数据，为 EUC 环境中的数据迁移和管理提供强大的工具。</block>
+  <block id="64be42836ee50d1d132782a2d2dd6f74" category="paragraph">ONTAP RESTful API、PowerShell Toolkit 和 Ansible 模块为 EUC 环境提供了强大的管理和自动化工具。借助 NetApp 的管理和自动化工具，组织可以轻松实现日常任务的自动化，例如配置和监控，从而使他们能够专注于 EUC 环境中更具战略性的计划。</block>
+  <block id="bee34c6aa65200a621d33ea2c586964f" category="doc">了解最终用户计算与 NetApp</block>
+  <block id="e36e18c67a7204be00a22b228b5c96a3" category="paragraph">最终用户计算 (EUC) 是一种允许用户从任何设备、任何地点访问其桌面和应用程序的技术。采用 NetApp 的 EUC 解决方案包括虚拟桌面基础架构 (VDI)、应用程序虚拟化和用户配置文件管理。借助 NetApp 的 EUC 解决方案，组织可以提高生产力、降低成本并增强最终用户的安全性。</block>
+  <block id="a44e40f183bd63cd183e025966fe01df" category="section-title">什么是最终用户计算 (EUC)？</block>
+  <block id="d5a93469f08f8bdcec15412d893f8b27" category="paragraph">最终用户计算 (EUC) 是一种技术，允许用户从任何地方的任何设备访问其桌面和应用程序。EUC 解决方案通常包括虚拟桌面基础架构 (VDI)、应用虚拟化和用户配置文件管理工具。借助 EUC，组织可以提高生产力、降低成本并增强最终用户的安全性。文件共享和主目录也是 EUC 解决方案的一部分，使用户可以从任何设备访问其文件和数据。</block>
+  <block id="fe8752d87a27eaf70166a7ca159fbc73" category="paragraph">用户需要通过单个应用程序或完整桌面访问应用程序来执行其工作。某些用户可能需要高端图形应用程序用于其桌面工作流或特定应用程序用例。采用 NetApp 的 EUC 解决方案可以根据每个用户的需求和要求为他们提供合适的解决方案。借助 NetApp 的 EUC 解决方案，组织可以为用户提供从任何地点的任何设备访问其桌面和应用程序的权限，同时确保安全高效地存储数据。</block>
+  <block id="c29cb304473dfaaaf520a5650ba1caec" category="paragraph">组织可以选择在本地、云或混合环境中部署 EUC 解决方案，使他们能够灵活地选择最适合其需求的部署模式。借助 NetApp 的 EUC 解决方案，组织可以提高最终用户的生产力、降低成本并提高其安全性，同时还为他们提供在任何地方工作的灵活性。</block>
+  <block id="f0ff620cdd7bcce342cd0de25fa0d1a2" category="section-title">使用 NetApp 进行最终用户计算的高级优势</block>
+  <block id="41b552cd1c634d5b33ca482802aa26d0" category="paragraph">NetApp 的 EUC 解决方案为组织提供了多项优势，包括：* 提高生产力：借助 EUC，用户可以从任何地方的任何设备访问其桌面和应用程序，从而提高生产力和协作。* 降低成本：EUC 可以通过集中桌面和应用程序管理来帮助组织降低成本，从而减少对昂贵硬件和软件的需求。* 增强安全性：EUC 可以通过集中桌面和应用程序管理来帮助组织增强安全性，从而降低数据泄露和其他安全事件的风险。* 可扩展性：NetApp 的 EUC 解决方案具有可扩展性，允许组织根据需要轻松添加或删除用户。* 灵活性：NetApp 的 EUC 解决方案可以部署在本地、云或混合环境中，使组织能够灵活地选择最适合其需求的部署模式。</block>
+  <block id="863dab6b271b47f2c63e4c9bca19797c" category="paragraph">有关详细信息，请查看 <block ref="648619deb40aa6108a5fabb2e771bf8f" category="inline-link-macro-rx"></block> 页面。</block>
+  <block id="c5e0dcb41761393ec173d4928f0c6436" category="section-title">NetApp 的 EUC 解决方案</block>
+  <block id="cf15185c8b16eea1cad0d59ff06e6a15" category="paragraph">NetApp 提供一系列 EUC 解决方案，包括：* 虚拟桌面基础设施 (VDI)：VDI 解决方案使组织能够向最终用户提供虚拟桌面，使他们能够从任何地方的任何设备访问其桌面和应用程序。* 应用程序虚拟化：应用程序虚拟化解决方案允许组织向其最终用户交付虚拟应用程序，使他们能够从任何地方的任何设备访问其应用程序。* 文件共享和主目录：文件共享和主目录解决方案允许组织为用户提供从任何地点的任何设备访问其文件和数据的权限，同时确保安全高效地存储数据。* 用户配置文件管理：用户配置文件管理解决方案允许组织跨多个设备管理用户配置文件和设置，为用户提供一致的体验，无论他们使用的设备是什么。</block>
+  <block id="288e10845e5b6ab250321ff597b2937b" category="doc">Omnissa 与 NetApp 架构</block>
+  <block id="92a1a5563a01aaa6f0ae240b21f50753" category="paragraph">本节概述了 Omnissa 与 NetApp 的架构，包括解决方案中涉及的组件和技术。它还强调了在 EUC 环境中使用 NetApp 存储的好处，以及它如何帮助组织优化其虚拟桌面和应用程序部署。</block>
+  <block id="0fcac6d76c9380cef572c458ee835eac" category="paragraph">Omnissa 与 NetApp 的架构旨在为 EUC 环境提供可扩展且灵活的解决方案。该解决方案由几个组件组成，包括 Omnissa 管理平台、NetApp 存储阵列以及虚拟桌面和应用程序基础设施。Omnissa 管理平台为管理虚拟桌面和应用程序基础架构提供了一个集中的界面，而 NetApp 存储阵列为虚拟桌面和应用程序提供了高性能和可靠的存储。该架构旨在支持广泛的 EUC 用例，包括虚拟桌面基础架构 (VDI)、应用程序虚拟化和用户数据的文件共享。</block>
+  <block id="99ce964fbecb46acdac314bebd44b8a2" category="paragraph"><block ref="99ce964fbecb46acdac314bebd44b8a2" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="6a937d0242dbc9c2eaded4cf5f1c7c61" category="paragraph">Omnissa Horizon 可以部署在本地、云或混合环境中，使组织能够灵活地选择最适合其需求的部署模式。该架构旨在支持广泛的用例，包括 VDI、应用程序虚拟化和 Remote Desktop Services (RDS)。</block>
+  <block id="ecc4227848bf33ee3f459b71e0eaa89b" category="paragraph">Omnissa Horizon Client 是用于访问虚拟桌面和应用程序的最终用户界面。它适用于 Windows、macOS、Linux、iOS 和 Android 设备，允许用户从各种设备连接到他们的虚拟桌面和应用程序。对于无法安装客户端软件的设备，可以将 Web 浏览器用作 HTML 客户端。</block>
+  <block id="4c315b9c5396bd2dd496d0b80c47d494" category="paragraph">瘦客户端和零客户端也可用于访问虚拟桌面和应用程序，为希望将虚拟桌面和应用程序部署到大量用户的组织提供经济高效的解决方案。</block>
+  <block id="3e8194b7d899e462c76075fae1fedb36" category="paragraph">Omnissa Horizon 允许您创建和代理与 Windows 虚拟桌面、Linux 虚拟桌面、Remote Desktop Server (RDS) – 托管应用程序和桌面、Linux 托管应用程序和 Windows 物理计算机的连接。</block>
+  <block id="fac70e1b49255e1adcd05cb502bc3a6c" category="paragraph">Horizon Connection 服务器通过 Active Directory 对用户进行身份验证，并将请求定向到适当且有权限的资源。</block>
+  <block id="f71d9f20cdbb8ab13b591fb259079ce4" category="paragraph">Omnissa Horizon Agent 安装在物理机、虚拟桌面和 Remote Desktop Session Host (RDSH) 上，可实现与 Horizon Connection 服务器的通信，并提供无缝的用户体验。代理还提供会话管理、打印和 USB 重定向等功能。</block>
+  <block id="bca530e06e1ace1f905a4108c00c56ad" category="paragraph">Unified Access Gateway (UAG) 是一种安全网关，可提供对虚拟桌面和应用程序的远程访问。它通常部署在 DMZ 中，并提供从公司网络外部对 Horizon Connection 服务器的安全访问。</block>
+  <block id="dfc821c7f93cbc9a962ce14701c06c8b" category="paragraph">外部数据库实例用于存储 Horizon Connection 服务器事件和其他信息。该数据库可以托管在 Microsoft SQL Server、PostgreSQL 或 Oracle Database 上，使组织能够灵活地选择最适合其需求的数据库平台。</block>
+  <block id="0d10033bca7e30eeb33c5f5a612cc7db" category="paragraph">使用 Horizon SaaS 时，将部署 Horizon Edge Gateway 设备以创建与 Horizon SaaS 服务的连接。Edge Gateway 提供对 Horizon SaaS 服务的安全访问，使组织能够利用基于云的解决方案的优势，同时保持对其虚拟桌面和应用程序基础架构的控制。</block>
+  <block id="09c191f51e9685cae251043bcb01923c" category="inline-link">Horizon 8 架构</block>
+  <block id="e88936f1e1fdef6a2943b4489d057c9e" category="paragraph">有关详细信息，请参见<block ref="d1c5d7bb48b6b58a487fa240a217bcff" category="inline-link-rx"></block>。</block>
+  <block id="3387e4f6a5fdddd0649b0ca069ee6638" category="paragraph">NetApp 存储阵列用于为托管虚拟桌面和应用程序以及用户数据提供高性能和可靠的存储。NetApp 存储阵列提供了灵活的部署选项，并能够根据组织的需求增长进行扩展。它们还提供重复数据删除、数据压缩和精简资源调配等功能，可帮助组织优化其存储资源并降低成本。</block>
+  <block id="7d1539060dd2ea50fb18c87492a889f8" category="section-title">Pod 和 Block 架构</block>
+  <block id="52b1b562ed7e12452b36e9a5f13baa0b" category="paragraph">Omnissa Horizon 使用 pod 和块架构为 EUC 环境提供可扩展和可重复的解决方案。Pod 是一组互连的 Horizon Connection 服务器，可提供多达 20,000 个虚拟桌面和应用程序的会话。一个 pod 最多可以包含 7 个 Horizon Connection 服务器，这些服务器必须位于同一个数据中心，并且不能跨越多个位置。可以使用 Cloud Pod Architecture (CPA) 互连多个 pod，为更大的环境提供可扩展的解决方案。使用 CPA，会话数量可以扩展到 250,000 个。对于较高的会话计数，可以向架构中添加其他 CPA。</block>
+  <block id="ceadf6ad3ffb1adfaab711b27461e0c2" category="paragraph">块是用于托管虚拟桌面和 RDSH 会话的计算集群的集合。每个块都有自己的虚拟机监控程序管理器，对于 VMware 环境来说是 vCenter。在 VCF 环境中，每个工作负载域构成一个块。块可以与 pod 共存于同一个数据中心，也可以位于不同的数据中心。对于远程代理，每个块的最大建议会话数为 1000。每个块的 VM 数量因 Horizon VM 配置而异。</block>
+  <block id="760fe05f680cb13b0dd6ad2cd83f4fa3" category="paragraph">虚拟桌面和用于 RDSH 会话的 Windows 服务器托管在区块中的计算集群上。在 vSphere 环境中，虚拟机托管在连接到计算集群的数据存储上。ONTAP tools for VMware vSphere 提供 vCenter 集成，使管理员能够直接通过 vCenter 界面管理 NetApp 存储。ONTAP 支持块协议（iSCSI、NVMeoF 和光纤通道）以及文件协议（NFS）用于数据存储连接。</block>
+  <block id="0f0a7d17e41017aecde7f8b718f0af18" category="paragraph">vSphere API for Array Integration (VAAI) 是一组 API，允许 vSphere 将某些存储操作卸载到存储阵列，从而提高性能和效率。NetApp 存储阵列支持 VAAI，支持硬件辅助锁定、块清零和完整复制操作等功能。对于 NFS 数据存储区，需要在 vSphere 主机上安装 VAAI 组件才能启用 VAAI 支持。借助 VAAI，虚拟桌面配置时间可以显著减少。</block>
+  <block id="915abe573065a659b9b50fbdf441c0c6" category="inline-image-macro">具有文件存储的数据存储</block>
+  <block id="13c75d133eb5b185b5914f47dc6e8415" category="paragraph"><block ref="13c75d133eb5b185b5914f47dc6e8415" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="313f3aaa778c9b1ed1017d8dba2bebed" category="paragraph">NetApp 存储阵列还提供重复数据删除、压缩和精简配置等功能，可帮助组织优化其存储资源并降低成本。这些功能在可能有大量需要存储资源的虚拟桌面和应用程序的 EUC 环境中可能特别有益。</block>
+  <block id="2876fe71c116137b7c87e7789a25bc2f" category="paragraph">对于托管虚拟桌面和 RDSH 会话的 vSphere 数据存储区的高可用性，可以使用 NetApp SnapMirror 主动同步复制到辅助 NetApp 存储阵列来保护数据存储区。如果主存储阵列发生故障，辅助存储阵列可以使用统一访问模式接管并提供对虚拟桌面和应用程序的访问，而无需任何停机时间。如果是 NFS 数据存储区，则可以使用 NetApp MetroCluster 配置对其进行保护。</block>
+  <block id="4b5aa016c4ebbd3ec813458d4f30d837" category="inline-image-macro">具有块存储的数据存储</block>
+  <block id="4e14138557706384138dbd4baa1d6146" category="paragraph"><block ref="4e14138557706384138dbd4baa1d6146" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="a334c53a8352a392e0f0d9957b15f6b6" category="admonition">Pod 中的 Horizon Connection 服务器不支持跨站点的扩展群集配置。在数据中心内虚拟桌面和应用程序需要高可用性的用例中使用它。托管在 MetroCluster 上的用户数据的文件共享可以提供对来自多个数据中心的用户数据的主动-主动访问。每个数据中心都可以使用其文件服务器 (SVM) 托管用户数据的文件共享。SVM 使用 MetroCluster 配置进行保护，为用户数据提供高可用性和灾难恢复功能。</block>
+  <block id="4479f2d8f3a446918e4bde09b27976fb" category="section-title">应用虚拟化</block>
+  <block id="cdf8a990189cd92c71aebc9f9efa0c6c" category="paragraph">VDI 环境的一个常见挑战是由于预安装的应用程序而导致 VDI 模板蔓延。借助 Omnissa Horizon，App Volumes 可用于将应用程序流式传输到虚拟桌面和已发布的应用程序主机。用户可写卷允许用户安装应用程序。这减少了对持久性桌面的需求。借助 App Volumes，应用程序将被打包并实时交付到虚拟桌面和 RDSH 会话。基于 Machine Manager，打包的应用程序存储在数据存储区上的 VMDK 文件或 SMB 文件共享上的 VHD 文件上，这些文件由 App Volumes Agent 处理，用于在虚拟桌面和 RDSH 服务器上进行装载和卸载。</block>
+  <block id="4c1fd07c7321369cef759aba6adda444" category="inline-image-macro">应用程序卷架构</block>
+  <block id="29fc3512d759a77293d3026961c203d5" category="paragraph"><block ref="29fc3512d759a77293d3026961c203d5" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="7af5ee8779b845fdb16f05911a10b15c" category="paragraph">Microsoft SQL Server 或 SQL Server Express 可用作 App Volumes Manager 的数据库。vSphere 数据存储可以是 VMFS 或 NFS。可以使用 ONTAP tools for VMware vSphere 进行数据存储配置，该工具为 vCenter 集成，能够直接通过 vCenter 界面管理 NetApp 存储。</block>
+  <block id="30b1c652d7d8f393998654012b3e5d27" category="paragraph">除了 Omnissa Horizon 之外，Omnissa App Volumes 还支持 Citrix Virtual Apps and Desktops 以及 Microsoft Remote Desktop Services (RDS)。这使组织能够在多个 EUC 平台上使用 App Volumes 进行应用程序交付，从而提供一致的用户体验并简化应用程序管理。</block>
+  <block id="9e7696a9c21158d0966e07d4daab68be" category="inline-link">App Volumes 架构</block>
+  <block id="ee4b98c0709713bcb8c4eaa44e989a7c" category="paragraph">有关详细信息，请参见<block ref="063934272758f96b387a7049e418708f" category="inline-link-rx"></block>。</block>
+  <block id="3fabeec350b44d0aea806b3b8de47af1" category="section-title">用户配置文件管理</block>
+  <block id="5cdb782c12eeb310c038b11d19ecffc8" category="inline-link">Dynamic Environment Manager 架构</block>
+  <block id="d20d88e204916c6ac3464395bfd7c103" category="paragraph">用户配置文件管理是任何 EUC 环境的关键组成部分，因为它确保用户在不同的虚拟桌面和应用程序中拥有一致的体验。Omnissa Horizon 支持多种用户配置文件管理解决方案，包括 Microsoft FSLogix 和 Omnissa Dynamic Environment Manager (DEM) 或两者的组合。FSLogix 提供容器化用户配置文件解决方案，允许跨不同虚拟桌面和应用程序进行快速登录和一致的用户体验。DEM 提供了一种更精细的用户配置文件管理方法，允许管理员根据特定条件和标准管理用户设置和配置。如需了解有关 DEM 的更多信息，请参阅<block ref="8ef4f8d77529e2c6fde93e53fc4d8758" category="inline-link-rx"></block>。</block>
+  <block id="cf8322f0e85845ac74aedc624502e03d" category="paragraph">通过使用 FSLogix 容器化用户配置文件，用户可以被分配到任何虚拟桌面或 RDSH 会话，并且仍然可以访问其个性化设置和数据。用户数据可以重定向到 SMB 文件共享，以减少容器大小和易于管理。DEM 和 FSLogix 都需要文件共享来存储用户配置文件容器和设置。ONTAP 支持全局命名空间 (GNS)，它允许为跨多个数据中心托管用户配置文件的文件共享创建单个命名空间，或者可以与 Microsoft 分布式文件系统 (DFS) 集成，为用户配置文件存储提供统一命名空间。这允许为用户配置文件提供高可用性和灾难恢复功能，并为用户提供无缝体验，无论他们身在何处或访问何种虚拟桌面。</block>
+  <block id="e6228d015b11b3bcf1cf216ab7745b02" category="paragraph">ONTAP FlexGroup 为在 EUC 环境中托管用户配置文件提供了可扩展的高性能解决方案。FlexGroups 旨在提供高吞吐量和低延迟，使其成为托管需要快速访问数据的用户配置文件的理想选择。</block>
+  <block id="aad129f34464e7555b3d21b27de947c1" category="paragraph">ONTAP FlexCache 与 Microsoft DFS 一起使用可以为用户配置文件提供分布式缓存解决方案，从而在 EUC 环境中更快地访问用户数据并提高性能。使用 FlexCache，可以在本地缓存频繁访问的用户配置文件数据，从而减少延迟并改善用户体验。</block>
+  <block id="9aed9a2b0fd89f780cd8813e5c62ee95" category="section-title">2026 年 5 月 10 日</block>
+  <block id="71e4c2da2b7d5a18a5ae821be75a324e" category="list-text">为 NetApp ONTAP 添加了最终用户计算（EUC）解决方案。</block>
+  <block id="5b0f456e5eb12d0081d599440a699c42" category="sidebar">最终用户计算 (EUC) 解决方案</block>
+  <block id="e13268ff3a22961efca96a4f170a1344" category="sidebar">Omnissa Horizon 和 NetApp 架构</block>
+  <block id="9d5a8af7191d10a46a99d7d9991a3e9b" category="sidebar">NetApp 最终用户计算解决方案可帮助组织向任何设备上的用户提供安全、可扩展的虚拟桌面和应用程序。</block>
+  <block id="0f55b6d2e8569d7c914d4950b89d7986" category="sidebar">最终用户计算使用 NetApp</block>
+  <block id="be67a626ef7bc6c12b4efda89f30af3e" category="sidebar">使用 Omnissa Horizon 和 NetApp 的最终用户计算</block>
+  <block id="2b82062236ea0befd9f50ab5aee59dba" category="sidebar">Omnissa Tech Zone</block>
+  <block id="e6b7848e205a003bd2a920deab7f65fe" category="sidebar">使用 NetApp 的最终用户计算概述</block>
 </blocks>
