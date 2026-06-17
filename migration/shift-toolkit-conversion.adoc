@@ -14,13 +14,13 @@ summary:
 
 
 [role="lead"]
-使用 Shift Toolkit 将 VMware ESX 虚拟机磁盘 (VMDK) 转换为 Microsoft Hyper-V (VHDX) 磁盘格式或 Red Hat KVM (QCOW2) 磁盘格式。此过程包括设置资源组、创建转换蓝图和安排转换。
+使用 Shift Toolkit 将 VMware ESX 虚拟机磁盘 (VMDK) 转换为 Microsoft Hyper-V (VHDX) 磁盘格式或转换为 RAW/QCOW2 磁盘格式。此过程包括设置资源组、创建转换蓝图和计划转换。
 
 
 
 == 概述
 
-Shift 工具包支持虚拟机管理程序之间对以下磁盘格式进行虚拟磁盘的磁盘级转换：
+Shift Toolkit 支持虚拟机管理程序之间以下格式的虚拟磁盘的磁盘级转换，同时支持 ONTAP 上的 FlexVol 和 FlexGroup 卷：
 
 * VMware ESX 到 Microsoft Hyper-V（VMDK 到 VHDX）
 * Microsoft Hyper-V 到 VMware ESX（VHDX 到 VMDK）
@@ -28,7 +28,12 @@ Shift 工具包支持虚拟机管理程序之间对以下磁盘格式进行虚�
 * VMware ESX 到 Red Hat KVM（VMDK 到 RAW）
 
 
-转换后的 qcow2 文件与任何 KVM 虚拟机管理程序兼容。例如，可以使用 virt-manager 在基于 RHEL 的 KVM 中使用 qcow2 文件来创建虚拟机，也可以使用 ubuntu KVM、基于 Rocky Linux 的 KVM 等。经过调整后，它可以与 Oracle Linux 虚拟化管理器一起使用，也可以在使用NetApp Trident导入后与 OpenShift 虚拟化一起使用。目标是提供磁盘（以秒到分钟为单位），然后可以将其集成到组织用于配置虚拟机和分配网络的现有自动化脚本中。这种方法有助于减少总体迁移时间，其中磁盘转换由 Shift 工具包 API 处理，其余脚本启动虚拟机。
+转换后的 qcow2 文件与任何 KVM hypervisor 兼容。例如，可以使用 virt-manager 将 qcow2 文件与基于 RHEL 的 KVM 结合使用来创建 VM，也可以与 Ubuntu KVM、基于 Rocky Linux 的 KVM 等结合使用。在使用 NetApp Trident 导入后，同样可以与 Oracle Linux virtualization manager、Proxmox、OpenNebula、HP VME 以及 OpenShift 虚拟化结合使用。其目标是提供磁盘（在数秒至数分钟内完成转换），然后可以将其集成到组织用于配置 VM 和分配网络的现有自动化脚本中。这种方法有助于缩短整体迁移时间，其中磁盘转换由 Shift 工具包 API 处理，其余脚本用于启动 VM。
+
+NetApp Shift Toolkit 还支持将存储在 FlexGroup 卷上的 VMware VMDK 磁盘转换为原始磁盘格式，从而实现到基于 KVM 的平台（如 Proxmox 或 OLVM）的无缝迁移。
+
+
+NOTE: 使用 FlexGroup 存储时，仅支持 RAW 格式转换。此外，在执行仅 KVM 转换时，Shift 工具包会在准备过程中注入 VirtIO 驱动程序。
 
 Shift 工具包支持从 VMware 到其他兼容的 KVM 虚拟机管理程序的端到端迁移。但是，转换选项使迁移管理员能够运行这些转换和迁移 API。
 

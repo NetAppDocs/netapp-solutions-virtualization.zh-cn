@@ -40,16 +40,173 @@ Shift Toolkit 能够通过目标环境中的磁盘格式转换和网络重新配
 
 
 .VMware 要求
-* 使用 svmotion 将 VMDK 放置在各个卷上（模拟 VMDK 与 PVC/PV 结构的关系）。
+* VMDK 可以通过多种方式进行配置：所有 VMDK 都可以驻留在单个 NFSv3 卷上（无需存储 vMotion），每个 VMDK 都可以放置在自己的单个卷上，或者可以在卷内的 qtree 中组织多个 VMDK。
 +
 
-NOTE: 下一版本将取消此限制，届时可以使用 NAS-economy 驱动程序进行 PVC 配置。
+NOTE: Shift Toolkit 会自动检测布局并选择适当的克隆方法和 NAS 存储驱动程序。
+
++
+
+NOTE: 当 VMDK 放置在 qtree 中时，Shift Toolkit 使用 ONTAP-NAS-economy 驱动程序。
 
 * VMware 工具正在客户虚拟机上运行。
 * 待迁移的虚拟机处于运行状态，以便进行准备。
 * 必须先关闭虚拟机电源才能触发迁移
 * VMware Tools 的移除将在虚拟机启动后在目标虚拟机管理程序上进行。
 
+
+.Trident 技术诀窍和映射
+* *ONTAP-NAS*：所有 VMDK 都可以驻留在单个卷上，或者每个 VMDK 都可以驻留在其自己的单个卷上。虚拟机选择可以在数据存储级别或虚拟机级别进行。
+* *ONTAP-NAS-Economy*：VMDK 必须驻留在单个卷上，卷名必须遵守以下命名约定： `trident_qtree_pool_<storage-prefix>_<10 random characters>`。资源组中的 VM 选择仅在数据存储区级别。
++
+
+NOTE: 对于 ONTAP-NAS-Economy，具有上述命名约定的卷必须预先存在，并且必须用作 VMware vCenter 上的数据存储。这意味着虚拟机应通过 Storage vMotioned 迁移到此特定数据存储区，或者应重命名现有数据存储区以匹配命名约定： `trident_qtree_pool_<storage-prefix>_<10 random characters>`。
+
++
+
+NOTE: 对于 ONTAP-NAS-Economy，Trident 后端配置 (TBC) 应将参数 `Deny New Volume Pools`设置为 `true`。所使用的存储类还应将 storagePools 限制为 `tbc name: <aggr name where the trident_qtree_pool_<storage-prefix>_<10 random characters> resides>`。
+
++
+.ONTAP-NAS-Economy 驱动程序的 TBC 配置示例
+[%collapsible]
+====
+[source, yaml]
+----
+apiVersion: v1
+kind: Secret
+metadata:
+	name: nas-eco-data-1172-secret
+	namespace: trident
+type: Opaque
+stringData:
+	username: <svm-admin-username>
+	password: <svm-admin-password>
+---
+apiVersion: trident.netapp.io/v1
+kind: TridentBackendConfig
+metadata:
+	name: nas-eco-data-1172
+	namespace: trident
+spec:
+	backendName: nas-eco-data-1172
+	credentials:
+		name: nas-eco-data-1172-secret
+	dataLIF: "192.168.1.100"
+	denyNewVolumePools: "False"
+	managementLIF: "192.168.1.50"
+	storageDriverName: ontap-nas-economy
+	svm: data_1172
+	version: 1
+----
+====
++
+
+NOTE: 参数  `denyNewVolumePools` 应在作为初始 PVC 创建的一部分创建  `trident_qtree_pool_<storage-prefix>_<10 random characters>` 之后立即设置为  `true`。将此值设置为  `true` 可确保 Trident 使用现有的 qtree 池来放置基于 qtree 的 PVC。
+
++
+可以使用以下命令修补 TBC：
+
++
+[source, bash]
+----
+oc patch tbc nas-eco-data-1172 -n trident --type=merge -p '{"spec":{"denyNewVolumePools":"true"}}'
+----
++
+.存储类的 YAML 示例
+[%collapsible]
+====
+[source, yaml]
+----
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+	name: nas-eco-data-1172
+	annotations:
+		storageclass.kubernetes.io/is-default-class: "true"
+provisioner: csi.trident.netapp.io
+parameters:
+	backendType: ontap-nas-economy
+	fsType: nfs
+	storagePools: "nas-eco-data-1172:NSOL_NetApp_C800_T18U13_02_SSD_CAP_1"
+allowVolumeExpansion: true
+reclaimPolicy: Delete
+volumeBindingMode: Immediate
+----
+====
+* *ONTAP-SAN*：应使用 Storage vMotion 将 VMDK 放置在单个卷上（将 VMDK 模拟到 PVC/PV 构造）。虚拟机选择处于虚拟机级别。
+* *ONTAP-SAN-Economy*：VMDK 必须驻留在单个 NFSv3 卷上，卷名必须遵守以下命名约定： `trident_lun_`。资源组中的 VM 选择仅在数据存储区级别。
++
+
+NOTE: 对于 ONTAP-SAN-Economy，具有命名约定 `trident_lun_`的卷必须预先存在，并且必须用作 VMware vCenter 上的数据存储。这意味着虚拟机应通过 Storage vMotioned 迁移到此特定数据存储，或者应重命名现有数据存储以匹配命名约定 `trident_lun_`。
+
++
+.ONTAP-SAN-Economy 的 TBC 配置示例
+[%collapsible]
+====
+[source, yaml]
+----
+apiVersion: v1
+kind: Secret
+metadata:
+	name: ontap-san800-eco-secret
+	namespace: trident
+type: Opaque
+stringData:
+	username: <svm-admin-username>
+	password: <svm-admin-password>
+---
+apiVersion: trident.netapp.io/v1
+kind: TridentBackendConfig
+metadata:
+	name: ontap-san800-eco
+	namespace: trident
+spec:
+	backendName: ontap-san800-eco
+	aggregate: NSOL_NetApp_C800_T18U13_01_SSD_CAP_1
+	credentials:
+		name: ontap-san800-eco-secret
+	dataLIF: "192.168.1.110"
+	defaults:
+		protocol: iSCSI
+		snapshotPolicy: none
+		spaceAllocate: "true"
+		spaceReserve: none
+		tieringPolicy: none
+	managementLIF: "192.168.1.60"
+	storage:
+		- labels:
+			backend: san800-eco
+	storageDriverName: ontap-san-economy
+	svm: data_1172
+	version: 1
+----
+====
++
+.ONTAP-SAN-Economy 的示例存储类配置
+[%collapsible]
+====
+[source, yaml]
+----
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+	name: sc-ontap-san-eco
+provisioner: csi.trident.netapp.io
+parameters:
+	backendType: ontap-san-economy
+	selector: "backend=san800-eco"
+allowVolumeExpansion: true
+reclaimPolicy: Delete
+volumeBindingMode: Immediate
+----
+====
++
+
+NOTE: 对于 ONTAP-SAN 和 ONTAP-SAN-Economy，应先将虚拟机从任何基于块的数据存储通过存储 vMotioned 迁移到 ONTAP NFSv3 卷。然后，Shift Toolkit 会将 VMDK 转换为 LUN，并将其作为 PVC 导入到相应的命名空间。
+
+
+
+资源组的虚拟机选择可以是虚拟机级别的，也可以是数据存储级别的。根据所选内容，工作流将选择适当的 ONTAP NAS 或 SAN 存储驱动程序。例如，如果选择了单个 VM，则使用 ONTAP-NAS 驱动程序。如果多个 VMDK 驻留在同一个卷上，则会根据源卷及其 SVM 以及在 OpenShift 端配置的 TBC 和存储类使用 ONTAP-NAS 或 ONTAP-NAS-Economy 驱动程序。
 
 .客户机虚拟机要求
 * 对于 Windows 虚拟机：使用本地管理员凭据
@@ -358,7 +515,7 @@ Shift Toolkit 会自动查找与每个虚拟机关联的所有 VMDK，包括主�
 
 
 
-NOTE: 如果存在多个 VMDK 文件，则每个 VMDK 文件都会被转换。在此版本（v4.0）中，每个 VMDK 都应该放置在单独的卷/数据存储上。
+NOTE: 如果存在多个 VMDK 文件，每个 VMDK 都将根据所使用的存储驱动程序进行转换并放入其自己的 PVC 中。
 
 * 清理卷，使其仅保留 disk.img 文件
 +
@@ -395,8 +552,11 @@ image::shift-toolkit-115.png[Red Hat OpenShift 虚拟机迁移]
 
 ====
 
+NOTE: 作业完成后，可以对照蓝图执行验证选项。有关详细信息，请参阅 xref:shift-toolkit-settings.adoc#verify-migration[验证迁移]。
 
-== 使用迁移工具包进行虚拟化和 Shift 工具包
+
+
+== 将 Migration Toolkit for Virtualization 与 Shift Toolkit 结合使用（脚本化方法）
 
 本节介绍如何使用NetApp Shift Toolkit 和 Migration Toolkit for Virtualization (MTV) 实现向 Red Hat OpenShift Virtualization 的无缝迁移。
 
@@ -411,17 +571,17 @@ image::shift-toolkit-115.png[Red Hat OpenShift 虚拟机迁移]
 NOTE: 由于仅使用 Shift Toolkit API，因此无需配置 Shift Toolkit 资源组或蓝图。
 
 * 在 OpenShift 集群上拥有管理员级别权限
-* 安装了 tridentctl 和 OC 命令行工具的 Linux 实例
+* 安装了 OC 命令行工具的 Linux 实例
 +
 ** 已导出 Kubeconfig 或执行 OC 登录以连接到集群
-** 从 Shift Toolkit UI 下载名为“OpenShift-MTV”的脚本（*设置 > 开发者访问权限 > 脚本拦截器*）
-** 解压缩文件： `unzip openshift-mtv.zip`
+** 从 Shift Toolkit UI 下载名为 "Shift-VM-to-OpenShift-MTV" 的脚本（*Settings > Developer Access > Script Blocker*）
+** 解压缩文件： `unzip Shift-VM-to-OpenShift-MTV.zip`
 ** 请确保已安装 Python3： `dnf install python3`
 ** 安装 OpenJDK 8 或更高版本： `yum install java-1.8.0-openjdk`
 ** 安装要求： `pip install -r requirements.txt`
 
 
-* *MTV 的虚拟机要求*：虚拟机的 VMDK 必须放置在单独的卷上。对于具有 3 个磁盘的虚拟机，每个磁盘都应该位于其单独的卷上（将数据存储映射到 PVC 结构）。这必须使用存储 vMotion 手动完成。
+* *MTV 的虚拟机要求*：VMDK 可以以不同的方式组织：它们可以全部放置在单个卷中（无需存储 vMotion），单独分配给单独的卷，或者在 NFS 卷内的 qtree 中组合在一起。该脚本会自动检测布局，并根据 TBC UUID 选择适当的克隆方法和 NAS 存储驱动程序。
 
 
 .步骤
@@ -530,8 +690,19 @@ image::shift-toolkit-119.png[移民史]
 迁移在 6 分钟内完成，虚拟机拥有 1.5TB 数据磁盘（分布在 3 个 PVC 上）。这展示了一种使用ONTAP存储重新安置虚拟机的精简、低影响方法。
 
 +
+可以使用配置文件或通过指定参数来执行脚本。下面显示了使用参数执行脚本的示例：
 
-NOTE: 在开始进行此特定集成之前，请联系您的红帽客户团队。
++
+
+NOTE: 该脚本还支持跨 SVM 克隆，使其能够根据提供的输入参数跨不同的 SVM 创建 PVC。
+
++
+[source, bash]
+----
+python3 main.py --mode params --ontap-server 10.192.102.56 --ontap-username admin --ontap-password 'correct password' --ontap-source-vserver manila --ontap-target-vserver manila --ontap-data-lif 10.63.172.249 --ontap-skip-ssl --vcenter-server 10.63.172.125 --vcenter-username administrator@demoenv.com --vcenter-password 'correct password' --vcenter-skip-ssl --shift-server 10.61.187.117 --shift-username admin --shift-password 'correct password' --trident-backend-name tbc-ontap-manila-nimo --trident-backend-uuid 778245f4-1f50-453c-b81c-3dd82e166bbc --trident-storage-class nimmanila --mtv-project openshift-mtv --mtv-plan casetst --ocp-server https://api.demomigsno.demoval.com:6443 --ocp-token sha256~co89ATebn-ktVyrMbNJUGByVWph_kjLamYtIOPmqfQM --ocp-project default --import-volume --execution-mode clone_shrink --snapshot-prefix ""
+----
++
+迁移完成后，需要分离克隆卷。使用的方法取决于 ONTAP 版本：ONTAP 9.17.1 及更高版本使用 clone split，早期版本使用 vol move。提供的 ZIP 包中的"Post migrate"文件夹内提供了用于启动分离过程的脚本。
 
 
 

@@ -38,14 +38,14 @@ summary: 使用 Shift Toolkit 和 Migration Toolkit for virtualization 将虚拟
 
 .VMware 要求
 * 权限最低的账户。请参阅本节link:https://docs.netapp.com/us-en/netapp-solutions-virtualization/migration/shift-toolkit-summary.html#minimum-permissions-role-required-on-vmware["所需的最低权限"]
-* 必须使用 svmotion 将 VMDK 放置在各个卷上（模拟 VMDK 与 PVC/PV 结构的关系）。
+* VMDK 可以通过多种方式进行配置：所有 VMDK 都可以驻留在单个卷上（无需存储 vMotion），每个 VMDK 都可以放置在自己的单个卷上，或者可以在卷内的 qtree 中组织多个 VMDK。
++
 
+NOTE: Shift 工具包自动检测布局并选择适当的克隆方法和 NAS 存储驱动程序。
 
++
 
-NOTE: 下一版本将取消此限制，届时可以使用 NAS-economy 驱动程序进行 PVC 配置。
-
-
-NOTE: 使用脚本块（**设置 > 开发人员访问 > 脚本块**）中提供的脚本，可以在 qtree 上启用 PVC 放置，或者允许按原样导入卷，或者克隆并导入卷，从而无需手动执行 vMotion 操作。
+NOTE: 当 VMDK 放置在 qtree 中时，Shift Toolkit 使用 ONTAP-NAS-economy 驱动程序。
 
 * VMware 工具正在客户虚拟机上运行。
 * 每个虚拟机的操作系统都经过认证，并作为转换所需的客户操作系统提供支持。
@@ -332,5 +332,4 @@ NOTE: 虚拟机是在“默认”虚拟机项目下创建的，但可以在 MTV 
 
 Shift Toolkit 通过简化流程、最大限度地减少停机时间以及消除对 ESXi 主机访问或基于 VDDK 的方法的需求，加速了迁移。
 
-
-NOTE: 在开始进行此特定集成之前，请联系您的红帽客户团队。
+迁移完成后，需要分离克隆卷。使用的方法取决于 ONTAP 版本：ONTAP 9.17.1 及更高版本使用 clone split，早期版本使用 vol move。提供的 ZIP 包中的"Post migrate"文件夹内提供了用于启动分离过程的脚本。

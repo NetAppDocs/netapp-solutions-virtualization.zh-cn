@@ -1268,7 +1268,6 @@
   <block id="2670f5ec7a40353d700f21035e194a99" category="video-title">使用 Cirrus Migrate Cloud 大规模迁移到任何存储</block>
   <block id="703841c57d312b4b589352aac851caea" category="paragraph">希望实现虚拟化基础设施现代化的组织通常需要将虚拟机迁移到更高效的存储平台。了解如何将虚拟机从各种存储系统迁移到NetApp ONTAP数据存储区，从而让您能够利用 ONTAP 的高级数据管理功能、节省空间的快照和集成的数据保护功能。</block>
   <block id="8b290c60d51c7b14ee6e18accc9eade2" category="doc">使用 Shift Toolkit 转换虚拟机</block>
-  <block id="1b2e9d78e9f2b2a302c46e7584df1000" category="paragraph">使用 Shift Toolkit 将 VMware ESX 虚拟机磁盘 (VMDK) 转换为 Microsoft Hyper-V (VHDX) 磁盘格式或 Red Hat KVM (QCOW2) 磁盘格式。此过程包括设置资源组、创建转换蓝图和安排转换。</block>
   <block id="eef829dd0d7a22bac7a4c66eb414abff" category="list-text">VMware ESX 到 Microsoft Hyper-V（VMDK 到 VHDX）</block>
   <block id="6b1831fe2dec45a187654bdbfabc905f" category="list-text">VMware ESX 到 Red Hat KVM（VMDK 到 QCOW2）</block>
   <block id="3873bc04ca31ec1f2ea54a39c86e8414" category="section-title">转换为 QCOW2 格式</block>
@@ -6561,7 +6560,6 @@
   <block id="d70245aba238a50b1645035fba3b889c" category="paragraph">要创建 NVMe 命名空间，请从集群中的每个 ESXi 主机获取 NVMe 限定名称 (NQN)。  ONTAP使用 NQN 为命名空间提供访问控制。</block>
   <block id="0b4b22d8d6891c4ed145b12729a1f2dc" category="list-text">Microsoft Hyper-V 到 VMware ESX（VHDX 到 VMDK）</block>
   <block id="e57a1e74c181488f76b8ec41c8780896" category="list-text">VMware ESX 到 Red Hat KVM（VMDK 到 RAW）</block>
-  <block id="3173e5dfb176e66e58d8dd7221d713ae" category="paragraph">转换后的 qcow2 文件与任何 KVM 虚拟机管理程序兼容。例如，可以使用 virt-manager 在基于 RHEL 的 KVM 中使用 qcow2 文件来创建虚拟机，也可以使用 ubuntu KVM、基于 Rocky Linux 的 KVM 等。经过调整后，它可以与 Oracle Linux 虚拟化管理器一起使用，也可以在使用NetApp Trident导入后与 OpenShift 虚拟化一起使用。目标是提供磁盘（以秒到分钟为单位），然后可以将其集成到组织用于配置虚拟机和分配网络的现有自动化脚本中。这种方法有助于减少总体迁移时间，其中磁盘转换由 Shift 工具包 API 处理，其余脚本启动虚拟机。</block>
   <block id="4d407050aa86ad48312affa8e43a67d7" category="paragraph">Shift 工具包支持从 VMware 到其他兼容的 KVM 虚拟机管理程序的端到端迁移。但是，转换选项使迁移管理员能够运行这些转换和迁移 API。</block>
   <block id="623c44ac4b1228e38622f3eedc5061a8" category="list-text">创建目标站点类型，指定 KVM（仅转换）作为虚拟机管理程序。</block>
   <block id="6fed993333f213fd751fe952dd9a1c6b" category="image-alt">创建目标站点步骤的对话框</block>
@@ -6820,8 +6818,6 @@
   <block id="a337c0575fb0850d57838660dc08fb6b" category="list-text">已配置正确的 VLAN 的 NodeNetworkConfigurationPolicy 和 NetworkAttachmentDefinitions (NAD)</block>
   <block id="e54824158e69898ccca26a77c8674d83" category="list-text">OpenShift 集群可通过当前主机文件条目进行网络访问</block>
   <block id="23fb98ffd5f731df3575b1e2734c892d" category="list-text">已下载 Kubeconfig 文件</block>
-  <block id="4b9bedf1805ba86fd555862c58e11f9c" category="list-text">使用 svmotion 将 VMDK 放置在各个卷上（模拟 VMDK 与 PVC/PV 结构的关系）。</block>
-  <block id="637fc88401a7520023c2d7a08bd3e7f7" category="admonition">下一版本将取消此限制，届时可以使用 NAS-economy 驱动程序进行 PVC 配置。</block>
   <block id="390dd953003050f0609139653e9d28db" category="section-title">步骤 1：添加目标站点（OpenShift）</block>
   <block id="a3bb5f6f2383551983f346517198b09b" category="paragraph">将目标 OpenShift 虚拟化环境添加到 Shift 工具包中。</block>
   <block id="0013c497ef74e6c5fc1e9d5ccb87e485" category="list-text">*虚拟机管理程序*：选择 OpenShift</block>
@@ -6855,7 +6851,6 @@
   <block id="65e373645c53e9c1cb8605faee1b66ba" category="list-text">Shift Toolkit 执行以下步骤：</block>
   <block id="5e90aae963ef35b5ec5cb0387a034fa7" category="list-text">克隆各个卷</block>
   <block id="c20ff75d83b61a3549e12e67572ac94d" category="list-text">将每个 VMDK 的 VMDK 格式转换为 RAW 格式</block>
-  <block id="148fb718465b8a2a684e6cc11473e73c" category="admonition">如果存在多个 VMDK 文件，则每个 VMDK 文件都会被转换。在此版本（v4.0）中，每个 VMDK 都应该放置在单独的卷/数据存储上。</block>
   <block id="a06b52e4c2108069bd505ca1641bd18c" category="list-text">清理卷，使其仅保留 disk.img 文件</block>
   <block id="eeb58a927eea6b7b16bb8f62e422d0e0" category="paragraph">将虚拟机磁盘映像转换为 RAW 格式后，Shift Toolkit 会清理卷，将原始文件重命名为 disk.img，并分配必要的权限。</block>
   <block id="ab9492276170195fd3194e0097ac0e86" category="list-text">使用Trident导入功能以 PVC 格式导入销量。</block>
@@ -6865,21 +6860,16 @@
   <block id="18cae1d1be5599b41482577b02f1defb" category="admonition">虚拟机在“默认”命名空间下创建。</block>
   <block id="ad68966c81f3655374588888489c4dbc" category="list-text">使用 cron 作业移除 VMware Tools 并分配 IP 地址</block>
   <block id="57b4f03dd7bb60666ac7ee52988e7a70" category="image-alt">Red Hat OpenShift 虚拟机迁移</block>
-  <block id="8484961e970d557d5574eddec57e1dca" category="section-title">使用迁移工具包进行虚拟化和 Shift 工具包</block>
   <block id="6d1f69fc0c3f0bf198ec33708c69c1e8" category="paragraph">本节介绍如何使用NetApp Shift Toolkit 和 Migration Toolkit for Virtualization (MTV) 实现向 Red Hat OpenShift Virtualization 的无缝迁移。</block>
   <block id="dd4ee610bd1d035c73bc0cbcd80e46da" category="paragraph">确保满足以下先决条件：</block>
   <block id="075351692a1e60c7c93efefcf8f202b4" category="list-text">已安装 OpenShift Virtualization Operator 和NetApp Trident CSI 驱动程序的 OpenShift 集群</block>
   <block id="62af718dafdac747b9a8c93d244cebef" category="list-text">MTV 2.9.4（包含转换模式）</block>
   <block id="57d46182fb8d2a9fa64eac5d3f9d9da4" category="admonition">由于仅使用 Shift Toolkit API，因此无需配置 Shift Toolkit 资源组或蓝图。</block>
   <block id="69a64b9f7cc895c19adf78a298196575" category="list-text">在 OpenShift 集群上拥有管理员级别权限</block>
-  <block id="89cdbaecbf44555ee5d12d57b8ed5562" category="list-text">安装了 tridentctl 和 OC 命令行工具的 Linux 实例</block>
   <block id="d9b6b230b081b7255f69569700039750" category="list-text">已导出 Kubeconfig 或执行 OC 登录以连接到集群</block>
-  <block id="bd8ca956c8731469e434d723538e3d8c" category="list-text">从 Shift Toolkit UI 下载名为“OpenShift-MTV”的脚本（*设置 &gt; 开发者访问权限 &gt; 脚本拦截器*）</block>
-  <block id="416c6b5b9a3583ebc0e998e0c1cbb0b2" category="list-text">解压缩文件：<block ref="a546eb034f2424eac2d4fd17ffb91ee5" prefix=" " category="inline-code"></block></block>
   <block id="e0242df2bb16a2f0ba17e711bfba6885" category="list-text">请确保已安装 Python3：<block ref="2939da1977acc65c6024ace141a44b8d" prefix=" " category="inline-code"></block></block>
   <block id="dac32c3ee00afddd906eb36777b056f0" category="list-text">安装 OpenJDK 8 或更高版本：<block ref="35b382a04618cbad814d556c5389014b" prefix=" " category="inline-code"></block></block>
   <block id="eee9f07b3774a69216af6a4ab291c088" category="list-text">安装要求：<block ref="ed479ebacddedec77a46c27cc0e6a94d" prefix=" " category="inline-code"></block></block>
-  <block id="2b4e996ca43cbc701ab84c367f5f505c" category="list-text">*MTV 的虚拟机要求*：虚拟机的 VMDK 必须放置在单独的卷上。对于具有 3 个磁盘的虚拟机，每个磁盘都应该位于其单独的卷上（将数据存储映射到 PVC 结构）。这必须使用存储 vMotion 手动完成。</block>
   <block id="c4f874f730151c61a5d9332f8fd9452f" category="list-text">使用 MTV 创建迁移计划。</block>
   <block id="7c5c7662e6cf45f2a66b20f6894ff19a" category="paragraph">为了利用快速 VMDK 转换，请为虚拟机创建迁移计划，并确保 YAML 文件中包含以下参数：</block>
   <block id="bab0516e1a858a5aaa1684b50a13bc2e" category="list-text"><block ref="c890a1cad0b84a5de7465f3d9b7b9e36" prefix="" category="inline-code"></block></block>
@@ -6918,7 +6908,6 @@
   <block id="b0ae8cdcd13093eb515809f508d59d70" category="paragraph">根据虚拟机操作系统，MTV 会自动分配虚拟机启动选项以及存储控制器接口。</block>
   <block id="e55eec04dddf2d0944358c31064f6dd7" category="image-alt">移民史</block>
   <block id="f5f5574a5c003ec9e6e236847549f17b" category="paragraph">迁移在 6 分钟内完成，虚拟机拥有 1.5TB 数据磁盘（分布在 3 个 PVC 上）。这展示了一种使用ONTAP存储重新安置虚拟机的精简、低影响方法。</block>
-  <block id="eb05bf59e44b70ea8a44ce8512f06bcc" category="admonition">在开始进行此特定集成之前，请联系您的红帽客户团队。</block>
   <block id="07a748b9d94ed62efce5ea1947999d42" category="summary">使用 Shift Toolkit，通过配置源站点和目标站点、创建资源组和蓝图以及执行迁移工作流，将虚拟机从 Microsoft Hyper-V 迁移到 VMware ESXi。</block>
   <block id="cd22472bba782a8919dd031e00eae137" category="doc">使用 Shift Toolkit 将虚拟机从 Microsoft Hyper-V 迁移到 VMware ESXi</block>
   <block id="1bc4218ce884988bb9397d3f4ceeb1f2" category="paragraph">Shift Toolkit 能够实现虚拟机管理程序之间的直接虚拟机转换，而无需创建额外的磁盘副本，从而为 Windows 和 Linux 虚拟机提供无副本迁移，并将停机时间降至最低。</block>
@@ -7547,8 +7536,6 @@
   <block id="5f95d89fd1dbb8beadaea935389be26b" category="list-text">具有集群管理员权限的服务帐户令牌</block>
   <block id="9f98befe733ce2d29586bf9a87ac8d09" category="inline-link-macro">所需的最低权限</block>
   <block id="5be8426da76cced0a47158ad47750def" category="list-text">权限最低的账户。请参阅本节<block ref="c926533bfc6d97c26e033293cec05b98" category="inline-link-macro-rx"></block></block>
-  <block id="17b93afa4178a31153de0905c4000cf4" category="list-text">必须使用 svmotion 将 VMDK 放置在各个卷上（模拟 VMDK 与 PVC/PV 结构的关系）。</block>
-  <block id="b80fc579753a9bc233dccc96c7f62946" category="admonition">使用脚本块（**设置 &gt; 开发人员访问 &gt; 脚本块**）中提供的脚本，可以在 qtree 上启用 PVC 放置，或者允许按原样导入卷，或者克隆并导入卷，从而无需手动执行 vMotion 操作。</block>
   <block id="290ab574b340fbe7c1c7b7c89a003fef" category="list-text">每个虚拟机的操作系统都经过认证，并作为转换所需的客户操作系统提供支持。</block>
   <block id="9fcda93f457ee4efde123f8b81663bce" category="list-text">迁移之前或迁移期间，不得更改 IP 地址、VLAN 和其他网络配置设置。迁移过程中，虚拟机的 MAC 地址将被保留。</block>
   <block id="409116cb62df6ecb2004715240d3147a" category="section-title">步骤 1：使用虚拟化迁移工具包创建迁移计划</block>
@@ -9155,4 +9142,40 @@
   <block id="be67a626ef7bc6c12b4efda89f30af3e" category="sidebar">使用 Omnissa Horizon 和 NetApp 的最终用户计算</block>
   <block id="2b82062236ea0befd9f50ab5aee59dba" category="sidebar">Omnissa Tech Zone</block>
   <block id="e6b7848e205a003bd2a920deab7f65fe" category="sidebar">使用 NetApp 的最终用户计算概述</block>
+  <block id="970985be56c333fc69eb242858d974a7" category="paragraph">使用 Shift Toolkit 将 VMware ESX 虚拟机磁盘 (VMDK) 转换为 Microsoft Hyper-V (VHDX) 磁盘格式或转换为 RAW/QCOW2 磁盘格式。此过程包括设置资源组、创建转换蓝图和计划转换。</block>
+  <block id="44f1950185c7ba87f5792385e7955268" category="paragraph">Shift Toolkit 支持虚拟机管理程序之间以下格式的虚拟磁盘的磁盘级转换，同时支持 ONTAP 上的 FlexVol 和 FlexGroup 卷：</block>
+  <block id="4422589e352b79eabc36e29fbc413ae2" category="paragraph">转换后的 qcow2 文件与任何 KVM hypervisor 兼容。例如，可以使用 virt-manager 将 qcow2 文件与基于 RHEL 的 KVM 结合使用来创建 VM，也可以与 Ubuntu KVM、基于 Rocky Linux 的 KVM 等结合使用。在使用 NetApp Trident 导入后，同样可以与 Oracle Linux virtualization manager、Proxmox、OpenNebula、HP VME 以及 OpenShift 虚拟化结合使用。其目标是提供磁盘（在数秒至数分钟内完成转换），然后可以将其集成到组织用于配置 VM 和分配网络的现有自动化脚本中。这种方法有助于缩短整体迁移时间，其中磁盘转换由 Shift 工具包 API 处理，其余脚本用于启动 VM。</block>
+  <block id="b0ca35fe608ed46ed84790aa11bfd45d" category="paragraph">NetApp Shift Toolkit 还支持将存储在 FlexGroup 卷上的 VMware VMDK 磁盘转换为原始磁盘格式，从而实现到基于 KVM 的平台（如 Proxmox 或 OLVM）的无缝迁移。</block>
+  <block id="2d4c6926c98a793e6706dcbe238859c7" category="admonition">使用 FlexGroup 存储时，仅支持 RAW 格式转换。此外，在执行仅 KVM 转换时，Shift 工具包会在准备过程中注入 VirtIO 驱动程序。</block>
+  <block id="23447c55f2fd36aad3ded247c06d12b4" category="list-text">VMDK 可以通过多种方式进行配置：所有 VMDK 都可以驻留在单个 NFSv3 卷上（无需存储 vMotion），每个 VMDK 都可以放置在自己的单个卷上，或者可以在卷内的 qtree 中组织多个 VMDK。</block>
+  <block id="6ebe36fa67a49d0407f9a4e9dbf50d8e" category="admonition">Shift Toolkit 会自动检测布局并选择适当的克隆方法和 NAS 存储驱动程序。</block>
+  <block id="42cab0d760992c3247439fcdc5ca4d17" category="admonition">当 VMDK 放置在 qtree 中时，Shift Toolkit 使用 ONTAP-NAS-economy 驱动程序。</block>
+  <block id="c25bdee54a1395139c4e27dd4afed39b" category="list-title">Trident 技术诀窍和映射</block>
+  <block id="2c7917b45cd337d7d807fa04da5947c9" category="list-text">*ONTAP-NAS*：所有 VMDK 都可以驻留在单个卷上，或者每个 VMDK 都可以驻留在其自己的单个卷上。虚拟机选择可以在数据存储级别或虚拟机级别进行。</block>
+  <block id="23d3497d4ade74fc0d167fa0d114c84f" category="list-text">*ONTAP-NAS-Economy*：VMDK 必须驻留在单个卷上，卷名必须遵守以下命名约定：<block ref="c6154cd69db6b669e0a46c304fa9ebfa" prefix=" " category="inline-code"></block>。资源组中的 VM 选择仅在数据存储区级别。</block>
+  <block id="63f70a35e7144b2c553e79ee8bf8bbb1" category="admonition">对于 ONTAP-NAS-Economy，具有上述命名约定的卷必须预先存在，并且必须用作 VMware vCenter 上的数据存储。这意味着虚拟机应通过 Storage vMotioned 迁移到此特定数据存储区，或者应重命名现有数据存储区以匹配命名约定：<block ref="c6154cd69db6b669e0a46c304fa9ebfa" prefix=" " category="inline-code"></block>。</block>
+  <block id="ccae04ad6022f2ab0a767284d0133acf" category="admonition">对于 ONTAP-NAS-Economy，Trident 后端配置 (TBC) 应将参数<block ref="054ededa0a5fea88c78376154775ac7d" prefix=" " category="inline-code"></block>设置为<block ref="b326b5062b2f0e69046810717534cb09" prefix=" " category="inline-code"></block>。所使用的存储类还应将 storagePools 限制为<block ref="c1fde9306141f8bd069a7aa378dd3ffb" prefix=" " category="inline-code"></block>。</block>
+  <block id="7c8975f9ca9c6f30d79ecee3119fd5a4" category="example-title">ONTAP-NAS-Economy 驱动程序的 TBC 配置示例</block>
+  <block id="05b66350c44a36540f552f33e7744a15" category="admonition">参数 <block ref="80fd16da9d17abac4374b362f2e409fe" prefix=" " category="inline-code"></block> 应在作为初始 PVC 创建的一部分创建 <block ref="c6154cd69db6b669e0a46c304fa9ebfa" prefix=" " category="inline-code"></block> 之后立即设置为 <block ref="b326b5062b2f0e69046810717534cb09" prefix=" " category="inline-code"></block>。将此值设置为 <block ref="b326b5062b2f0e69046810717534cb09" prefix=" " category="inline-code"></block> 可确保 Trident 使用现有的 qtree 池来放置基于 qtree 的 PVC。</block>
+  <block id="4096572e8bb4cd2ea6a427ddd47a000a" category="paragraph">可以使用以下命令修补 TBC：</block>
+  <block id="3d7849a9ab22ff361c734f18775b64c5" category="example-title">存储类的 YAML 示例</block>
+  <block id="a1eb62cacf00ac9030d04bec0c2f1749" category="list-text">*ONTAP-SAN*：应使用 Storage vMotion 将 VMDK 放置在单个卷上（将 VMDK 模拟到 PVC/PV 构造）。虚拟机选择处于虚拟机级别。</block>
+  <block id="ccaa188bed5034a0b942f3c5887b40c7" category="list-text">*ONTAP-SAN-Economy*：VMDK 必须驻留在单个 NFSv3 卷上，卷名必须遵守以下命名约定：<block ref="624a7fe9f2c6a3bb75046b0eecbdc3b8" prefix=" " category="inline-code"></block>。资源组中的 VM 选择仅在数据存储区级别。</block>
+  <block id="21383aea5e2999b726fa60c1757d73ee" category="admonition">对于 ONTAP-SAN-Economy，具有命名约定<block ref="624a7fe9f2c6a3bb75046b0eecbdc3b8" prefix=" " category="inline-code"></block>的卷必须预先存在，并且必须用作 VMware vCenter 上的数据存储。这意味着虚拟机应通过 Storage vMotioned 迁移到此特定数据存储，或者应重命名现有数据存储以匹配命名约定<block ref="624a7fe9f2c6a3bb75046b0eecbdc3b8" prefix=" " category="inline-code"></block>。</block>
+  <block id="67ab1603c3106a8b3658420549624c1f" category="example-title">ONTAP-SAN-Economy 的 TBC 配置示例</block>
+  <block id="a04c83014aeb49d42129d11b8339be05" category="example-title">ONTAP-SAN-Economy 的示例存储类配置</block>
+  <block id="bd0b2f8fa902dcd79389caf7a52bda49" category="admonition">对于 ONTAP-SAN 和 ONTAP-SAN-Economy，应先将虚拟机从任何基于块的数据存储通过存储 vMotioned 迁移到 ONTAP NFSv3 卷。然后，Shift Toolkit 会将 VMDK 转换为 LUN，并将其作为 PVC 导入到相应的命名空间。</block>
+  <block id="b85c6e05d65dd0ab955b8bcce5d8cdbf" category="paragraph">资源组的虚拟机选择可以是虚拟机级别的，也可以是数据存储级别的。根据所选内容，工作流将选择适当的 ONTAP NAS 或 SAN 存储驱动程序。例如，如果选择了单个 VM，则使用 ONTAP-NAS 驱动程序。如果多个 VMDK 驻留在同一个卷上，则会根据源卷及其 SVM 以及在 OpenShift 端配置的 TBC 和存储类使用 ONTAP-NAS 或 ONTAP-NAS-Economy 驱动程序。</block>
+  <block id="d78ff19bbe7de35baadb5d206ead481c" category="admonition">如果存在多个 VMDK 文件，每个 VMDK 都将根据所使用的存储驱动程序进行转换并放入其自己的 PVC 中。</block>
+  <block id="3b5791b9b77bdde0928090f2e82320ff" category="admonition">作业完成后，可以对照蓝图执行验证选项。有关详细信息，请参阅 <block ref="c3561bb2b70d13618c46bbceb37974b9" category="inline-xref-macro-rx"></block>。</block>
+  <block id="66cd12a83614460f88066bc18f12cb16" category="section-title">将 Migration Toolkit for Virtualization 与 Shift Toolkit 结合使用（脚本化方法）</block>
+  <block id="b46725197c1a0885610acb48c6eb32f4" category="list-text">安装了 OC 命令行工具的 Linux 实例</block>
+  <block id="e0c97494d3f6f35d6c4b84d1a6339dca" category="list-text">从 Shift Toolkit UI 下载名为 "Shift-VM-to-OpenShift-MTV" 的脚本（*Settings &gt; Developer Access &gt; Script Blocker*）</block>
+  <block id="e4dfc171c0bf7ed67abed9850904b164" category="list-text">解压缩文件：<block ref="4b93dd209b7f06cfd8eff01f9d11951f" prefix=" " category="inline-code"></block></block>
+  <block id="c8f02840346c79c6d7c8db99e01a1a9a" category="list-text">*MTV 的虚拟机要求*：VMDK 可以以不同的方式组织：它们可以全部放置在单个卷中（无需存储 vMotion），单独分配给单独的卷，或者在 NFS 卷内的 qtree 中组合在一起。该脚本会自动检测布局，并根据 TBC UUID 选择适当的克隆方法和 NAS 存储驱动程序。</block>
+  <block id="17af529969a82f6720bcea66c644cae2" category="paragraph">可以使用配置文件或通过指定参数来执行脚本。下面显示了使用参数执行脚本的示例：</block>
+  <block id="5ef8e3063cbb064aa77ed2097b047624" category="admonition">该脚本还支持跨 SVM 克隆，使其能够根据提供的输入参数跨不同的 SVM 创建 PVC。</block>
+  <block id="900072db4db9aa5a93fea4d351c838fd" category="paragraph">迁移完成后，需要分离克隆卷。使用的方法取决于 ONTAP 版本：ONTAP 9.17.1 及更高版本使用 clone split，早期版本使用 vol move。提供的 ZIP 包中的"Post migrate"文件夹内提供了用于启动分离过程的脚本。</block>
+  <block id="2c965de51648fb5524d2eb0e957d4709" category="list-text">VMDK 可以通过多种方式进行配置：所有 VMDK 都可以驻留在单个卷上（无需存储 vMotion），每个 VMDK 都可以放置在自己的单个卷上，或者可以在卷内的 qtree 中组织多个 VMDK。</block>
+  <block id="57ab8ea8689e4a7f85baeb77d04e766e" category="admonition">Shift 工具包自动检测布局并选择适当的克隆方法和 NAS 存储驱动程序。</block>
 </blocks>
