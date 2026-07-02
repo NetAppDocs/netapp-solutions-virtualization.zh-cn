@@ -1,0 +1,200 @@
+---
+sidebar: sidebar 
+permalink: migration/shift-toolkit-deploy-operator.html 
+keywords: netapp, shift, operator, openshift, trident, mtv, migration toolkit for virtualization 
+summary: 使用 NetApp Trident CSI 和 Migration Toolkit for Virtualization，以标准模式手动将 Shift operator 部署为容器化服务。 
+---
+= 手动部署 Shift operator（标准模式）
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+使用 NetApp Trident CSI 和 Migration Toolkit for Virtualization (MTV) 将 NetApp Shift toolkit 手动部署为容器化服务。此过程支持自动化存储资源调配和虚拟机磁盘迁移，利用注释和标签在组件之间适当路由请求。
+
+
+
+== 架构组件
+
+了解 NetApp Shift 工具包、Trident CSI 和 Migration Toolkit for Virtualization 如何协同工作，以实现 OpenShift 环境中的自动存储资源调配和虚拟机磁盘迁移。
+
+image::shift_operator_architecture.png[Shift 操作员架构图]
+
+*NetApp Shift 工具包*
+
+* 通过映像注册表部署为容器化服务
+* 公开一个端点，该端点侦听源自 MTV 的具有特定注释的持久卷声明 (PVC) 请求
+* 负责处理 VM 磁盘迁移任务，包括格式转换
+
+
+*NetApp Trident CSI（版本 26.06 或更高版本）*
+
+* 充当容器存储接口(CSI)配置程序
+* 接收来自 Shift 工具包的 PVC 导入请求
+* 应用基于 PVC 注释和标签的逻辑，以确定是直接处理请求还是将其重定向到 Shift
+
+
+*Migration Toolkit for Virtualization（MTV 2.12 或更高版本）*
+
+* 协调虚拟机迁移计划
+* 在 VM 迁移期间发出存储配置所需的 PVC 请求
+* 添加注释以指导下游处理
+
+
+
+
+== 开始之前
+
+在部署 Shift 操作符之前，请验证您的 OpenShift 环境已安装并配置了所需的组件。
+
+* Migration Toolkit for Virtualization Operator 正在运行 2.12 或更高版本
+* Trident 通过 OpenShift OperatorHub 安装 - link:https://docs.netapp.com/us-en/trident/trident-install/openshift-operator-deploy.html["Trident 安装指南"]
+* NetApp Shift 作为容器部署，Shift 端点可供 NetApp Trident 访问
+* 创建并标记了专门用于 Shift 工具包的存储类
+* 标签将 Shift 工具包标识为预期的处理程序
+* MTV包含以下关于PVC的注释： `forklift.konveyor.io/netapp-shift: "true"`
+
+
+
+
+== 步骤 1：下载并提取 Shift 安装程序
+
+Shift 安装程序包包含部署 Shift operator 和安装 Shift 所需的一切。
+
+.步骤
+. 从 link:https://mysupport.netapp.com/site/tools/tool-eula/netapp-shift-toolkit["NetApp 支持站点 Toolchest"] 下载最新版本的 Shift 安装程序。
+. 提取安装程序包：
++
+[source, bash]
+----
+tar -xf Shift-installer-1.0.0.tar.gz
+----
+. 更改为安装程序目录：
++
+[source, bash]
+----
+cd shift-installer
+----
+
+
+
+
+== 步骤 2：创建 Shift 命名空间和 API 凭据
+
+为 Shift 操作员设置专用命名空间，并创建安全 API 访问所需的凭据。
+
+.步骤
+. 创建 Shift 命名空间：
++
+[source, bash]
+----
+oc create ns shift
+----
+. 在 Shift 命名空间中创建 Shift API 访问的密钥：
++
+[source, bash]
+----
+oc create secret generic shift-credentials -n shift \
+  --from-literal=username='admin' \
+  --from-literal=password='admin'
+----
+
+
+
+
+== 步骤 3：部署 Shift operator
+
+将 Shift 运算符配置应用到您的 OpenShift 集群，并验证所需的 Pod 是否正在成功运行。
+
+.步骤
+. 从 shift-installer 目录中，运行 deploy 命令：
++
+[source, bash]
+----
+oc apply -f deploy/shift-bundle.yaml
+----
+. 使用 Pod 创建状态验证安装：
++
+[source, bash]
+----
+oc get pods -n shift
+----
++
+输出示例：
+
++
+[source, console]
+----
+NAME                                     READY   STATUS    RESTARTS   AGE
+shift-68ccd597c-dtsj7                    1/1     Running   0          18s
+shift-pvc-listener-57d546f6b8-r9mgc      1/1     Running   0          18s
+----
+
+
+
+
+== 步骤 4：配置 Shift 集成的存储类
+
+创建新的 Storage Class 或使用 Shift 集成所需的注释更新现有 Storage Class。
+
+.关于此任务
+存储类必须包含以下注释：
+
+* `shift.netapp.io/storage-class-type`
+* `shift.netapp.io/trident-backend-uuid`
+
+
+.步骤
+. 验证现有存储类：
++
+[source, bash]
+----
+oc get sc
+----
++
+输出示例：
+
++
+[source, console]
+----
+nimnas1172 (default)   csi.trident.netapp.io   Delete          Immediate         true
+----
+. 使用所需的注释修补存储类：
++
+[source, bash]
+----
+oc patch storageclass nimnas1172 \
+  --type=merge \
+  -p '{
+    "metadata": {
+      "annotations": {
+        "shift.netapp.io/storage-class-type": "shift",
+        "shift.netapp.io/trident-backend-uuid": "facc3aad-83bb-423a-b6a1-ba0fb8811217"
+      }
+    }
+  }'
+----
++
+输出示例：
+
++
+[source, console]
+----
+storageclass.storage.k8s.io/nimnas1172 patched
+----
++
+
+NOTE: 可以通过运行 `oc get tbc -n trident`来获取后端 UUID
+
+
+
+
+
+== 下一步
+
+完成 Shift 操作员部署和存储类配置后，您可以创建并触发 MTV 计划。
+
+有关创建 MTV 计划的详细信息，请参见 link:https://docs.redhat.com/en/documentation/migration_toolkit_for_virtualization/2.3/html/installing_and_using_the_migration_toolkit_for_virtualization/migrating-vms-web-console["Migration Toolkit for Virtualization 文档"]。

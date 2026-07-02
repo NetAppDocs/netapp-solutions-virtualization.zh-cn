@@ -404,7 +404,7 @@ NOTE: 如果存在多个 VMDK 文件，则每个 VMDK 文件都会被转换。
 .将 QCOW2 或 RAW 映像上传到基于 PVE NFS 的存储池
 通过将虚拟机磁盘映像转换为 qcow2 或 RAW 格式，Shift 工具包将文件放置到适当的存储池中，并将每个磁盘添加到相应的 VM ID 文件夹中。
 
-image::shift-toolkit-469.png[shift toolkit 469]
+image::shift-toolkit-469.png[VM 磁盘映像已上传到 Proxmox VE NFS 存储池]
 
 .创建虚拟机
 Shift 工具包根据操作系统调用 REST API 来创建每个虚拟机。
