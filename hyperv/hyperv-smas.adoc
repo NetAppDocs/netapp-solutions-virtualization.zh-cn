@@ -18,6 +18,7 @@ summary: 本文介绍了SnapMirror主动同步技术在 Microsoft 延伸集群�
 
 
 
+[[introduction]]
 == 简介
 
 从ONTAP 9.15.1 开始， SnapMirror主动同步支持对称主动/主动部署，允许通过双向同步复制从受保护 LUN 的两个副本执行读写 I/O 操作。 Windows Stretch Cluster 是 Windows 故障转移群集功能的扩展，它跨越多个地理位置以提供高可用性和灾难恢复。借助SnapMirror主动同步对称主动/主动和 Windows 故障转移群集等群集应用程序，我们可以实现 Microsoft Hyper-V 关键业务应用程序的持续可用性，从而在意外事件期间实现零 RTO 和 RPO。该解决方案具有以下优势：
@@ -32,6 +33,7 @@ summary: 本文介绍了SnapMirror主动同步技术在 Microsoft 延伸集群�
 
 
 
+[[use-cases]]
 == 使用案例
 
 一旦发生网络攻击、停电或自然灾害等中断事件，全球互联的商业环境就需要快速恢复业务关键应用程序数据，并且确保零数据丢失。在金融等领域以及遵守《通用数据保护条例》（GDPR）等监管要求的领域，这些要求更加突出。部署对称主动/主动配置，以在地理位置分散的位置之间复制数据，提供对数据的本地访问并确保在发生区域中断时的连续性。
@@ -55,6 +57,7 @@ SnapMirror主动同步通过易于使用的应用程序级粒度和自动故障�
 
 
 
+[[solution-architecture]]
 == 解决方案架构
 
 Microsoft 延伸集群在每个站点上都有两个 Hyper-V 节点。这两个节点共享NetApp存储并使用SnapMirror主动同步对称主动-主动在两个站点之间复制卷。一致性组确保数据集的所有卷都处于静止状态，然后在同一时间点进行快照。这为支持数据集的卷提供了数据一致的还原点。  ONTAP调解器接收有关对等ONTAP集群和节点的健康信息，在两者之间进行协调并确定每个节点/集群是否健康且正在运行。
@@ -76,6 +79,7 @@ image:hyperv-smas-001.png["该图显示输入/输出对话框或表示书面内�
 
 
 
+[[install-a-microsoft-stretch-failover-cluster]]
 === 安装 Microsoft Stretch 故障转移群集
 
 您可以使用 Windows Admin Center、PowerShell 或服务器管理器控制台来安装故障转移群集功能及其相关的 PowerShell cmdlet。有关先决条件和步骤的详细信息，请查看创建故障转移群集。
@@ -127,6 +131,7 @@ image:hyperv-smas-005.png["该图显示输入/输出对话框或表示书面内�
 
 
 
+[[create-intercluster-peering]]
 === 创建集群间对等连接
 
 您必须先在源集群和目标集群之间创建对等关系，然后才能使用SnapMirror复制 Snapshot 副本。
@@ -143,6 +148,7 @@ image:hyperv-smas-007.png["该图显示输入/输出对话框或表示书面内�
 
 
 
+[[configure-mediator-with-ontap]]
 === 使用ONTAP配置调解器
 
 ONTAP调解器接收有关对等ONTAP集群和节点的健康信息，在两者之间进行协调并确定每个节点/集群是否健康且正在运行。 SM-as 允许数据在写入源卷后立即复制到目标。调解器必须部署在第三个故障域。前提条件
@@ -218,6 +224,7 @@ image:hyperv-smas-010.png["该图显示输入/输出对话框或表示书面内�
 
 
 
+[[configure-symmetric-activeactive-protection]]
 === 配置对称主动/主动保护
 
 一致性组有助于应用程序工作负载管理，提供易于配置的本地和远程保护策略以及某一时间点的卷集合的同时崩溃一致性或应用程序一致性 Snapshot 副本。更多详细信息请参阅link:https://docs.netapp.com/us-en/ontap/consistency-groups/index.html["一致性组概述"]。我们对此设置使用统一的配置。
@@ -240,6 +247,7 @@ image:hyperv-smas-012.png["该图显示输入/输出对话框或表示书面内�
 
 
 
+[[perform-cluster-failover-validation-test]]
 === 执行群集故障转移验证测试
 
 我们建议您执行计划的故障转移测试来进行集群验证检查，两个站点上的 SQL 数据库或任何集群软件 - 主站点或镜像站点在测试期间应该继续可访问。
@@ -286,6 +294,7 @@ image:hyperv-smas-013.png["该图显示输入/输出对话框或表示书面内�
 
 
 
+[[summary]]
 == 摘要
 
 SnapMirror主动同步可以帮助多站点应用程序数据（例如 MSSQL 和 Oracle）在两个站点之间主动访问和同步。如果发生故障，应用程序会立即重定向到剩余的活动站点，不会丢失数据，也不会丢失访问。

@@ -18,6 +18,7 @@ summary: '使用 ONTAP 为 OpenNebula 配置基于 NVMe over TCP 的逻辑卷管
 
 
 
+[[initial-virtualization-administrator-tasks]]
 == 初始虚拟化管理员任务
 
 完成这些初始任务，让 OpenNebula 主机为 NVMe/TCP 连接做好准备，并为存储管理员收集必要的信息。
@@ -34,6 +35,7 @@ nvme show-hostnqn
 
 
 
+[[storage-administrator-tasks]]
 == 存储管理员任务
 
 如果您是ONTAP新手，请使用系统管理器以获得更好的体验。
@@ -47,6 +49,7 @@ nvme show-hostnqn
 
 
 
+[[final-virtualization-administrator-tasks]]
 == 最终虚拟化管理员任务
 
 完成这些任务，以在 OpenNebula 中将 NVMe 命名空间配置为共享 LVM 数据存储。

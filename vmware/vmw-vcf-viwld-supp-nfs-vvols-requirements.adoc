@@ -13,6 +13,7 @@ summary: 要在 VMware Cloud Foundation VI 工作负载域中部署 NFS vVols �
 
 
 
+[[infrastructure-requirements]]
 == 基础设施要求
 
 确保以下组件和配置已到位。
@@ -24,6 +25,7 @@ summary: 要在 VMware Cloud Foundation VI 工作负载域中部署 NFS vVols �
 
 
 
+[[recommended-nfs-network-design]]
 == 推荐的 NFS 网络设计
 
 为 NFS 配置冗余网络设计，为存储系统、交换机、网络适配器和主机系统提供容错功能。根据架构要求，通常使用单个子网或多个子网部署 NFS。
@@ -32,6 +34,7 @@ summary: 要在 VMware Cloud Foundation VI 工作负载域中部署 NFS vVols �
 
 
 
+[[additional-information]]
 == 追加信息
 
 * 有关 VMware vSphere 的详细信息，请参阅 https://www.vmware.com/docs/vmw-best-practices-running-nfs-vmware-vsphere["使用 VMware vSphere 运行 NFS 的最佳实践"]。
@@ -44,6 +47,7 @@ summary: 要在 VMware Cloud Foundation VI 工作负载域中部署 NFS vVols �
 
 
 
+[[whats-next]]
 == 下一步是什么？
 
 在审查了要求之后，link:vmw-vcf-viwld-supp-nfs-vvols-svm-lifs.html["创建 SVM 和 LIF"] 。

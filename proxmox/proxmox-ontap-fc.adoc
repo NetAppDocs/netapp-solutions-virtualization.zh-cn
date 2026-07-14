@@ -18,6 +18,7 @@ summary: '使用ONTAP为 Proxmox 虚拟环境配置逻辑卷管理器 (LVM) 和�
 
 
 
+[[initial-virtualization-administrator-tasks]]
 == 初始虚拟化管理员任务
 
 完成这些初始任务，为 Proxmox VE 主机准备 FC 连接，并收集存储管理员所需的必要信息。
@@ -46,6 +47,7 @@ cat /sys/class/fc_host/host*/port_name
 
 
 
+[[storage-administrator-tasks]]
 == 存储管理员任务
 
 如果您是ONTAP新手，请使用系统管理器以获得更好的体验。
@@ -65,6 +67,7 @@ image:proxmox-ontap-fc-002.png["lun详情"]
 
 
 
+[[final-virtualization-administrator-tasks]]
 == 最终虚拟化管理员任务
 
 完成以下任务，将 LUN 配置为 Proxmox VE 中的共享 LVM 存储。

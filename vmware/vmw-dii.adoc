@@ -18,6 +18,7 @@ NetApp Data Infrastructure Insights （以前称为Cloud Insights）是一个基
 
 
 
+[[monitoring-on-premises-storage-with-data-infrastructure-insights]]
 == 利用Data Infrastructure Insights监控本地存储
 
 Data Infrastructure Insights通过采集单元软件运行，该软件设置了 VMware vSphere 和NetApp ONTAP存储系统等资产的数据收集器。这些收集器收集数据并将其传输到Data Infrastructure Insights。然后，该平台利用各种仪表板、小部件和指标查询将数据组织成有见地的分析，供用户解释。
@@ -28,6 +29,7 @@ image:vmware-dii.png["Data Infrastructure Insights"]
 
 
 
+[[solution-deployment-overview]]
 == 解决方案部署概述
 
 此解决方案介绍了如何使用Data Infrastructure Insights监控本地 VMware vSphere 和ONTAP存储系统。
@@ -45,6 +47,7 @@ image:vmware-dii.png["Data Infrastructure Insights"]
 
 
 
+[[prerequisites]]
 == 前提条件
 
 该解决方案使用以下组件：
@@ -57,10 +60,12 @@ image:vmware-dii.png["Data Infrastructure Insights"]
 
 
 
+[[solution-deployment]]
 == 解决方案部署
 
 
 
+[[configure-data-collectors]]
 === 配置数据收集器
 
 要为 VMware vSphere 和ONTAP存储系统配置数据收集器，请完成以下步骤：
@@ -103,6 +108,7 @@ image:vmware-asa-034.png["配置收集器"]
 ====
 
 
+[[add-annotations-to-assets]]
 === 向资产添加注释
 
 注释是标记资产的一种有用方法，以便可以在Cloud Insights中可用的各种视图和指标查询中对其进行过滤和识别。
@@ -129,6 +135,7 @@ image:vmware-asa-037.png["运行所有规则"]
 ====
 
 
+[[explore-and-correlate-assets]]
 === 探索和关联资产
 
 Cloud Insights对存储系统和 vSphere 集群上一起运行的资产得出合理的结论。
@@ -167,6 +174,7 @@ image:vmware-asa-043.png["虚拟机性能指标"]
 ====
 
 
+[[use-cloud-insights-to-identify-noisy-neighbors]]
 === 使用Cloud Insights识别吵闹的邻居
 
 Cloud Insights具有仪表板，可以轻松隔离对在同一存储卷上运行的其他虚拟机产生负面影响的对等虚拟机。
@@ -195,6 +203,7 @@ image:vmware-asa-047.png["工作负载争用"]
 ====
 
 
+[[view-over-and-under-utilized-resources-in-cloud-insights]]
 === 在Cloud Insights中查看过度使用和未充分利用的资源
 
 通过将虚拟机资源与实际工作负载需求相匹配，可以优化资源利用率，从而节省基础设施和云服务的成本。可以定制Cloud Insights中的数据，以轻松显示过度或未充分利用的虚拟机。
@@ -223,6 +232,7 @@ image:vmware-asa-051.png["关闭虚拟机"]
 ====
 
 
+[[use-queries-to-isolate-and-sort-metrics]]
 === 使用查询来隔离和排序指标
 
 Cloud Insights捕获的数据量相当全面。指标查询提供了一种以有用的方式对大量数据进行排序和组织的有效方法。
@@ -243,12 +253,14 @@ image:vmware-asa-053.png["ONTAP基础 - VMware"]
 ====
 
 
+[[conclusion]]
 == 结束语
 
 该解决方案旨在作为入门指南，帮助您了解如何开始使用NetApp Cloud Insights ，并展示该可观察性解决方案可以提供的一些强大功能。该产品内置数百个仪表板和指标查询，可以轻松立即开始使用。  Cloud Insights的完整版本可试用 30 天，基本版本可供NetApp客户免费使用。
 
 
 
+[[additional-information]]
 == 追加信息
 
 要了解有关此解决方案中提出的技术的更多信息，请参阅以下附加信息。

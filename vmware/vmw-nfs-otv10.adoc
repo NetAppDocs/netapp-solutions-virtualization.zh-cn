@@ -22,6 +22,7 @@ ONTAP tools for VMware vSphere采用下一代架构，可为 VASA 提供程序�
 
 
 
+[[solution-overview]]
 == 解决方案概述
 
 此场景涵盖以下高级步骤：
@@ -35,6 +36,7 @@ ONTAP tools for VMware vSphere采用下一代架构，可为 VASA 提供程序�
 
 
 
+[[architecture]]
 == 架构
 
 下图显示了ONTAP tools for VMware vSphere的架构组件。
@@ -43,6 +45,7 @@ image:vmware-nfs-otv10-029.png["otv10架构"]
 
 
 
+[[prerequisites]]
 == 前提条件
 
 此解决方案需要以下组件和配置：
@@ -62,12 +65,14 @@ NetApp建议为 NFS 采用冗余网络设计，为存储系统、交换机、网
 
 
 
+[[deployment-steps]]
 == 部署步骤
 
 要部署ONTAP工具 10 并使用它在 VCF 管理域上创建 NFS 数据存储库，请完成以下步骤：
 
 
 
+[[create-svm-and-lifs-on-ontap-storage-system]]
 === 在ONTAP存储系统上创建 SVM 和 LIF
 
 以下步骤在ONTAP系统管理器中执行。
@@ -108,6 +113,7 @@ image:vmware-vcf-asa-004.png["启用 SVM 帐户并完成"]
 ====
 
 
+[[set-up-networking-for-nfs-on-esxi-hosts]]
 === 在 ESXi 主机上设置 NFS 网络
 
 以下步骤使用 vSphere 客户端在 VI 工作负载域集群上执行。在这种情况下，使用 vCenter Single Sign-On，因此 vSphere 客户端在管理和工作负载域中是通用的。
@@ -194,6 +200,7 @@ image:vmware-nfs-otv10-006.png["检查 VMkernel 选择"]
 ====
 
 
+[[deploy-and-use-ontap-tools-10-to-configure-storage]]
 === 部署并使用ONTAP工具 10 配置存储
 
 以下步骤使用 vSphere 客户端在 vSphere 8 集群上执行，包括部署 OTV、配置ONTAP工具管理器以及创建vVols NFS 数据存储。
@@ -439,6 +446,7 @@ image:vmware-nfs-otv10-032.png["最近任务窗格"]
 ====
 
 
+[[additional-information]]
 == 追加信息
 
 有关适用ONTAP tools for VMware vSphere的完整列表，请参阅 https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere-10/index.html["ONTAP tools for VMware vSphere文档资源"]。

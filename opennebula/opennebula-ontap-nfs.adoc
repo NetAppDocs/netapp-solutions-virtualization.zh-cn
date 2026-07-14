@@ -22,6 +22,7 @@ summary: 为 OpenNebula 配置 NFS 数据存储存储，使用 ONTAP。此过程
 
 
 
+[[storage-administrator-tasks]]
 == 存储管理员任务
 
 完成这些任务，在 ONTAP 上配置 NFS 存储以便与 OpenNebula 配合使用。
@@ -49,6 +50,7 @@ image:opennebula-ontap-nfs-002.png["FlexGroup选项"]
 
 
 
+[[virtualization-administrator-tasks]]
 == 虚拟化管理员任务
 
 完成这些任务以将 NFS 卷添加为 OpenNebula 中的数据存储区，并配置 nConnect 或会话中继以提高性能。

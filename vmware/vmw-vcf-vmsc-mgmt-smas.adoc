@@ -20,6 +20,7 @@ image:vmware-vcf-asa-mgmt-stretchcluster-001.png["单实例 - 多可用区域"]
 
 
 
+[[scenario-overview]]
 == 场景概述
 
 延伸集群解决方案可以在默认集群上实现，也可以在 VCF 管理或工作负载域中的附加集群上实现。主数据存储和补充数据存储均支持 FC 上的 VMFS。 iSCSI 上的 VMFS 仅支持补充数据存储。请参阅IMT以了解具有SnapMirror主动同步的 NVMe-oF 上的 VMFS 支持。
@@ -60,6 +61,7 @@ NOTE: 每当集群扩展或缩小时，都需要更新集群的ONTAP工具上的
 ====
 
 
+[[additional-information]]
 == 追加信息
 
 有关配置ONTAP存储系统的信息，请参阅link:https://docs.netapp.com/us-en/ontap["ONTAP 9 文档"]中心。
@@ -68,6 +70,7 @@ NOTE: 每当集群扩展或缩小时，都需要更新集群的ONTAP工具上的
 
 
 
+[[video-demo-for-this-solution]]
 == 此解决方案的视频演示
 
 .使用ONTAP工具为 VCF 扩展集群

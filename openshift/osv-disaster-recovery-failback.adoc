@@ -1,0 +1,109 @@
+---
+sidebar: sidebar 
+permalink: openshift/osv-disaster-recovery-failback.html 
+keywords: OpenShift, OCP, Trident, Trident Protect, NetApp ONTAP, Red Hat OpenShift, OpenShift Virtualization, Red Hat OpenShift Virtualization 
+summary: Red Hat OpenShift 虚拟化 
+---
+= OpenShift 虚拟化灾难恢复中虚拟机的故障恢复
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+本节提供有关在使用 NetApp Trident Protect 和 AppMirror 的 OpenShift Virtualization 灾难恢复中 VM 故障回切过程的信息。在执行故障转移操作以切换到灾难恢复目标集群后，您可以使用故障回切过程来反转复制方向，并将原始源集群恢复为 VM 的主集群。这涉及将故障转移期间对 VM 进行的任何更改重新同步回原始源集群，然后反向提升复制关系。通过遵循这些步骤，您可以确保在发生灾难恢复事件后，您的 VM 能够在原始源集群上运行，且所有更改均保持完好。
+
+
+
+[[failback-for-openshift-virtualization-disaster-recovery]]
+== OpenShift 虚拟化灾难恢复的故障恢复
+
+使用 Trident Protect，您可以使用以下操作序列在故障转移操作后实现"回切"。在此工作流程中，为了还原原始复制方向，Trident Protect 会在反转复制方向之前将任何应用程序更改复制（重新同步）回原始源应用程序。
+
+此过程从已完成故障转移到目标的关系开始，涉及以下步骤：
+
+. 从故障转移状态开始。
+. 反向重新同步复制关系
++
+当您反向重新同步故障转移复制关系时，目标应用程序将成为源应用程序，而源应用程序将成为目标。在故障转移期间对目标应用程序所做的更改将被保留。
+
++
+.. 在原始目标集群上，删除 AppMirrorRelationship CR。这会导致目标成为源。如果新目标集群上还有任何保护计划，请将其删除。
++
+.显示示例
+[%collapsible]
+====
+image:osv-disaster-recovery-013.png["OCP-v AppMirror 关系已删除以开始回切"]
+
+====
+.. 在新的源集群（初始目标）上创建快照，以捕获故障转移期间所做的任何更改。这可确保在重新同步过程中将所有更改复制回初始源集群。
++
+.显示示例
+[%collapsible]
+====
+[source, yaml]
+----
+# snapshot.yaml
+apiVersion: protect.trident.netapp.io/v1
+kind: Snapshot
+metadata:
+  name: test-source-dr-init-snapshot-failback
+  namespace: test-dr-ns
+spec:
+  applicationRef: test-dest-app
+  appVaultRef: ontap-s3-appvault
+  reclaimPolicy: Delete
+----
+image:osv-disaster-recovery-014.png["在新源集群上使用 Trident Protect CLI 创建的 VM 的 OCP-v 按需快照"] image:osv-disaster-recovery-015.png["在新源集群上使用 Trident Protect CLI 创建虚拟机的 OCP-v 按需快照"] image:osv-disaster-recovery-016.png["在新源集群上使用 Trident Protect CLI 创建的 VM 的 OCP-v 按需快照"]
+
+====
+.. 设置从新源集群（初始目标）到初始源集群的复制关系，为反向方向配置相应值。
++
+.显示示例
+[%collapsible]
+====
+# application-mirror-relationship.yaml
+
+[source, yaml]
+----
+apiVersion: protect.trident.netapp.io/v1
+kind: AppMirrorRelationship
+metadata:
+  name: amr1
+spec:
+  desiredState: Established
+  destinationAppVaultRef: ontap-s3-appvault
+  destinationApplicationRef: dr-source-vm-failback
+  namespaceMapping:
+  - destination: test-dr-ns
+    source: test-dr-ns-dest
+  recurrenceRule: |-
+    DTSTART:20240901T000200Z
+    RRULE:FREQ=MINUTELY;INTERVAL=5
+  sourceAppVaultRef: ontap-s3-appvault
+  sourceApplicationName: test-dest-app
+  sourceApplicationUID: "uid of the app in the original source cluster"
+  storageClassName: "sc-nas"
+----
+image:osv-disaster-recovery-017.png["在原始源集群中创建 OCP-v AppMirror 关系以反转复制方向"] image:osv-disaster-recovery-018.png["在原始目标集群中创建 OCP-v AppMirror 关系以反转复制方向"]
+
+====
+.. 通过将 AppMirrorRelationship CR 中的 desiredState 字段更新为 "Promoted"，将复制关系从新源集群（原始目标）提升至原始源集群。
++
+.显示示例
+[%collapsible]
+====
+image:osv-disaster-recovery-019.png["初始源集群中的 OCP-v AppMirror 关系提升为完成回切"]
+
+您现在将看到虚拟机在原始源集群中运行。故障恢复过程现已完成。您现在可以清理原始目标集群中的资源。如果要在故障恢复过程后保持灾难恢复功能，还可以设置新的复制关系。
+
+
+NOTE: 请勿执行正常的重新同步操作，因为这将丢弃在故障转移过程中写入目标集群的数据。
+
+====
+
+
+

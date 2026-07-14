@@ -4,7 +4,7 @@ permalink: openshift/osv-deployment.html
 keywords: OpenShift, OCP, Trident, NetApp ONTAP, Red Hat OpenShift, OpenShift Virtualization, CNV, Container Native Virtualization, Red Hat OpenShift Virtualization 
 summary: 搭载NetApp ONTAP 的Red Hat OpenShift 虚拟化 
 ---
-= 使用ONTAP部署 Red Hat OpenShift 虚拟化
+= 使用ONTAP部署 Red Hat OpenShift Virtualization 的要求
 :hardbreaks:
 :allow-uri-read: 
 :nofooter: 
@@ -14,6 +14,61 @@ summary: 搭载NetApp ONTAP 的Red Hat OpenShift 虚拟化
 
 
 [role="lead"]
+查看使用 ONTAP 存储系统部署 OpenShift 虚拟化的先决条件和其他详细信息。
+
+
+
+[[prerequisites]]
+== 前提条件
+
+* 安装在裸机基础架构上并带有 RHCOS 工作节点的 Red Hat OpenShift 集群（高于 4.6 版本）
+* 部署机器健康检查以维护虚拟机的高可用性
+* NetApp ONTAP集群，其中 SVM 配置了正确的协议。
+* 在 OpenShift 集群上安装Trident
+* 创建Trident后端配置
+* 在 OpenShift 集群上配置 StorageClass，并使用Trident作为配置器
+* 在 OpenShift 集群上配置的以 Trident 作为配置程序的 Trident VolumeSnapshotClass
+* Trident StorageClass 配置为 OpenShift 集群或 OpenShift Virtualization 的默认值。
+
+
+有关上述Trident先决条件，请参阅link:osv-trident-install.html["Trident安装部分"]了解详情。
+
+* 集群管理员访问 Red Hat OpenShift 集群
+* NetApp ONTAP集群的管理员访问权限
+* 安装了 tridentctl 和 oc 工具并添加到 $PATH 的管理员工作站
+
+
+由于 OpenShift 虚拟化由安装在 OpenShift 集群上的操作员管理，因此会给内存、CPU 和存储带来额外的开销，在规划集群的硬件要求时必须考虑这些开销。有关更多详细信息，请参见文档 link:https://docs.openshift.com/container-platform/4.7/virt/install/preparing-cluster-for-virt.html#virt-cluster-resource-requirements_preparing-cluster-for-virt["此处"]。
+
+也可以通过配置节点放置规则，指定 OpenShift 集群节点的子集来托管 OpenShift 虚拟化运算符、控制器和虚拟机。要为 OpenShift 虚拟化配置节点放置规则，请参阅文档 link:https://docs.openshift.com/container-platform/4.7/virt/install/virt-specifying-nodes-for-virtualization-components.html["此处"]。
+
+对于支持 OpenShift Virtualization 的存储， NetApp建议使用专用的 StorageClass，该 StorageClass 从特定的Trident后端请求存储，而该后端又由专用的 SVM 支持。这对于为 OpenShift 集群上基于 VM 的工作负载提供的数据保持了一定程度的多租户级别。
+
+
+
+[[netapp-trident-csi-storage-profiles-volume-access-modes-for-openshift-virtualization]]
+== NetApp Trident CSI、存储配置文件、OpenShift 虚拟化的卷访问模式
+
+在 OpenShift 虚拟化中，引导源是用于从模板配置虚拟机 (VM) 的磁盘映像。它们通常存储为 openshift-virtualization-os-images 命名空间中的 DataVolumes 或持久卷声明 (PVC)。为了使 OpenShift 虚拟化正常运行，在使用操作员安装 OpenShift 虚拟化之前，必须执行两项存储配置任务：
+
+. 必须为集群配置默认 StorageClass。否则，OpenShift 虚拟化无法自动导入启动源映像。
+. 如果您的存储提供商未被 CDI 识别，则必须配置存储配置文件。存储配置文件根据关联的 StorageClass 提供推荐的存储设置。StorageProfile 的关键功能之一是为 StorageClass 定义克隆策略。这决定了卷的克隆方式（例如，使用快照、CSI 克隆或主机辅助复制），从而根据底层存储供应商的功能优化性能和资源利用率。+ Trident CSI 驱动程序可被 CDI 识别，并且系统会自动为集群中创建的任何 Trident StorageClass 创建默认存储配置文件。此默认存储配置文件的克隆策略设置为快照，这是 Trident CSI 驱动程序推荐的克隆策略。在安装 OpenShift Virtualization 之前，您必须为 Trident 创建 VolumeSnapshotClass 和 StorageClass，并将 StorageClass 设置为默认值。这可以确保引导源镜像在 openshift-virtualization-os-images 命名空间中作为 VolumeSnapshots 可用，从而能够高效且无误地配置虚拟机。
+
+
+对于某些受支持的操作系统（如 RHEL、Fedora 或 CentOS），OpenShift 虚拟化会自动提供和更新引导源。这些文件在安装 OpenShift 虚拟化时下载，并自动管理和更新到最新操作系统版本。如果未自动提供操作系统，管理员必须手动准备并附加自定义映像。当您使用 NetApp Trident 作为 CSI 时，您将获得以下额外好处：
+
+. 启动源映像将在 openshift-virtualization-os-images 命名空间中作为快照提供。配置 VM 时，会从快照中克隆启动映像，从而使 VM 启动速度更快。
+. 系统会为每个创建的 Trident StorageClass 自动创建一个存储配置文件，并自动将克隆策略配置为快照。访问模式设置为 ReadWriteMany。无需手动配置。
+
+
+在集群中安装 OpenShift Virtualization 之前，创建 Trident StorageClass 和 Trident VolumeSnapshotClass 并将其设置为默认值至关重要。这将确保引导源映像在 openshift-virtualization-os-images 命名空间中作为 VolumeSnapshots 可用，从而能够高效且无误地配置 VM。
+
+使用 Trident CSI 的另一个优势：在 OpenShift Virtualization 中，虚拟机的引导磁盘需要具有 RWX 访问模式才能进行虚拟机的实时迁移。Trident 支持对使用 NAS 协议以及使用 SAN 协议（当 volumeMode 设置为 Block 而不是 FileSystem 时）配置 national 的卷使用 **ReadWriteMany** 访问模式。您可以对引导磁盘使用任一协议。存储配置文件对象将根据 StorageClass 设置自动进行配置，并且在配置虚拟机时将相应地设置引导磁盘访问模式。
+
+将 Trident StorageClass 设置为集群的默认值后，您可以为 Trident 创建具有不同参数的附加 StorageClasses，OpenShift Virtualization 将使用为其创建的适当存储配置文件自动识别它们。然后，您可以在 VM 定义中指定用于 VM 启动磁盘和数据磁盘的 StorageClass。
+
+使用 OpenShift OperatorHub 中提供的 OpenShift Virtualization 运算符在 OpenShift 集群上安装 OpenShift Virtualization 是一个简单的过程。有关如何安装 OpenShift Virtualization 的详细步骤，请参见文档 link:https://docs.redhat.com/en/documentation/openshift_container_platform/4.21/html/virtualization/installing["此处"]。
+
 在 Red Hat OpenShift 裸机集群上安装 OpenShift Virtualization。此过程包括使用集群管理员访问权限登录、导航到 OperatorHub 以及安装 OpenShift Virtualization 操作员。
 
 . 使用集群管理员访问权限登录 Red Hat OpenShift 裸机集群。

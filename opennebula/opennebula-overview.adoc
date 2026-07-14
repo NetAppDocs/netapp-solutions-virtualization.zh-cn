@@ -18,6 +18,7 @@ OpenNebula 是一个用于管理异构分布式数据中心基础设施的开源
 
 
 
+[[overview]]
 == 概述
 
 OpenNebula 提供了一套全面的功能来管理虚拟机和容器的整个生命周期，包括部署、监控、扩展和停用。它支持广泛的存储和网络选项，使其灵活适用于各种用例。
@@ -32,6 +33,7 @@ OpenNebula 具有模块化架构，可轻松与第三方工具和服务集成。
 
 
 
+[[frontend-user-interface]]
 == 前端用户界面
 
 OpenNebula 提供了一个名为 Sunstone 的基于 Web 的用户界面，允许用户轻松管理其虚拟机和容器。界面直观且用户友好，使管理员和最终用户都可以轻松导航和执行任务。默认情况下，它在端口 2616 上运行。持久数据存储在后端数据库中，后端数据库可以是 SQLite（小工作负载的默认值）或 MySQL/MariaDB（生产环境）。可以部署多个前端服务器实例，以确保高可用性和负载平衡。
@@ -46,6 +48,7 @@ OpenNebula Sunstone 提供可自定义的视图和仪表板，允许用户根据
 
 
 
+[[compute]]
 == 计算
 
 OpenNebula 支持适用于虚拟机的 KVM 和适用于 Linux 容器的 LXC。支持的操作系统包括 Ubuntu、Debian、RHEL 和 AlmaLinux。可以从预配置的模板或自定义映像部署虚拟机。还可以使用服务模板部署一组虚拟机（服务）。OneFlow 允许定义和管理由多个互连虚拟机组成的多层应用程序。OneGate 允许从虚拟机内部与 OpenNebula 后端通信，从而实现高级监控和管理功能。
@@ -75,6 +78,7 @@ OpenNebula 支持适用于虚拟机的 NVIDIA vGPU 和 MIG（多实例 GPU），
 
 
 
+[[storage]]
 == 存储
 
 OpenNebula 提供四种类型的数据存储来管理存储资源：System、Image、File 和 Backup 数据存储。System 数据存储用于存储虚拟机磁盘和配置文件。Image 数据存储用于存储虚拟机映像、ISO 和数据磁盘。File 数据存储用于存储可由虚拟机访问的文件。Backup 数据存储用于存储虚拟机及其数据的备份。
@@ -102,6 +106,7 @@ Trident CSI 驱动程序用于在使用 OneKE 部署的 Kubernetes 集群上创�
 
 
 
+[[network]]
 == 网络
 
 OpenNebula 可插入现有网络基础设施，为虚拟机和容器提供网络功能。它支持各种网络模型，包括 Linux 网桥、802.1Q VLAN、VXLAN 和 Open vSwitch 网络。对于类似 VPC 的网络，可以使用带有 EVPN 的 VXLAN 来隔离租户网络。
@@ -120,6 +125,7 @@ image:opennebula-overview-008.png["使用 IPAM 的 OpenNebula 虚拟网络"]
 
 
 
+[[monitoring-and-operations]]
 == 监控和操作
 
 OpenNebula 包括一个全面的监控系统，可提供对云基础架构的性能和健康状况的实时洞察。它从虚拟机管理程序、虚拟机、存储和网络组件收集指标，使管理员能够监控资源利用率并识别潜在问题。
@@ -142,6 +148,7 @@ https://github.com/OpenNebula/one-swap["OneSwap 工具"] 允许将虚拟机从 v
 
 
 
+[[data-protection]]
 == 数据保护
 
 OpenNebula 为使用 rsync、restic 和 Veeam 的备份提供支持。Veeam 集成仅适用于企业版。备份数据存储用于存储虚拟机及其数据的备份。可以安排备份作业按特定时间间隔运行，确保定期备份虚拟机。

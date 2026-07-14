@@ -18,6 +18,7 @@ summary:
 
 
 
+[[introduction]]
 == 简介
 
 在适当的情况下，我们将参考外部文档，了解必须在 VCF 的 SDDC 管理器中执行的步骤，并参考特定于存储配置部分的步骤。
@@ -32,6 +33,7 @@ NOTE: 该解决方案适用于支持FC存储的ONTAP平台，包括NetApp ASA、
 
 
 
+[[prerequisites]]
 == 前提条件
 
 此场景中使用以下组件和配置：
@@ -47,10 +49,12 @@ NOTE: 该解决方案适用于支持FC存储的ONTAP平台，包括NetApp ASA、
 
 
 
+[[deployment-steps]]
 == 部署步骤
 
 
 
+[[management-domain-default-cluster]]
 === 管理域 - 默认集群
 
 初始集群上的 FC 主存储仅支持 VCF 棕地导入工具。如果使用 Cloud Builder 工具（版本 5.2.x 之前的版本）部署 VCF，则仅支持 vSAN。
@@ -59,6 +63,7 @@ NOTE: 该解决方案适用于支持FC存储的ONTAP平台，包括NetApp ASA、
 
 
 
+[[management-domain-additional-cluster]]
 === 管理域 - 附加集群
 
 管理域上的附加 vSphere 集群可以通过以下选项进行部署：
@@ -70,6 +75,7 @@ NOTE: 该解决方案适用于支持FC存储的ONTAP平台，包括NetApp ASA、
 
 
 
+[[additional-information]]
 == 追加信息
 
 有关配置ONTAP存储系统的信息，请参阅link:https://docs.netapp.com/us-en/ontap["ONTAP 9 文档"]中心。

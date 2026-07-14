@@ -26,6 +26,7 @@ image:redhat-openshift-ocpv-rosa-023.png["OCP-v VM重启文件"]
 
 
 
+[[vm-live-migration]]
 == 虚拟机实时迁移
 
 在本节中，我们将执行 VM 实时迁移，然后检查磁盘的内容。实时迁移是指将正在运行的虚拟机 (VM) 从一台物理主机移动至另一台主机的过程，而不会中断正常操作或导致任何停机，或对最终用户造成其他不利影响。实时迁移被认为是虚拟化的一个重要步骤。它允许将整个虚拟机连同正在运行的操作系统 (OS)、内存、存储和网络连接从当前节点移动到目标节点。下面我们将看到如何执行虚拟机从当前节点到新节点的实时迁移。
@@ -48,6 +49,7 @@ image:redhat-openshift-ocpv-rosa-023.png["OCP-v VM重启文件"]
 
 
 
+[[demo-video]]
 == 演示视频
 
 .使用Amazon FSx for NetApp ONTAP在 ROSA 上的 OpenShift 虚拟化中实时迁移虚拟机

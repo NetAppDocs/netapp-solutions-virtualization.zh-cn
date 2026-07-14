@@ -18,6 +18,7 @@ summary: 转换具有ONTAP上现有光纤通道或 NFS 数据存储的 vSphere �
 
 
 
+[[solution-overview]]
 == 解决方案概述
 
 该解决方案演示了当集群转换为 VCF 管理域时，vSphere 中现有的 FC 或 NFS 数据存储如何成为主要存储。
@@ -28,6 +29,7 @@ summary: 转换具有ONTAP上现有光纤通道或 NFS 数据存储的 vSphere �
 
 
 
+[[architecture-overview]]
 == 架构概述
 
 ONTAP工具的架构与 VMware 环境无缝集成，利用包含ONTAP工具服务、vSphere 插件和 REST API 的模块化可扩展框架实现高效的存储管理、自动化和数据保护。
@@ -38,6 +40,7 @@ image::vmware-vcf-import-nfs-010.png[ONTAP工具架构]
 
 
 
+[[supported-solutions-for-converting-a-vsphere-environment]]
 == 转换 vSphere 环境的受支持解决方案
 
 有关转换 vCenter 实例的技术细节，请参阅以下解决方案。
@@ -48,6 +51,7 @@ image::vmware-vcf-import-nfs-010.png[ONTAP工具架构]
 
 
 
+[[additional-information]]
 == 追加信息
 
 * 有关这些解决方案的视频演示，请参阅link:../videos/vmware-videos.html#vmware-datastore-provisioning-with-ontap["使用ONTAP配置 VMware 数据存储库"]。

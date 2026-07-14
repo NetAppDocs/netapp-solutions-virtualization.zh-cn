@@ -15,6 +15,7 @@ summary: 审查 Proxmox Backup Server 与NetApp ONTAP存储的要求和部署注
 
 
 
+[[deployment-considerations]]
 == 部署注意事项
 
 将 PBS 部署在裸机上，或作为 Proxmox VE 上的虚拟机部署。当将 PBS 部署为虚拟机时，如果 Proxmox VE 主机发生停机，请考虑备份服务器的可用性。在裸机上或单独的 Proxmox VE 主机或集群上部署 PBS，以确保在主主机发生故障时备份服务器的可用性。
@@ -23,6 +24,7 @@ summary: 审查 Proxmox Backup Server 与NetApp ONTAP存储的要求和部署注
 
 
 
+[[storage-backend-support]]
 == 存储后端支持
 
 PBS 支持各种存储后端，包括本地存储、NFS、iSCSI、FC、NVMe-oF 和 S3（技术预览版）。与NetApp ONTAP存储集成，使组织能够利用高级数据管理功能来增强数据保护和恢复能力。
@@ -31,6 +33,7 @@ PBS 支持各种存储后端，包括本地存储、NFS、iSCSI、FC、NVMe-oF �
 
 
 
+[[multi-cluster-management]]
 == 多集群管理
 
 单个 PBS 实例可以管理多个 Proxmox VE 集群，为大规模部署提供集中式备份。使用命名空间在逻辑上分离不同集群或租户的备份数据，确保数据隔离和安全性。
@@ -39,12 +42,14 @@ PBS 支持各种存储后端，包括本地存储、NFS、iSCSI、FC、NVMe-oF �
 
 
 
+[[management-interfaces]]
 == 管理接口
 
 通过基于 Web 的界面、命令行工具或 REST API 管理 PBS。使用以下 URL 访问端口 8007 上的 Web 界面 `https://<pbs-ip-address>:8007`。
 
 
 
+[[network-configuration-best-practices]]
 == 网络配置最佳实践
 
 确保 PBS 和ONTAP存储之间有冗余的网络路径，以实现高可用性和高性能。考虑使用链路聚合（LACP）来提高带宽和冗余度。在所有网络设备上配置巨型帧（MTU 9000），以提高存储流量性能。

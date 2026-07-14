@@ -28,6 +28,7 @@ echo "/-    /etc/auto.one --timeout=60 --ghost" > /etc/auto.master.d/one.autofs
 
 
 
+[[nas-protocol-support]]
 == NAS协议支持
 
 NAS 协议（NFS 和 SMB）支持跨前端和虚拟机监控程序主机的共享文件系统。ONTAP 快照可以对客户端可见，以访问数据的时间点副本。ONTAP FlexCache 可用于地理分布区域内的图像数据存储。ONTAP NFS 支持 nConnect，通过在每个会话中使用多个连接来提高性能。在使用 FlexGroup 用于大型数据存储区（> 100TB）时，建议使用 pNFS 将负载分布在多个节点上。请记住，在 ONTAP 群集中为每个控制器配置至少一个数据 lif，并且虚拟机监控程序主机需要具有连接性。
@@ -36,6 +37,7 @@ NAS 协议（NFS 和 SMB）支持跨前端和虚拟机监控程序主机的共�
 
 
 
+[[san-protocol-support]]
 == SAN协议支持
 
 企业版包括与 AFF 和 FAS 系统上的 iSCSI 协议兼容的 NetApp 驱动程序。其他 SAN 协议（FC、InfiniBand 和 NVMe-oF）通常配置为 LVM 驱动程序。每个虚拟机都会创建 LVM 精简池，以支持精简配置和快照。虚拟机监控程序主机需要连接到存储系统。使用 LVM 存储类型不需要群集 LVM 支持。
@@ -44,12 +46,14 @@ NAS 协议（NFS 和 SMB）支持跨前端和虚拟机监控程序主机的共�
 
 
 
+[[netapp-ontap-api-driver]]
 == NetApp ONTAP API 驱动程序
 
 OpenNebula 的本机 NetApp 集成使用 ONTAP 的 API 自动创建和管理卷、LUN、快照和映射。这种方法提供了最佳的自动化水平，并避免了手动 iSCSI 和 LVM 设置。有关详细信息，请参见 link:https://docs.opennebula.io/7.0/integrations/storage_extensions/netapp/["OpenNebula 文档"]。
 
 
 
+[[storage-type-compatibility-matrix]]
 == 存储类型兼容性矩阵
 
 [cols="25% 15% 15% 15% 15% 15%"]
@@ -79,6 +83,7 @@ OpenNebula 的本机 NetApp 集成使用 ONTAP 的 API 自动创建和管理卷�
 
 
 
+[[opennebula-cluster-storage-types-supported-with-ontap]]
 == ONTAP 支持的 OpenNebula 集群存储类型
 
 以下是在使用 NetApp ONTAP 作为后端时，OpenNebula 不同存储类型所支持功能的对比。

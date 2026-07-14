@@ -25,6 +25,7 @@ NOTE: 密码以明文文件形式保存，只有root用户才能访问。请参�
 video::5b4ae54a-08d2-4f7d-95ec-b22d015f6035[panopto,width=360]
 
 
+[[storage-administrator-tasks]]
 == 存储管理员任务
 
 如果您是ONTAP新手，请使用系统管理器界面完成这些任务。
@@ -67,6 +68,7 @@ image:proxmox-ontap-smb-004.png["SMB 共享信息"]
 
 
 
+[[virtualization-administrator-tasks]]
 == 虚拟化管理员任务
 
 完成以下任务，将 SMB 共享添加为 Proxmox VE 中的存储，并启用多通道以提高性能和容错能力。

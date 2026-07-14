@@ -18,6 +18,7 @@ summary: 该解决方案提供了在NetApp存储上部署 Hyper-V 所需的步�
 
 
 
+[[powershell-script]]
 == Powershell 脚本
 
 [source, powershell]

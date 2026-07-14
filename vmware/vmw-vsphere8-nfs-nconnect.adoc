@@ -23,6 +23,7 @@ NOTE: 该功能通常适用于 8.0 U2 的 NFS v3，请参阅存储部分link:htt
 
 
 
+[[use-cases]]
 == 使用情形
 
 * 在同一主机上为每个 NFS 数据存储托管更多虚拟机。
@@ -32,12 +33,14 @@ NOTE: 该功能通常适用于 8.0 U2 的 NFS v3，请参阅存储部分link:htt
 
 
 
+[[technical-details]]
 == 技术细节
 
 nconnect 的目的是为 vSphere 主机上的每个 NFS 数据存储提供多个 TCP 连接。这有助于提高 NFS 数据存储的并行性和性能。在ONTAP中，建立 NFS 挂载时，会创建连接 ID (CID)。该 CID 可提供最多 128 个并发飞行中操作。当客户端超过该数量时， ONTAP会实施某种形式的流量控制，直到其他操作完成时它可以释放一些可用资源。这些暂停通常只有几微秒，但在数百万次操作的过程中，这些暂停会累积起来并产生性能问题。 Nconnect 可以采用 128 的限制并将其乘以客户端上的 nconnect 会话数，从而为每个 CID 提供更多的并发操作，并可能增加性能优势。更多详细信息请参阅link:https://www.netapp.com/media/10720-tr-4067.pdf["NFS 最佳实践和实施指南"]
 
 
 
+[[default-nfs-datastore]]
 === 默认 NFS 数据存储
 
 为了解决 NFS 数据存储单一连接的性能限制，需要挂载额外的数据存储或添加额外的主机来增加连接。
@@ -46,6 +49,7 @@ image:vmware-vsphere8-nfs-wo-nconnect.png["不带 nconnect 功能的 NFS 数据�
 
 
 
+[[with-nconnect-nfs-datastore]]
 === 使用 nConnect NFS 数据存储
 
 使用ONTAP工具或其他选项创建 NFS 数据存储库后，可以使用 vSphere CLI、PowerCLI、govc 工具或其他 API 选项修改每个 NFS 数据存储库的连接数。为了避免 vMotion 出现性能问题，请保持 vSphere 群集中所有 vSphere 主机上的 NFS 数据存储的连接数相同。
@@ -54,6 +58,7 @@ image:vmware-vsphere8-nfs-nconnect.png["启用了 nconnect 功能的 NFS 数据�
 
 
 
+[[pre-requisite]]
 == 先决条件
 
 要使用 nconnect 功能，应满足以下依赖关系。
@@ -75,6 +80,7 @@ image:vmware-vsphere8-nfs-nconnect.png["启用了 nconnect 功能的 NFS 数据�
 |===
 
 
+[[update-number-of-connection-to-nfs-datastore]]
 == 更新与 NFS 数据存储的连接数
 
 使用ONTAP工具或 vCenter 创建 NFS 数据存储库时，使用单个 TCP 连接。要增加连接数量，可以使用 vSphere CLI。参考命令如下所示。
@@ -135,6 +141,7 @@ govc host.esxcli storage nfs list
 
 
 
+[[design-considerations]]
 == 设计考虑
 
 ONTAP上支持的最大连接数取决于存储平台型号。查找 exec_ctxlink:https://www.netapp.com/media/10720-tr-4067.pdf["NFS 最佳实践和实施指南"]了解更多信息。

@@ -27,6 +27,7 @@ NetApp和 VMware 技术的集成已有 20 年历史，耗费了数千小时的�
 
 
 
+[[netapp-ontap-and-vmware-supported-releases]]
 == NetApp ONTAP和 VMware 支持的版本
 
 

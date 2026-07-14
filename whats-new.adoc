@@ -15,6 +15,7 @@ summary: NetApp虚拟化解决方案附件的最新变更日志。
 
 
 
+[[10-may-2026]]
 == 2026 年 5 月 10 日
 
 * 为 NetApp ONTAP 添加了最终用户计算（EUC）解决方案。
@@ -22,6 +23,7 @@ summary: NetApp虚拟化解决方案附件的最新变更日志。
 
 
 
+[[15-january-2026]]
 == 2026年1月15日
 
 * 更新了 Proxmox VE 解决方案内容，以反映 Proxmox VE 9 版本。
@@ -45,6 +47,7 @@ summary: NetApp虚拟化解决方案附件的最新变更日志。
 
 
 
+[[12-november-2025]]
 == 2025年11月12日
 
 * 提供了NetApp Shift 工具包的正确下载链接
@@ -60,6 +63,7 @@ summary: NetApp虚拟化解决方案附件的最新变更日志。
 
 
 
+[[18-august-2025]]
 == 2025年8月18日
 
 NetApp解决方案网站现在是link:https://docs.netapp.com/us-en/netapp-solutions-family/index.html["NetApp解决方案系列"^]，其中包括以下网站：

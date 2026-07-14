@@ -16,6 +16,7 @@ summary: 在安装 Shift Toolkit 之前，请确认您的环境满足硬件、�
 
 
 
+[[hardware-requirements]]
 == 硬件要求
 
 请确保Shift Toolkit服务器满足以下最低硬件要求：
@@ -27,6 +28,7 @@ summary: 在安装 Shift Toolkit 之前，请确认您的环境满足硬件、�
 
 
 
+[[connectivity-requirements]]
 == 连接要求
 
 请确认满足以下连接要求：
@@ -40,12 +42,14 @@ summary: 在安装 Shift Toolkit 之前，请确认您的环境满足硬件、�
 
 
 
+[[ontap-storage-configurations]]
 == ONTAP存储配置
 
 配置ONTAP存储组件，包括 SVM、qtree 和 CIFS 共享，以支持 Shift Toolkit 迁移。
 
 
 
+[[create-a-new-svm-recommended]]
 === 创建一个新的SVM（推荐）
 
 虽然 Shift Toolkit 允许使用现有的 SVM，但NetApp建议为迁移操作创建一个专用的 SVM。
@@ -66,6 +70,7 @@ NOTE: 对于 VMware 和 Hyper-V 之间的双向迁移，请在 SVM 和已配置�
 
 
 
+[[qtree-requirements]]
 === qtree 要求
 
 在将托管转换后虚拟机的卷上创建 qtree。Qtree 根据目标虚拟机管理程序对转换后的磁盘文件进行隔离和存储。
@@ -94,6 +99,7 @@ NOTE: 对于 OpenShift Virtualization，转换后的 QCOW2 文件可以选择直
 
 
 
+[[cifs-share-requirements]]
 === CIFS股份要求
 
 对于 Hyper-V 迁移，请创建一个 CIFS 共享来存储转换后的 VM 数据。NFS 共享（源虚拟机）和 CIFS 共享（转换后的虚拟机）必须位于同一卷上。

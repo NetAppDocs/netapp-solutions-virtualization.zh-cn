@@ -15,6 +15,7 @@ ONTAP tools for VMware vSphere并配置光纤通道 (FC) 数据存储，以实�
 
 
 
+[[step-1-deploy-ontap-tools-for-vmware-vsphere]]
 == 步骤 1：ONTAP tools for VMware vSphere
 
 在此步骤中， ONTAP工具 10 以非 HA 配置部署。有关 HA 和非 HA 配置的更多部署详细信息，请参阅适用ONTAP tools for VMware vSphere文档： https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere-10/deploy/ontap-tools-deployment.html["ONTAP tools for VMware vSphere"] 。
@@ -72,6 +73,7 @@ image::vmware-vcf-import-nfs-003.png[自定义模板]
 
 
 
+[[step-2-configure-ontap-tools]]
 == 步骤 2：配置ONTAP工具
 
 安装并启动ONTAP工具 VM 后，添加 vCenter 服务器和ONTAP存储系统进行管理。请参阅 https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere-10/index.html["ONTAP tools for VMware vSphere文档"]了解更多信息。
@@ -102,6 +104,7 @@ NOTE: 使用集群 IP 地址在 vSphere 客户端 UI 中添加存储后端。这
 
 
 
+[[step-3-provision-the-fc-datastore-with-ontap-tools]]
 == 步骤 3：使用ONTAP工具配置 FC 数据存储库
 
 ONTAP工具集成了整个 vSphere 客户端 UI 的功能。在此步骤中，从主机清单页面配置 FC 数据存储。
@@ -156,6 +159,7 @@ image::vmware-vcf-convert-fc-005.png[摘要页面]
 
 
 
+[[whats-next]]
 == 下一步是什么？
 
 部署ONTAP工具并配置 FC 数据存储库后，link:vmw-vcf-mgmt-fc-conversion.html["将 vSphere 集群转换为 VCF 管理域"] 。

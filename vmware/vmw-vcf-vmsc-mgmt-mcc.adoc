@@ -20,12 +20,14 @@ image:vmw-vcf-vmsc-mgmt-mcc-001.png["带有 vMSC 的 VCF 管理域,宽度=500"]
 
 
 
+[[introduction]]
 == 简介
 
 在此解决方案中，我们将演示如何使用ONTAP MetroCluster实现以 NFS 为主要数据存储的延伸 VCF 管理域。
 
 
 
+[[scenario-overview]]
 == 场景概述
 
 此场景涵盖以下高级步骤：
@@ -40,6 +42,7 @@ image:vmw-vcf-vmsc-mgmt-mcc-001.png["带有 vMSC 的 VCF 管理域,宽度=500"]
 
 
 
+[[prerequisites]]
 == 前提条件
 
 此场景需要以下组件和配置：
@@ -77,6 +80,7 @@ image:vmw-vcf-vmsc-mgmt-mcc-017.png["故障域 2 上的 SVM"]
 
 
 
+[[deployment-steps]]
 == 部署步骤
 
 要部署以 NFS 作为主要数据存储的 VCF 延伸管理域，
@@ -98,6 +102,7 @@ image:vmw-vcf-vmsc-mgmt-mcc-017.png["故障域 2 上的 SVM"]
 
 
 
+[[deploy-vsphere-hosts-and-vcenter]]
 === 部署 vSphere 主机和 vCenter
 
 使用从 Broadcom 支持门户下载的 ISO 在主机上部署 vSphere，或使用 vSphere 主机的现有部署选项。
@@ -120,6 +125,7 @@ image:vmw-vcf-vmsc-mgmt-mcc-017.png["故障域 2 上的 SVM"]
 
 
 
+[[create-vsphere-cluster]]
 === 创建 vSphere 群集
 
 . 登录到 vSphere Web 客户端，通过添加部署了 NFS VAAI 的主机之一来创建数据中心和 vSphere 集群。我们选择使用单一图像选项来管理集群中的所有主机。 [提示] 不要选择在集群级别管理配置。有关更多详细信息，请参阅 https://knowledge.broadcom.com/external/article/373968/vlcm-config-manager-is-enabled-on-this-c.html["vSphere 集群上的 NSX 注意事项"]。有关使用ONTAP MetroCluster 的vMSC 最佳实践，请查看 https://docs.netapp.com/us-en/ontap-apps-dbs/vmware/vmware_vmsc_design.html#netapp-storage-configuration["vMSC 设计和实施指南"]
@@ -130,6 +136,7 @@ image:vmw-vcf-vmsc-mgmt-mcc-017.png["故障域 2 上的 SVM"]
 
 
 
+[[convert-vsphere-environment-to-vcf-management-domain]]
 === 将 vSphere 环境转换为 VCF 管理域
 
 以下部分介绍部署 SDDC 管理器以及将 vSphere 8 集群转换为 VCF 5.2 管理域的步骤。在适当的情况下，将参考 VMware 文档以获取更多详细信息。

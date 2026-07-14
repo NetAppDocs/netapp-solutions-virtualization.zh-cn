@@ -18,6 +18,7 @@ summary: 使用 Shift Toolkit 在虚拟化平台之间迁移虚拟机。该过�
 
 
 
+[[supported-migrations]]
 == 支持的迁移
 
 Shift Toolkit 通过支持以下虚拟机管理程序之间的双向迁移，为多虚拟机管理程序环境提供了灵活性：
@@ -32,6 +33,7 @@ Shift Toolkit 通过支持以下虚拟机管理程序之间的双向迁移，为
 
 
 
+[[migration-workflow]]
 == 迁移工作流程
 
 创建蓝图后，即可启动迁移过程。在迁移过程中，Shift Toolkit 会执行一系列步骤来转换磁盘格式，并按照蓝图中的定义在目标主机上创建虚拟机。
@@ -49,6 +51,7 @@ Shift Toolkit 在迁移过程中执行以下步骤：
 
 
 
+[[network-tips-and-considerations]]
 == 网络技巧和注意事项
 
 规划迁移时，请考虑以下网络要求和行为。  Shift Toolkit 会自动从源虚拟机复制网络设置并将其重新应用于迁移的虚拟机，但 Windows 和 Linux 系统之间的接口命名和网络适配器配置可能有所不同。
@@ -91,6 +94,7 @@ Shift Toolkit 会保留蓝图中指定的 IP 地址。
 
 
 
+[[migration-phases]]
 == 迁移阶段
 
 以下是使用 Shift Toolkit 迁移虚拟机时需要遵循的迁移阶段。
@@ -111,6 +115,7 @@ NOTE: Shift Toolkit 不会更改源虚拟机，只会复制虚拟机准备所需
 
 
 
+[[execute-a-migration]]
 == 执行迁移
 
 要使用蓝图中指定的配置触发迁移工作流，请单击“迁移”。
@@ -133,3 +138,57 @@ image::shift-toolkit-033.png[磁盘转换进度]
 任务完成后，蓝图状态将变为“迁移完成”。
 
 image::shift-toolkit-034.png[迁移已完成状态]
+
+
+
+[[delete-a-blueprint]]
+== 删除蓝图
+
+可以直接从 UI 中删除从未执行过的蓝图。但是，在触发蓝图后，它会创建必须删除的作业历史记录，然后才能删除蓝图本身。使用 PowerShell 删除脚本清理这些作业记录，之后可以删除蓝图及其关联的资源组。
+
+.步骤
+. 通过导航到 *Settings > Developer Access > Script block*，从 Shift Toolkit UI 下载删除脚本。
++
+image::shift-toolkit-082.png[根据蓝图名称删除作业]
+
+. 解压缩 zip 文件夹。该包包含两个文件：
++
+** `removeBpJobs.json` - 配置文件
+** `removeBpJobs.ps1` - PowerShell 脚本
+
+
+. 编辑 `removeBpJobs.json`文件以指定：
++
+** 此操作的执行名称
+** Shift Toolkit IP 地址
+** 管理员凭据
+** 要删除的蓝图名称
++
+配置示例：
+
++
+[source, json]
+----
+"executions": [
+  {
+    "execution_name": "reslore",
+    "shift_server_ip": "https://10.63.184.75",
+    "shift_username": "admin",
+    "shift_password": "Admin",
+    "blueprint_details": [{"BPTHIMFAT": "True"}]
+  }
+]
+----
+
+
+. 打开 PowerShell 并导航到包含提取文件的文件夹。
+. 运行脚本：
++
+[listing]
+----
+pwsh
+.\removeBpJobs.ps1
+----
+
+
+脚本成功完成后，您可以从 Shift Toolkit UI 中删除蓝图及其关联的资源组。

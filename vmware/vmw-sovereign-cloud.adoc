@@ -20,6 +20,7 @@ VMware Sovereign Cloud 是一个云计算框架，它优先考虑处理敏感数
 
 
 
+[[vmware-sovereign-cloud-initiative]]
 == VMware 主权云计划
 
 VMware 将主权云定义为：
@@ -33,6 +34,7 @@ VMware 将主权云定义为：
 
 
 
+[[partnering-with-a-trusted-vmware-sovereign-cloud-service-provider]]
 == 与值得信赖的 VMware 主权云服务提供商合作
 
 为了确保成功，组织必须与他们信任的合作伙伴合作，并且这些合作伙伴能够托管真实且自主的主权云平台。  VMware Sovereign Cloud 计划中认可的 VMware 云提供商致力于基于现代软件定义架构设计和运行云解决方案，这些架构体现了 VMware Sovereign Cloud 框架中概述的关键原则和最佳实践。

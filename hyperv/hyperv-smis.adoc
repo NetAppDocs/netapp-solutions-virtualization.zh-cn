@@ -20,6 +20,7 @@ NetApp SMI-S Provider支持 Hyper-V 虚拟化环境中的NetApp ONTAP存储系�
 
 
 
+[[introduction]]
 == 简介
 
 NetApp存储管理计划规范 (SMI-S) 是用于管理和监控存储系统的强大工具。  NetApp SMI-S 利用基于 Web 的企业管理 (WBEM) 协议为各种管理任务提供统一的界面，包括处理 LUN、卷、CIMOM 配置设置和 CIM 服务器用户。
@@ -28,6 +29,7 @@ SCVMM是虚拟化数据中心的综合管理解决方案。  SCVMM 能够通过�
 
 
 
+[[benefits-of-using-netapp-smi-s-provider-with-scvmm]]
 === NetApp SMI-S Provider与 SCVMM 结合使用的优势
 
 将NetApp SMI-S Provider与 SCVMM 相集成，可以为存储管理提供标准化接口，从而使组织能够在虚拟化数据中心中更有效地管理存储资源。
@@ -43,6 +45,7 @@ image:hyperv-smis-001.png["采用 Hyper-V 架构的NetApp SMI-S"]
 
 
 
+[[get-ready-for-smi-s-provider-deployment]]
 == 为 SMI-S Provider 部署做好准备
 
 与现有存储系统的无缝集成需要正确安装和配置NetApp SMI-S Provider。
@@ -61,6 +64,7 @@ image:hyperv-smis-001.png["采用 Hyper-V 架构的NetApp SMI-S"]
 
 
 
+[[smi-s-virtual-machine-hardware-requirements]]
 === SMI-S 虚拟机硬件要求
 
 下表显示了NetApp SMI-S 提供商 VM 硬件要求。
@@ -69,6 +73,7 @@ image:hyperv-smis-002.png["SMI-S 提供程序硬件要求"]
 
 
 
+[[install-smi-s-provider]]
 === 安装 SMI-S 提供程序
 
 在开始 SMI-S 提供程序部署之前，您需要部署带有 SCVMM 的 Microsoft Hyper-V 和NetApp 9 以上FAS或AFF存储系统。了解基于命令的界面对于执行各种管理任务非常重要，检查link:https://docs.netapp.com/us-en/smis-provider/concept-smi-s-provider-commands-overview.html["NetApp SMI-S Provider命令。"]
@@ -87,6 +92,7 @@ image:hyperv-smis-002.png["SMI-S 提供程序硬件要求"]
 
 
 
+[[connect-smi-s-provider-with-scvmm]]
 === 将 SMI-S 提供程序与 SCVMM 连接
 
 要在 SCVMM 中添加远程存储设备并连接到 SMI-S 提供程序，您需要确保满足以下先决条件和步骤：
@@ -114,6 +120,7 @@ SMI-S Provider 安装期间放置了过期的证书。因此，在 System Center
 
 
 
+[[provisioning-storage-with-scvmm-using-an-smi-s-provider]]
 === 使用 SMI-S 提供程序通过 SCVMM 配置存储
 
 SCVMM 使用 SMI-S 提供程序与存储系统交互，允许您直接从 SCVMM 创建和管理存储资源。
@@ -135,12 +142,14 @@ SCVMM 使用 SMI-S 提供程序与存储系统交互，允许您直接从 SCVMM 
 
 
 
+[[logs-and-traces]]
 == 日志和追踪
 
 您可以配置 SMI-S Provider 如何管理日志和跟踪文件，例如指定要记录的消息级别以及保存日志的目录。您还可以指定要跟踪的组件、跟踪消息写入的目标、跟踪级别以及跟踪文件位置。
 
 
 
+[[logs-setting]]
 === 日志设置
 
 默认情况下，所有系统消息都会被记录，系统消息日志位于安装NetApp SMI-S Provider 的目录中的日志目录中。您可以更改写入 CIM 服务器日志的系统消息的位置和级别。
@@ -169,6 +178,7 @@ image:hyperv-smis-012.png["跟踪设置"]
 
 
 
+[[conclusion]]
 == 结束语
 
 NetApp SMI-S Provider是存储管理员必备的工具，为管理和监控存储系统提供了标准化、高效、全面的解决方案。通过利用行业标准协议和模式，它确保了兼容性并简化了与存储网络管理相关的复杂性。

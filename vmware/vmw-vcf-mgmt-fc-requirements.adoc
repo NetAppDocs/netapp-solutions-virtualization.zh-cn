@@ -15,6 +15,7 @@ summary: '查看将具有NetApp ONTAP光纤通道 (FC) 数据存储的 vSphere 8
 
 
 
+[[infrastructure-requirements]]
 == 基础设施要求
 
 确保以下组件和配置已到位。
@@ -36,6 +37,7 @@ ONTAP tools for VMware vSphere可以安装在 HA 或非 HA 配置中。
 
 
 
+[[additional-resources]]
 == 其他资源
 
 * 有关将 vSphere 转换或导入 VCF 5.2 时支持的存储和其他注意事项，请参阅 https://techdocs.broadcom.com/us/en/vmware-cis/vcf/vcf-5-2-and-earlier/5-2/map-for-administering-vcf-5-2/importing-existing-vsphere-environments-admin/considerations-before-converting-or-importing-existing-vsphere-environments-into-vcf-admin.html["将现有 vSphere 环境转换或导入 VMware Cloud Foundation 之前的注意事项"]。
@@ -45,6 +47,7 @@ ONTAP tools for VMware vSphere可以安装在 HA 或非 HA 配置中。
 
 
 
+[[whats-next]]
 == 下一步是什么？
 
 查看部署要求后，link:vmw-vcf-mgmt-fc-deploy.html["部署ONTAP工具并配置 FC 数据存储区"] 。

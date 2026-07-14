@@ -28,11 +28,12 @@ oc delete dv,VolumeSnapshot -n openshift-virtualization-os-images --selector=cdi
 
 
 
+[[step-1-install-trident]]
 == 步骤 1：安装 Trident
 
 红帽认证 Trident Operator 由 NetApp 支持，适用于本地、公共云和 ROSA 等托管服务中的 OpenShift。从 Trident 25.02 开始，当您使用 Amazon FSx for NetApp ONTAP 并计划运行 OpenShift Virtualization VM 工作负载时，操作员还可以为 iSCSI 准备工作节点。
 
-有关其他安装选项，请参见 link:https://docs.netapp.com/us-en/trident/trident-get-started/kubernetes-deploy.html["Trident 文档"]。
+有关其他安装选项，请参见 link:https://docs.netapp.com/us-en/trident/trident-get-started/quickstart.html["Trident 文档"]。
 
 .步骤
 . 在 *OperatorHub* 中，选择 *Certified NetApp Trident*。
@@ -101,6 +102,7 @@ image:rh-os-n-use-case-osv-trident-install-007.png["multipath.conf 文件正在�
 video::15c225f3-13ef-41ba-b255-b2d500f927c0[panopto,width=360]
 
 
+[[step-2-prepare-storage-backend-and-storageclass-configuration-files-for-your-environment]]
 == 步骤 2：为您的环境准备存储后端和 StorageClass 配置文件
 
 为您的环境创建 TridentBackendConfig 和 StorageClass 定义。您可以在环境中配置多个存储协议。为要使用的每个协议创建 YAML 文件，并将占位符值替换为特定的配置详细信息。
@@ -110,9 +112,100 @@ NOTE: 根据您的环境完成下面的本地或 ROSA 部分，然后继续执�
 
 
 
+[[on-premises-openshift-clusters]]
 === 本地 OpenShift 集群
 
 为要配置的每个协议创建 YAML 文件。您可以配置以下一个或多个协议：NAS 用于基于 NFS 的文件存储、iSCSI 用于 iSCSI 块存储、NVMe/TCP 用于高性能 NVMe over TCP 块存储，或 FC 用于光纤通道块存储。
+
+为每个协议创建 TridentBackendConfig 和 StorageClass。后端配置包括存储在 Kubernetes Secret 中的凭据。
+
+.后端配置基本选项的基本准则
+[%collapsible]
+====
+. 后端配置文件引用您的 **ONTAP SVM** 和 **管理 LIF**。+
+. 您可以使用**用户名和密码**向 ONTAP 进行身份验证。可以是集群管理员或 vserver 管理员的用户名和密码。+
+. 您还可以使用**客户端证书**对 ONTAP 进行身份验证。有关如何生成客户端证书、私钥和 CA 证书的详细信息，请参阅 link:https://docs.netapp.com/us-en/trident/trident-use/ontap-san-prep.html#enable-certificate-based-authentication["Trident 文档"]。
+
+
+====
+.NAS 经济驱动程序后端配置选项的基本准则
+[%collapsible]
+====
+对于 **NAS economy driver** 配置，可以包括以下参数：
+
+. **qtreesPerFlexvol** 该值必须在50-300的范围内，默认值为200。+
+. **limitVolumePoolSize** 该值是在 ontap-nas-economy 后端使用 qtree 时请求的最大 FlexVol 大小。未设置默认值，默认情况下不强制执行此参数。如果设置此参数，当当前 FlexVol 达到指定大小时，Trident 操作员将创建一个新的 FlexVol。此参数可通过限制用于配置 PV 的 FlexVols 大小来帮助您控制集群中的容量利用率。+
+. **denyNewVolumePools** 此参数限制 ontap-nas-economy 后端创建新 FlexVol 卷以包含其 qtree。仅使用预先存在的 FlexVol 来配置新的 PV。
+
+
+====
+.SAN 驱动程序后端配置选项的基本准则
+[%collapsible]
+====
+以下参数可包含在 **SAN driver** 配置中：
+
+. **limitVolumeSize** 该值是您在使用 SAN 后端时请求的最大卷大小。未设置默认值，默认情况下不强制执行此参数。如果设置此参数，则当请求的卷大小超过此值时，Trident 操作员将无法进行配置。您可以使用此参数来限制其为 LUN 管理的卷的最大大小。+
+. **lunsPerFlexvol** 每个 FlexVol 的最大 LUN 数，必须在 [50, 200] 范围内，默认值为 100。如果设置此参数，当当前 FlexVol 达到指定数量的 LUN 时，Trident 操作员会创建一个新的 FlexVol。此参数可通过限制每个用于调配 PV 的 FlexVol 的 LUN 数量，帮助您控制集群中的容量利用率。
+
+
+====
+.SAN economy 驱动程序后端配置选项的基本准则
+[%collapsible]
+====
+以下参数可包含在 **SAN economy driver** 配置中：
+
+. **limitVolumePoolSize** 该值是您在使用 SAN 经济后端时请求的最大 FlexVol 大小。未设置默认值，默认情况下不强制执行此参数。如果设置此参数，Trident 运算符将限制可以为在 flexvol 中创建 LUN 而创建的最大 flexvol 大小。此参数可以通过限制用于配置 PV 的 FlexVols 大小来帮助您控制集群中的容量利用率。+
+. **denyNewVolumePools** 此参数限制 SAN economy 后端创建新 FlexVol 卷以包含其 LUN。仅使用预先存在的 FlexVol 来配置新的 PV。
+
+
+====
+.配置卷的后端配置选项的基本准则
+[%collapsible]
+====
+
+NOTE: 在为每个协议提供的示例 yaml 文件中，如果未提供 storagePrefix，则使用默认前缀"trident"。当使用 ontap-nas-economy 且 storagePrefix 为 24 个或更多字符时，qtree 将不会嵌入存储前缀，但它将包含在卷名称中。
+
+当您直接从系统管理器或 CLI 在 ONTAP 中创建卷时，如果未为所有可选参数提供值，则在卷配置期间会自动设置一些默认值，如下所示。
+
+image:rh-os-n-use-case-osv-trident-install-volumes-001.png["在 ONTAP 中创建卷"]
+
+image:rh-os-n-use-case-osv-trident-install-volumes-002.png["卷参数的默认值"]
+
+以下是使用 Trident 后端配置创建的卷示例。除名称模板外，它没有在默认值部分中显式设置任何选项。
+
+[source, cli]
+----
+oc describe tbc -n trident tbc-nas
+### output truncated for brevity
+Spec:
+  Backend Name:  tbc-nas
+  Credentials:
+    Name:  tbc-nas-secret
+  Defaults: # There are no defaults set except for the volume name template.
+    Name Template:      {{ .config.StoragePrefix }}_{{ .volume.Namespace }}_{{ .volume.RequestName }}
+  Management LIF:       10.192.102.50
+  Storage Driver Name:  ontap-nas
+  Storage Prefix:       testautomation
+  Svm:                  oc-test-automation
+----
+使用此后端配置创建卷时，未在后端配置文件中设置的选项将设置为默认值，如下所示。
+
+image:rh-os-n-use-case-osv-trident-install-volumes-003.png["使用 Trident 后端配置创建的卷"]
+
+但是，当您在 Trident 后端配置的默认部分中设置值时，您可以创建对这些参数具有特定值的卷。在以下示例中，snapshotPolicy 在后端配置 yaml 的默认部分中设置为默认策略（如果未显式设置任何内容，则为 none），snapshotDir 设置为 true。通过这些设置，您可以看到后端卷获取了这些值。（snapdir-access 为 true，snapshot-policy 为默认值）
+
+image:rh-os-n-use-case-osv-trident-install-volumes-004.png["具有显式值的默认部分"]
+
+image:rh-os-n-use-case-osv-trident-install-volumes-005.png["在后端配置中显式设置 snapshotDir 和 snapshotPolicy 值"]
+
+image:rh-os-n-use-case-osv-trident-install-volumes-006.png["在卷中显式设置 snapshotDir 和 snapshotPolicy 值"]
+
+====
+对于所有其他附加参数，请查看 Trident 文档：
+
+. link:https://docs.netapp.com/us-en/trident/trident-use/ontap-nas-examples.html#backend-configuration-options["Trident NAS后端配置选项"] +
+. link:https://docs.netapp.com/us-en/trident/trident-use/ontap-san-examples.html#backend-configuration-options["Trident SAN 后端配置选项"]
+
 
 [role="tabbed-block"]
 ====
@@ -120,7 +213,7 @@ NOTE: 根据您的环境完成下面的本地或 ROSA 部分，然后继续执�
 --
 为 ONTAP NAS 创建 TridentBackendConfig 和 StorageClass，以启用基于 NFS 的持久存储配置。后端配置包括存储在 Kubernetes Secret 中的凭据，并引用您的 ONTAP SVM 和管理 LIF。
 
-后端 secret 和后端配置文件（另存为 `tbc-nas.yaml`）：
+使用用户名和密码身份验证（另存为 `tbc-nas.yaml`）的后端密钥和后端配置文件示例：
 
 [source, yaml]
 ----
@@ -150,6 +243,36 @@ spec:
   credentials:
     name: tbc-nas-secret
 ----
+使用客户端证书身份验证的后端密钥和后端配置文件示例（另存为 `tbc-nas.yaml`）：
+
+[source, yaml]
+----
+# tbc-nas.yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: ontap-nas-secret
+  namespace: trident
+type: Opaque
+stringData:
+  clientPrivateKey: <client private>
+---
+apiVersion: trident.netapp.io/v1
+kind: TridentBackendConfig
+metadata:
+  name: tbc-nas
+  namespace: trident
+spec:
+  version: 1
+  storageDriverName: ontap-nas
+  managementLIF: <ONTAP management LIF>
+  backendName: tbc-nas
+  svm: zoneb #<replace with your SVM name>
+  storagePrefix: testzoneb #<replace with your prefix>
+  credentials:
+    name: ontap-nas-secret
+  clientCertificate: <client certificate>
+----
 StorageClass 定义（另存为 `sc-nas.yaml`）：
 
 [source, yaml]
@@ -168,11 +291,66 @@ parameters:
 allowVolumeExpansion: true
 ----
 --
-.iSCSI
+.NAS 经济
 --
-为 ONTAP SAN 创建 TridentBackendConfig 和 StorageClass，以启用基于 iSCSI 的块存储配置。后端配置使用 ontap-san 驱动程序，包括存储在 Kubernetes Secret 中的凭据。
+创建 TridentBackendConfig 和 StorageClass，用于 ONTAP NAS economy 驱动程序，以启用使用 qtree 的基于 NFS 的持久存储配置。后端配置包括存储在 Kubernetes Secret 中的凭据，并引用您的 ONTAP SVM 和管理 LIF。
 
-后端 secret 和后端配置文件（另存为 `tbc-iscsi.yaml`）：
+使用用户名和密码身份验证（另存为 `tbc-nas-economy.yaml`）的后端密钥和后端配置文件示例：
+
+[source, yaml]
+----
+# tbc-nas-economy.yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: tbc-nas-economy-secret
+type: Opaque
+stringData:
+  username: <cluster admin username>
+  password: <cluster admin password>
+---
+apiVersion: trident.netapp.io/v1
+kind: TridentBackendConfig
+metadata:
+  name: tbc-nas-economy
+spec:
+  version: 1
+  storageDriverName: ontap-nas-economy
+  managementLIF: <ONTAP management LIF>
+  backendName: tbc-nas-eco
+  svm: <replace with your SVM name>
+  storagePrefix: <replace with your prefix>
+  defaults:
+    nameTemplate: "{{ .config.StoragePrefix }}_{{ .volume.Namespace }}_{{ .volume.RequestName }}"
+  credentials:
+    name: tbc-nas-economy-secret
+----
+StorageClass 定义（另存为 `sc-nas-economy.yaml`）：
+
+[source, yaml]
+----
+# sc-nas-economy.yaml
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: sc-nas-economy
+provisioner: csi.trident.netapp.io
+parameters:
+  backendType: "ontap-nas-economy"
+  media: "ssd"
+  provisioningType: "thin"
+  snapshots: "true"
+allowVolumeExpansion: true
+----
+
+NOTE: 有关可以包含在 ontap-nas-economy 驱动程序后端配置文件中的其他参数的详细信息，请参阅上述 NAS economy 驱动程序后端配置选项的基本指南部分。
+
+--
+.iSCSI SAN
+--
+创建 TridentBackendConfig 和 StorageClass，用于支持 iSCSI 的 ONTAP SAN，以启用基于 iSCSI 的块存储配置。后端配置使用 ontap-san 驱动程序，并包含存储在 Kubernetes Secret 中的凭据。如果省略 sanType 参数，则默认使用 iSCSI 协议。
+
+使用用户名密码身份验证的后端 secret 和后端配置文件（另存为 `tbc-iscsi.yaml`）：
 
 [source, yaml]
 ----
@@ -199,6 +377,33 @@ spec:
   credentials:
     name: backend-tbc-ontap-iscsi-secret
 ----
+使用客户端证书身份验证的后端 secret 和后端配置文件（另存为 `tbc-iscsi.yaml`）：
+
+[source, yaml]
+----
+# tbc-iscsi.yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: backend-tbc-ontap-iscsi-secret
+type: Opaque
+stringData:
+  clientPrivateKey: <client private key>
+---
+apiVersion: trident.netapp.io/v1
+kind: TridentBackendConfig
+metadata:
+  name: ontap-iscsi
+spec:
+  version: 1
+  storageDriverName: ontap-san
+  managementLIF: <management LIF>
+  backendName: ontap-iscsi
+  svm: <SVM name>
+  credentials:
+    name: backend-tbc-ontap-iscsi-secret
+  clientCertificate: <client certificate>
+----
 StorageClass 定义（另存为 `sc-iscsi.yaml`）：
 
 [source, yaml]
@@ -218,11 +423,11 @@ parameters:
 allowVolumeExpansion: true
 ----
 --
-.NVMe/TCP
+.NVMe/TCP SAN
 --
 为 ONTAP SAN 创建 TridentBackendConfig 和 StorageClass，使用 NVMe over TCP 以实现高性能块存储调配。后端配置使用针对 NVMe/TCP 传输优化的 ontap-san 驱动程序，并包括存储在 Kubernetes Secret 中的凭据。
 
-后端 secret 和后端配置文件（另存为 `tbc-nvme.yaml`）：
+使用用户名密码身份验证的后端 secret 和后端配置文件（另存为 `tbc-nvme.yaml`）：
 
 [source, yaml]
 ----
@@ -250,6 +455,34 @@ spec:
   credentials:
     name: backend-tbc-ontap-nvme-secret
 ----
+使用客户端证书身份验证的后端 secret 和后端配置文件（另存为 `tbc-nvme.yaml`）：
+
+[source, yaml]
+----
+# tbc-nvme.yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: backend-tbc-ontap-nvme-secret
+type: Opaque
+stringData:
+  clientPrivateKey: <client private key>
+---
+apiVersion: trident.netapp.io/v1
+kind: TridentBackendConfig
+metadata:
+  name: backend-tbc-ontap-nvme
+spec:
+  version: 1
+  storageDriverName: ontap-san
+  sanType: nvme
+  managementLIF: <ONTAP management LIF>
+  backendName: backend-tbc-ontap-nvme
+  svm: <SVM name>
+  credentials:
+    name: backend-tbc-ontap-nvme-secret
+  clientCertificate: <client certificate>
+----
 StorageClass 定义（另存为 `sc-nvme.yaml`）：
 
 [source, yaml]
@@ -268,12 +501,20 @@ parameters:
   snapshots: "true"
 allowVolumeExpansion: true
 ----
+
+NOTE: 如果您计划将 ReadWriteMany（RWX）卷与 NVMe 协议一起使用，则单个 RWX NVMe 卷不能由 Kubernetes 集群中超过 64 个节点挂载。有关此限制的详细信息，以及 Trident 26.02 中引入的超级子系统模型和 Trident 26.02 之前的每卷子系统模型的信息，请参见 Trident 文档： https://docs.netapp.com/us-en/trident/trident-use/ontap-san-prep.html#nvme-tcp-considerations[]。
+
 --
-.FC
+.FC SAN
 --
 为具有光纤通道的 ONTAP SAN 创建 TridentBackendConfig 和 StorageClass，以启用基于 FC 的块存储配置。后端配置使用指定了 FCP 协议的 ontap-san 驱动程序，并包括存储在 Kubernetes Secret 中的凭据。
 
-后端 secret 和后端配置文件（另存为 `tbc-fc.yaml`）：
+使用用户名/密码身份验证方法或客户端证书身份验证方法通过 ONTAP 进行身份验证。有关如何生成客户端证书、私钥和 CA 证书的详细信息，请查看link:https://docs.netapp.com/us-en/trident/trident-use/ontap-san-prep.html#enable-certificate-based-authentication["Trident 文档"]。下面提供了两种方法的示例。
+
+.显示示例
+[%collapsible]
+=====
+使用 ONTAP 用户名和密码身份验证（另存为 `tbc-fc.yaml`）的后端密钥和后端配置文件：
 
 [source, yaml]
 ----
@@ -304,8 +545,37 @@ spec:
   credentials:
     name: tbc-fc-secret
 ----
-StorageClass 定义（另存为 `sc-fc.yaml`）：
+使用客户端证书身份验证的后端 secret 和后端配置文件（另存为 `tbc-fc.yaml`）：
 
+[source, yaml]
+----
+# tbc-fc.yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: tbc-fc-secret
+type: Opaque
+stringData:
+  clientPrivateKey: <client private key>
+---
+apiVersion: trident.netapp.io/v1
+kind: TridentBackendConfig
+metadata:
+  name: tbc-fc
+spec:
+  version: 1
+  storageDriverName: ontap-san
+  managementLIF: <ONTAP management LIF>
+  backendName: tbc-fc
+  svm: openshift-fc #<replace with your SVM name>
+  sanType: fcp
+  storagePrefix: demofc #<replace with your prefix>
+  defaults:
+    nameTemplate: "{{ .config.StoragePrefix }}_{{ .volume.Namespace }}_{{ .volume.RequestName }}"
+  credentials:
+    name: tbc-fc-secret
+  clientCertificate: <client certificate>
+----
 [source, yaml]
 ----
 # sc-fc.yaml
@@ -322,10 +592,69 @@ parameters:
   snapshots: "true"
 allowVolumeExpansion: true
 ----
+=====
+--
+.iSCSI SAN 经济性
+--
+为使用 iSCSI 的 ONTAP SAN economy 创建 TridentBackendConfig 和 StorageClass，以启用基于 iSCSI 的块存储配置。后端配置使用带有 iSCSI 协议的 ontap-san-economy 驱动程序，并包括存储在 Kubernetes Secret 中的凭据。
+
+使用客户端证书身份验证的后端 secret 和后端配置文件（另存为 `tbc-san-eco.yaml`）：
+
+[source, yaml]
+----
+
+# tbc-san-eco.yaml
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: ontap-san-cert-auth
+  namespace: trident
+type: Opaque
+stringData:
+  clientPrivateKey: <client private key>
+---
+apiVersion: trident.netapp.io/v1
+kind: TridentBackendConfig
+metadata:
+  name: tbc-san-eco-cert
+  namespace: trident
+spec:
+  version: 1
+  storageDriverName: ontap-san-economy
+  managementLIF: "<ONTAP management LIF>"
+  backendName: tbc_san_eco
+  svm: <replace with your SVM name>
+  storagePrefix: <replace with your prefix>
+  credentials:
+    name: ontap-san-cert-auth
+  clientCertificate: <client certificate>
+
+----
+[source, yaml]
+----
+# sc-san-eco.yaml
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: sc-san-eco
+provisioner: csi.trident.netapp.io
+parameters:
+  backendType: "ontap-san-economy"
+  provisioningType: "thin"
+  snapshots: "true"
+----
 --
 ====
+查看 Trident 文档，了解 yaml 文件的其他示例，以及有关 SAN 驱动程序和 NAS 驱动程序支持的访问模式和卷模式的信息。
+
+. link:https://docs.netapp.com/us-en/trident/trident-use/ontap-nas.html["使用 NAS 驱动程序的示例"]
+. link:https://docs.netapp.com/us-en/trident/trident-use/ontap-san.html["使用 SAN 驱动程序的示例"]
 
 
+
+
+[[rosa-clusters-with-amazon-fsx-for-netapp-ontap]]
 === 使用 Amazon FSx for NetApp ONTAP 的 ROSA 集群
 
 为要配置的每个协议创建 YAML 文件。可以配置以下协议之一或两者：用于基于 NFS 的文件存储的 NAS 或用于块存储的 iSCSI。
@@ -434,6 +763,7 @@ allowVolumeExpansion: true
 ====
 
 
+[[step-3-create-a-volumesnapshotclass-configuration-file]]
 == 步骤 3：创建 VolumeSnapshotClass 配置文件
 
 为本地和 ROSA 部署创建 VolumeSnapshotClass 定义。此配置为持久卷启用基于快照的操作。
@@ -452,6 +782,7 @@ deletionPolicy: Retain
 ----
 
 
+[[step-4-apply-the-configuration-files-to-your-cluster]]
 == 步骤 4：将配置文件应用于集群
 
 将前面步骤中创建的配置文件应用于 OpenShift 集群。
@@ -466,6 +797,9 @@ deletionPolicy: Retain
 ----
 oc create -f tbc-nas.yaml -n trident
 oc create -f sc-nas.yaml
+
+oc create -f tbc-nas-economy.yaml -n trident
+oc create -f sc-nas-economy.yaml
 
 oc create -f tbc-iscsi.yaml -n trident
 oc create -f sc-iscsi.yaml
@@ -523,6 +857,7 @@ oc get volumesnapshotclass
 
 
 
+[[step-5-set-the-default-trident-storage-and-snapshot-classes]]
 == 第 5 步：设置默认 Trident 存储和快照类
 
 将 Trident StorageClass 和 VolumeSnapshotClass 设置为 OpenShift 集群中的默认值。这是 OpenShift Virtualization 为 VM 模板创建黄金映像源所必需的。

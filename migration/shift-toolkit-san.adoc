@@ -18,12 +18,14 @@ summary: 使用 Shift Toolkit 将虚拟机从基于 SAN 的数据存储迁移到
 
 
 
+[[requirements-for-san-based-vms]]
 == 基于 SAN 的虚拟机的要求
 
 Shift Toolkit 要求虚拟机在转换之前驻留在 NAS 环境中（VMware ESXi 使用 NFS）。如果您的虚拟机当前存储在基于 SAN 的数据存储上，并且使用 iSCSI、光纤通道 (FC)、以太网光纤通道 (FCoE) 或光纤通道 NVMe (NVMe/FC)，则必须首先将其迁移到 NFS 数据存储。
 
 
 
+[[migration-workflow-for-san-environments]]
 == SAN环境迁移工作流程
 
 下图展示了存储在 SAN 环境中的虚拟机的完整迁移工作流程。
@@ -43,6 +45,7 @@ image::shift-toolkit-260.png[迁移工作流程图，展示了虚拟机从SAN到
 
 
 
+[[handling-processor-compatibility-issues]]
 == 处理处理器兼容性问题
 
 在处理器能力不同的节点之间执行实时虚拟机迁移时，由于处理器兼容性检查，迁移可能会失败。

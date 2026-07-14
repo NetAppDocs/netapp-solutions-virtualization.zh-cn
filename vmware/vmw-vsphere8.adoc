@@ -18,6 +18,7 @@ NetApp和 VMware 的合作伙伴关系是唯一一个通过单一存储系统解
 
 
 
+[[modern-cloud-connected-all-flash-for-vsphere-8]]
 == 适用于 vSphere 8 的现代云连接全闪存
 
 ONTAP部署可在各种平台上运行，包括NetApp设计的设备、通用硬件和公共云。无论通过 SAN 还是 NAS 协议访问， ONTAP都能提供统一的存储，并且支持从高速闪存到低成本介质再到云存储的各种配置。NetApp还提供专用闪存平台，以简化和细分您的存储需求，而不会造成数据孤岛。此外， NetApp还提供软件，可以轻松实现本地和云端之间的数据移动。最后， NetApp Console提供了一个统一的控制面板，用于管理所有这些关系和您的存储占用空间。

@@ -17,6 +17,7 @@ summary: 设置补充 iSCSI 存储以扩展 VMware Cloud Foundation 管理域。
 
 
 
+[[step-1-deploy-ontap-tools-for-vmware-vsphere]]
 == 步骤 1：ONTAP tools for VMware vSphere
 
 ONTAP tools for VMware vSphere作为 VM 设备部署，并提供用于管理ONTAP存储的集成 vCenter UI。
@@ -84,6 +85,7 @@ image:vmware-vcf-asa-035.png["自定义OTV模板2"]
 
 
 
+[[step-2-add-a-storage-system]]
 == 步骤 2：添加存储系统
 
 执行以下步骤使用ONTAP工具添加存储系统。
@@ -125,6 +127,7 @@ image:vmware-vcf-asa-017.png["授权集群证书"]
 
 
 
+[[optional-migrate-management-vms-to-the-iscsi-datastore]]
 == 可选：将管理虚拟机迁移到 iSCSI 数据存储区
 
 如果您希望使用ONTAP存储来保护 VCF 管理虚拟机，请使用 vMotion 将虚拟机迁移到新创建的 iSCSI 数据存储区。
@@ -168,6 +171,7 @@ image:vmware-vcf-asa-021.png["vSphere Client 的近期任务窗格"]
 
 
 
+[[additional-information]]
 == 追加信息
 
 * 有关配置ONTAP存储系统的信息，请参阅link:https://docs.netapp.com/us-en/ontap["ONTAP 9 文档"^]。

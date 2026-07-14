@@ -18,6 +18,7 @@ summary:
 
 
 
+[[overview-of-components]]
 == 组件概述
 
 . KVM（基于内核的虚拟机）：
@@ -69,6 +70,7 @@ https://galaxy.ansible.com/ui/repo/published/community/libvirt/["Ansible 模块�
 
 
 
+[[cluster-management]]
 == 集群管理
 
 通常，虚拟化管理器或 virsh cli 工具一次管理单个主机。为了管理集群中的多个主机，通常使用更高级别的应用程序，如 oVirt、CloudStack 或 OpenStack。这些工具将协助放置虚拟机并分配负载。如果在小型集群环境中寻找某些虚拟机的高可用性，则可以使用 Pacemaker 和 Corosync 或检查您的管理堆栈选项。
@@ -77,6 +79,7 @@ image:kvm-overview-001.png["带有管理组件的 Libvirt 堆栈"]
 
 
 
+[[compute]]
 == 计算
 
 Libvirt 提供了一个用于管理虚拟机资源和功能的综合框架。这包括与以下相关的任务：
@@ -128,6 +131,7 @@ VM 元数据以 XML 形式存储在 /etc/libvirt/qemu 中。可以使用 virt-in
 
 
 
+[[storage]]
 == 存储
 
 VM 磁盘可以在存储池上动态配置，也可以由存储管理员为 VM 预先配置。 libvirt 支持多种池类型。以下是适用的池类型以及支持的存储协议的列表。常用的选择是 dir。然后是 netfs 和 logical。iscsi 和 iscsi-direct 使用单目标，不提供容错功能。mpath 提供多路径，但不支持动态分配。它的使用方式更像是 vSphere 中的原始设备映射。对于文件协议（NFS/SMB/CIFS），可以在 https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/10/html/managing_file_systems/mounting-file-systems-on-demand#the-autofs-service["自动安装程序"]或使用 fstab 和目录池类型。对于块协议（iSCSI、FC、NVMe-oF），使用 ocfs2 或 gfs2 等共享文件系统。
@@ -180,6 +184,7 @@ VM 磁盘可以在存储池上动态配置，也可以由存储管理员为 VM �
 
 
 
+[[network]]
 == 网络
 
 Libvirt 为管理虚拟机和容器提供了强大的虚拟网络功能。它通过虚拟网络交换机或网桥的概念实现这一点。
@@ -219,6 +224,7 @@ Libvirt 为管理虚拟机和容器提供了强大的虚拟网络功能。它通
 
 
 
+[[monitoring]]
 == 监控
 
 NetApp Data Infrastructure Insights （以前称为Cloud Insights）是一个基于云的基础架构监控和分析平台，可为您的 IT 基础架构（包括虚拟机）提供全面的可视性。
@@ -253,6 +259,7 @@ NetApp Data Infrastructure Insights （以前称为Cloud Insights）是一个基
 
 
 
+[[data-protection]]
 == 数据保护
 
 可以通过多种方法使用NetApp ONTAP保护基于 Libvirt 的虚拟机的数据，通常利用 ONTAP 的内置数据保护功能。以下是常见策略的细分：

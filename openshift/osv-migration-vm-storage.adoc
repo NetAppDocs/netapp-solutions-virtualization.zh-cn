@@ -1,0 +1,79 @@
+---
+sidebar: sidebar 
+permalink: openshift/osv-migration-vm-storage.html 
+keywords: OpenShift, OCP, Trident, NetApp ONTAP, Red Hat OpenShift, OpenShift Virtualization, Red Hat OpenShift Virtualization, Storage Class migration, VM storage migration, OpenShift Virtualization storage migration 
+summary: Red Hat OpenShift 虚拟化 
+---
+= OpenShift Virtualization 中存储类之间 VM 的存储迁移
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+在 OpenShift 虚拟化中，您可以直接通过 Web 控制台将虚拟机（VM）的磁盘迁移到其他存储类，而无需删除 VM。此过程允许您移动整个虚拟机存储或特定卷。
+
+以下步骤概述了如何迁移虚拟机的存储类：
+
+. 请确保目标存储类已正确配置并在 OpenShift 集群中可用。这包括设置和访问必要的存储后端（例如，NetApp ONTAP）。
++
+.显示示例
+[%collapsible]
+====
+image:osv-sc-migration-015.png["Trident 后端配置"]
+
+image:osv-sc-migration-017.png["存储类配置"]
+
+====
+. 在 OpenShift 容器平台 Web 控制台中，导航到虚拟化视角，然后选择要迁移的虚拟机。
++
+.显示示例
+[%collapsible]
+====
+image:osv-sc-migration-001.png["VM"]
+
+image:osv-sc-migration-002.png["VM 磁盘"]
+
+image:osv-sc-migration-003.png["使用 OC CLI 的 VM 和磁盘"]
+
+====
+. 单击操作->迁移->迁移存储。选择要迁移的卷和目标存储类，然后单击迁移。迁移过程将开始，您可以在 VM 的"事件"选项卡中监控进度。迁移完成后，VM 的磁盘将使用新的存储类。
++
+.显示示例
+[%collapsible]
+====
+image:osv-sc-migration-004.png["迁移存储"]
+
+image:osv-sc-migration-005.png["选择卷"]
+
+image:osv-sc-migration-006.png["选择存储类"]
+
+image:osv-sc-migration-007.png["迁移VM存储"]
+
+image:osv-sc-migration-008.png["迁移进行中"]
+
+====
+. 迁移完成后，您可以通过在 Web 控制台中检查虚拟机的详细信息或使用 OpenShift CLI 来验证虚拟机的磁盘现在是否正在使用新的存储类。
++
+.显示示例
+[%collapsible]
+====
+image:osv-sc-migration-009.png["验证存储类"]
+
+image:osv-sc-migration-010.png["使用 OC CLI 验证所有对象"]
+
+image:osv-sc-migration-012.png["迁移前使用 OC CLI 的 ONTAP 卷名称"]
+
+image:osv-sc-migration-011.png["迁移前 ONTAP 后端的卷"]
+
+image:osv-sc-migration-018.png["迁移后的 nas-economy 卷"]
+
+image:osv-sc-migration-019.png["迁移后 ONTAP 后端中的 nas-economy qtree 名称"]
+
+image:osv-sc-migration-020.png["迁移后 ONTAP 后端中的 nas-economy qtree"]
+
+====
+

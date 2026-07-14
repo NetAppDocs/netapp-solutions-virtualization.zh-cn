@@ -20,6 +20,7 @@ summary: '在 VI 工作负载域中的 ESXi 主机上配置 NVMe over TCP (NVMe/
 
 
 
+[[step-1-create-distributed-port-groups-for-nvmetcp-traffic]]
 == 步骤 1：为 NVME/TCP 流量创建分布式端口组
 
 完成以下步骤为每个 NVMe/TCP 网络创建一个新的分布式端口组。
@@ -81,6 +82,7 @@ image:vmware-vcf-asa-079.png["将上行链路 1 移至未使用状态"]
 
 
 
+[[step-2-create-the-vmkernel-adapters-on-each-esxi-host]]
 == 步骤 2：在每个 ESXi 主机上创建 VMkernel 适配器
 
 在工作负载域中的每个 ESXi 主机上创建 VMkernel 适配器。
@@ -139,6 +141,7 @@ image:vmware-vcf-asa-098.png["检查 VMkernel 选择"]
 
 
 
+[[step-3-add-nvmetcp-adapter]]
 == 步骤 3：添加 NVMe/TCP 适配器
 
 工作负载域集群中的每个 ESXi 主机都必须为每个专用于存储流量的已建立 NVMe/TCP 网络安装一个 NVMe/TCP 软件适配器。
@@ -199,6 +202,7 @@ image:vmware-vcf-asa-103.png["设备下列出的 NVMe 命名空间"]
 
 
 
+[[whats-next]]
 == 下一步是什么？
 
 配置网络后，link:vmw-vcf-viwld-supp-nvme-storage.html["为 NVMe vVols配置存储"] 。

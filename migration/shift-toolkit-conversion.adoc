@@ -18,6 +18,7 @@ summary:
 
 
 
+[[overview]]
 == 概述
 
 Shift Toolkit 支持虚拟机管理程序之间以下格式的虚拟磁盘的磁盘级转换，同时支持 ONTAP 上的 FlexVol 和 FlexGroup 卷：
@@ -39,6 +40,7 @@ Shift 工具包支持从 VMware 到其他兼容的 KVM 虚拟机管理程序的�
 
 
 
+[[convert-to-qcow2-format]]
 == 转换为 QCOW2 格式
 
 要使用NetApp Shift 工具包将虚拟磁盘转换为 QCOW2 格式，请按照以下高级步骤操作：
@@ -103,6 +105,7 @@ NOTE: Shift 工具包仅支持 qcow2 格式的磁盘转换。它不支持虚拟�
 
 
 
+[[convert-to-vhdx-format]]
 == 转换为 VHDX 格式
 
 要使用NetApp Shift 工具包将虚拟磁盘转换为 VHDX 格式，请按照以下高级步骤操作：
@@ -138,6 +141,7 @@ NOTE: 要在 VM 中使用转换后的 VHDX 磁盘，必须通过 Hyper-V 管理�
 
 
 
+[[convert-to-raw-format]]
 == 转换为 RAW 格式
 
 要使用NetApp Shift 工具包将虚拟磁盘转换为 RAW 格式，请按照以下高级步骤操作：

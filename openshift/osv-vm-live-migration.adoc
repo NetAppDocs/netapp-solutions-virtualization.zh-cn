@@ -1,6 +1,6 @@
 ---
 sidebar: sidebar 
-permalink: openshift/osv-workflow-vm-live-migration.html 
+permalink: openshift/osv-vm-live-migration.html 
 keywords: OpenShift, OCP, Trident, NetApp ONTAP, Red Hat OpenShift, OpenShift Virtualization, CNV, Container Native Virtualization, Red Hat OpenShift Virtualization 
 summary: 搭载NetApp ONTAP 的Red Hat OpenShift 虚拟化 
 ---
@@ -18,6 +18,7 @@ summary: 搭载NetApp ONTAP 的Red Hat OpenShift 虚拟化
 
 
 
+[[vm-live-migration]]
 == 虚拟机实时迁移
 
 实时迁移是将虚拟机实例从 OpenShift 集群中的一个节点迁移到另一个节点的过程，无需停机。为了在 OpenShift 集群中进行实时迁移，虚拟机必须绑定到具有共享 ReadWriteMany 访问模式的 PVC。使用 ontap-nas 驱动程序配置的Trident后端支持文件系统协议 nfs 和 smb 的 RWX 访问模式。请参阅文档link:https://docs.netapp.com/us-en/trident/trident-use/ontap-nas.html["此处"]。使用 ontap-san 驱动程序配置的Trident后端支持 iSCSI 和 NVMe/TCP 协议的块卷模式的 RWX 访问模式。请参阅文档link:https://docs.netapp.com/us-en/trident/trident-use/ontap-san.html["此处"]。

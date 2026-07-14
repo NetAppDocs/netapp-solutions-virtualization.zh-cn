@@ -33,6 +33,7 @@ NOTE: 在非统一主机访问模式下，虚拟机将由 vSphere HA 在其他�
 
 
 
+[[prerequisites]]
 == 前提条件
 
 * link:vmw-vcf-mgmt-supplemental-iscsi.html["每个主机部署有双存储结构（两个 HBA 或用于 iSCSI 的双 VLAN）的 VMware vSphere 主机"] 。
@@ -50,6 +51,7 @@ TIP: 如果使用自签名证书，则可以从中介虚拟机上的 <安装路�
 
 
 
+[[vmsc-non-uniform-host-access-with-ontap-system-manager-ui]]
 == vMSC 与ONTAP系统管理器 UI 的非统一主机访问。
 
 注意： ONTAP Tools 10.2 或更高版本可用于配置具有非统一主机访问模式的延伸数据存储库，而无需切换多个用户界面。如果不使用ONTAP工具，本节仅供参考。
@@ -86,6 +88,7 @@ NOTE: 由于我们使用了AFF，所以上面的屏幕截图显示了单个控�
 
 
 
+[[vmsc-uniform-host-access-mode-with-ontap-tools]]
 == 带有ONTAP工具的 vMSC 统一主机访问模式。
 
 . 确保NetApp ONTAP Tools 已部署并注册到 vCenter。image:vmware-vmsc-with-smas-015.png["ONTAP工具插件已注册到 vCenter"]如果没有，请关注link:https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere-10/deploy/ontap-tools-deployment.html["ONTAP工具部署"]和link:https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere-10/configure/add-vcenter.html["添加 vCenter 服务器实例"]
@@ -102,6 +105,7 @@ NOTE: 由于我们使用了AFF，所以上面的屏幕截图显示了单个控�
 
 
 
+[[vm-protection-with-snapcenter-plug-in-for-vmware-vsphere]]
 == 使用适用于 VMware vSphere 的SnapCenter插件保护虚拟机。
 
 SnapCenter Plug-in for VMware vSphere支持SnapMirror主动同步，并且还支持与SnapMirror Async 结合使用以复制到第三个故障域。

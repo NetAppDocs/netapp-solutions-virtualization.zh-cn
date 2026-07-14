@@ -18,6 +18,7 @@ summary: ROSA 上的 Red Hat OpenShift 虚拟化
 
 
 
+[[prerequisites]]
 == 前提条件
 
 * 必须安装Trident 。在使用 OpenShift Virtualization 操作员在集群上安装 OpenShift Virtualization 之前，必须创建后端和存储类。
@@ -32,6 +33,7 @@ image:redhat-openshift-ocpv-tp-003.png["安装在 source-ns 命名空间中的 O
 
 
 
+[[create-appvault-using-ontap-s3]]
 == 使用 ONTAP S3 创建 AppVault
 
 本节演示如何使用 ONTAP S3 对象存储在 Trident Protect 中设置 AppVault 对象。
@@ -97,6 +99,7 @@ image:redhat-openshift-ocpv-tp-002.png["trident-protect 命名空间中的 OCP-v
 
 
 
+[[create-a-trident-protect-app-for-the-vm]]
 == 为虚拟机创建 Trident Protect 应用程序
 
 在虚拟机所在的命名空间中创建应用自定义资源。
@@ -111,6 +114,7 @@ image:redhat-openshift-ocpv-tp-004.png["source-ns 命名空间中的 OCP-v 应�
 
 
 
+[[create-a-trident-protect-app-for-the-disaster-recovery-vm-in-a-new-namespace]]
 == 在新命名空间中为灾难恢复 VM 创建 Trident Protect 应用程序
 
 [source, CLI]
@@ -122,6 +126,7 @@ image:redhat-openshift-ocpv-tp-005.png["source-ns 命名空间中的 OCP-v 应�
 
 
 
+[[create-an-appmirror-schedule-in-the-source-namespace]]
 == 在源命名空间中创建 AppMirror 计划
 
 如下所示，使用 yaml 为 AppMirror 创建一个计划。这将使用计划（每 5 分钟）创建快照并保留 2 个快照
@@ -153,6 +158,7 @@ image:redhat-openshift-ocpv-tp-007.png["快照已创建"]
 
 
 
+[[create-an-appmirror-relationship-in-the-dr-namespace]]
 == 在 DR 命名空间中创建 appMirror 关系
 
 在灾难恢复命名空间中创建 Appmirror 关系。将 desiredState 设置为 Established。
@@ -195,6 +201,7 @@ image:redhat-openshift-ocpv-tp-012.png["在目标命名空间中创建 PVC"]
 
 
 
+[[promote-the-relationship-to-failover]]
 == 将关系提升到故障转移
 
 将关系的所需状态更改为“已提升”，以在 DR 命名空间中创建 VM。  VM 仍在源命名空间中运行。
@@ -213,6 +220,7 @@ image:redhat-openshift-ocpv-tp-016.png["源 ns 中的 VM 仍在运行"]
 
 
 
+[[establish-the-relationship-again-to-failback]]
 == 再次建立关系以进行故障回复
 
 将关系的期望状态更改为“已建立”。该虚拟机已在 DR 命名空间中删除。  pvc 仍然存在于 DR 命名空间中。 VM 仍在源命名空间中运行。从源命名空间到 DR ns 的原始关系已建立。。
@@ -231,6 +239,7 @@ image:redhat-openshift-ocpv-tp-020.png["源 ns 中的 POD 和 PVC 仍然存在"]
 
 
 
+[[video-demonstration]]
 == 视频演示
 
 以下视频演示了如何使用Trident Protect 为 OpenShift VM 实现灾难恢复场景

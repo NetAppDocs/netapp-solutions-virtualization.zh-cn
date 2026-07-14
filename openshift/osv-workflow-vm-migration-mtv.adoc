@@ -30,6 +30,7 @@ summary: 搭载NetApp ONTAP 的Red Hat OpenShift 虚拟化
 ====
 
 
+[[video-demonstration]]
 == 视频演示
 
 以下视频展示了使用 ontap-san 存储类进行持久存储将 RHEL VM 从 VMware 冷迁移到 OpenShift Virtualization 的演示。
@@ -38,6 +39,7 @@ summary: 搭载NetApp ONTAP 的Red Hat OpenShift 虚拟化
 video::bac58645-dd75-4e92-b5fe-b12b015dc199[panopto,width=360]
 
 
+[[migration-of-vm-from-vmware-to-openshift-virtualization-using-migration-toolkit-for-virtualization]]
 == 使用虚拟化迁移工具包将虚拟机从 VMware 迁移到 OpenShift 虚拟化
 
 在本节中，我们将了解如何使用虚拟化迁移工具包 (MTV) 将虚拟机从 VMware 迁移到在 OpenShift Container 平台上运行并使用Trident与NetApp ONTAP存储集成的 OpenShift 虚拟化。
@@ -48,10 +50,12 @@ image:rh-os-n-use-case-vm-migration-using-mtv.png["该图显示输入/输出对�
 
 
 
+[[prerequisites-for-the-sample-migration]]
 === 示例迁移的先决条件
 
 
 
+[[on-vmware]]
 === **在 VMware 上**
 
 * 安装了使用 rhel 9.3 的 RHEL 9 VM，其配置如下：
@@ -80,6 +84,7 @@ NOTE: 确保启动 postgresql 服务器并启用服务在启动时启动。
 
 
 
+[[on-openshift-cluster]]
 === **在 OpenShift 集群上**
 
 在安装 MTV 之前已完成以下安装：
@@ -92,6 +97,7 @@ NOTE: 确保启动 postgresql 服务器并启用服务在启动时启动。
 
 
 
+[[install-mtv]]
 === 安装 MTV
 
 现在您可以安装虚拟化迁移工具包 (MTV)。请参阅提供的说明link:https://access.redhat.com/documentation/en-us/migration_toolkit_for_virtualization/2.5/html/installing_and_using_the_migration_toolkit_for_virtualization/installing-the-operator["此处"]寻求安装帮助。
@@ -137,6 +143,7 @@ image:rh-os-n-use-case-vm-migration-mtv-plan-ready.png["该图显示输入/输�
 
 
 
+[[perform-cold-migration]]
 === 执行冷迁移
 
 单击“*开始*”将运行一系列步骤来完成虚拟机的迁移。
@@ -149,6 +156,7 @@ image:rh-os-n-use-case-vm-migration-mtv-plan-complete.png["该图显示输入/�
 
 
 
+[[perform-warm-migration]]
 === 执行热迁移
 
 要执行热迁移，在创建如上所示的迁移计划后，您需要编辑计划设置以更改默认迁移类型。单击冷迁移旁边的编辑图标并切换按钮将其设置为热迁移。点击**保存**。现在单击**开始**来开始迁移。

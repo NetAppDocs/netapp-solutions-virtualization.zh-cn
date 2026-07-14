@@ -2,9 +2,9 @@
 sidebar: sidebar 
 permalink: openshift/osv-overview.html 
 keywords: OpenShift, OCP, Trident, NetApp ONTAP, Red Hat OpenShift, OpenShift Virtualization, CNV, Container Native Virtualization, Red Hat OpenShift Virtualization 
-summary: 搭载NetApp ONTAP 的Red Hat OpenShift 虚拟化 
+summary: Red Hat OpenShift 虚拟化 
 ---
-= 了解 Red Hat OpenShift 虚拟化与ONTAP
+= 了解 Red Hat OpenShift 虚拟化
 :hardbreaks:
 :allow-uri-read: 
 :nofooter: 
@@ -14,14 +14,59 @@ summary: 搭载NetApp ONTAP 的Red Hat OpenShift 虚拟化
 
 
 [role="lead"]
-了解如何使用 Red Hat OpenShift Virtualization 和ONTAP存储来运行和管理虚拟机。使用Trident实现实时 VM 迁移、VM 磁盘克隆和 VM 快照，从而简化基础设施管理和数据保护。
-
-根据具体的用例，容器和虚拟机 (VM) 都可以作为不同类型应用程序的最佳平台。因此，许多组织在容器上运行一些工作负载，在虚拟机上运行一些工作负载。通常，这会导致组织面临额外的挑战，因为必须管理单独的平台：用于虚拟机的虚拟机管理程序和用于应用程序的容器编排器。
-
-为了应对这一挑战，Red Hat 从 OpenShift 4.6 版本开始引入了 OpenShift Virtualization（以前称为 Container Native Virtualization）。 OpenShift 虚拟化功能使您能够在同一个 OpenShift 容器平台安装上运行和管理虚拟机以及容器，提供混合管理功能，通过操作员自动部署和管理虚拟机。除了在 OpenShift 中创建虚拟机之外，借助 OpenShift Virtualization，Red Hat 还支持从 VMware vSphere、Red Hat Virtualization 和 Red Hat OpenStack Platform 部署导入虚拟机。
+Red Hat® OpenShift® 虚拟化使组织能够在统一的混合云应用平台上无缝迁移、运行和管理传统虚拟机 (VM) 以及现代工作负载。OpenShift 虚拟化可作为任何 OpenShift 订阅中包含的运算符使用。OpenShift 容器平台的这一附加组件为将虚拟机与容器化应用程序集成提供了强大的解决方案。它使用基于内核的虚拟机 (KVM)（这是受信任的 Linux 内核虚拟机管理程序，以强大的性能、可扩展性和稳定性著称），在 OpenShift 中以原生对象的形式为虚拟机提供企业级虚拟化。
 
 image:redhat-openshift-044.png["OpenShift 虚拟化"]
 
-在NetApp ONTAP的支持下，OpenShift Virtualization 在Trident的帮助下还支持某些功能，例如实时 VM 迁移、VM 磁盘克隆、VM 快照等。本文档后面将在各自的章节中讨论每个工作流程的示例。
 
-要了解有关 Red Hat OpenShift 虚拟化的更多信息，请参阅文档 https://www.openshift.com/learn/topics/virtualization/["此处"]。
+
+[[key-features-of-red-hat-openshift-virtualization]]
+== Red Hat OpenShift 虚拟化的主要功能
+
+**混合工作负载：**迁移和运行具有云原生优势的虚拟机，并使用统一的工具集与容器和无服务器工作负载一起管理它们。
+
+**逐步现代化：**通过采用容器、实施微服务或集成 AI，按照自己的步调进行现代化，而不会中断现有的 VM。
+
+**Kubernetes 集成：** 利用 Kubernetes 自定义资源向 OpenShift 集群添加虚拟化功能。
+
+
+
+[[capabilities-of-red-hat-openshift-virtualization]]
+== Red Hat OpenShift 虚拟化的功能
+
+**虚拟机管理：**创建和管理 Linux 和 Windows 虚拟机。
+
+**统一工作负载：**在集群内同时运行 Pod 和 VM 工作负载。
+
+**连接：**通过各种控制台和 CLI 工具访问虚拟机。
+
+**VM Operations：**在节点之间导入、克隆和实时迁移虚拟机。
+
+**资源管理：**处理连接到虚拟机的网络接口和存储磁盘。
+
+
+
+[[compatibility]]
+== 兼容性
+
+虽然 OpenShift Virtualization 在概念上与 VMware vSphere 有所不同，但它提供了一个专为虚拟化管理员量身定制的现代平台，具备如下熟悉的功能：**实时迁移：** 相当于 vSphere 中的 vMotion。
+
+**存储管理：** OpenShift 中的存储类与 vSphere 中基于存储策略的管理 (SPBM) 保持一致。
+
+**持久存储：** 持久卷声明 (PVC) 和持久卷 (PV) 对应于 vSphere 中的数据存储。
+
+
+
+[[for-vsphere-administrators]]
+== 对于 vSphere 管理员
+
+有关映射到最接近的 OpenShift Virtualization 对应项的 vSphere 概念列表，请参阅 link:https://docs.redhat.com/en/documentation/openshift_container_platform/4.21/html/virtualization/about#virt-vmware-comparison_about-virt["此处文档"]。
+
+
+
+[[additional-resources]]
+== 其他资源
+
+您可以通过 **OpenShift Container Platform web console** 或 **OpenShift CLI (oc)** 的虚拟化视角管理集群和虚拟化资源。
+
+要了解有关 Red Hat OpenShift Virtualization 的详细信息，请参见文档 link:https://www.openshift.com/learn/topics/virtualization/["此处"]。

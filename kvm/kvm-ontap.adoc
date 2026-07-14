@@ -22,6 +22,7 @@ KVM 主机需要将 FC、以太网或其他受支持的接口连接到交换机�
 
 
 
+[[high-level-ontap-features]]
 == 高级ONTAP功能
 
 *共同特征*
@@ -72,6 +73,7 @@ KVM 主机需要将 FC、以太网或其他受支持的接口连接到交换机�
 
 
 
+[[libvirt-with-ontap-storage]]
 == 带有ONTAP存储的 Libvirt
 
 Libvirt 可用于管理利用NetApp ONTAP存储其磁盘映像和数据的虚拟机。通过这种集成，您可以在基于 Libvirt 的虚拟化环境中受益于 ONTAP 的高级存储功能，例如数据保护、存储效率和性能优化。以下是 Libvirt 与ONTAP交互的方式以及您可以执行的操作：
@@ -118,6 +120,7 @@ Libvirt 可用于管理利用NetApp ONTAP存储其磁盘映像和数据的虚拟
 
 
 
+[[file-based-storage-pool-with-smb-or-nfs]]
 == 基于文件的存储池（使用 SMB 或 NFS）
 
 dir 和 netfs 类型的存储池适用于基于文件的存储。
@@ -238,6 +241,7 @@ virsh vol-list kvmnfs01
 
 
 
+[[block-based-storage-pool-with-iscsi-fc-or-nvme-of]]
 == 基于块的存储池（带有 iSCSI、FC 或 NVMe-oF）
 
 目录池类型通常在共享 LUN 或命名空间上的集群文件系统（如 OCFS2 或 GFS2）上使用。

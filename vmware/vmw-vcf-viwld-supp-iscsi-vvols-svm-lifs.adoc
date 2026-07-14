@@ -59,6 +59,7 @@ image:vmware-vcf-asa-004.png["启用 SVM 帐户并完成"]
 
 
 
+[[whats-next]]
 == 下一步是什么？
 
 创建 SVM 和 LIF 后，link:vmw-vcf-viwld-supp-iscsi-vvols-network.html["在 ESXi 主机上配置 iSCSI 网络"] 。

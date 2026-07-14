@@ -24,12 +24,14 @@ NetApp ONTAP与 VMware Cloud Foundation (VCF) 集成，提供支持块和文件�
 
 
 
+[[introduction-to-netapp-ontap]]
 == NetApp ONTAP简介
 
 NetApp ONTAP是一款全面的数据管理软件，可在广泛的产品线中提供先进的存储功能。  ONTAP可作为软件定义存储使用，也可作为通过主要云提供商提供的第一方服务使用，也可作为NetApp ASA （全闪存阵列）、 AFF （全闪存FAS）和FAS （光纤连接存储）平台的存储操作系统使用。  ONTAP为包括 VMware 虚拟化在内的各种用例提供高性能和低延迟，而不会产生孤岛。
 
 
 
+[[introduction-to-vmware-cloud-foundation]]
 == VMware Cloud Foundation 简介
 
 VCF 将计算、网络和存储产品与 VMware 产品和第三方集成相结合，从而支持原生 Kubernetes 和基于虚拟机的工作负载。该软件平台包含 VMware vSphere、NSX、Aria Suite Enterprise、VMware vSphere Kubernetes Service、HCX Enterprise、SDDC Manager 等关键组件，并通过 vSAN 与主机 CPU 内核连接存储容量。NetApp ONTAP可与各种 VCF 部署模型无缝集成，无论是在本地还是在公有云中。
@@ -38,6 +40,7 @@ image:vmware-vcf-overview-components.png["VMware 云基础组件"]
 
 
 
+[[vcf-domains]]
 == VCF 域
 
 域是 VCF 内的基础构造，可将资源组织成不同的、独立的组。域有助于更有效地组织基础设施，确保资源得到有效利用。每个域都部署有自己的计算、网络和存储元素。
@@ -52,6 +55,7 @@ image:vmware-vcf-overview-domains.png["VMware 云域"]
 
 
 
+[[storage-with-vcf]]
 == 使用 VCF 存储
 
 域功能的核心是它们消耗的存储空间。虽然 VCF 包含用于超融合用例的基于 CPU 核心的 vSAN 容量，但它也支持各种外部存储解决方案。对于在现有存储阵列上投入大量资金或需要支持超出 vSAN 能力范围的协议的企业来说，这种灵活性至关重要。  VMware 通过 VCF 支持多种存储类型。
@@ -80,6 +84,7 @@ VCF 存储主要有两种类型：
 
 
 
+[[why-ontap-for-vcf]]
 == 为什么ONTAP适用于 VCF
 
 除了涉及投资保护和多协议支持的用例之外，还有许多其他原因可以利用 VCF 工作负载域中的外部共享存储。可以假设为工作负载域配置的存储仅仅是托管虚拟机和容器的存储库。然而，组织的需求往往超出许可容量的能力，并需要企业存储。  ONTAP提供的存储分配给 VCF 内的域，易于部署并提供面向未来的共享存储解决方案。
@@ -98,6 +103,7 @@ image:why-ontap-for-vmware-002.png["为什么ONTAP适用于 VCF"]
 
 
 
+[[additional-information]]
 == 追加信息
 
 * link:vmw-getting-started-ntap-options.html["NetApp存储选项"]
@@ -115,12 +121,14 @@ image:why-ontap-for-vmware-002.png["为什么ONTAP适用于 VCF"]
 
 
 
+[[summary]]
 == 摘要
 
 ONTAP提供了一个满足所有工作负载需求的平台，提供定制的块存储解决方案和统一的产品，以可靠、安全的方式为虚拟机和应用程序提供更快的结果。 ONTAP采用先进的数据缩减和移动技术，最大限度地减少数据中心占用空间，同时确保企业级可用性，使关键工作负载保持在线。此外，AWS、Azure 和 Google 支持NetApp驱动的外部存储，以增强 VMware 基于云的集群中的 vSAN 存储，作为其 VMware-in-the-Cloud 产品的一部分。总体而言，NetApp 的卓越功能使其成为 VMware Cloud Foundation 部署的更有效选择。
 
 
 
+[[documentation-resources]]
 == 文档资源
 
 有关NetApp为 VMware Cloud Foundation 提供的产品的详细信息，请参阅以下内容：

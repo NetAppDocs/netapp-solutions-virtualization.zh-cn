@@ -16,12 +16,14 @@ Storage Manager for Proxmox (SMP) 为使用 NetApp ONTAP 存储系统的 Proxmox
 
 
 
+[[learn-about-storage-manager-for-proxmox]]
 == 了解 Storage Manager for Proxmox
 
 Storage Manager for Proxmox (SMP) 为使用 NetApp 存储系统的 Proxmox 环境中的虚拟机提供端到端的存储管理。通过允许管理员直接管理存储，SMP 简化了 Proxmox 环境中的存储和数据管理任务。
 
 
 
+[[key-features]]
 === 主要特点
 
 * *端到端存储管理*：SMP 为虚拟机提供完整的生命周期管理，从调配存储到备份和恢复。
@@ -31,6 +33,7 @@ Storage Manager for Proxmox (SMP) 为使用 NetApp 存储系统的 Proxmox 环�
 
 
 
+[[capabilities]]
 === 功能
 
 SMP 的每个组件都旨在提高存储管理效率：
@@ -57,6 +60,7 @@ SMP 的每个组件都旨在提高存储管理效率：
 
 
 
+[[prerequisites]]
 === 前提条件
 
 在继续之前，请确保您已完成以下操作：
@@ -104,6 +108,7 @@ EOF
 
 
 
+[[install-and-set-up-storage-manager-for-proxmox]]
 == 安装和设置 Storage Manager for Proxmox
 
 要开始使用 SMP，请在指定的虚拟机上使用 Windows 操作系统。SMP 可以在 Windows Server 2019、2022 和 2025 上运行。
@@ -166,6 +171,7 @@ image::proxmox-smp-image5.png[SMP 用户界面主屏幕]
 
 
 
+[[configure-storage-manager-for-proxmox]]
 == 为 Proxmox 配置 Storage Manager
 
 正确配置到存储和 Proxmox 节点的存储和连接后，配置 SMP 以利用 ONTAP Snapshot 和 FlexClone 功能自动配置和保护虚拟机。
@@ -295,12 +301,14 @@ image::proxmox-smp-image12.png[成功配置后的 SMP 计划概述]
 ====
 
 
+[[provision-storage]]
 == 配置存储
 
 将卷设置为存储池（通常称为数据存储）可为虚拟机及其虚拟磁盘（QCOW2 或 RAW）创建逻辑容器。SMP 可以调配数据存储区，然后将其连接到单个主机或群集中的所有主机。
 
 
 
+[[provision-nfs-storage]]
 === 配置 NFS 存储
 
 使用 SMP 将 ONTAP 卷配置和挂载为 NFS 数据存储库。
@@ -432,6 +440,7 @@ NOTE: 这需要在集群上安装 SnapLock 许可证，并且必须初始化集�
 
 
 
+[[provision-iscsi-storage]]
 === 预配 iSCSI 存储
 
 使用 SMP 为虚拟机设置 iSCSI 后端。
@@ -537,6 +546,7 @@ image::proxmox-smp-image26.png[Proxmox 存储视图确认 NFS 和 iSCSI 数据�
 
 
 
+[[volume-configuration-options]]
 === 卷配置选项
 
 当 SMP 配置新的 ONTAP FlexVol 卷和 LUN 时，会自动应用几个默认配置值：
@@ -577,6 +587,7 @@ image::proxmox-smp-image26.png[Proxmox 存储视图确认 NFS 和 iSCSI 数据�
 |===
 
 
+[[nconnect-behavior]]
 === NConnect 行为
 
 将 NFS 存储与 Proxmox VE 一起使用时，请注意 Linux NFS 客户端（由 Proxmox VE 的基本操作系统 Debian 使用）中的特定行为。Linux 内核可能会重用首次在节点上挂载 NFS 导出时的挂载参数。如果使用不同的挂载选项再次挂载相同的导出，则可能不会应用这些新选项。
@@ -585,6 +596,7 @@ image::proxmox-smp-image26.png[Proxmox 存储视图确认 NFS 和 iSCSI 数据�
 
 
 
+[[protect-virtual-machines]]
 == 保护虚拟机
 
 当虚拟机在 ONTAP 支持的 NFS 数据存储上运行时，最简化的保护方法是让 Proxmox 建立文件系统一致性，而 ONTAP 在存储层捕获实际备份点。ONTAP 快照提供数据存储卷的快速、节省空间的时间点副本，以后可用于恢复整个数据存储、单个文件或 VM 内容。
@@ -595,6 +607,7 @@ SMP 允许保护整个数据存储库，其中一个 ONTAP NFS 卷包含多个�
 
 
 
+[[back-up-virtual-machines]]
 === 备份虚拟机
 
 配置 ONTAP 卷后，使用备份选项列出在 Proxmox 集群上运行的所有虚拟机，并对虚拟机执行崩溃一致性或文件一致性备份。
@@ -677,6 +690,7 @@ NOTE: 在数据存储区（卷）级别进行的备份始终是崩溃一致的�
 
 
 
+[[backup-workflow-details]]
 === 备份工作流详细信息
 
 高级备份工作流程包括：
@@ -697,6 +711,7 @@ NOTE: 在数据存储区（卷）级别进行的备份始终是崩溃一致的�
 
 
 
+[[automate-vm-backup-tasks]]
 === 自动化 VM 备份任务
 
 通过配置计划自动执行 Proxmox VM 备份。创建定期备份对于数据保护和灾难恢复至关重要。
@@ -752,6 +767,7 @@ NOTE: VM 备份作业也可以通过单击 *Backup* 立即触发，而不是等�
 
 
 
+[[restore-virtual-machines-or-datastores]]
 == 还原虚拟机或数据存储库
 
 使用 SMP 从备份还原 Proxmox VM。
@@ -819,6 +835,7 @@ image::proxmox-smp-image40.png[存储级还原，显示选定卷上的所有 VM]
 ====
 
 
+[[restore-workflow-details]]
 === 还原工作流详细信息
 
 还原工作流程因基础存储类型而异，涉及以下关键步骤：
@@ -834,6 +851,7 @@ image::proxmox-smp-image40.png[存储级还原，显示选定卷上的所有 VM]
 
 
 
+[[clone-virtual-machines]]
 == 克隆虚拟机
 
 使用 SMP 创建虚拟机克隆以进行开发、测试或快速配置。
@@ -882,6 +900,7 @@ image::proxmox-smp-image43.png[备份和克隆列表中显示的克隆虚拟机]
 ====
 
 
+[[clone-workflow-details]]
 === 克隆工作流详细信息
 
 SMP 通过将繁重的工作卸载到 ONTAP 来执行存储端克隆而不是主机端文件复制，从而实现快速 VM 克隆的自动化。在底层，SMP 利用 ONTAP FlexClone 语义（基于快照、可写、节省空间的克隆），因此克隆可以快速创建，最初消耗的容量很少；它尽可能避免通过 Proxmox 主机进行数据读取/写入。
@@ -892,12 +911,14 @@ SMP 通过将繁重的工作卸载到 ONTAP 来执行存储端克隆而不是主
 
 
 
+[[monitor-operations]]
 == 监控操作
 
 使用过程日志和仪表板视图来监控和跟踪 SMP 操作。
 
 
 
+[[process-logs]]
 === 处理日志
 
 Process Logs 视图提供了通过 Storage Manager for Proxmox 执行的所有操作的合并记录。每个条目显示作业状态、作业 ID、执行的操作、开始时间和持续时间。这样可以轻松跟踪已完成的任务，识别任何失败或部分操作，并查看在环境中执行的操作顺序。
@@ -912,6 +933,7 @@ image::proxmox-smp-image44.png[显示作业历史记录和操作状态的过程�
 ====
 
 
+[[dashboard]]
 === 信息板
 
 仪表板一目了然地概述了整个 Storage Manager for Proxmox 环境。它总结了关键清单，例如 Proxmox 群集、主机、数据存储区、ONTAP 群集和受保护虚拟机的数量。还会显示容量使用情况、总存储卷、保护策略和资源组，以清晰显示系统利用率。
@@ -926,6 +948,7 @@ image::proxmox-smp-image45.png[显示集群运行状况的 SMP Dashboard,VM dist
 ====
 
 
+[[summary]]
 == 摘要
 
 Storage Manager for Proxmox 提供了一种简化和统一的方式来管理 Proxmox 环境中的保护、克隆和恢复操作。通过与 ONTAP 直接集成，该解决方案将企业级存储的效率、可靠性和性能融入到日常 VM 工作流程中。ONTAP 的节省空间的快照、快速克隆功能和内置复制提供了一致和可预测的数据保护，而 SMP 将这些功能简化为直观的、以任务为中心的界面。

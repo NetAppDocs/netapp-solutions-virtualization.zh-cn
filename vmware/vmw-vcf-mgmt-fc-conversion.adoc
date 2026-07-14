@@ -19,6 +19,7 @@ Broadcom 的 VMware VCF 导入工具是一种实用程序，可在 vCenter 设�
 
 
 
+[[step-1-copy-the-vcf-import-tool-and-run-a-precheck]]
 == 步骤 1：复制 VCF 导入工具并运行预检查
 
 VCF 导入工具用于 vCenter 设备上，以验证 vSphere 集群在 VCF 转换或导入过程中是否处于健康状态。
@@ -45,6 +46,7 @@ image::vmware-vcf-import-nfs-011.png[vcf导入工具预检]
 
 
 
+[[step-2-deploy-the-sddc-manager-and-create-nsx-deployment-specification]]
 == 步骤 2：部署 SDDC 管理器并创建 NSX 部署规范
 
 在您计划转换为 VCF 管理域的同一 vSphere 集群上部署 SDDC Manager 设备。
@@ -100,6 +102,7 @@ NOTE: 在转换或导入操作中部署 NSX Manager 集群时，会使用 NSX-VL
 
 
 
+[[step-3-upload-software-to-sddc-manager]]
 == 步骤 3：将软件上传到 SDDC Manager
 
 按照 VMware 文档中的说明将 VCF 导入工具包和 NSX 部署工具包上传到 SDDC 管理器： https://techdocs.broadcom.com/us/en/vmware-cis/vcf/vcf-5-2-and-earlier/5-2/seed-software-on-sddc-manager.html["将所需软件上传到 SDDC 管理器设备"] 。
@@ -108,6 +111,7 @@ NOTE: 在转换或导入操作中部署 NSX Manager 集群时，会使用 NSX-VL
 
 
 
+[[step-4-convert-the-vsphere-cluster-to-the-vcf-management-domain]]
 == 步骤4：将vSphere集群转换为VCF管理域
 
 按照 VMware 文档中的说明将 vSphere 集群转换为 VCF 管理域： https://techdocs.broadcom.com/us/en/vmware-cis/vcf/vcf-5-2-and-earlier/5-2/import-workload-domain-into-sddc-manager-inventory.html["将 vSphere 环境转换或导入到 SDDC Manager 清单中"] 。
@@ -130,6 +134,7 @@ TIP: 您可以通过运行来查看所有可用的 VCF 导入工具功能 `pytho
 
 
 
+[[step-5-add-licensing-to-vcf]]
 == 步骤 5：向 VCF 添加许可
 
 完成转换后，必须将许可证添加到环境中。

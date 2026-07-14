@@ -18,6 +18,7 @@ summary: 搭载NetApp ONTAP 的Red Hat OpenShift 虚拟化
 
 
 
+[[deleting-a-backup]]
 == 删除备份
 
 您可以使用 OC CLI 工具删除备份 CR，而不删除对象存储数据。
@@ -36,6 +37,7 @@ velero backup delete <backup_CR_name> -n <velero_namespace>
 ....
 
 
+[[deleting-a-restore]]
 == 删除还原
 
 您可以使用 Velero CLI 删除 Restore CR

@@ -15,6 +15,7 @@ ONTAP tools for VMware vSphere并配置 NFS 数据存储以实现与 VMware Clou
 
 
 
+[[step-1-deploy-ontap-tools-for-vmware-vsphere]]
 == 步骤 1：ONTAP tools for VMware vSphere
 
 在此步骤中， ONTAP工具部署在非 HA 配置中。有关 HA 和非 HA 配置的更多部署详细信息，请参阅 https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere-10/deploy/ontap-tools-deployment.html["ONTAP tools for VMware vSphere"]。
@@ -71,6 +72,7 @@ image::vmware-vcf-import-nfs-003.png[自定义模板]
 
 
 
+[[step-2-configure-ontap-tools]]
 == 步骤 2：配置ONTAP工具
 
 安装并启动ONTAP工具 VM 后，添加要管理的 vCenter 服务器和ONTAP存储系统。
@@ -102,6 +104,7 @@ TIP: 要允许对存储系统中的所有 SVM 进行完全管理，请使用集�
 
 
 
+[[step-3-provision-the-nfs-datastore]]
 == 步骤 3：配置 NFS 数据存储
 
 ONTAP工具集成了整个 vSphere 客户端 UI 的功能。在此步骤中，从存储清单页面配置 NFS 数据存储。
@@ -149,6 +152,7 @@ image::vmware-vcf-import-nfs-009.png[摘要页面]
 
 
 
+[[whats-next]]
 == 下一步是什么？
 
 部署ONTAP工具并配置 NFS 数据存储库后，link:vmw-vcf-mgmt-nfs-conversion.html["将 vSphere 集群转换为 VCF 管理域"] 。

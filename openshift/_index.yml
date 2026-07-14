@@ -10,56 +10,48 @@ indexpage:
     links:
     - title: 关于 OpenShift 虚拟化
       url: osv-overview.html
-    - title: OpenShift 的存储配置
-      url: os-netapp-overview.html
-    - title: NetApp Trident存储集成
-      url: os-storint-overview.html
-    - title: 部署最佳实践
-      url: os-osv-bpg.html
+    - title: OpenShift 虚拟化部署模型
+      url: osv-deployment-models.html
     - title: 博客
       url: "../blogs.html"
     - title: 视频
       url: "../videos/openshift-videos.html"
-  - title: 本地部署
+  - title: 存储和虚拟化入门
     links:
-    - title: 部署要求
-      url: osv-deployment-prerequisites.html
+    - title: 存储入门
+      url: osv-storage-getting-started.html
+    - title: 存储资源调配
+      url: osv-trident-install.html
     - title: 使用ONTAP部署 Red Hat OpenShift 虚拟化
       url: osv-deployment.html
-    - title: 创建虚拟机
-      url: osv-workflow-create-vm.html
-    - title: 克隆虚拟机
-      url: osv-workflow-clone-vm.html
-    - title: 从快照创建虚拟机
-      url: osv-workflow-vm-from-snapshot.html
-  - title: 迁移虚拟机
+    - title: 部署 VM
+      url: osv-vm-deployment.html
+    - title: 创建虚拟机的其他方法
+      url: osv-vm-deployment-other-methods.html
+    - title: 集群节点之间 VM 的实时迁移
+      url: osv-vm-live-migration.html
+    - title: 存储类之间 VM 的存储迁移
+      url: osv-migration-vm-storage.html
+  - title: 使用 NetApp 存储保护 VM
     links:
-    - title: 将虚拟机从 VMware 迁移到 OpenShift 集群
-      url: osv-workflow-vm-migration-mtv.html
-    - title: 在两个集群节点之间迁移虚拟机
-      url: osv-workflow-vm-live-migration.html
-  - title: 使用Trident和Trident Protect 保护虚拟机
-    links:
-    - title: 安装Trident
-      url: osv-trident-install.html
+    - title: 使用 Trident Protect 备份和还原
+      url: osv-vm-dp-using-tp.html
     - title: 使用卷组快照保护虚拟机
       url: osv-vm-dp-using-vgs.html
-    - title: 使用快照和备份保护虚拟机
-      url: osv-vm-dp-using-tp.html
-    - title: 设置故障转移和故障回复
-      url: osv-vm-dr-using-tp.html
-  - title: 使用第三方工具保护虚拟机
+    - title: 使用第三方工具进行备份和还原
+      url: osv-data-protection-third-party-tools.html
+  - title: 灾难恢复
     links:
-    - title: 使用 OADP 和 Velero 保护虚拟机
-      url: osv-vm-dp-using-velero-overview.html
-    - title: 安装 OADP
-      url: osv-oadp-installation.html
-    - title: 使用 Velero 备份虚拟机
-      url: osv-vm-dp-using-velero.html
-    - title: 使用 Velero 恢复虚拟机
-      url: osv-vm-restore-using-velero.html
-    - title: 删除备份和恢复
-      url: osv-vm-dp-delete-using-velero.html
+    - title: DR 的要求和注意事项
+      url: osv-disaster-recovery-requirements.html
+    - title: 灾难恢复的源集群设置
+      url: osv-disaster-recovery-source-cluster-setup.html
+    - title: 灾难恢复的目标集群设置
+      url: osv-disaster-recovery-target-cluster-setup.html
+    - title: 灾难恢复 - 手动 DR
+      url: osv-disaster-recovery-simulate-dr.html
+    - title: 故障回复 - 实时 DR
+      url: osv-disaster-recovery-failback.html
   - title: 使用Data Infrastructure Insights监控虚拟机
     links:
     - title: 关于Data Infrastructure Insights

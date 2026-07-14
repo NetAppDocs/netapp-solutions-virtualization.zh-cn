@@ -1,0 +1,96 @@
+---
+sidebar: sidebar 
+permalink: openshift/osv-disaster-recovery-target-cluster-setup.html 
+keywords: OpenShift, OCP, Trident, Trident Protect, NetApp ONTAP, Red Hat OpenShift, OpenShift Virtualization, Red Hat OpenShift Virtualization 
+summary: Red Hat OpenShift 虚拟化 
+---
+= Red Hat OpenShift 虚拟化灾难恢复的目标集群设置
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+本节提供有关使用 NetApp Trident Protect 和 AppMirror 设置用于 OpenShift Virtualization 工作负载灾难恢复的目标集群的信息。这包括使用 ONTAP S3 创建 AppVault，以及为目标 VM 创建新的命名空间。这些步骤对于确保正确配置目标集群以接收来自源集群的复制数据，并在发生灾难时实现 VM 的恢复至关重要。
+
+. 在目标集群中创建 AppVault 对象。此对象应指向与源相同的 S3，以便从源集群存放快照的 S3 中获取快照。
++
+.显示示例
+[%collapsible]
+====
+[source, yaml]
+----
+apiVersion: v1
+# You can provide the keys either as stringData or base 64 encoded data
+stringData:
+  accessKeyID: "<access key id as obtained from ONTAP>"
+  secretAccessKey: "<secret access key as obtained from ONTAP>"
+#data:
+  #accessKeyID: <base 64 encoded value of access key>
+  #secretAccessKey: <base 64 encoded value of secret access key>
+kind: Secret
+metadata:
+  name: appvault-secret
+  namespace: trident-protect
+type: Opaque
+----
+[source, yaml]
+----
+apiVersion: protect.trident.netapp.io/v1
+kind: AppVault
+metadata:
+  name: ontap-s3-appvault
+  namespace: trident-protect
+spec:
+  providerConfig:
+    s3:
+      bucketName: oc-dr
+      endpoint: <data lif to use to access S3>
+      secure: "false" # Setting this to "false" will disable TLS, which is not recommended for production
+      skipCertValidation: "true" # When TLS is enabled, setting skipCertValidation to "true" will skip TLS certificate validation, which is not recommended for production environments.
+  providerCredentials:
+    accessKeyID:
+      valueFromSecret:
+        key: accessKeyID
+        name: appvault-secret
+    secretAccessKey:
+      valueFromSecret:
+        key: secretAccessKey
+        name: appvault-secret
+  providerType: OntapS3
+----
+[source, cli]
+----
+oc create -f app-vault-secret.yaml -n trident-protect
+oc create -f app-vault.yaml -n trident-protect
+----
+image:osv-disaster-recovery-011.png["trident-protect 命名空间中的 OCP-v AppVault"]
+
+====
+. 在目标集群上创建新的命名空间以托管故障转移 VM。在目标集群中创建一个应用程序，该应用程序引用在步骤 1 中创建的 AppVault 以及新命名空间。此应用程序将用于建立源集群和目标集群之间的 AppMirror 关系，并管理从源集群到目标集群的数据复制。
++
+.显示示例
+[%collapsible]
+====
+[source, yaml]
+----
+# cat app.yaml
+apiVersion: protect.trident.netapp.io/v1
+kind: Application
+metadata:
+  creationTimestamp: null
+  name: test-dest-app
+  namespace: test-dr-ns-dest
+spec:
+  includedNamespaces:
+  - namespace: test-dr-ns-dest
+----
+[source, cli]
+----
+tridentctl-protect create app <dest-app-name> -n <dest-ns> --namespaces <dest-ns>
+----
+====
+

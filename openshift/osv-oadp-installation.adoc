@@ -18,6 +18,7 @@ summary: Red Hat OpenShift 虚拟化数据保护与NetApp ONTAP
 
 
 
+[[prerequisites]]
 == 前提条件
 
 * 安装在裸机基础架构上并带有 RHCOS 工作节点的 Red Hat OpenShift 集群（高于 4.12 版本）
@@ -37,6 +38,7 @@ NOTE: 如果您想在虚拟机处于运行状态时对其进行备份，则必�
 
 
 
+[[steps-to-install-oadp-operator]]
 == 安装 OADP Operator 的步骤
 
 . 进入集群的 Operator Hub，选择 Red Hat OADP 操作员。在安装页面中，使用所有默认选择并单击安装。在下一页上，再次使用所有默认设置并单击“安装”。OADP 操作员将安装在命名空间 openshift-adp 中。
@@ -50,6 +52,7 @@ image:redhat-openshift-oadp-install-003.png["已安装 Data Protection Operator 
 
 
 
+[[prerequisites-for-velero-configuration-with-ontap-s3-details]]
 === 使用 Ontap S3 详细信息进行 Velero 配置的先决条件
 
 操作员安装成功后，配置Velero的实例。Velero 可以配置为使用 S3 兼容的对象存储。使用所示步骤配置ONTAP S3link:https://docs.netapp.com/us-en/ontap/object-storage-management/index.html["ONTAP文档的对象存储管理部分"] 。您将需要ONTAP S3 配置中的以下信息才能与 Velero 集成。
@@ -62,6 +65,7 @@ image:redhat-openshift-oadp-install-003.png["已安装 Data Protection Operator 
 
 
 
+[[prerequisites-for-velero-configuration-with-storagegrid-s3-details]]
 === 使用 StorageGrid S3 详细信息进行 Velero 配置的先决条件
 
 Velero 可以配置为使用 S3 兼容的对象存储。您可以使用以下所示的步骤配置 StorageGrid S3link:https://docs.netapp.com/us-en/storagegrid-116/s3/configuring-tenant-accounts-and-connections.html["StorageGrid 文档"] 。您将需要 StorageGrid S3 配置中的以下信息才能与 Velero 集成。
@@ -74,6 +78,7 @@ Velero 可以配置为使用 S3 兼容的对象存储。您可以使用以下所
 
 
 
+[[steps-to-configure-velero]]
 === 配置 Velero 的步骤
 
 * 首先，为ONTAP S3 用户凭证或 StorageGrid Tenant 用户凭证创建一个密钥。这将用于稍后配置 Velero。您可以从 CLI 或 Web 控制台创建机密。要从 Web 控制台创建密钥，请选择“密钥”，然后单击“键/值密钥”。提供凭证名称、密钥和值的值，如下所示。请务必使用您的 S3 用户的访问密钥 ID 和秘密访问密钥。为秘密指定一个合适的名称。在下面的示例中，创建了一个名为 ontap-s3-credentials 的具有ONTAP S3 用户凭据的密钥。

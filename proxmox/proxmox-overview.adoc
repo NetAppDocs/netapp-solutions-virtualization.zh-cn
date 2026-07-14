@@ -18,6 +18,7 @@ Proxmox 虚拟环境 (VE) 是一个基于 Debian Linux 的开源 Type-1 虚拟�
 
 
 
+[[overview]]
 == 概述
 
 Proxmox虚拟环境(VE)支持在同一主机上进行完整的虚拟机虚拟化和基于容器的虚拟化。采用基于内核的虚拟机 (KVM) 和快速模拟器 (QEMU) 实现完全虚拟机虚拟化。QEMU 是一个开源的机器模拟器和虚拟化器，它使用 KVM 内核模块直接在主机 CPU 上执行客户机代码。Linux 容器 (LXC) 允许像管理虚拟机一样管理容器，并在重启后保持数据持久性。Proxmox VE 9 及更高版本加入了 OCI 镜像仓库支持，可以从公共和私有镜像仓库拉取容器镜像。Proxmox VE 9 中新增了应用容器支持技术预览版。
@@ -28,6 +29,7 @@ RESTful API 可用于自动化任务。有关 API 调用的信息，请查看lin
 
 
 
+[[cluster-management]]
 == 集群管理
 
 基于 Web 的管理门户可在 Proxmox VE 节点的端口 8006 上使用。可以将多个节点连接在一起以形成一个集群。  Proxmox VE 配置， `/etc/pve` ，在集群的所有节点之间共享。 Proxmox VE 用途link:https://pve.proxmox.com/wiki/Cluster_Manager["Corosync 集群引擎"]管理集群。可以从集群的任何节点访问管理门户。
@@ -49,6 +51,7 @@ TIP: LDAP/Microsoft AD 的连接凭据可能以明文形式存储，并存储在
 
 
 
+[[compute]]
 == 计算
 
 VM 的 CPU 选项包括 CPU 核心和插槽的数量（用于指定 vCPU 的数量）、选择 NUMA 的选项、定义亲和性、设置限制和 CPU 类型。
@@ -65,6 +68,7 @@ VM和LXC可以指定内存大小。对于虚拟机，膨胀功能适用于 Linux
 
 
 
+[[storage]]
 == 存储
 
 虚拟机由一个配置文件组成， `/etc/pve/qemu-server/<vm id>.conf`以及虚拟磁盘组件。支持的虚拟磁盘格式为 raw、qcow2 和 VMDK。  QCOW2 可以在各种存储类型上提供精简配置和快照功能。
@@ -94,6 +98,7 @@ image:proxmox-overview-007.png["具有 SAN 的内容类型"]
 
 
 
+[[network]]
 == 网络
 
 Proxmox VE 支持基于主机的网络和集群范围的 VNet，它使用 Linux 网桥和 Open vSwitch 等原生 Linux 网络功能来实现软件定义网络 (SDN)。主机上的以太网接口可以绑定在一起，以提供容错性和高可用性。其他选项请参考 link:https://pve.proxmox.com/pve-docs/chapter-sysadmin.html#_choosing_a_network_configuration["Proxmox VE 文档"]
@@ -118,6 +123,7 @@ image:proxmox-overview-014.png["数据中心的 VNet 信息"]
 
 
 
+[[monitoring]]
 == 监控
 
 大多数对象（例如数据中心、主机、虚拟机、容器、存储等）的摘要页面提供了详细信息并包含一些性能指标。以下屏幕截图显示了主机的摘要页面，其中包括有关已安装软件包的信息。
@@ -128,6 +134,7 @@ image:proxmox-overview-009.png["主机包视图"]
 
 
 
+[[data-protection]]
 == 数据保护
 
 Proxmox VE 包括将虚拟机和容器备份和恢复到为备份内容配置的存储的选项。可以使用工具 vzdump 从 UI 或 CLI 启动备份，也可以安排备份。有关详细信息，请参阅link:https://pve.proxmox.com/pve-docs/chapter-vzdump.html["Proxmox VE 文档的备份和恢复部分"]。

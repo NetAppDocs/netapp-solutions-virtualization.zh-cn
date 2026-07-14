@@ -20,6 +20,7 @@ Proxmox 虚拟环境 (VE) 与NetApp ONTAP存储集成，为虚拟机和容器提
 
 
 
+[[network-configuration-guidelines]]
 == 网络配置指南
 
 遵循以下准则可优化网络性能和可靠性：
@@ -34,6 +35,7 @@ Proxmox 虚拟环境 (VE) 与NetApp ONTAP存储集成，为虚拟机和容器提
 
 
 
+[[storage-configuration-best-practices]]
 == 存储配置最佳实践
 
 遵循以下最佳实践，优化存储性能和可扩展性：
@@ -52,6 +54,7 @@ Proxmox 虚拟环境 (VE) 与NetApp ONTAP存储集成，为虚拟机和容器提
 
 
 
+[[proxmox-ve-configuration-guidelines]]
 == Proxmox VE 配置指南
 
 请遵循以下准则，以优化 Proxmox VE 与NetApp ONTAP存储的集成：

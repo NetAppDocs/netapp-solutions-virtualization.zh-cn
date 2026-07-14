@@ -20,6 +20,7 @@ Shift Toolkit 能够通过目标环境中的磁盘格式转换和网络重新配
 
 
 
+[[before-you-begin]]
 == 开始之前
 
 开始迁移之前，请确认满足以下先决条件。
@@ -65,6 +66,7 @@ NOTE: 一旦虚拟机通电，VMware 工具就会在目标虚拟机监控程序�
 
 
 
+[[step-1-add-the-destination-site-proxmox-ve]]
 == 步骤 1：添加目标站点（Proxmox VE）
 
 将目标 Proxmox VE 环境添加到 Shift Toolkit。
@@ -118,6 +120,7 @@ NOTE: 源卷和目标卷将是相同的，因为磁盘格式转换发生在卷�
 
 
 
+[[step-2-create-resource-groups]]
 == 步骤 2：创建资源组
 
 将虚拟机组织成资源组，以保留启动顺序和启动延迟配置。
@@ -203,6 +206,7 @@ image::shift-toolkit-457.png[创建资源组]
 
 
 
+[[step-3-create-a-migration-blueprint]]
 == 步骤 3：创建迁移蓝图
 
 创建迁移计划蓝图，包括平台映射、网络配置和虚拟机设置。
@@ -345,6 +349,7 @@ image::shift-toolkit-466.png[Windows 准备脚本]
 
 
 
+[[step-4-execute-the-migration]]
 == 步骤 4：执行迁移
 
 触发迁移工作流程，将虚拟机从 VMware ESXi 转换为 Proxmox VE。
@@ -391,6 +396,7 @@ image::shift-toolkit-468.png[Proxmox VE 中的 VM]
 ====
 
 
+[[shift-toolkit-workflow]]
 == Shift 工具包工作流
 
 以下部分介绍了 Shift 工具包触发哪些步骤来转换 VMDK 并在 Proxmox VE 端创建 VM。
@@ -419,6 +425,7 @@ image::shift-toolkit-470.png[Proxmox VE VM 详细信息]
 
 
 
+[[minimum-permissions-for-migrating-and-creating-vms-in-proxmox-ve]]
 == 在 Proxmox VE 中迁移和创建 VM 的最低权限
 
 本节概述了创建具有执行 VM 迁移所需的最低权限的专用用户帐户所需的步骤。

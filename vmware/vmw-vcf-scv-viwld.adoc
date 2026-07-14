@@ -20,6 +20,7 @@ summary:
 
 
 
+[[scenario-overview]]
 == 场景概述
 
 此场景涵盖以下高级步骤：
@@ -35,6 +36,7 @@ summary:
 
 
 
+[[prerequisites]]
 == 前提条件
 
 此场景需要以下组件和配置：
@@ -55,12 +57,14 @@ image:vmware-vcf-asa-108.png["3-2-1备份策略"]
 
 
 
+[[deployment-steps]]
 == 部署步骤
 
 要部署SnapCenter插件并使用它来创建备份、还原虚拟机和数据存储区，请完成以下步骤：
 
 
 
+[[deploy-and-use-scv-to-protect-data-in-a-vi-workload-domain]]
 === 部署并使用 SCV 保护 VI 工作负载域中的数据
 
 完成以下步骤以部署、配置和使用 SCV 来保护 VI 工作负载域中的数据：
@@ -470,6 +474,7 @@ image:vmware-vcf-asa-092.png["访客文件浏览2"]
 ====
 
 
+[[additional-information]]
 == 追加信息
 
 有关配置 VCF 的信息，请参阅 https://techdocs.broadcom.com/us/en/vmware-cis/vcf.html["VMware 云基础文档"]。

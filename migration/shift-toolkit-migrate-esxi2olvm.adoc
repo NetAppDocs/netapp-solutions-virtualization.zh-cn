@@ -20,6 +20,7 @@ Shift Toolkit 能够通过目标环境中的磁盘格式转换和网络重新配
 
 
 
+[[before-you-begin]]
 == 开始之前
 
 开始迁移之前，请确认满足以下先决条件。
@@ -58,6 +59,7 @@ NOTE: 准备脚本使用 .msi 包来安装驱动程序和 qemu-guest-agents。
 
 
 
+[[step-1-add-the-destination-site-olvm]]
 == 步骤 1：添加目标站点 (OLVM)
 
 将目标 Oracle Linux Virtualization Manager 环境添加到 Shift Toolkit 中。
@@ -118,6 +120,7 @@ NOTE: 源卷和目标卷将相同，因为磁盘格式转换是在同一卷内�
 
 
 
+[[step-2-create-resource-groups]]
 == 步骤 2：创建资源组
 
 将虚拟机组织成资源组，以保留启动顺序和启动延迟配置。
@@ -182,6 +185,7 @@ image::shift-toolkit-205.png[资源组详情]
 
 
 
+[[step-3-create-a-migration-blueprint]]
 == 步骤 3：创建迁移蓝图
 
 创建迁移计划蓝图，包括平台映射、网络配置和虚拟机设置。
@@ -298,6 +302,7 @@ image::shift-toolkit-210.png[迁移菜单选择]
 ====
 
 
+[[step-4-execute-the-migration]]
 == 步骤 4：执行迁移
 
 触发迁移工作流，将虚拟机从 VMware ESXi 转换为 Oracle Linux Virtualization Manager。
@@ -360,6 +365,7 @@ image::shift-toolkit-212.png[Oracle 中的虚拟机迁移]
 ====
 
 
+[[video-demonstration]]
 == 视频演示
 
 以下视频演示了本解决方案中概述的流程。

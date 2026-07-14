@@ -20,6 +20,7 @@ VMware vSphere 管理员可以通过将工作负载迁移到NetApp ONTAP数据�
 
 
 
+[[use-cases]]
 == 使用情形
 
 在考虑迁移到ONTAP支持的数据存储时，在源和目标方面有许多迁移选项。

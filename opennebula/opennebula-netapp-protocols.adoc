@@ -25,6 +25,7 @@ NOTE: 当使用 LVM 和 SAN 协议（FC、iSCSI、NVMe-oF）时，卷组可以�
 
 
 
+[[choose-a-storage-protocol]]
 == 选择存储协议
 
 选择符合您环境和要求的协议：

@@ -18,6 +18,7 @@ summary: 本文档概述了为什么NetApp是虚拟化环境的最佳平台 - �
 
 
 
+[[introduction]]
 == 简介
 
 鉴于 VMware 最近的许可证变化，组织必须调整其虚拟化策略，以最大限度地提高成本效率和可扩展性并最大限度地降低业务风险。优化现有的 VMware 环境，考虑使用现有企业存储从独立 vSphere 迁移到 VMware Cloud Foundation (VCF) 并采用多虚拟机管理程序或混合云方法是关键步骤。值得注意的是，VCF 5.2.1 通过允许使用外部存储解决方案代替 vSAN 引入了增强的灵活性，简化了组织在使用企业存储功能和保持连续性的同时采用新许可模式的能力。
@@ -28,6 +29,7 @@ ONTAP是任何本地或云中的虚拟机管理程序的最佳平台。 ONTAP支
 
 
 
+[[what-changed]]
 == 发生了什么变化
 
 博通收购 VMware 导致 VMware 许可模式发生重大转变。新方法正在转变为基于订阅的捆绑定价结构，虽然符合行业趋势，但预计会导致客户成本大幅增加。请记住以下三个要点：
@@ -42,6 +44,7 @@ ONTAP是任何本地或云中的虚拟机管理程序的最佳平台。 ONTAP支
 
 
 
+[[why-ontap]]
 == 为什么选择ONTAP
 
 NetApp存储解决方案使客户能够充分利用虚拟化基础架构的所有优势。借助NetApp解决方案，客户可以快速部署全面的数据管理软件，提供自动化、效率、数据保护和领先的安全功能，同时满足任何苛刻的性能需求。将ONTAP软件与 VMware vSphere 相结合，可以减少主机硬件和 VMware 许可费用，确保以较低的成本保护数据，并提供一致的高性能。
@@ -66,6 +69,7 @@ ONTAP存储解决方案具有以下优势：
 
 
 
+[[key-takeaways]]
 === 关键要点
 
 * 使用ONTAP卸载 CPU 密集型任务（例如存储效率、加密、快照等）来消除 ESXi 主机上的 CPU 影响和开销。这种优化减少了每台主机上所需的核心数量，从而降低了总体拥有成本 (TCO)。
@@ -78,6 +82,7 @@ ONTAP存储解决方案具有以下优势：
 
 
 
+[[right-size-and-optimize]]
 == 合适的规模和优化
 
 随着这些许可变更生效，每个 IT 组织都面临着总拥有成本 (TCO) 可能增加的压力，有时甚至会超过 10 倍。经过优化的 VMware 环境可在控制许可费用的同时最大限度地提高性能。这确保了有效的资源管理和容量规划。使用正确的工具集，您可以快速识别浪费或闲置的资源以回收核心，从而减少核心数量，进而降低整体许可成本。
@@ -86,6 +91,7 @@ NetApp提供了一套强大的工具来克服这些挑战，提供增强的可�
 
 
 
+[[how-netapp-helps]]
 === NetApp如何提供帮助
 
 
@@ -204,12 +210,14 @@ NOTE: 有了新的NetApp ARP/AI，就不再需要学习模式。相反，它可�
 
 
 
+[[vmware-alternatives-to-consider]]
 == 值得考虑的 VMware 替代方案
 
 每个组织都在评估多虚拟机管理程序方法，该方法支持多供应商虚拟机管理程序策略，从而增强运营灵活性、减轻对供应商的依赖性并优化工作负载安排。通过组合多个虚拟机管理程序，组织可以定制基础设施以满足不同的工作负载需求，同时管理成本。然后，组织通过利用互操作性、经济高效的许可和自动化来简化多虚拟机管理程序管理。 ONTAP是任何虚拟机管理程序平台的理想平台。这种方法的一个关键要求是基于 SLA 和工作负载放置策略的动态虚拟机移动性。
 
 
 
+[[key-considerations-for-multi-hypervisor-adoption]]
 === 采用多虚拟机管理程序的关键考虑因素
 
 * *战略成本优化：*减少对单一供应商的依赖可优化运营和许可费用。
@@ -226,6 +234,7 @@ image:virt-options-002.png["NetApp支持的虚拟化选项图"]
 
 
 
+[[hyper-v-windows-server]]
 === Hyper-V（Windows 服务器）
 
 让我们来探索一下：
@@ -250,6 +259,7 @@ image:virt-options-002.png["NetApp支持的虚拟化选项图"]
 
 
 
+[[openshift-virtualization-redhat-kubevirt-implementation]]
 === OpenShift 虚拟化（RedHat KubeVirt 实现）
 
 让我们来探索一下：
@@ -279,6 +289,7 @@ image:virt-options-002.png["NetApp支持的虚拟化选项图"]
 
 
 
+[[proxmox-virtual-environment-proxmox-ve]]
 === Proxmox 虚拟环境（Proxmox VE）
 
 让我们来探索一下：
@@ -311,6 +322,7 @@ image:virt-options-002.png["NetApp支持的虚拟化选项图"]
 
 
 
+[[vmware-cloud-offerings-azure-vmware-solution-google-cloud-vmware-engine-vmware-cloud-on-aws-elastic-vmware-service]]
 === VMware Cloud 产品（Azure VMWare 解决方案、Google Cloud VMware Engine、AWS 上的 VMware Cloud、Elastic VMware 服务）
 
 让我们来探索一下：
@@ -356,6 +368,7 @@ NOTE: NetApp是唯一一家在三大超大规模数据中心中提供由 VMware 
 
 
 
+[[cloud-native-virtual-machines]]
 === 云原生虚拟机
 
 
@@ -380,6 +393,7 @@ NOTE: NetApp是唯一一家在所有 3 个主要超大规模数据中心中都�
 
 
 
+[[azure-local-or-aws-outpost-or-any-other-hci-model]]
 === Azure Local 或 AWS Outpost 或任何其他 HCI 模型
 
 让我们来探索一下：
@@ -411,6 +425,7 @@ NOTE: Azure 本地不支持外部存储，但 AWS Outpost 支持ONTAP
 
 
 
+[[other-hypervisor-options-that-are-being-considered-in-customer-environments]]
 === 客户环境中正在考虑的其他虚拟机管理程序选项
 
 * *KVM* 通常在每个父 Linux 发行版上都支持ONTAP ，只需参考IMT即可获得参考 Linux。
@@ -430,10 +445,12 @@ image:virt-options-003.png["图表展示了 NetApp 的 Any to Any 虚拟化方�
 
 
 
+[[wicked-fast-100x-faster-migrations]]
 == 超快（100 倍速度）迁移
 
 
 
+[[shift-toolkit]]
 === Shift 工具包
 
 如上所述，VMware、Microsoft Hyper-V、Proxmox 和 OpenShift Virtualization 等解决方案已成为满足虚拟化需求的强大而可靠的选择。鉴于业务需求是动态的，虚拟化平台的选择也必须具有适应性，并且即时虚拟机移动性变得重要。
@@ -451,6 +468,7 @@ NOTE: Shift 工具包的先决条件是让虚拟机在ONTAP存储上的 NFS 卷�
 
 
 
+[[cirrus-data-migrateops]]
 === Cirrus 数据迁移操作
 
 Shift 工具包的替代方案是依赖于块级复制的基于合作伙伴的解决方案。 Cirrus Data 可以将工作负载从传统的虚拟机管理程序无缝迁移到现代平台，从而实现更灵活的混合工作负载、加速现代化进程并提高资源利用率。link:https://action.cirrusdata.com/virtualization-optimization#:~:text=Migrate%20from%20leading%20hypervisors%20with%20just%20a%20click.,from%20Amazon%20Web%20Services%20%28AWS%29%20and%20Microsoft%20Azure.["Cirrus 迁移云"]与 MigrateOps 一起，使组织能够通过安全、易于使用且可靠的解决方案自动从一个虚拟机管理程序转换到另一个虚拟机管理程序。
@@ -459,6 +477,7 @@ Shift 工具包的替代方案是依赖于块级复制的基于合作伙伴的�
 
 
 
+[[common-projected-deployment-model-in-a-multi-hypervisor-environment]]
 == 通用预计部署模型（在多虚拟机管理程序环境中）
 
 一位客户拥有包含 10,000 台虚拟机（Windows 和 Linux 工作负载混合）的大规模虚拟化环境。为了优化许可成本并简化虚拟化基础设施的未来，多虚拟机管理程序和虚拟机放置策略非常重要。他们根据工作负载的关键性、操作系统类型、性能要求、虚拟机管理程序功能和许可成本选择了虚拟机放置策略。
@@ -474,6 +493,7 @@ Shift 工具包的替代方案是依赖于块级复制的基于合作伙伴的�
 
 
 
+[[conclusion]]
 == 结束语
 
 在收购 Broadcom 之后，VMware 的客户正面临复杂的集成、性能优化和成本管理环境。 NetApp提供了一套强大的工具和功能来克服这些挑战，提供增强的可视性、无缝集成、成本效益和强大的安全性。通过使用这些功能，您可以继续使用 VMware，启用多供应商方法，并为未来的中断做好准备。

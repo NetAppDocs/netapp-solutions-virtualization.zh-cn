@@ -28,17 +28,18 @@ Trident Protect 可对 OpenShift 群集上的应用程序和虚拟机执行快�
 
 * link:https://docs.redhat.com/en/documentation/openshift_container_platform/4.17/html/installing_on_bare_metal/index["OpenShift 集群 4.17"]
 * link:https://docs.redhat.com/en/documentation/openshift_container_platform/4.17/html/virtualization/getting-started#tours-quick-starts_virt-getting-started["通过 Red Hat 提供的 OpenShift Virtualization Operator 安装 OpenShift Virtualization"]
-* link:https://docs.netapp.com/us-en/trident/trident-get-started/kubernetes-deploy.html["Trident25.02"]
+* link:https://docs.netapp.com/us-en/trident/trident-get-started/quickstart.html["Trident25.02"]
 * link:https://docs.netapp.com/us-en/trident/trident-protect/trident-protect-installation.html["Trident Protect 25.02"]
 * link:https://docs.netapp.com/us-en/ontap/["ONTAP 9.16"]
 
 
 
 
+[[create-app-vault-for-object-storage]]
 == 为对象存储创建 App Vault
 
 .创建 AppVault
-[%collapsible%open]
+[%collapsible]
 ====
 在为应用程序或 VM 创建快照和备份之前，必须在 Trident Protect 中配置对象存储以存储快照和备份。这是使用 bucket CR 完成的。只有管理员可以创建 bucket CR 并进行配置。bucket CR 在 Trident Protect 中称为 AppVault。AppVault 对象是存储桶的声明性 Kubernetes 工作流表示。AppVault CR 包含在保护操作中使用存储桶所需的配置，例如备份、快照、还原操作和 SnapMirror 复制。
 
@@ -105,10 +106,11 @@ image:rh-os-n-use-case-ocpv-tp-dp-008.png["ONTAP S3 Appvault 已创建"]
 ====
 
 
+[[create-a-vm-in-openshift-virtualization]]
 == 在 OpenShift Virtualization 中创建 VM
 
 .在 OpenShift Virtualization 中创建 VM
-[%collapsible%open]
+[%collapsible]
 ====
 以下屏幕截图显示了使用模板从控制台创建 VM（命名空间 demo 中的 demo-fedora）。根磁盘会自动选择默认存储类别，因此，请验证默认存储类别是否设置得当。在此设置中，默认存储类是**sc-zonea-san**。确保在创建附加磁盘时选择存储类 sc-zonea-san 并选中“**应用优化存储设置**”复选框。这会将访问模式设置为 RWX，将卷模式设置为阻止。
 
@@ -132,10 +134,11 @@ image:rh-os-n-use-case-ocpv-tp-dp-007.png["已创建 vm、pod 和 pvc"]
 ====
 
 
+[[create-an-app]]
 == 创建应用程序
 
 .创建应用程序
-[%collapsible%open]
+[%collapsible]
 ====
 **为虚拟机创建一个 Trident 保护应用程序**
 
@@ -163,10 +166,11 @@ image:rh-os-n-use-case-ocpv-tp-dp-009.png["应用程序已创建"]
 ====
 
 
+[[protect-the-app-by-creating-a-backup]]
 == 通过创建备份来保护应用程序
 
 .创建备份
-[%collapsible%open]
+[%collapsible]
 ====
 **创建按需备份**
 
@@ -217,10 +221,11 @@ image:rh-os-n-use-case-ocpv-tp-dp-017.png["按需和按计划创建备份"]
 ====
 
 
+[[restore-from-backup]]
 == 从备份还原
 
 .从备份还原
-[%collapsible%open]
+[%collapsible]
 ====
 **将虚拟机恢复到相同的命名空间**
 
@@ -301,10 +306,11 @@ image:rh-os-n-use-case-ocpv-tp-dp-023.png["新命名空间中的虚拟机"]
 ====
 
 
+[[protect-the-app-using-snapshots]]
 == 使用快照保护应用程序
 
 .创建快照
-[%collapsible%open]
+[%collapsible]
 ====
 **创建按需快照** 为应用程序创建快照并指定需要存储它的 appvault。
 
@@ -373,10 +379,11 @@ image:rh-os-n-use-case-ocpv-tp-dp-026.png["计划快照"]
 ====
 
 
+[[restore-from-snapshot]]
 == 从快照还原
 
 .从快照还原
-[%collapsible%open]
+[%collapsible]
 ====
 **将虚拟机从快照恢复到同一个命名空间** 从 demo2 命名空间中删除虚拟机 demo-fedora。
 
@@ -455,10 +462,11 @@ image:rh-os-n-use-case-ocpv-tp-dp-032.png["虚拟机在新的命名空间中恢�
 ====
 
 
+[[restore-a-specific-vm]]
 == 恢复特定虚拟机
 
 .选择命名空间中的特定虚拟机来创建快照/备份和恢复
-[%collapsible%open]
+[%collapsible]
 ====
 在前面的例子中，我们在命名空间内有一个虚拟机。通过将整个命名空间包含在备份中，可以捕获与该虚拟机相关的所有资源。在下面的示例中，我们将另一个 VM 添加到同一个命名空间，并使用标签选择器为这个新 VM 创建一个应用程序。
 
@@ -548,6 +556,56 @@ image:rh-os-n-use-case-ocpv-tp-dp-038.png["centos 虚拟机已创建"]
 ====
 
 
+[[single-file-restore-for-a-vm]]
+== 虚拟机的单个文件还原
+
+此单文件还原方法仅适用于在客户端 Pod 中作为文件系统装载的 NAS/基于文件的卷，例如 NFS 卷。它不适用于 SAN/原始块卷，包括如前所示使用 `volumeMode: Block`配置的虚拟机磁盘。
+
+对于受支持的基于 NAS/文件的卷，恢复特定文件的简单方法是使备份卷上的快照目录对客户端可见。这可以通过编辑 Trident 后端配置来实现，具体方法是包含 defaults 部分并将 `snapshotDir`参数设置为 `true`。这样即可从与主卷相同的挂载位置访问 `.snapshot`目录。 `.snapshot`目录包含所有快照。您可以切换到所需的快照目录，找到要还原的文件，然后将其复制到所需位置。
+
+
+NOTE: 此方法会向具有挂载访问权限的工作负载/用户公开历史数据，并且可能会违反最小特权/合规性预期。请考虑安全/运营影响，并注意您应该临时启用它，并在恢复文件后将其恢复。此外，如果您使用的是 NFS 第 4 版，则在使用  `ls` 命令列出文件时，将无法看到  `.snapshot` 目录。但是，您可以  `cd` 到  `.snapshot` 目录。
+
+.通过访问 .snapshot 目录并从快照复制文件进行单个文件还原的示例
+[%collapsible]
+====
+[source, yaml]
+----
+#single-file-restore.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: task-single-file-restore
+spec:
+  volumes:
+    - name: task-pv-storage
+      persistentVolumeClaim:
+        claimName: test-trident-set-defaults
+  containers:
+    - name: task-pv-container
+      image: nginx
+      ports:
+        - containerPort: 80
+          name: "http-server"
+      volumeMounts:
+        - mountPath: /data
+          name: task-pv-storage
+# oc apply -f single-file-restore.yaml
+----
+image:rh-os-n-use-case-ocpv-tp-dp-sfr-001.png["VM 的 pod 和 PVC"]
+
+image:rh-os-n-use-case-ocpv-tp-dp-sfr-002.png["虚拟机磁盘的 ONTAP 卷名称"]
+
+image:rh-os-n-use-case-ocpv-tp-dp-sfr-003.png["快照目录在客户端中可见"]
+
+image:rh-os-n-use-case-ocpv-tp-dp-sfr-004.png["VM 中的 mount 目录"]
+
+image:rh-os-n-use-case-ocpv-tp-dp-sfr-005.png["丢失虚拟机中的文件并将文件从快照目录复制到主目录以还原它"]
+
+====
+
+
+[[video-demonstration]]
 == 视频演示
 
 以下视频演示了如何使用快照保护虚拟机

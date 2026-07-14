@@ -18,6 +18,7 @@ summary:
 
 
 
+[[architecture-overview]]
 == 架构概述
 
 Omnissa 与 NetApp 的架构旨在为 EUC 环境提供可扩展且灵活的解决方案。该解决方案由几个组件组成，包括 Omnissa 管理平台、NetApp 存储阵列以及虚拟桌面和应用程序基础设施。Omnissa 管理平台为管理虚拟桌面和应用程序基础架构提供了一个集中的界面，而 NetApp 存储阵列为虚拟桌面和应用程序提供了高性能和可靠的存储。该架构旨在支持广泛的 EUC 用例，包括虚拟桌面基础架构 (VDI)、应用程序虚拟化和用户数据的文件共享。
@@ -48,6 +49,7 @@ NetApp 存储阵列用于为托管虚拟桌面和应用程序以及用户数据�
 
 
 
+[[pod-and-block-architecture]]
 == Pod 和 Block 架构
 
 Omnissa Horizon 使用 pod 和块架构为 EUC 环境提供可扩展和可重复的解决方案。Pod 是一组互连的 Horizon Connection 服务器，可提供多达 20,000 个虚拟桌面和应用程序的会话。一个 pod 最多可以包含 7 个 Horizon Connection 服务器，这些服务器必须位于同一个数据中心，并且不能跨越多个位置。可以使用 Cloud Pod Architecture (CPA) 互连多个 pod，为更大的环境提供可扩展的解决方案。使用 CPA，会话数量可以扩展到 250,000 个。对于较高的会话计数，可以向架构中添加其他 CPA。
@@ -71,6 +73,7 @@ NOTE: Pod 中的 Horizon Connection 服务器不支持跨站点的扩展群集�
 
 
 
+[[application-virtualization]]
 == 应用虚拟化
 
 VDI 环境的一个常见挑战是由于预安装的应用程序而导致 VDI 模板蔓延。借助 Omnissa Horizon，App Volumes 可用于将应用程序流式传输到虚拟桌面和已发布的应用程序主机。用户可写卷允许用户安装应用程序。这减少了对持久性桌面的需求。借助 App Volumes，应用程序将被打包并实时交付到虚拟桌面和 RDSH 会话。基于 Machine Manager，打包的应用程序存储在数据存储区上的 VMDK 文件或 SMB 文件共享上的 VHD 文件上，这些文件由 App Volumes Agent 处理，用于在虚拟桌面和 RDSH 服务器上进行装载和卸载。
@@ -85,6 +88,7 @@ Microsoft SQL Server 或 SQL Server Express 可用作 App Volumes Manager 的数
 
 
 
+[[user-profile-management]]
 == 用户配置文件管理
 
 用户配置文件管理是任何 EUC 环境的关键组成部分，因为它确保用户在不同的虚拟桌面和应用程序中拥有一致的体验。Omnissa Horizon 支持多种用户配置文件管理解决方案，包括 Microsoft FSLogix 和 Omnissa Dynamic Environment Manager (DEM) 或两者的组合。FSLogix 提供容器化用户配置文件解决方案，允许跨不同虚拟桌面和应用程序进行快速登录和一致的用户体验。DEM 提供了一种更精细的用户配置文件管理方法，允许管理员根据特定条件和标准管理用户设置和配置。如需了解有关 DEM 的更多信息，请参阅 https://techzone.omnissa.com/resource/dynamic-environment-manager-architecture["Dynamic Environment Manager 架构"]。

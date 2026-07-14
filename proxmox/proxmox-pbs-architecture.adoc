@@ -19,6 +19,7 @@ PBS 支持多种存储后端，包括本地存储、NFS、iSCSI 和 S3 兼容的
 
 
 
+[[solution-architecture]]
 == 解决方案架构
 
 该解决方案包含以下组件：

@@ -1724,7 +1724,6 @@
   <block id="38a66e64d72c4bab859830a3603ac8eb" category="list-text"><block ref="38a66e64d72c4bab859830a3603ac8eb" category="inline-link-macro-rx"></block></block>
   <block id="65cd53ff19e601ea00bf9688be4dd86a" category="summary">搭载NetApp ONTAP 的Red Hat OpenShift 虚拟化</block>
   <block id="d42b44fb81f291c6ab4e79de6575323c" category="doc">使用ONTAP部署 Red Hat OpenShift Virtualization 的要求</block>
-  <block id="5bcb2c405229387b9d1cd5b7fbf439a7" category="paragraph">查看使用ONTAP存储系统安装和部署 OpenShift 虚拟化的要求。</block>
   <block id="7dc3a10e876dbab2b177f35c0b436f3a" category="list-text">安装在裸机基础架构上并带有 RHCOS 工作节点的 Red Hat OpenShift 集群（高于 4.6 版本）</block>
   <block id="7ed0bc09bfa62b64806b6b5c2f4378c7" category="list-text">部署机器健康检查以维护虚拟机的高可用性</block>
   <block id="9c808f7cf791214cc21bd5a654000996" category="list-text">NetApp ONTAP集群，其中 SVM 配置了正确的协议。</block>
@@ -1736,8 +1735,6 @@
   <block id="cfcf3a62902e36f3d966271cc090b65c" category="list-text">集群管理员访问 Red Hat OpenShift 集群</block>
   <block id="af91af16b4791d61bb2e9206807a658d" category="list-text">NetApp ONTAP集群的管理员访问权限</block>
   <block id="e281839ef9ef6cb1eadcc2aa7d6d63be" category="list-text">安装了 tridentctl 和 oc 工具并添加到 $PATH 的管理员工作站</block>
-  <block id="314f04ff1024e623d43e0cda9a9df410" category="paragraph">由于 OpenShift 虚拟化由安装在 OpenShift 集群上的操作员管理，因此它会对内存、CPU 和存储产生额外的开销，在规划集群的硬件要求时必须考虑到这些开销。查看文档<block ref="f9421eaa4175c3e9f421a9acaf6f00d6" category="inline-link-rx"></block>了解更多详情。</block>
-  <block id="be51a7d8687b0a6254a274c1e0100052" category="paragraph">或者，您还可以通过配置节点放置规则指定 OpenShift 集群节点的子集来托管 OpenShift 虚拟化操作员、控制器和虚拟机。要配置 OpenShift 虚拟化的节点放置规则，请按照文档<block ref="325820076f9012df5bb7261c397a527f" category="inline-link-rx"></block>。</block>
   <block id="a805b74dbb589c916a1ebf0e08601665" category="paragraph">对于支持 OpenShift Virtualization 的存储， NetApp建议使用专用的 StorageClass，该 StorageClass 从特定的Trident后端请求存储，而该后端又由专用的 SVM 支持。这对于为 OpenShift 集群上基于 VM 的工作负载提供的数据保持了一定程度的多租户级别。</block>
   <block id="8e9e4e2e787c5080dff8beb69a8ff0a1" category="doc">使用ONTAP部署 Red Hat OpenShift 虚拟化</block>
   <block id="a5dddb7a24590aa086d101c2ffb11be3" category="paragraph">在 Red Hat OpenShift 裸机集群上安装 OpenShift Virtualization。此过程包括使用集群管理员访问权限登录、导航到 OperatorHub 以及安装 OpenShift Virtualization 操作员。</block>
@@ -1828,14 +1825,8 @@
   <block id="910eb46960200452a3b203a9e0ccdc76" category="paragraph">OADP 操作员将创建相应的 BackupStorageLocation。这将在创建备份时使用。</block>
   <block id="3a11516868032de940e8bc2e948be30e" category="inline-image-macro">BackupStorageLocation 已创建</block>
   <block id="53643c3035ecb838af5261beb9933557" category="paragraph"><block ref="53643c3035ecb838af5261beb9933557" category="inline-image-macro-rx" type="image"></block></block>
-  <block id="3c4f43d57ff724fed65d38990159e0c6" category="doc">了解 Red Hat OpenShift 虚拟化与ONTAP</block>
-  <block id="ae48e96aa670fae1a3ceff8aa4fbdf02" category="paragraph">了解如何使用 Red Hat OpenShift Virtualization 和ONTAP存储来运行和管理虚拟机。使用Trident实现实时 VM 迁移、VM 磁盘克隆和 VM 快照，从而简化基础设施管理和数据保护。</block>
-  <block id="b1a934cbded2602c4186fb43d7c8a986" category="paragraph">根据具体的用例，容器和虚拟机 (VM) 都可以作为不同类型应用程序的最佳平台。因此，许多组织在容器上运行一些工作负载，在虚拟机上运行一些工作负载。通常，这会导致组织面临额外的挑战，因为必须管理单独的平台：用于虚拟机的虚拟机管理程序和用于应用程序的容器编排器。</block>
-  <block id="7652dcfa1608f7891f4e5c9b462354be" category="paragraph">为了应对这一挑战，Red Hat 从 OpenShift 4.6 版本开始引入了 OpenShift Virtualization（以前称为 Container Native Virtualization）。 OpenShift 虚拟化功能使您能够在同一个 OpenShift 容器平台安装上运行和管理虚拟机以及容器，提供混合管理功能，通过操作员自动部署和管理虚拟机。除了在 OpenShift 中创建虚拟机之外，借助 OpenShift Virtualization，Red Hat 还支持从 VMware vSphere、Red Hat Virtualization 和 Red Hat OpenStack Platform 部署导入虚拟机。</block>
   <block id="269bac1ed5128eacc45c06318333642a" category="inline-image-macro">OpenShift 虚拟化</block>
   <block id="72da4995f12ba07e83bdac6697871c3a" category="paragraph"><block ref="72da4995f12ba07e83bdac6697871c3a" category="inline-image-macro-rx" type="image"></block></block>
-  <block id="16ae278e5dc3532d186b914be4bc62ab" category="paragraph">在NetApp ONTAP的支持下，OpenShift Virtualization 在Trident的帮助下还支持某些功能，例如实时 VM 迁移、VM 磁盘克隆、VM 快照等。本文档后面将在各自的章节中讨论每个工作流程的示例。</block>
-  <block id="8a5bcb32f7cb878beee68d6f84b3ada7" category="paragraph">要了解有关 Red Hat OpenShift 虚拟化的更多信息，请参阅文档<block ref="3339eb5909b80aa35681f9f3f9478c17" category="inline-link-rx"></block>。</block>
   <block id="5094c15cc86bb10551546c50790642bb" category="summary">ROSA 上的 Red Hat OpenShift 虚拟化</block>
   <block id="0e0093e4428479ac9f336346a560eb2a" category="doc">在 ROSA 集群上部署带有 FSx for ONTAP 的Red Hat OpenShift 虚拟化</block>
   <block id="e381de06478c5913aa01c4724b86beb3" category="paragraph">将Amazon FSx for NetApp ONTAP设置为 ROSA（AWS 上的 Red Hat OpenShift 服务）集群的默认 StorageClass。此过程包括创建利用 FSx ONTAP存储作为其卷的 VM、检查为 VM 创建的所有对象以及使用来宾凭据连接到 VM。</block>
@@ -1974,7 +1965,6 @@
   <block id="91ca05f7383e5c31b9bdd1a91c8e3618" category="inline-link-macro">通过 Red Hat 提供的 OpenShift Virtualization Operator 安装 OpenShift Virtualization</block>
   <block id="287f7b64542d2f7312b8d3de9b3f8b26" category="list-text"><block ref="287f7b64542d2f7312b8d3de9b3f8b26" category="inline-link-macro-rx"></block></block>
   <block id="a1862e00d8111386cdf238bd23bb97db" category="inline-link-macro">Trident25.02</block>
-  <block id="ff6395262d82836eedf127f3a80c2ce7" category="list-text"><block ref="ff6395262d82836eedf127f3a80c2ce7" category="inline-link-macro-rx"></block></block>
   <block id="8c1ba5eb61420c0029961110f20d7829" category="inline-link-macro">ONTAP 9.16</block>
   <block id="a13c7db7d74afd839261d6b5eef45b76" category="list-text"><block ref="a13c7db7d74afd839261d6b5eef45b76" category="inline-link-macro-rx"></block></block>
   <block id="9e2fd9553f3b1f1f9aa36beca4f46a7f" category="section-title">为对象存储创建 App Vault</block>
@@ -2233,9 +2223,6 @@
   <block id="3b87fef5f45775a22e4ab995164459cc" category="paragraph">虚拟机与使用存储类 ontap-nas-eco 创建的磁盘在同一命名空间中恢复。</block>
   <block id="7fe12b8c679f04a968c25b25ee90efc6" category="inline-image-macro">VM 还原 ontap-nas-eco</block>
   <block id="c6ec0c1232143dc495a7d1d4cac0a112" category="paragraph"><block ref="c6ec0c1232143dc495a7d1d4cac0a112" category="inline-image-macro-rx" type="image"></block></block>
-  <block id="e0ab4fb29177921019fa3f1190666b57" category="doc">使用 Red Hat OpenShift Virtualization 克隆虚拟机</block>
-  <block id="aed74c4831943d36fef78328502cd971" category="paragraph">使用Trident在 OpenShift Virtualization 中克隆 VM。此过程包括利用Trident CSI 卷克隆，允许您通过关闭源 VM 或保持其运行来创建新 VM。</block>
-  <block id="4b6826f4f20a8e7e7a3b42ccb81d514f" category="section-title">虚拟机克隆</block>
   <block id="087ba3bfed109aeac14ada3f25be1085" category="paragraph">在 Trident 的 Volume CSI 克隆功能的支持下，可以克隆 OpenShift 中现有的 VM。 CSI 卷克隆允许通过复制 PV 来使用现有 PVC 作为数据源创建新的 PVC。新的 PVC 创建新之后，它将作为一个独立的实体运行，并且与源 PVC 没有任何链接或依赖关系。</block>
   <block id="0ea820e58acf3d0c3acac3f64518c517" category="inline-image-macro">VM克隆架构</block>
   <block id="4bfa10978b8702c0dbf235f576c1ee72" category="paragraph"><block ref="4bfa10978b8702c0dbf235f576c1ee72" category="inline-image-macro-rx" type="image"></block></block>
@@ -2246,7 +2233,6 @@
   <block id="557d036c1a69ab0889c0820deb1e88de" category="paragraph">OpenShift 集群中的虚拟机可以通过两种方式克隆：</block>
   <block id="e1230e5b1f51d793ea14fb31df500399" category="list-text">通过关闭源虚拟机</block>
   <block id="29ec5d7b455e19c4f8141df877a9af0a" category="list-text">通过保持源虚拟机处于活动状态</block>
-  <block id="84d19f7437a8329c49099517eccd37dc" category="section-title">通过关闭源虚拟机</block>
   <block id="92d96895a22289b8103c6a048a381e95" category="paragraph">通过关闭 VM 来克隆现有 VM 是 OpenShift 的一项原生功能，是在Trident的支持下实现的。完成以下步骤来克隆虚拟机。</block>
   <block id="ea1abad541ee7994705555d53c0281c3" category="list-text">导航到工作负载&gt;虚拟化&gt;虚拟机，然后单击要克隆的虚拟机旁边的省略号。</block>
   <block id="375000776ee4694734b1d066c46e7096" category="list-text">单击克隆虚拟机并提供新虚拟机的详细信息。</block>
@@ -2264,8 +2250,6 @@
   <block id="cd32f6b0aebb29494cbc9cc21a10c926" category="list-text">在 spec &gt; template &gt; spec &gt;volumes 部分中，附加克隆的 PVC 而不是容器磁盘。根据您的要求提供新虚拟机的所有其他详细信息。</block>
   <block id="75b0d3500d81c7799a5b84eca57d6d04" category="list-text">单击“创建”以创建新的虚拟机。</block>
   <block id="19e005e0709674157e554800d5ea7ef9" category="list-text">VM创建成功后，访问并验证新VM是否为源VM的克隆。</block>
-  <block id="f8962ba2db1d583c9eab918f762b74bb" category="doc">使用 Red Hat OpenShift Virtualization 在ONTAP存储上创建虚拟机</block>
-  <block id="ba3899fff8eda9e8117349786d5e35bc" category="paragraph">使用 OpenShift Virtualization 创建 VM。此过程包括选择操作系统模板、配置存储类以及自定义 VM 参数以满足特定要求。作为先决条件，您应该已经创建了 trident 后端、存储类和卷快照类对象。您可以参考<block ref="9560b5e03b7757e35e94a89a11bb7aec" category="inline-link-macro-rx"></block>了解详情。</block>
   <block id="f913f3c8b073438c23eb36c9cf8237ac" category="section-title">创建 VM</block>
   <block id="71dd19ec5a595517b0b57750ad1a6568" category="paragraph">虚拟机是有状态的部署，需要卷来托管操作系统和数据。使用 CNV，由于虚拟机作为 pod 运行，因此虚拟机由通过Trident托管在NetApp ONTAP上的 PV 支持。这些卷作为磁盘连接并存储整个文件系统，包括虚拟机的启动源。</block>
   <block id="e01cb9126428f7417091e42362dcb6cb" category="inline-image-macro">创建虚拟机架构</block>
@@ -2276,10 +2260,6 @@
   <block id="7b25dfd6778e3247f46972cd9f152183" category="list-text">选择所需的可用启动源的操作系统。</block>
   <block id="486f2fe5ca588e0c49ac3c0a8aa85fad" category="list-text">选中复选框“创建后启动虚拟机”。</block>
   <block id="6d687356d69f72cb00b803bc4d4b2d5e" category="list-text">单击快速创建虚拟机。</block>
-  <block id="3ed11f1323f73ea0a9f4a3a18d8dd185" category="paragraph">虚拟机已创建并启动，并进入*运行*状态。它使用默认存储类自动为启动盘创建 PVC 和相应的 PV。为了将来能够实时迁移虚拟机，您必须确保用于磁盘的存储类可以支持 RWX 卷。这是实时迁移的要求。ontap-nas 和 ontap-san（iSCSI 和 NVMe/TCP 协议的volumeMode块）可以支持使用相应存储类创建的卷的 RWX 访问模式。</block>
-  <block id="7163dd7831603426be3d962ad82f40e2" category="inline-link-macro">将虚拟机从 VMware 迁移到 OpenShift 虚拟化的部分</block>
-  <block id="8231b84674aec2caa2b08c3d828e8957" category="paragraph">要在集群上配置 ontap-san 存储类，请参阅<block ref="3f876ea3e19b0c4cbe84ce8d7c420755" category="inline-link-macro-rx"></block>。</block>
-  <block id="8e4c6573746b620a5ce8fc565f1e54cd" category="admonition">单击“快速创建虚拟机”将使用默认存储类为虚拟机的可启动根磁盘创建 PVC 和 PV。您可以通过选择自定义虚拟机&gt;自定义虚拟机参数&gt;磁盘，然后编辑磁盘以使用所需的存储类来为磁盘选择不同的存储类。</block>
   <block id="a55c7942e3aa2735368d84a12e378ad6" category="paragraph">在配置虚拟机磁盘时，通常与文件系统相比，块访问模式更受欢迎。</block>
   <block id="65945ccfe754ed5fe268dd17bc82c07d" category="paragraph">要在选择操作系统模板后自定义虚拟机创建，请单击“自定义虚拟机”而不是“快速创建”。</block>
   <block id="1cf1bf9a14c390aa794e49171bcad90e" category="list-text">如果选择的操作系统已经配置了启动源，可以点击*自定义虚拟机参数*。</block>
@@ -2288,16 +2268,9 @@
   <block id="dc8e8e194d1f6e45521e140382f3acdb" category="list-text">您可以从此页面上的选项卡自定义虚拟机。例如，单击“*磁盘*”选项卡，然后单击“*添加磁盘*”向虚拟机添加另一个磁盘。</block>
   <block id="8b2c60e63de0927cca5bd9401cdd4647" category="list-text">单击“创建虚拟机”以创建虚拟机；这会在后台启动相应的 pod。</block>
   <block id="f53566a8296c52a0559713d17ee263ca" category="admonition">当从 URL 或注册表为模板或操作系统配置启动源时，它会在<block ref="1f9b99deb0fa755d5d42404160cfd87f" prefix=" " category="inline-code"></block>项目并将 KVM 客户映像下载到 PVC。您必须确保模板 PVC 具有足够的配置空间来容纳相应操作系统的 KVM 客户机映像。然后，当使用任何项目中的相应模板创建虚拟机时，这些 PVC 将被克隆并作为根磁盘附加到虚拟机。</block>
-  <block id="829aec83556e689ee3050c6b5c7dc9b6" category="paragraph"><block ref="829aec83556e689ee3050c6b5c7dc9b6" category="inline-image-macro-rx" type="image"></block></block>
-  <block id="747b53041c3cd5fdad57bda9468b57dc" category="paragraph"><block ref="747b53041c3cd5fdad57bda9468b57dc" category="inline-image-macro-rx" type="image"></block></block>
-  <block id="af7ba5994281d26356f2f9eeb036d905" category="paragraph"><block ref="af7ba5994281d26356f2f9eeb036d905" category="inline-image-macro-rx" type="image"></block></block>
-  <block id="87dd4987c02e796009eafcf478f83f00" category="paragraph"><block ref="87dd4987c02e796009eafcf478f83f00" category="inline-image-macro-rx" type="image"></block></block>
-  <block id="45ffc6452fd60091eb589090d3811b1a" category="paragraph"><block ref="45ffc6452fd60091eb589090d3811b1a" category="inline-image-macro-rx" type="image"></block></block>
   <block id="69d048114ad26f8ca7d033a2d8e4c9db" category="paragraph">以下视频演示了如何使用 iSCSI 存储在 OpenShift Virtualization 中创建 VM。</block>
   <block id="cb68c6f7e33f5c23ea39688f87148e5f" category="video-title">使用块存储在 OpenShift 虚拟化中创建虚拟机</block>
   <block id="7250596e692a521c3c67846db75dffb9" category="doc">使用 Red Hat OpenShift Virtualization 从快照副本创建 VM</block>
-  <block id="b3bf3178d09c834991d81bae93742396" category="paragraph">使用 OpenShift Virtualization 从快照创建 VM。此过程包括创建 VolumeSnapshotClass、对 VM 的持久卷声明 (PVC) 进行快照、将快照还原到新的 PVC 以及部署使用还原的 PVC 作为根磁盘的新 VM。</block>
-  <block id="55c7e45b50d0b012faf4bce31b6ad05d" category="section-title">从快照创建虚拟机</block>
   <block id="425eb483ee9a6e6892212f37ef055d3b" category="paragraph">借助Trident和 Red Hat OpenShift，用户可以对其所配置的存储类上的持久卷进行快照。利用此功能，用户可以获取卷的某个时间点的副本并使用它来创建新卷或将同一卷恢复到以前的状态。这启用或支持各种用例，从回滚到克隆到数据恢复。</block>
   <block id="f991e1a54e399d272c7d968dcdfdb690" category="paragraph">对于 OpenShift 中的 Snapshot 操作，必须定义资源 VolumeSnapshotClass、VolumeSnapshot 和 VolumeSnapshotContent。</block>
   <block id="0e2d1628ef03c4400cd293c3143cabb3" category="list-text">VolumeSnapshotContent 是从集群中的卷获取的实际快照。它是类似于用于存储的 PersistentVolume 的集群范围的资源。</block>
@@ -2305,17 +2278,11 @@
   <block id="7f9fbed02a61699d31f7d9a0eb11bc81" category="list-text">VolumeSnapshotClass 允许管理员为 VolumeSnapshot 指定不同的属性。它允许您对从同一卷获取的不同快照设置不同的属性。</block>
   <block id="7f7858938c48bb9f08341c0e41c9162d" category="inline-image-macro">快照架构的虚拟机</block>
   <block id="80098f4d586fe92cbd459a927ace6857" category="paragraph"><block ref="80098f4d586fe92cbd459a927ace6857" category="inline-image-macro-rx" type="image"></block></block>
-  <block id="99bf6e1ad41f7875d5b7ec9f857c4f0f" category="paragraph">要创建虚拟机的快照，请完成以下步骤：</block>
-  <block id="5dc14d36063086387d2eb7cf012544aa" category="list-text">创建一个 VolumeSnapshotClass，然后可以使用它来创建 VolumeSnapshot。导航到存储&gt;VolumeSnapshotClasses，然后单击创建VolumeSnapshotClass。</block>
-  <block id="52f0977d1e65469f01e2f290e637a8f1" category="list-text">输入快照类的名称，输入驱动程序的 csi.trident.netapp.io，然后单击创建。</block>
-  <block id="508073b07367d898823f1841627451d4" category="inline-image-macro">创建快照类</block>
-  <block id="3d4201cbef93cca14d3cd74d814df163" category="paragraph"><block ref="3d4201cbef93cca14d3cd74d814df163" category="inline-image-macro-rx" type="image"></block></block>
   <block id="2bde7e02152796551174ea391bda0b60" category="list-text">识别连接到源虚拟机的 PVC，然后创建该 PVC 的快照。导航至<block ref="fbbf264c8665570001a09df2b42a9873" prefix=" " category="inline-code"></block>并单击创建卷快照。</block>
   <block id="b9513caba1fba7b4291a9e22bc512de5" category="list-text">选择要为其创建 Snapshot 的 PVC，输入 Snapshot 的名称或接受默认值，并选择适当的 VolumeSnapshotClass。然后单击“创建”。</block>
   <block id="a7a384e6f13cae2ef877b4dd78fd48ad" category="inline-image-macro">创建 Snapshot</block>
   <block id="d4076afb29114d17d9e177697cc70491" category="paragraph"><block ref="d4076afb29114d17d9e177697cc70491" category="inline-image-macro-rx" type="image"></block></block>
   <block id="d8ae3e40f0f0dba0b7c7ba5b8eea845a" category="list-text">这将创建该时间点的 PVC 快照。</block>
-  <block id="e9b3b34ca8f917d1968a106e682f1a97" category="section-title">从快照创建新的虚拟机</block>
   <block id="3ffbaa72c8e63f0ec3ced08d8ebf9f72" category="list-text">首先，将快照恢复到新的 PVC 中。导航到存储 &gt; VolumeSnapshots，单击要恢复的快照旁边的省略号，然后单击恢复为新 PVC。</block>
   <block id="5160cd070df38f982551c5fea6f1c844" category="list-text">输入新 PVC 的详细信息，然后单击“恢复”。这将创建一个新的 PVC。</block>
   <block id="0d695454ca10516a832452b6123c5bb5" category="inline-image-macro">将快照恢复到新的 PVC</block>
@@ -5595,26 +5562,8 @@
   <block id="4501a2cb020f42b1107fff6a73b19352" category="sidebar">NetApp OpenShift 虚拟化解决方案是一组战略和技术能力，展示了使用 Red Hat OpenShift Virtualization 进行虚拟化的NetApp存储能力。</block>
   <block id="47a4ddcd3399d98d1c48e6e762ef0285" category="sidebar">NetApp OpenShift 虚拟化解决方案</block>
   <block id="16ddffff25a7e1bbc5ff0b40ca0d9c8f" category="sidebar">关于 OpenShift 虚拟化</block>
-  <block id="ee3f434e608558e357f1406efd4cad50" category="sidebar">OpenShift 的存储配置</block>
-  <block id="b3df250c9dd5911451eff0a2a8ae9282" category="sidebar">NetApp Trident存储集成</block>
-  <block id="c667e6cb1091ed8e1b5bdc1594d15435" category="sidebar">部署最佳实践</block>
   <block id="554cfab3938e21d9270bd6b75931f96f" category="sidebar">视频</block>
-  <block id="25ed8ab633e2874eafe2c3cf3e34191d" category="sidebar">本地部署</block>
   <block id="ff31982aef870d546d52f49bb30ef34b" category="sidebar">部署要求</block>
-  <block id="8d70590ff4a83b184caf875de9a15f80" category="sidebar">创建虚拟机</block>
-  <block id="536c42976d61ed60028c5df39ad2d091" category="sidebar">克隆虚拟机</block>
-  <block id="4392f229b58db61510bc51972e59c2e4" category="sidebar">从快照创建虚拟机</block>
-  <block id="fdbe66c50c9cd110ecc728e4ac09c968" category="sidebar">迁移虚拟机</block>
-  <block id="7d0824877403e4dc93946ac32cf4ecd4" category="sidebar">将虚拟机从 VMware 迁移到 OpenShift 集群</block>
-  <block id="9297c16597d06c5732b9e9437fb17384" category="sidebar">在两个集群节点之间迁移虚拟机</block>
-  <block id="b8b9eab8c1ed7b79387652490f5724ec" category="sidebar">安装Trident</block>
-  <block id="15b7b9ecc0577133b4644a781a961b4e" category="sidebar">使用快照和备份保护虚拟机</block>
-  <block id="c095a396cacc96e8af2672ac3dbb7453" category="sidebar">设置故障转移和故障回复</block>
-  <block id="126aaa7cb7e09def942e9e8c96a9bd72" category="sidebar">使用 OADP 和 Velero 保护虚拟机</block>
-  <block id="2ee7e50bbc54af4b61f2537ef313bece" category="sidebar">安装 OADP</block>
-  <block id="4fa71e7a8724f8687eab29752cfaf140" category="sidebar">使用 Velero 备份虚拟机</block>
-  <block id="d9a729a35cb88813ffcbbfbe3bc32190" category="sidebar">使用 Velero 恢复虚拟机</block>
-  <block id="1d6394982dcf1616cecf68fcde7cdf0f" category="sidebar">删除备份和恢复</block>
   <block id="05958c1cb4042ad47662b2c754cbb6ae" category="sidebar">使用Data Infrastructure Insights监控虚拟机</block>
   <block id="88b451e8e23292df16b4c8ba939ac5a9" category="sidebar">关于Data Infrastructure Insights</block>
   <block id="c97097aaf40e6dfc6e3e92ca31b6ab52" category="sidebar">配置Data Infrastructure Insights</block>
@@ -5679,20 +5628,7 @@
   <block id="981f990772f790f1d7f9d3b70afc44a5" category="sidebar">迁移要求</block>
   <block id="5da6c29275742dc94979af1f14c03995" category="sidebar">更多迁移选项</block>
   <block id="95b37932b98e935ed45567879e41983e" category="sidebar">Red Hat OpenShift 虚拟化概述</block>
-  <block id="bf721f489d7b50690ba79ec512a6aac4" category="sidebar">NetApp上的 Red Hat OpenShift 虚拟化最佳实践</block>
-  <block id="e55164a894df1c32b53d9d97531a6a94" category="sidebar">在本地部署 Red Hat OpenShift 虚拟化</block>
-  <block id="0f560ce70e0a6b222f39eae939fc4bd0" category="sidebar">部署 OpenShift 虚拟化</block>
-  <block id="ead81a730543acd05c3f4264abe8cba1" category="sidebar">从 VMware 迁移虚拟机</block>
-  <block id="54cb4efaa5bf05d21ea709cb8b081c7c" category="sidebar">使用 FSxN 在 ROSA 上部署</block>
-  <block id="4f28f04047f87d44e8ea3a6ac47e8e52" category="sidebar">使用Amazon FSx for ONTAP在 ROSA 上部署 Red Hat OpenShift Virtuzluation</block>
-  <block id="fbcda96b3ef96f5fccd85933fd11ee2f" category="sidebar">在 ROSA 上部署 OpenShift</block>
-  <block id="b48fb59063103307b6ff0e72b4b7611c" category="sidebar">重启或实时迁移虚拟机</block>
   <block id="e53bc1f270f25bd5faf8d6fdfcfbcbe2" category="sidebar">Red Hat OpenShift 虚拟化数据保护</block>
-  <block id="abf1204d2fbd1720dc2b4d35beba2210" category="sidebar">使用 DII 监控虚拟机</block>
-  <block id="c0b5bc06878af4212e4b2a5f4291b848" category="sidebar">Red Hat OpenShift 虚拟化监控</block>
-  <block id="cda38b114136ec48cad49f5f15a68930" category="sidebar">关于DII</block>
-  <block id="5e53af1ecf04ed428c9cd88546128b66" category="sidebar">配置 D II</block>
-  <block id="d295d5ca4f62ebf850cb70e82c349d00" category="sidebar">使用 DII 监控虚拟机</block>
   <block id="399b6e01cf6acb8cccc8700bc08e0a1f" category="sidebar">Proxmox虚拟化</block>
   <block id="80aaab03086ab8842200560186a8656f" category="sidebar">NetApp上的 Proxmox 虚拟化概述</block>
   <block id="708533ce971f9f56f46a09716cb93fa2" category="sidebar">适用于 Proxmox VE 的NetApp存储</block>
@@ -6377,10 +6313,7 @@
   <block id="2a8fce49319b69c06bee54d19b00c674" category="paragraph">在 ESXi 主机上为 VI 工作负载域创建分布式端口组和 vmkernel 适配器。</block>
   <block id="4fc3e770f8f711a33c70751d4426e3e8" category="paragraph-title"><block ref="beadfa85a2fdca06b91edc1131c603e6" category="inline-image-macro-rx" type="image"></block><block ref="c1510f529ae7cf8c1d43236e3210411a" category="inline-link-macro-rx"></block></block>
   <block id="da424dd6a306bdd392bbbbb53ea1a701" category="paragraph">部署 NVMe/TCP 数据存储。</block>
-  <block id="bc7ac4e6dc4e920ad96c74c99f8a0d1c" category="sidebar">使用Trident和Trident Protect 保护虚拟机</block>
   <block id="71821e13459238c7a33c3ecc284a9ca6" category="sidebar">使用卷组快照保护虚拟机</block>
-  <block id="3222d8c211b64347432fda237cd7ac78" category="sidebar">使用第三方工具保护虚拟机</block>
-  <block id="24d1ffd5763baaa76e50a0a1009f9077" category="sidebar">使用卷组快照保护虚拟机</block>
   <block id="73d7ea9a5bd44bfd78b7b802d8165480" category="sidebar">了解扩展存储</block>
   <block id="ab3ccb0be518e752d20f706d36d252c9" category="sidebar">部署工作流</block>
   <block id="2d0e9a7694bf5bc701c3af145a6bba71" category="sidebar">审核要求</block>
@@ -8528,7 +8461,6 @@
   <block id="b2461639d488a2678dcf1e7da7965d99" category="section-title">步骤 1：安装 Trident</block>
   <block id="54ef27c356459524260701e9c62b3eea" category="paragraph">红帽认证 Trident Operator 由 NetApp 支持，适用于本地、公共云和 ROSA 等托管服务中的 OpenShift。从 Trident 25.02 开始，当您使用 Amazon FSx for NetApp ONTAP 并计划运行 OpenShift Virtualization VM 工作负载时，操作员还可以为 iSCSI 准备工作节点。</block>
   <block id="ba22cc52e939ed0ba487fee9ae5354d4" category="inline-link-macro">Trident 文档</block>
-  <block id="2c9188d0467505bea367d4fc4fe01f4c" category="paragraph">有关其他安装选项，请参见 <block ref="c6cbd542c6ab8663d4932537ae509393" category="inline-link-macro-rx"></block>。</block>
   <block id="72fd6c2e674c57c622e1676f44c1caf5" category="list-text">在 *OperatorHub* 中，选择 *Certified NetApp Trident*。</block>
   <block id="27e858d202d18d0c991b690f896d5938" category="paragraph"><block ref="27e858d202d18d0c991b690f896d5938" category="inline-image-macro-rx" type="image"></block></block>
   <block id="70bbfaa36d7e35101be4683113eac4a3" category="list-text">在 *Install* 页面上，保留最新版本并选择 *Install*。</block>
@@ -8547,17 +8479,11 @@
   <block id="106dc260dbea145c83e84c4495335456" category="paragraph">为要配置的每个协议创建 YAML 文件。您可以配置以下一个或多个协议：NAS 用于基于 NFS 的文件存储、iSCSI 用于 iSCSI 块存储、NVMe/TCP 用于高性能 NVMe over TCP 块存储，或 FC 用于光纤通道块存储。</block>
   <block id="c07ee5debf5f3a3fef16c1ee5e8e4942" category="open-title">NAS</block>
   <block id="2c568adc5195a4d85cdf4d59ffce58bb" category="paragraph">为 ONTAP NAS 创建 TridentBackendConfig 和 StorageClass，以启用基于 NFS 的持久存储配置。后端配置包括存储在 Kubernetes Secret 中的凭据，并引用您的 ONTAP SVM 和管理 LIF。</block>
-  <block id="867bcd6a3f551cb4f977f5c95da4073d" category="paragraph">后端 secret 和后端配置文件（另存为<block ref="9d65a5d97819dedebcef81a9ba5516ec" prefix=" " category="inline-code"></block>）：</block>
   <block id="e2c8626d7ee949e6b81cdecce03999d8" category="paragraph">StorageClass 定义（另存为<block ref="4f57c59c0ac5ff4e6699e0838271f085" prefix=" " category="inline-code"></block>）：</block>
-  <block id="8793dec20f46f0d249738659dc4a55a3" category="paragraph">为 ONTAP SAN 创建 TridentBackendConfig 和 StorageClass，以启用基于 iSCSI 的块存储配置。后端配置使用 ontap-san 驱动程序，包括存储在 Kubernetes Secret 中的凭据。</block>
-  <block id="c3ea4e3f7d547c03e53f0433ddfc4342" category="paragraph">后端 secret 和后端配置文件（另存为<block ref="5c59c4795168e3359ec88086b84ae37d" prefix=" " category="inline-code"></block>）：</block>
   <block id="785b719c87759bd8b21cb9fbf35ffc67" category="paragraph">StorageClass 定义（另存为<block ref="f091cd084faa9dfe2abdf5b6029b9697" prefix=" " category="inline-code"></block>）：</block>
   <block id="2da1196c238657f8ac8bc1bdeb1ef335" category="paragraph">为 ONTAP SAN 创建 TridentBackendConfig 和 StorageClass，使用 NVMe over TCP 以实现高性能块存储调配。后端配置使用针对 NVMe/TCP 传输优化的 ontap-san 驱动程序，并包括存储在 Kubernetes Secret 中的凭据。</block>
-  <block id="93ed3022bb0c6e7f749779ea66c93e3b" category="paragraph">后端 secret 和后端配置文件（另存为<block ref="4a18f0898bbae244ac9211686c34e11f" prefix=" " category="inline-code"></block>）：</block>
   <block id="fece5ab5f4bcac93cf419657de20d688" category="paragraph">StorageClass 定义（另存为<block ref="d9fdbb97e3fc35a178409db49d8f7a9e" prefix=" " category="inline-code"></block>）：</block>
   <block id="0071a005f333576c1574e9e2d2109d0b" category="paragraph">为具有光纤通道的 ONTAP SAN 创建 TridentBackendConfig 和 StorageClass，以启用基于 FC 的块存储配置。后端配置使用指定了 FCP 协议的 ontap-san 驱动程序，并包括存储在 Kubernetes Secret 中的凭据。</block>
-  <block id="e417afb5c305ce432010d92ee911d0d5" category="paragraph">后端 secret 和后端配置文件（另存为<block ref="cba3274042d62103b1bc947e2dd929f8" prefix=" " category="inline-code"></block>）：</block>
-  <block id="d5efbef75cf3f721a9b9286169eb6995" category="paragraph">StorageClass 定义（另存为<block ref="f7d4964f399b921ac49f72af47bb009c" prefix=" " category="inline-code"></block>）：</block>
   <block id="51004832f95d16a65b01a170b0019386" category="section-title">使用 Amazon FSx for NetApp ONTAP 的 ROSA 集群</block>
   <block id="f9ee5e40894192e44ece1bdeca387bd1" category="paragraph">为要配置的每个协议创建 YAML 文件。可以配置以下协议之一或两者：用于基于 NFS 的文件存储的 NAS 或用于块存储的 iSCSI。</block>
   <block id="79a3f06cdf05e88891648edc5f16c2b5" category="paragraph">为 Amazon FSx for NetApp ONTAP 创建 TridentBackendConfig 和 StorageClass，并使用 ONTAP NAS，以便在 ROSA 集群上启用基于 NFS 的持久存储配置。后端配置使用 Amazon FSx for NetApp ONTAP 的 DNS 名称来管理和数据 LIF，并包含存储在 trident 命名空间的 Kubernetes Secret 中的凭据。</block>
@@ -9184,7 +9110,6 @@
   <block id="06a7cceb4ea9c104f5c471b398a24c44" category="image-alt">Shift 操作员架构图</block>
   <block id="87ed922160e9b4c75ab1ef893b525db3" category="paragraph">*NetApp Shift 工具包*</block>
   <block id="d6407f63c84b09b3d67be7c599991a55" category="list-text">通过映像注册表部署为容器化服务</block>
-  <block id="20c3dba8e3ea0c01024e755c5c6207fd" category="list-text">公开一个端点，该端点侦听源自 MTV 的具有特定注释的持久卷声明 (PVC) 请求</block>
   <block id="db8eec9fefc21532a5c922c37968316b" category="list-text">负责处理 VM 磁盘迁移任务，包括格式转换</block>
   <block id="6bcc7e2f71f96347b4b98736fe8a1979" category="paragraph">*NetApp Trident CSI（版本 26.06 或更高版本）*</block>
   <block id="7bd93547c704f452dc59535fa98c61cd" category="list-text">充当容器存储接口(CSI)配置程序</block>
@@ -9199,8 +9124,6 @@
   <block id="39ff57afbe369c71d87164292f4d0267" category="inline-link-macro">Trident 安装指南</block>
   <block id="3582bb9bff4c360d1b876af2b7038b93" category="list-text">Trident 通过 OpenShift OperatorHub 安装 - <block ref="05c6198e6f7839675430d2fe772b5bcd" category="inline-link-macro-rx"></block></block>
   <block id="ff7b16168d3a95f59b6b096ad2f62444" category="list-text">NetApp Shift 作为容器部署，Shift 端点可供 NetApp Trident 访问</block>
-  <block id="ed34562ebeafe2fa2386ac50a8bdb482" category="list-text">创建并标记了专门用于 Shift 工具包的存储类</block>
-  <block id="db94c9b7bf6cc982e79f2c27b5743ca7" category="list-text">标签将 Shift 工具包标识为预期的处理程序</block>
   <block id="4351ff451e06ead04e9a98f9ede6648a" category="list-text">MTV包含以下关于PVC的注释：<block ref="c465c4208b1e1f3418330711672ef4c0" prefix=" " category="inline-code"></block></block>
   <block id="f80c7b604cf5d54f61f5580c1db23856" category="section-title">步骤 1：下载并提取 Shift 安装程序</block>
   <block id="eb54a35ee77c8f156cf491f203292ee0" category="paragraph">Shift 安装程序包包含部署 Shift operator 和安装 Shift 所需的一切。</block>
@@ -9211,13 +9134,10 @@
   <block id="8de8c10653c019dccd733a2c9ad025d2" category="section-title">步骤 2：创建 Shift 命名空间和 API 凭据</block>
   <block id="8e4df91281e9b10e50416eba936b5e2a" category="paragraph">为 Shift 操作员设置专用命名空间，并创建安全 API 访问所需的凭据。</block>
   <block id="519042fdff45eca9e93f6c7975a33261" category="list-text">创建 Shift 命名空间：</block>
-  <block id="ec280ac477abf1fd860b10b773a737d2" category="list-text">在 Shift 命名空间中创建 Shift API 访问的密钥：</block>
-  <block id="acb6fff399445a7c3982d06abd52c5e6" category="section-title">步骤 3：部署 Shift operator</block>
   <block id="27cb2025888a0b8910a51ba44b8a1256" category="paragraph">将 Shift 运算符配置应用到您的 OpenShift 集群，并验证所需的 Pod 是否正在成功运行。</block>
   <block id="4063ac6d9d4e7d61536ceaaf647337fa" category="list-text">从 shift-installer 目录中，运行 deploy 命令：</block>
   <block id="1a676394126819000e99e53f06f4d3c8" category="list-text">使用 Pod 创建状态验证安装：</block>
   <block id="8637d6c1f3e0436f7f2ec935b829bd22" category="paragraph">输出示例：</block>
-  <block id="2adfd096e132762d7bb1806ee670838a" category="section-title">步骤 4：配置 Shift 集成的存储类</block>
   <block id="c2bb497b0e08f4c5770ce936ceb5ceed" category="paragraph">创建新的 Storage Class 或使用 Shift 集成所需的注释更新现有 Storage Class。</block>
   <block id="6920c9eaa8408cbe9ae61a5d1873db9d" category="paragraph">存储类必须包含以下注释：</block>
   <block id="57fd0c2d34b3faae09e8bcf9699feaff" category="list-text"><block ref="ef0a3ae2e4a56e2f40e59efcda1b4f3e" prefix="" category="inline-code"></block></block>
@@ -9231,4 +9151,449 @@
   <block id="da7f041e9cc4cf4c35dad13e6d6d4256" category="paragraph">有关创建 MTV 计划的详细信息，请参见 <block ref="52cfaab11b47ceb91fc31cd678248f92" category="inline-link-macro-rx"></block>。</block>
   <block id="5b72c021801ffa146c82f90658cd7575" category="image-alt">VM 磁盘映像已上传到 Proxmox VE NFS 存储池</block>
   <block id="5494dd2ac7ee98a0fa80c17d1b6858a0" category="sidebar">手动部署 Shift 操作符</block>
+  <block id="04be722656224158674083f6db9ee5f8" category="list-text">公开一个端点，该端点侦听源自 MTV 的带有特定注释的持久卷声明 (PVC) 请求</block>
+  <block id="0f3935b56a73b2e3e5477999c7651781" category="list-text">已专门为 Shift 工具包的使用创建和注释存储类</block>
+  <block id="e9c55b58014b810363b59e0e92b7f95a" category="list-text">注释将 Shift 工具包标识为预期处理程序，并指定目标 Trident 后端</block>
+  <block id="1f331c6a2b62ba02570fa69bddcbfd2a" category="admonition">如果您的集群无权访问 quay.io，请跳过此步骤并按照<block ref="b8c06a1843c796316369a8ecfa943909" category="inline-xref-macro-rx"></block>过程进行操作。完成离线镜像导入后，请返回步骤 2。</block>
+  <block id="cbdc7d23de5638b73fbe1cdbe095cce3" category="image-alt">Shift 安装程序下载页面</block>
+  <block id="f5de2a8344f5ea2b58b6d1c02d4f5e9d" category="list-text">在 Shift 命名空间中创建 Shift API 访问的密钥。将示例值替换为您环境的唯一用户名和强密码：</block>
+  <block id="641d1e9cf6e2f118308a9cb1ed1f09a2" category="admonition">将密码替换为首选值。</block>
+  <block id="71f55e67b387ee68ef2ad60f42a37e81" category="section-title">步骤 3：创建 TLS 证书 ConfigMaps</block>
+  <block id="997093c7a55a626f6473300030cac75b" category="paragraph">创建 ConfigMaps，其中提供 Shift 服务用于处理 HTTPS 流量的 TLS 证书和私钥。</block>
+  <block id="6fa4186c952ebf77cd7a3fe066f28b23" category="paragraph">证书必须在 CN/SAN 设置为 <block ref="0beca8df67f3ff4d6ef5b3b8fbd5d81b" prefix=" " category="inline-code"></block> 的情况下颁发。证书和密钥文件必须分别命名为 <block ref="b07b524addcd8f6fbac19a04019ea096" prefix=" " category="inline-code"></block> 和 <block ref="320b90518080edc05c5733db7267371a" prefix=" " category="inline-code"></block>。</block>
+  <block id="a27af9e6603e6c628c72ed32f50efb44" category="list-text">为 TLS 证书创建 ConfigMap：</block>
+  <block id="30591e0beef1b23f1dd7a3015835397e" category="list-text">为 TLS 私钥创建 ConfigMap：</block>
+  <block id="562bb91feb893d5ca30bacd7418e2775" category="admonition">如果不使用 HTTPS，请在 <block ref="0d472c887b61206765c1caa63a9290ec" prefix=" " category="inline-code"></block> 中设置 <block ref="c8a4a2413364a5df6c0c1ebdef4218ee" prefix=" " category="inline-code"></block>。即使禁用了 HTTPS 且未主动使用 TLS 证书，仍应按照上文所述创建所需的 ConfigMaps。</block>
+  <block id="fa96f2434c0cb6657e0fc706a7337873" category="section-title">步骤 4：创建 CA 捆绑包 ConfigMap</block>
+  <block id="1bfbaff7b9c52e38bff092d628910699" category="paragraph">创建 ConfigMap，其中提供 PVC 侦听器用于验证 Shift 服务的 TLS 证书的 CA 捆绑包。</block>
+  <block id="230039ccd546469723108d5c63d177bb" category="list-text">指向<block ref="33b989678b7a78bc2d8516196aeea102" prefix=" " category="inline-code"></block><block ref="b07b524addcd8f6fbac19a04019ea096" prefix=" " category="inline-code"></block>PEM 文件。</block>
+  <block id="c508723667a381a440297aabd6a43512" category="paragraph">ConfigMap 中的键必须为<block ref="017ce4f89360621e0345c257b6136b21" prefix=" " category="inline-code"></block>。有了此 ConfigMap，侦听器将使用<block ref="79b325ff1acca9f7a3cd105d89dca835" prefix=" " category="inline-code"></block>运行，并使用<block ref="f69b6b3ef696a246c978fce7b35bb9e8" prefix=" " category="inline-code"></block>根据此捆绑包验证 Shift 证书。</block>
+  <block id="1ab44d5c6c1c263dd4f34f25a0bc5c20" category="list-text">为 CA 捆绑包创建 ConfigMap：</block>
+  <block id="cbcab726f337774b2efd73b6575efaa0" category="section-title">第 5 步：创建持久卷声明</block>
+  <block id="e704b16471a19ab01e612142e664ca43" category="paragraph">在部署捆绑包之前，创建 Shift filedb（数据库）和日志所需的 PVC。</block>
+  <block id="abf1332a2b5e11d496004a7f843caee2" category="list-text">在应用 PVC 定义之前，更新<block ref="a41cbe8d50d66026597a259ecd8fa5e3" prefix=" " category="inline-code"></block>和<block ref="49a2cb1e6d519f880d1a7ba83943d221" prefix=" " category="inline-code"></block>以指定适合您的集群的<block ref="ee822781a3bd0ae0f8f6331dc4865d9c" prefix=" " category="inline-code"></block>（例如<block ref="da7ec43c61badec093d06b24a9e8e7bf" prefix=" " category="inline-code"></block>）。</block>
+  <block id="80b729aeb01c691df67e20fd91fcd888" category="admonition">这些 PVC 必须在步骤 6：部署 Shift operator 中部署捆绑包之前创建并可用。</block>
+  <block id="683d459f4f38c63f8e2f5254ae846242" category="list-text">应用 filedb PVC 清单：</block>
+  <block id="4c76ec299f0729047e83c3c14ad8026b" category="list-text">应用日志 PVC 清单：</block>
+  <block id="1af6956b27464583fd84596e65a2ae19" category="section-title">步骤 6：部署 Shift operator</block>
+  <block id="6c02c4d445a462025a9d1c79aa32038d" category="admonition">要取消部署，请运行<block ref="ad67a61811db958241d7e5527afcecd3" prefix=" " category="inline-code"></block>。此命令可删除由<block ref="0d472c887b61206765c1caa63a9290ec" prefix=" " category="inline-code"></block>部署的资源，同时保留命名空间和密钥。</block>
+  <block id="7ceefd9803bcb4651908e500aeb906d0" category="section-title">步骤 7：配置 Shift 集成的存储类</block>
+  <block id="fdd9975a376446e4fadaba7745b2a76f" category="section-title">第8步：创建和触发MTV计划</block>
+  <block id="ae1a93e50908472035d44d084ecfd022" category="image-alt">MTV 迁移计划</block>
+  <block id="7c2519ad25fcb53dfc6d74785fbac12d" category="paragraph">以下屏幕截图显示了触发迁移计划时执行的步骤顺序。</block>
+  <block id="cfc93cd2933c8fa852039b2201d362e1" category="image-alt">迁移计划执行步骤</block>
+  <block id="3af64a4e4e14daaa7fe89804f01d7b3a" category="paragraph">以下屏幕截图显示了使用 Shift 工具包转换并随后由 NetApp Trident 导入的 PVC。</block>
+  <block id="6b6f643ec93011adf9086a5cbcaf25b4" category="image-alt">由 NetApp Trident 导入的 PVC</block>
+  <block id="dc1f3a6f7d79f759d8818bde193b7e2f" category="image-alt">迁移计划已成功完成</block>
+  <block id="f1c6411e4d852dfcc9171daccbd5f6b0" category="paragraph">*成功完成迁移计划* — 大约 6 分钟内迁移了 5 台虚拟机和大约 5 TB 的数据。</block>
+  <block id="c2c54b629752b8962d2fa60d1eec947e" category="paragraph">迁移完成后，必须分离每个克隆卷。分离方法取决于 ONTAP 版本：对 ONTAP 9.17.1 及更高版本使用克隆拆分，或对早期版本使用 vol move。</block>
+  <block id="8c14f2a866761ed18c842dc4ea98c869" category="paragraph">克隆拆分和卷移动都是后台操作，在运行时不会影响生产工作负载。NetApp Console 自动化目录中的*迁移后分离*小部件中提供了用于启动分离过程的脚本。</block>
+  <block id="3704cb8646dc7465d427afb6616a6d70" category="section-title">离线安装（气隙集群）</block>
+  <block id="4f6ff66a4e49ad36ec1563cf9ec57a23" category="paragraph">本节描述了无法访问 quay.io 的集群的*替代安装路径*。如果您的集群可以访问 quay.io，请按照步骤 1–8 进行操作。</block>
+  <block id="3fdb95f3c69ff05178fbc47318ca7375" category="paragraph">对于无法访问 quay.io 的集群，请在部署捆绑包之前将镜像 tarball 导入 OpenShift 内部注册表。</block>
+  <block id="e3f70fd8e6a8f90bbcdc2e88fdd05e1d" category="paragraph">不需要外部注册表路由。映像推送操作和捆绑映像引用都使用<block ref="31c19bf05d9d23c5a017092426e76c5e" prefix=" " category="inline-code"></block>，可通过集群网络访问并由集群 CA 保护。</block>
+  <block id="876e2c671b5db255cc471b31599e5121" category="list-text"><block ref="fb024832e51eb5f6da9113a745f1eb59" prefix="" category="inline-code"></block> 使用 cluster-admin 权限登录的 CLI</block>
+  <block id="1b928b0c006f5d24e8a0de503c32f93a" category="list-text"><block ref="18bee4d161a2da8a6a17cc85179357b9" prefix="" category="inline-code"></block> 已安装</block>
+  <block id="463cc38afb26af3ba02643b0815a68e2" category="list-text">主机上可用的镜像压缩包：</block>
+  <block id="ac305f8ad53083138fef8134e5b85fcf" category="list-text"><block ref="12c50658fad2570a0d6d79a55b06e689" prefix="" category="inline-code"></block></block>
+  <block id="b30d3ab9db44e7999e38cb230a49aa96" category="list-text"><block ref="8467c8d5e5c6bbb6b7ef1316e58efe00" prefix="" category="inline-code"></block></block>
+  <block id="00fa32e8d9e8c107b58b5173c92d51a6" category="list-text">启用内部注册表（一次性步骤；如果已配置，则跳过）：</block>
+  <block id="9202f2fee948e7dd1aaf7fc98adb31a0" category="list-text">使用活动<block ref="fb024832e51eb5f6da9113a745f1eb59" prefix=" " category="inline-code"></block>会话生成注册表凭据：</block>
+  <block id="9c26a40059dce4d1544911681ce4e913" category="paragraph">不要使用原始服务帐户令牌，因为它可能会在 blob 上传期间失败。使用<block ref="eabac75f44cb570c3e4949a7b2f7ecad" prefix=" " category="inline-code"></block>创建与注册表重定向流兼容的身份验证文件。</block>
+  <block id="d9d3712d791625e3ce39c50b60c0ccdf" category="list-text">将 Shift 工具包映像推送至内部注册表：</block>
+  <block id="426c4e594b7bfd1b87911c50ebd078e5" category="list-text">将 Shift 工具包侦听器映像推送至内部注册表：</block>
+  <block id="b55b76f744656b6c0546f00ffc5dc34a" category="list-text">更新<block ref="8a0ff26d61c373de7f815c93622f4f99" prefix=" " category="inline-code"></block>中的映像引用以使用内部注册表：</block>
+  <block id="e07e3674d1303d299b0c79e11e57fa66" category="list-text">部署包：</block>
+  <block id="5ad29bbe2da666f5759d7da4b7540bd3" category="section-title">删除蓝图</block>
+  <block id="24e5af991f9615eb859a1a55679cd1c6" category="paragraph">可以直接从 UI 中删除从未执行过的蓝图。但是，在触发蓝图后，它会创建必须删除的作业历史记录，然后才能删除蓝图本身。使用 PowerShell 删除脚本清理这些作业记录，之后可以删除蓝图及其关联的资源组。</block>
+  <block id="0db7be851fb4d37b25aad5b0e5620d9e" category="list-text">通过导航到 *Settings &gt; Developer Access &gt; Script block*，从 Shift Toolkit UI 下载删除脚本。</block>
+  <block id="4e3284364561df0904d02155cbcb6f6b" category="image-alt">根据蓝图名称删除作业</block>
+  <block id="e7e9025a8a6626effd753715561dc8ee" category="list-text">解压缩 zip 文件夹。该包包含两个文件：</block>
+  <block id="48cbc089858f1c4420c3930dfe776cff" category="list-text"><block ref="b2ad5664c2c79cefd003f84290b40220" prefix="" category="inline-code"></block> - 配置文件</block>
+  <block id="5a396c6303a7ec821aafa2900ac6111e" category="list-text"><block ref="ef1e83d3714e263df1025685ea5f031f" prefix="" category="inline-code"></block> - PowerShell 脚本</block>
+  <block id="cccbab14e133ed5e50cfcffa26e5afdc" category="list-text">编辑<block ref="b2ad5664c2c79cefd003f84290b40220" prefix=" " category="inline-code"></block>文件以指定：</block>
+  <block id="7c8ab9f65e6e30ceddaf13806a22728a" category="list-text">此操作的执行名称</block>
+  <block id="99487d34f3845e9d51ebc0b17fcd6788" category="list-text">Shift Toolkit IP 地址</block>
+  <block id="420d3544a8cf09b7979adb053025aa00" category="list-text">管理员凭据</block>
+  <block id="ed3cca53216cbe9462543f0f4fe1b18d" category="list-text">要删除的蓝图名称</block>
+  <block id="f9f3764a8f6503f2897b3b66ca80c721" category="paragraph">配置示例：</block>
+  <block id="d647219321c2d0f9f44c802218b18531" category="list-text">打开 PowerShell 并导航到包含提取文件的文件夹。</block>
+  <block id="f687dbdc268709bf167d103584f6ef8f" category="list-text">运行脚本：</block>
+  <block id="0904c873d3be35c4ad8dd52807951764" category="paragraph">脚本成功完成后，您可以从 Shift Toolkit UI 中删除蓝图及其关联的资源组。</block>
+  <block id="473569fdc8cde2f449fbcb62a163cede" category="doc">使用 OpenShift API for Data Protection (OADP) 为 Red Hat OpenShift 虚拟化中的虚拟机提供数据保护</block>
+  <block id="9b0a7fb0109106e93802b9822a2e70ce" category="paragraph">Red Hat OpenShift 利用开源社区开发的数据保护解决方案。<block ref="baf3dad02604469cf9b36dfd048d949d" category="inline-link-macro-rx"></block> 是一个开源工具，用于安全备份和还原、执行灾难恢复以及迁移 Kubernetes 集群资源和持久卷。为了轻松使用 Velero，OpenShift 开发了 OADP 运算符和 Velero 插件，以与 CSI 存储驱动程序集成。公开的 OADP API 的核心基于 Velero API。安装 OADP 运算符并进行配置后，可以执行的备份/还原操作基于 Velero API 公开的操作。</block>
+  <block id="f00d3816b63a0f4ca969561d9d992595" category="paragraph">**以下是本节示例中使用的各种组件**</block>
+  <block id="8f063c314803ae85f2f10478cd09c0a9" category="list-text">OADP Operator 1.3 由 Red Hat 提供</block>
+  <block id="335ba858ddf3850fa7062b65b5005c6c" category="list-text">适用于 Linux 的 Velero CLI</block>
+  <block id="711090a933cecb383b26cf731470f77f" category="list-text">适用于 ONTAP 的 Trident 24.02 CSI 驱动程序</block>
+  <block id="07ac9057e3bb970c902b24c16113f9ce" category="section-title">创建定时备份</block>
+  <block id="9b03383bd5a9d0c1efd7dfbf31758e76" category="paragraph">要按计划创建备份，需要创建 Schedule CR。计划只是一个 Cron 表达式，允许您指定要创建备份的时间。用于创建 Schedule CR 的示例 yaml。</block>
+  <block id="3de71bec6c6edb35ede20a4b9d90de76" category="paragraph">如果要删除备份 CR 并删除关联的对象存储数据，可以使用 Velero CLI 工具进行此操作。</block>
+  <block id="49f77748c83ab606b61823bd8614eb8e" category="inline-link-macro">velero.io</block>
+  <block id="01e54d40fc16a2aac65b5fc3e1e01f77" category="paragraph">从 <block ref="8db92504c864d9531e6c05360f0e678a" category="inline-link-macro-rx"></block> 下载 Velero CLI。使用与您的 OADP operator 版本兼容的版本。您可以从文档 <block ref="492a47e933c55c8174189c67ccd6dfc7" category="inline-link-macro-rx"></block> 中找到兼容版本。</block>
+  <block id="604470c0f1a3361e766bf530d8c8c950" category="doc">OpenShift/OpenShift 虚拟化的部署模型</block>
+  <block id="b6235ef234ca080c4c7806a9c42f9ef1" category="paragraph">OpenShift 容器平台部署模型主要按其运行的基础设施（云与本地）以及管理方式（由 Red Hat 或客户管理）进行分类。OpenShift 虚拟化可以安装在 OpenShift 容器平台上。</block>
+  <block id="ae36de8cec956d34e364c72ddb1ada79" category="section-title">主要部署模型包括</block>
+  <block id="9352b1061094d1278fa3d8dbd5aaeb06" category="list-text">**托管服务（Red Hat 托管）**：在此模型中，Red Hat 管理 OpenShift 容器平台基础设施和操作。客户负责在平台上管理其应用程序和工作负载。示例包括：</block>
+  <block id="b8a4d23c7c8684263021817d0465ffea" category="list-text">**Red Hat OpenShift Service on AWS (ROSA)**：一种允许轻松集成 AWS 服务的托管服务。OpenShift 虚拟化安装在 AWS 上的 EC2 裸机实例上。</block>
+  <block id="4a5cd610bf9db12ac28c9f1200dbbec7" category="list-text">**Azure Red Hat OpenShift (ARO)**：这是 Azure 云上的托管服务。OpenShift 虚拟化在 Azure 虚拟机之上运行。</block>
+  <block id="4e57ed7381b36094ad6a7004f3436042" category="list-text">**Red Hat OpenShift Dedicated (OSD)**：部署在 Google Cloud 上的完全托管服务，由 Red Hat 管理。OpenShift 虚拟化部署在 Google Cloud 裸机实例上。</block>
+  <block id="b4890838a6d3fc2d3dace34d5fe35ec6" category="list-text">**自我管理服务（客户管理）**：在这种情况下，OpenShift 容器平台由客户在其自己的基础设施上直接部署和管理。基础架构可以是公共云或本地部署。</block>
+  <block id="95f69c6907f5b924b225c8573b43365f" category="list-text">**公有云：** 使用安装程序预置的基础架构 (IPI) 或用户预置的基础架构 (UPI) 部署在 AWS、Azure 或 GCP 上</block>
+  <block id="479f004a473769e0960482e4719a7f65" category="list-text">**裸机：**直接部署在物理硬件上。</block>
+  <block id="2e5ded94adc3f0bc4fcfa069ee1f2f1f" category="list-text">**虚拟化：**部署在 VMware vSphere 等平台上。</block>
+  <block id="e849d9d3854f1d194ce92784e88bd9b0" category="section-title">基础架构部署选项</block>
+  <block id="356676bb0fdbf69f9932a2b9fb347695" category="list-text">**安装程序提供的基础设施 (IPI)：** 安装程序自动提供基础设施组件，例如网络和机器。</block>
+  <block id="3ce74739018d3649e985e6cebd74aecd" category="list-text">**用户预置的基础设施 (UPI)：** 用户手动创建和管理基础设施，从而对环境实现更多控制。</block>
+  <block id="5a950e293bd6ea154e4f7bc2a98ee793" category="section-title">专业化部署模式</block>
+  <block id="3f2d68ace112d5db86705cb413826516" category="list-text">**单节点 OpenShift（SNO）：** 安装在单个物理或虚拟机上的完整 OpenShift 集群，通常用于边缘计算。</block>
+  <block id="2975f8e8eee66fbd69acfd716afac32a" category="list-text">**断开连接（气隙）部署：**部署在没有外部互联网访问的受限网络环境中。</block>
+  <block id="c1233cb3250b90c1af5863f3aa728e23" category="list-text">**Red Hat OpenShift Virtualization Engine：**仅限裸机的虚拟化基础设施，专为企业提供可靠的企业级解决方案，用于部署、管理和扩展虚拟机。作为 OpenShift 功能的子集，此版本的 OpenShift 专为仅虚拟机工作负载而设计。</block>
+  <block id="cf164558757066a1c25e657e7e78625f" category="inline-link-macro">单击此处查看文档。</block>
+  <block id="2e300445df1a1605398c0d8a32777556" category="paragraph">有关 OpenShift 容器平台的完整详细信息，请参见 Red Hat <block ref="9ceb13d57824dd934bc38692dd35c8ec" category="inline-link-macro-rx"></block></block>
+  <block id="d7e111daf8553ac2dcf58183cce465bf" category="paragraph">有关 OpenShift 虚拟化的完整详细信息，请参见 Red Hat <block ref="ae10b260fadf6fadf4ffba1fdf17134f" category="inline-link-macro-rx"></block></block>
+  <block id="f352bdfa62d4cd3a91acf18bc6bd58c6" category="paragraph">查看使用 ONTAP 存储系统部署 OpenShift 虚拟化的先决条件和其他详细信息。</block>
+  <block id="994ce4d207257ad462b7ca0cfba94a56" category="list-text">在 OpenShift 集群上配置的以 Trident 作为配置程序的 Trident VolumeSnapshotClass</block>
+  <block id="0b94a8b88dcf62aabaac051550aa7a1c" category="list-text">Trident StorageClass 配置为 OpenShift 集群或 OpenShift Virtualization 的默认值。</block>
+  <block id="25ced4ea77fb3b084e145cdd001552d7" category="paragraph">由于 OpenShift 虚拟化由安装在 OpenShift 集群上的操作员管理，因此会给内存、CPU 和存储带来额外的开销，在规划集群的硬件要求时必须考虑这些开销。有关更多详细信息，请参见文档 <block ref="5567155f6e22c8094be9809ad1dc7b27" category="inline-link-macro-rx"></block>。</block>
+  <block id="1b732dae2b4a5fb16dddb63721ad11fd" category="paragraph">也可以通过配置节点放置规则，指定 OpenShift 集群节点的子集来托管 OpenShift 虚拟化运算符、控制器和虚拟机。要为 OpenShift 虚拟化配置节点放置规则，请参阅文档 <block ref="6617bccbdffa3cad28730e30155080a9" category="inline-link-macro-rx"></block>。</block>
+  <block id="4cd48cf1542e0d97080f62cabe2cc94e" category="section-title">NetApp Trident CSI、存储配置文件、OpenShift 虚拟化的卷访问模式</block>
+  <block id="2dac0e812ebc8a565013396d9f39e4a7" category="paragraph">在 OpenShift 虚拟化中，引导源是用于从模板配置虚拟机 (VM) 的磁盘映像。它们通常存储为 openshift-virtualization-os-images 命名空间中的 DataVolumes 或持久卷声明 (PVC)。为了使 OpenShift 虚拟化正常运行，在使用操作员安装 OpenShift 虚拟化之前，必须执行两项存储配置任务：</block>
+  <block id="faa08d22a790cfeb541d65e344fa4dc9" category="list-text">必须为集群配置默认 StorageClass。否则，OpenShift 虚拟化无法自动导入启动源映像。</block>
+  <block id="00fea7d0196ac5e1f5d939e6a2c9c52c" category="list-text">如果您的存储提供商未被 CDI 识别，则必须配置存储配置文件。存储配置文件根据关联的 StorageClass 提供推荐的存储设置。StorageProfile 的关键功能之一是为 StorageClass 定义克隆策略。这决定了卷的克隆方式（例如，使用快照、CSI 克隆或主机辅助复制），从而根据底层存储供应商的功能优化性能和资源利用率。+ Trident CSI 驱动程序可被 CDI 识别，并且系统会自动为集群中创建的任何 Trident StorageClass 创建默认存储配置文件。此默认存储配置文件的克隆策略设置为快照，这是 Trident CSI 驱动程序推荐的克隆策略。在安装 OpenShift Virtualization 之前，您必须为 Trident 创建 VolumeSnapshotClass 和 StorageClass，并将 StorageClass 设置为默认值。这可以确保引导源镜像在 openshift-virtualization-os-images 命名空间中作为 VolumeSnapshots 可用，从而能够高效且无误地配置虚拟机。</block>
+  <block id="70f3278ca87bdf10708a13881f0bfe4f" category="paragraph">对于某些受支持的操作系统（如 RHEL、Fedora 或 CentOS），OpenShift 虚拟化会自动提供和更新引导源。这些文件在安装 OpenShift 虚拟化时下载，并自动管理和更新到最新操作系统版本。如果未自动提供操作系统，管理员必须手动准备并附加自定义映像。当您使用 NetApp Trident 作为 CSI 时，您将获得以下额外好处：</block>
+  <block id="aca41833bf2c3967e4c85529d008f7e5" category="list-text">启动源映像将在 openshift-virtualization-os-images 命名空间中作为快照提供。配置 VM 时，会从快照中克隆启动映像，从而使 VM 启动速度更快。</block>
+  <block id="84ec51e8ef862dff9c08e5aa527440fd" category="list-text">系统会为每个创建的 Trident StorageClass 自动创建一个存储配置文件，并自动将克隆策略配置为快照。访问模式设置为 ReadWriteMany。无需手动配置。</block>
+  <block id="87016aa4dc07daca836a435aa649db16" category="paragraph">在集群中安装 OpenShift Virtualization 之前，创建 Trident StorageClass 和 Trident VolumeSnapshotClass 并将其设置为默认值至关重要。这将确保引导源映像在 openshift-virtualization-os-images 命名空间中作为 VolumeSnapshots 可用，从而能够高效且无误地配置 VM。</block>
+  <block id="5cd9e7fc28e5ba2ef357b72bbacf4af8" category="paragraph">使用 Trident CSI 的另一个优势：在 OpenShift Virtualization 中，虚拟机的引导磁盘需要具有 RWX 访问模式才能进行虚拟机的实时迁移。Trident 支持对使用 NAS 协议以及使用 SAN 协议（当 volumeMode 设置为 Block 而不是 FileSystem 时）配置 national 的卷使用 **ReadWriteMany** 访问模式。您可以对引导磁盘使用任一协议。存储配置文件对象将根据 StorageClass 设置自动进行配置，并且在配置虚拟机时将相应地设置引导磁盘访问模式。</block>
+  <block id="2b56c7c9b3a6952091ddd0226f86c8ee" category="paragraph">将 Trident StorageClass 设置为集群的默认值后，您可以为 Trident 创建具有不同参数的附加 StorageClasses，OpenShift Virtualization 将使用为其创建的适当存储配置文件自动识别它们。然后，您可以在 VM 定义中指定用于 VM 启动磁盘和数据磁盘的 StorageClass。</block>
+  <block id="e13d9710247ce3613b7fc36ad8aa34db" category="paragraph">使用 OpenShift OperatorHub 中提供的 OpenShift Virtualization 运算符在 OpenShift 集群上安装 OpenShift Virtualization 是一个简单的过程。有关如何安装 OpenShift Virtualization 的详细步骤，请参见文档 <block ref="e8e30724dc11f60dfae3e76db0147354" category="inline-link-macro-rx"></block>。</block>
+  <block id="27bbf32209340291ed2c11b1be9154e2" category="doc">OpenShift 虚拟化灾难恢复中虚拟机的故障恢复</block>
+  <block id="4f731302e91458d8790a28728dee97be" category="paragraph">本节提供有关在使用 NetApp Trident Protect 和 AppMirror 的 OpenShift Virtualization 灾难恢复中 VM 故障回切过程的信息。在执行故障转移操作以切换到灾难恢复目标集群后，您可以使用故障回切过程来反转复制方向，并将原始源集群恢复为 VM 的主集群。这涉及将故障转移期间对 VM 进行的任何更改重新同步回原始源集群，然后反向提升复制关系。通过遵循这些步骤，您可以确保在发生灾难恢复事件后，您的 VM 能够在原始源集群上运行，且所有更改均保持完好。</block>
+  <block id="ebe9c1500c95295c985d9c9451c722d2" category="section-title">OpenShift 虚拟化灾难恢复的故障恢复</block>
+  <block id="61295c8685fb78b94f9c72b204443888" category="paragraph">使用 Trident Protect，您可以使用以下操作序列在故障转移操作后实现"回切"。在此工作流程中，为了还原原始复制方向，Trident Protect 会在反转复制方向之前将任何应用程序更改复制（重新同步）回原始源应用程序。</block>
+  <block id="3a045f0ae84563b460627f43bb272936" category="paragraph">此过程从已完成故障转移到目标的关系开始，涉及以下步骤：</block>
+  <block id="9cbd7771b861e31b5edb23d83de4758c" category="list-text">从故障转移状态开始。</block>
+  <block id="6098d08cb06cb3f4687179d5497af3ec" category="list-text">反向重新同步复制关系</block>
+  <block id="b29e882c5e41f060c9261101cb1cab06" category="paragraph">当您反向重新同步故障转移复制关系时，目标应用程序将成为源应用程序，而源应用程序将成为目标。在故障转移期间对目标应用程序所做的更改将被保留。</block>
+  <block id="cd7eea117bba074d0250983f81bb10e4" category="list-text">在原始目标集群上，删除 AppMirrorRelationship CR。这会导致目标成为源。如果新目标集群上还有任何保护计划，请将其删除。</block>
+  <block id="ebaedba9bdd14bc951c0e69dce5cc36f" category="inline-image-macro">OCP-v AppMirror 关系已删除以开始回切</block>
+  <block id="e0db9b4a4d2a5a8efed91a93d5a3e836" category="paragraph"><block ref="e0db9b4a4d2a5a8efed91a93d5a3e836" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="24461c72d5f17d5332d8e157d066609f" category="list-text">在新的源集群（初始目标）上创建快照，以捕获故障转移期间所做的任何更改。这可确保在重新同步过程中将所有更改复制回初始源集群。</block>
+  <block id="2b6481e924ff2c7f2678c137f8d288a6" category="inline-image-macro">在新源集群上使用 Trident Protect CLI 创建的 VM 的 OCP-v 按需快照</block>
+  <block id="746c37a1dd8d81bf9ce8c6e771c7be14" category="inline-image-macro">在新源集群上使用 Trident Protect CLI 创建虚拟机的 OCP-v 按需快照</block>
+  <block id="974a2c3dd306a095848a0f4edfdf9f22" category="paragraph"><block ref="16e7c4cb27b20fef1249809a9138d328" category="inline-image-macro-rx" type="image"></block> <block ref="9c7c26a60f58a4ec6992beaf712b0f61" category="inline-image-macro-rx" type="image"></block> <block ref="4b3ab66c22fcddafbab5dc0d676d9810" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="78c82bdc6fea1b06b4168db1bb8314a0" category="list-text">设置从新源集群（初始目标）到初始源集群的复制关系，为反向方向配置相应值。</block>
+  <block id="6fdbb21172a7b8cdfd69460aa60f8ae6" category="paragraph"># application-mirror-relationship.yaml</block>
+  <block id="83a6ee2691f66a636cbf9d840ebf00d5" category="inline-image-macro">在原始源集群中创建 OCP-v AppMirror 关系以反转复制方向</block>
+  <block id="192e4365664de367eac88b57c5230737" category="inline-image-macro">在原始目标集群中创建 OCP-v AppMirror 关系以反转复制方向</block>
+  <block id="6b493b4b756c342d57c222d84fd413dd" category="paragraph"><block ref="c4a3260a5497e8ebb6ea77e4af5b210b" category="inline-image-macro-rx" type="image"></block> <block ref="cfa6126271d80c95140548b1b602dbc6" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="1f3f1903ff6189981de17e879b6e6dde" category="list-text">通过将 AppMirrorRelationship CR 中的 desiredState 字段更新为 "Promoted"，将复制关系从新源集群（原始目标）提升至原始源集群。</block>
+  <block id="c2ac23f973f27b1c44756ccc7d7886a6" category="inline-image-macro">初始源集群中的 OCP-v AppMirror 关系提升为完成回切</block>
+  <block id="e5ca60d5456499d720cb840f70a99164" category="paragraph"><block ref="e5ca60d5456499d720cb840f70a99164" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="6e6a45aabe65c07c02e31ee6e28a0fff" category="paragraph">您现在将看到虚拟机在原始源集群中运行。故障恢复过程现已完成。您现在可以清理原始目标集群中的资源。如果要在故障恢复过程后保持灾难恢复功能，还可以设置新的复制关系。</block>
+  <block id="eb10e971ec83f13f35beb8166ae8958b" category="admonition">请勿执行正常的重新同步操作，因为这将丢弃在故障转移过程中写入目标集群的数据。</block>
+  <block id="81afe2f83612da11bea4ca4fe179a633" category="doc">Trident Protect/AppMirror 针对 OpenShift 虚拟化灾难恢复的先决条件</block>
+  <block id="b4a41f26bfe54a98ceb6f2109b9b03ef" category="paragraph">本节提供有关使用 NetApp Trident Protect 和 AppMirror 对 OpenShift 虚拟化工作负载进行灾难恢复的先决条件的信息。这包括设置 Trident Protect 和 AppMirror 以对在 OpenShift 虚拟化上运行的虚拟机进行有效灾难恢复所需的集群配置、存储要求和安装步骤。</block>
+  <block id="e3287c2b79d6d4fe56a228ca2b95be4c" category="inline-link-macro">此处文档</block>
+  <block id="75b8baf560a745e412f85412fb5eeb2b" category="list-text">已安装并配置 OpenShift Virtualization 的 Red Hat OpenShift 集群。有关安装说明，请参见 <block ref="ac22e8c471a55bb159d64cab69211f11" category="inline-link-macro-rx"></block>。</block>
+  <block id="c3579369bb54447d0e57ac22a755b30f" category="list-text">两个各自配置了 SVM 的 NetApp ONTAP 存储系统，为活动和灾难恢复 OpenShift 集群提供存储。每个 SVM 必须至少配置一个管理 LIF 和一个数据 LIF，并可从相应的 OpenShift 集群访问。</block>
+  <block id="864c0b79cbc022c3e1162049b4067dd3" category="inline-link-macro">此处为 ONTAP 集群对等关系文档</block>
+  <block id="48f1c9c60cc93b0b3089062e908d42f3" category="list-text">在两个 ONTAP 系统之间配置集群对等和 SVM 对等，以允许将数据从源集群的 SVM 复制到目标集群的 SVM。有关如何设置集群对等和 SVM 对等的说明，请参见<block ref="26f61a1e0148a66541c479b1947b946b" category="inline-link-macro-rx"></block>。</block>
+  <block id="a615e37a83db2ea3eb93d49a7996feca" category="inline-link-macro">Trident 文档</block>
+  <block id="5ecc7a0f2cc048beae617d5279ab9f98" category="list-text">NetApp Trident 已在 OpenShift 集群上安装并配置，以从 ONTAP SVM 提供永久性存储。有关安装说明，请参见 <block ref="b5c4d9534f0f53257da923e7c73876ac" category="inline-link-macro-rx"></block>。</block>
+  <block id="616a0eaa99ce319db8aafe8000765ca3" category="inline-link-macro">此处为 Trident 后端配置文档</block>
+  <block id="443bdfb5dc1872a14a714c44fd3784a4" category="list-text">为 ONTAP SVM 创建了 Trident 后端配置，并在 OpenShift 集群上配置了 StorageClass，以将该 Trident 后端用作置备程序。有关如何创建 Trident 后端配置和 StorageClass 的说明，请参见 <block ref="05566ff9ceb4cfbcf9e806b068ed51ef" category="inline-link-macro-rx"></block>。</block>
+  <block id="0b51a1098502f93d2fa83b8fcf0eb986" category="list-text">对 OpenShift 集群的 Cluster-admin 访问权限和对 ONTAP 存储系统的管理员访问权限，以执行必要的配置。</block>
+  <block id="8e0531a8f7270e0b0cf1564719e6c067" category="list-text">已安装 <block ref="c67fd1b99934afa248dfeb285a9a4191" prefix=" " category="inline-code"></block> 和 <block ref="fb024832e51eb5f6da9113a745f1eb59" prefix=" " category="inline-code"></block> 工具并将其添加到 $PATH 环境变量中的管理工作站，用于与 OpenShift 集群和 Trident 交互。</block>
+  <block id="e8515cf6d36d6d226802285e8e9d395c" category="list-text">OpenShift 集群上有足够的硬件资源来支持 OpenShift Virtualization operator 和将要预配的虚拟机。有关资源要求的详细信息，请参见 <block ref="12814a138115de5ff61bb58e170e4fef" category="inline-link-macro-rx"></block>。</block>
+  <block id="f77f48e02d245d31b40bf8fe8bef7a7a" category="list-text">（可选）为 OpenShift 虚拟化配置节点放置规则，以指定集群节点的子集来托管 OpenShift 虚拟化操作员、控制器和虚拟机。有关如何配置节点放置规则的说明，请参见 <block ref="09083d51d6b16d21e4bf8cd1c4a58f0a" category="inline-link-macro-rx"></block>。</block>
+  <block id="24f4cab5eadc8d210ea06e6ed987f1b4" category="list-text">对于支持 OpenShift 虚拟化的存储，建议使用专用的 StorageClass，从特定 Trident 后端请求存储，而该后端又由专用 SVM 提供支持。这在 OpenShift 集群上为基于虚拟机的工作负载提供数据方面保持了一定程度的多租户隔离。</block>
+  <block id="356947b48bb728afb42bd7f9deac7829" category="section-title">安装 NetApp Trident Protect 以用于 OpenShift 虚拟化</block>
+  <block id="d7b2cfff1185c147bf9e659ff6b72351" category="paragraph">要使用 NetApp Trident Protect 为 OpenShift Virtualization 工作负载启用灾难恢复功能，您必须在 OpenShift 集群上安装并配置 Trident Protect。可以使用 Helm chart 安装 Trident Protect。</block>
+  <block id="dbfcb71d0a8d25da559857fef88bb4d1" category="admonition">Trident Protect 的安装必须在安装 Trident 之后完成。</block>
+  <block id="2785534377d4e4bb1cc5db5504d7e0c5" category="inline-link-macro">Trident Protect 文档位于此处</block>
+  <block id="9213e51b0bd426ac172bea48c5a7c07f" category="paragraph">有关完整的安装说明，请参见 <block ref="7d17e9074feb178a4e0576278a4c03f5" category="inline-link-macro-rx"></block>。</block>
+  <block id="4dc8bf68c994c69f4633865914c4b869" category="inline-image-macro">Trident Protect 安装</block>
+  <block id="1eb9043d6939b1a3d0a5684aacc04ff8" category="paragraph"><block ref="1eb9043d6939b1a3d0a5684aacc04ff8" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="3646f4803d1292d3db242e14ccb8758a" category="inline-image-macro">Trident Protect 安装完成</block>
+  <block id="082849bdd4fd7adfea8016e94539f8f2" category="paragraph"><block ref="082849bdd4fd7adfea8016e94539f8f2" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="9f006ede01bb09106ee3e9470e46d3b1" category="doc">OpenShift 虚拟化灾难恢复中虚拟机的故障转移</block>
+  <block id="106a02f7637aa9607e498ea055389ef6" category="paragraph">本节介绍如何使用 NetApp Trident Protect 和 AppMirror 将虚拟机从源集群故障转移到灾难恢复目标集群。这对于测试故障转移过程以及对源集群执行计划内维护非常有用。通过执行这些步骤，您可以确保虚拟机在灾难恢复事件发生后在灾难恢复目标集群上运行，且所有更改均完好无损。</block>
+  <block id="cd7fc02b64b0b38a46c99b5c5a126e7c" category="section-title">OpenShift 虚拟化的无站点中断故障切换</block>
+  <block id="c130edf3ce73a56bc8ebf1e55cc590c5" category="paragraph">本节介绍如何在没有站点中断的情况下从源集群执行 VM 故障转移。这对于测试故障转移过程以及对源集群执行计划内维护非常有用。+</block>
+  <block id="f865cdeafdbef44c3dfb1e3b2c513dd7" category="paragraph">要执行没有站点中断的故障转移，首先确保源和目标集群已设置为灾难恢复，如前面几节所述。然后，执行以下步骤：</block>
+  <block id="6e52682b32d2da0a1445aed48b5e7015" category="list-text">建立源集群和目标集群之间的 AppMirror 关系。建立 AppMirror 关系后，最新的快照将传输到目标命名空间。系统会在目标命名空间中为 VM 创建 PVC，但尚未在目标命名空间中创建 VM Pod。</block>
+  <block id="4b2fd9d48b5cb70dc0de266d88d36027" category="inline-image-macro">trident-protect 命名空间中的 OCP-v AppMirror 关系</block>
+  <block id="24a961142d0fbe12ed71eb7fcf5c005e" category="paragraph"><block ref="24a961142d0fbe12ed71eb7fcf5c005e" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="281089b7c3f9c5f49139ec3c97e628f4" category="inline-image-macro">在 trident-protect 命名空间中建立 OCP-v AppMirror 关系</block>
+  <block id="62060c2fe318ddf1fadef77f2b79762e" category="paragraph"><block ref="62060c2fe318ddf1fadef77f2b79762e" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="96e92f9b1c8ff4397f9dc92a43579085" category="admonition">AppMirror 关系应从目标集群的 cli 创建。应将其创建为所需状态"已建立"。这将确保最新的快照数据复制到目标集群。</block>
+  <block id="e9141618fc9ed5023e3bdf47a9951a4f" category="list-text">提升 AppMirror 关系。将此关系的所需状态更改为"Promoted"，以在目标命名空间中创建虚拟机。此虚拟机仍在源命名空间中运行。将最新的快照数据复制到目标集群，并在目标集群上启动虚拟机。此方法允许您测试故障转移并维护虚拟机可用性，而无需关闭整个源集群。</block>
+  <block id="1f10f61e7ec2a54b2b942a1b9f814dd3" category="inline-image-macro">OCP-v AppMirror 关系已提升</block>
+  <block id="14f4d435cde2932799780e28174969b5" category="paragraph"><block ref="14f4d435cde2932799780e28174969b5" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="06caa0016ad0f51ecfe779fdc393a6ca" category="doc">Red Hat OpenShift 虚拟化灾难恢复的源集群设置</block>
+  <block id="f7ee52a029eab95e5885fd9dd413d4b4" category="paragraph">本节提供有关使用 NetApp Trident Protect 和 AppMirror 设置源集群以对 OpenShift Virtualization 工作负载进行灾难恢复的信息。这包括使用 ONTAP S3 创建 AppVault，为源虚拟机创建 Trident Protect 应用程序，以及使用 Trident Protect 创建该虚拟机的按需和计划快照。这些步骤对于确保正确配置源集群以将数据复制到灾难恢复目标集群并在发生灾难时恢复虚拟机至关重要。</block>
+  <block id="03379addab1e115c17bd5045aad908d4" category="section-title">设置 OpenShift Virtualization 的灾难恢复源集群</block>
+  <block id="78269cc0f1a486f59031952a69396c0d" category="paragraph">以下所有步骤均在源集群上执行，该集群是受保护虚拟机当前正在运行的集群。</block>
+  <block id="9414e9ff1ec77ea82898636ade69040d" category="paragraph">本节展示如何使用 ONTAP S3 对象存储在 Trident Protect 中设置 AppVault 对象。在此步骤中创建的 AppVault 将用于存储来自源集群的复制数据，该数据将用于在灾难恢复目标集群中进行恢复。</block>
+  <block id="779ee48f1344cc43dd49a71a4ba65fc8" category="paragraph">使用 oc 命令和下面显示的 yaml 文件为 ONTAP s3 创建密钥和 AppVault 自定义资源。请确保在 trident-protect 命名空间中创建它们。</block>
+  <block id="e07b18a43074b1e22ac08f7269c8c965" category="paragraph"><block ref="e07b18a43074b1e22ac08f7269c8c965" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="bfbc84d4797a53148b36e0ed88ca370c" category="section-title">为源虚拟机创建 Trident Protect 应用程序</block>
+  <block id="3324685b3fe188febb2a075d07a3aae1" category="paragraph">在源 VM 所在的命名空间中创建应用程序自定义资源。</block>
+  <block id="ff3178280c60af5a5571187203c8eaf6" category="paragraph"><block ref="ff3178280c60af5a5571187203c8eaf6" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="d64c163e311c93fc22a57a2fe87e94d8" category="paragraph">App自定义资源中包含的命名空间中的VM及其PVC如下所示。</block>
+  <block id="4df4381715d5ec59a13a9ff9a10acb33" category="inline-image-macro">应用自定义资源中包含的命名空间中的 VM 及其 PVC</block>
+  <block id="1df68a3c259066a8a63a80b2d43152e5" category="paragraph"><block ref="1df68a3c259066a8a63a80b2d43152e5" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="436f7427981d33730f62fea02a7d24f8" category="section-title">使用 Trident Protect 创建虚拟机快照</block>
+  <block id="b69b4bb92205656745ac64e36d5f7ff1" category="paragraph">您可以使用 Trident Protect CLI 或 API 创建虚拟机的按需快照。此快照将存储在上一步中创建的 AppVault 中，可用于灾难恢复目标集群中的恢复。</block>
+  <block id="f93edbfc09ff5f2769b99e1a01cc5a89" category="inline-image-macro">使用 Trident Protect CLI 创建的 VM 的 OCP-v 按需快照</block>
+  <block id="d6576b29254f298fee48ffecac67949e" category="paragraph"><block ref="d6576b29254f298fee48ffecac67949e" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="04f10310d6a47d720708730355169061" category="section-title">使用 Trident Protect 创建虚拟机的计划快照</block>
+  <block id="5a9c9a690deb631fbf83992bf0de849f" category="paragraph">您也可以通过在与 Application 自定义资源相同的命名空间中创建 Schedule 自定义资源来创建计划快照。该计划将按照指定的计划自动创建虚拟机的快照，并将其存储在 AppVault 中。</block>
+  <block id="a9fadd30e29e0ea8a20c1ded371900d6" category="doc">Red Hat OpenShift 虚拟化灾难恢复的目标集群设置</block>
+  <block id="0b4e61aa31eb1518150f6636d8e119ab" category="paragraph">本节提供有关使用 NetApp Trident Protect 和 AppMirror 设置用于 OpenShift Virtualization 工作负载灾难恢复的目标集群的信息。这包括使用 ONTAP S3 创建 AppVault，以及为目标 VM 创建新的命名空间。这些步骤对于确保正确配置目标集群以接收来自源集群的复制数据，并在发生灾难时实现 VM 的恢复至关重要。</block>
+  <block id="5427616030239c9c132a2aa4ca690f00" category="list-text">在目标集群中创建 AppVault 对象。此对象应指向与源相同的 S3，以便从源集群存放快照的 S3 中获取快照。</block>
+  <block id="007b81e85414a7a9655ca74a11ae9eb8" category="paragraph"><block ref="007b81e85414a7a9655ca74a11ae9eb8" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="306be2fb0f018b08f198c54bf5948155" category="list-text">在目标集群上创建新的命名空间以托管故障转移 VM。在目标集群中创建一个应用程序，该应用程序引用在步骤 1 中创建的 AppVault 以及新命名空间。此应用程序将用于建立源集群和目标集群之间的 AppMirror 关系，并管理从源集群到目标集群的数据复制。</block>
+  <block id="613fc51790227fd04c2f5034e6a1d303" category="doc">OpenShift Virtualization 中存储类之间 VM 的存储迁移</block>
+  <block id="2e871018079d78e1e15b3560b5f6d28c" category="paragraph">在 OpenShift 虚拟化中，您可以直接通过 Web 控制台将虚拟机（VM）的磁盘迁移到其他存储类，而无需删除 VM。此过程允许您移动整个虚拟机存储或特定卷。</block>
+  <block id="4aec0a65dcf5d04c3c9ab122ce599260" category="paragraph">以下步骤概述了如何迁移虚拟机的存储类：</block>
+  <block id="dfb18f443bba97df6119715f9b0397cd" category="list-text">请确保目标存储类已正确配置并在 OpenShift 集群中可用。这包括设置和访问必要的存储后端（例如，NetApp ONTAP）。</block>
+  <block id="779a8d24fa0cec3cff2e9fe8e72b77fd" category="inline-image-macro">Trident 后端配置</block>
+  <block id="0e62a9f06aa40c0cbb8ef405a197476f" category="paragraph"><block ref="0e62a9f06aa40c0cbb8ef405a197476f" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="534cbee79de130ed07f8003fbbb1172b" category="inline-image-macro">存储类配置</block>
+  <block id="7c151b50320674e87861fc0fa6a74cfc" category="paragraph"><block ref="7c151b50320674e87861fc0fa6a74cfc" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="6e7055591312767108a00f918251959d" category="list-text">在 OpenShift 容器平台 Web 控制台中，导航到虚拟化视角，然后选择要迁移的虚拟机。</block>
+  <block id="583a65df9db4119165f5ea0abaa50281" category="inline-image-macro">VM</block>
+  <block id="fcfa578ad9cb6fbc10e3188a6f2c9b7c" category="paragraph"><block ref="fcfa578ad9cb6fbc10e3188a6f2c9b7c" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="2fc01a34f0089454fdbc33354e3115b0" category="paragraph"><block ref="2fc01a34f0089454fdbc33354e3115b0" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="154859480e7d190f202e13451d97e9cc" category="inline-image-macro">使用 OC CLI 的 VM 和磁盘</block>
+  <block id="fd3ec23d031c2d7f42477cc0febf2a85" category="paragraph"><block ref="fd3ec23d031c2d7f42477cc0febf2a85" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="d4b0b822d99659c7b8db17b6b943e63b" category="list-text">单击操作-&gt;迁移-&gt;迁移存储。选择要迁移的卷和目标存储类，然后单击迁移。迁移过程将开始，您可以在 VM 的"事件"选项卡中监控进度。迁移完成后，VM 的磁盘将使用新的存储类。</block>
+  <block id="4e80988c749fcb09463f161d20956e61" category="inline-image-macro">迁移存储</block>
+  <block id="11d6bdc8d49609e5eb7a6cf3be974b51" category="paragraph"><block ref="11d6bdc8d49609e5eb7a6cf3be974b51" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="c2421200380236866ab84a0ab0304369" category="inline-image-macro">选择卷</block>
+  <block id="c0d839271876706b524281d94508b795" category="paragraph"><block ref="c0d839271876706b524281d94508b795" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="c235d8c0ec3cba2be6b5d9bc57b36e75" category="inline-image-macro">选择存储类</block>
+  <block id="696064a97689b6141410045967291c6e" category="paragraph"><block ref="696064a97689b6141410045967291c6e" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="bbaf5895f160b839e5a51cc25932e645" category="inline-image-macro">迁移VM存储</block>
+  <block id="b05e2cf1c5f28e6871cad6cacc2a6383" category="paragraph"><block ref="b05e2cf1c5f28e6871cad6cacc2a6383" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="b932601790cd8df31ca2565cf1a5931e" category="paragraph"><block ref="b932601790cd8df31ca2565cf1a5931e" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="d3cf44eab10654e677c5d33c021f2a2f" category="list-text">迁移完成后，您可以通过在 Web 控制台中检查虚拟机的详细信息或使用 OpenShift CLI 来验证虚拟机的磁盘现在是否正在使用新的存储类。</block>
+  <block id="db7b41d350918f9dd267fc0a602463d1" category="inline-image-macro">验证存储类</block>
+  <block id="66e4251fa16dc83c985fb240fff97402" category="paragraph"><block ref="66e4251fa16dc83c985fb240fff97402" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="a1df609dadfd056ad8ee5746c1533434" category="inline-image-macro">使用 OC CLI 验证所有对象</block>
+  <block id="7c98239da4327133304b944440160a39" category="paragraph"><block ref="7c98239da4327133304b944440160a39" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="825354e65e12ef4a4d6af04f4308f7b3" category="inline-image-macro">迁移前使用 OC CLI 的 ONTAP 卷名称</block>
+  <block id="7f9b3899d4754c236eb894e6955d2071" category="paragraph"><block ref="7f9b3899d4754c236eb894e6955d2071" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="e5f350b7e1caa95a6521a0f0642a66a0" category="inline-image-macro">迁移前 ONTAP 后端的卷</block>
+  <block id="6a08ff5eb38e0002f6290064283f7eaf" category="paragraph"><block ref="6a08ff5eb38e0002f6290064283f7eaf" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="161b3d1cbe156e39a4d85b745cf7dd48" category="inline-image-macro">迁移后的 nas-economy 卷</block>
+  <block id="952f31db648f314c3a8f3bf5db6e9a5c" category="paragraph"><block ref="952f31db648f314c3a8f3bf5db6e9a5c" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="d44ea5f0dda5f56ee975b5901ed8f5e2" category="inline-image-macro">迁移后 ONTAP 后端中的 nas-economy qtree 名称</block>
+  <block id="f10b9a9ffc9eff7a9a1481f65a36c141" category="paragraph"><block ref="f10b9a9ffc9eff7a9a1481f65a36c141" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="4a7e56818c5e911807bd924b21672a06" category="inline-image-macro">迁移后 ONTAP 后端中的 nas-economy qtree</block>
+  <block id="8be3a6b0c3e3b517357080e9f92acdd2" category="paragraph"><block ref="8be3a6b0c3e3b517357080e9f92acdd2" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="7645374e6fa12926928ca7ab147ec963" category="doc">了解 Red Hat OpenShift 虚拟化</block>
+  <block id="41f965f5d35ad1b415060693e842f172" category="paragraph">Red Hat® OpenShift® 虚拟化使组织能够在统一的混合云应用平台上无缝迁移、运行和管理传统虚拟机 (VM) 以及现代工作负载。OpenShift 虚拟化可作为任何 OpenShift 订阅中包含的运算符使用。OpenShift 容器平台的这一附加组件为将虚拟机与容器化应用程序集成提供了强大的解决方案。它使用基于内核的虚拟机 (KVM)（这是受信任的 Linux 内核虚拟机管理程序，以强大的性能、可扩展性和稳定性著称），在 OpenShift 中以原生对象的形式为虚拟机提供企业级虚拟化。</block>
+  <block id="5f968a8e19fe57751f1416dda4cb9db1" category="section-title">Red Hat OpenShift 虚拟化的主要功能</block>
+  <block id="cd7973d343a87782659c50a585b50399" category="paragraph">**混合工作负载：**迁移和运行具有云原生优势的虚拟机，并使用统一的工具集与容器和无服务器工作负载一起管理它们。</block>
+  <block id="7ccb6b9e5470963cb85c18ac8805b239" category="paragraph">**逐步现代化：**通过采用容器、实施微服务或集成 AI，按照自己的步调进行现代化，而不会中断现有的 VM。</block>
+  <block id="40f158db9f30feb4e7f82bac125f3f96" category="paragraph">**Kubernetes 集成：** 利用 Kubernetes 自定义资源向 OpenShift 集群添加虚拟化功能。</block>
+  <block id="9b1ba5762171c0a8e656d11860cdda53" category="section-title">Red Hat OpenShift 虚拟化的功能</block>
+  <block id="72cd50993ee89236505804426d2a48ca" category="paragraph">**虚拟机管理：**创建和管理 Linux 和 Windows 虚拟机。</block>
+  <block id="4de2c4ed376707b5803852f9eae03251" category="paragraph">**统一工作负载：**在集群内同时运行 Pod 和 VM 工作负载。</block>
+  <block id="243744c20a508839a383b6bd903a2290" category="paragraph">**连接：**通过各种控制台和 CLI 工具访问虚拟机。</block>
+  <block id="2b2d1b1227d064f7fe97b3891f73597e" category="paragraph">**VM Operations：**在节点之间导入、克隆和实时迁移虚拟机。</block>
+  <block id="71c2fed3c2aa55f4701efa50a80e2f26" category="paragraph">**资源管理：**处理连接到虚拟机的网络接口和存储磁盘。</block>
+  <block id="df9c715f20aaf58fb3926cc02b08ec53" category="section-title">兼容性</block>
+  <block id="302fd15ae90995f95f949e0bd4870967" category="paragraph">虽然 OpenShift Virtualization 在概念上与 VMware vSphere 有所不同，但它提供了一个专为虚拟化管理员量身定制的现代平台，具备如下熟悉的功能：**实时迁移：** 相当于 vSphere 中的 vMotion。</block>
+  <block id="08ca6d736ec594b1208344edb9ab4bbb" category="paragraph">**存储管理：** OpenShift 中的存储类与 vSphere 中基于存储策略的管理 (SPBM) 保持一致。</block>
+  <block id="c7480e93b1c9287d3d8583b88125a2b0" category="paragraph">**持久存储：** 持久卷声明 (PVC) 和持久卷 (PV) 对应于 vSphere 中的数据存储。</block>
+  <block id="de97b15f717eedc47f1db24aabc90b0e" category="section-title">对于 vSphere 管理员</block>
+  <block id="fed35f6a537027ab6ef5f8bc2770cf9a" category="paragraph">有关映射到最接近的 OpenShift Virtualization 对应项的 vSphere 概念列表，请参阅 <block ref="65ef8f96a92552e39753c87856f42695" category="inline-link-macro-rx"></block>。</block>
+  <block id="36f65ac5f5e3e1d34aed890a82f5fc62" category="paragraph">您可以通过 **OpenShift Container Platform web console** 或 **OpenShift CLI (oc)** 的虚拟化视角管理集群和虚拟化资源。</block>
+  <block id="e0ebaab914e0ecfc30e50a060a360a04" category="paragraph">要了解有关 Red Hat OpenShift Virtualization 的详细信息，请参见文档 <block ref="5e19e61d5fb534d5127ea32c21ce6519" category="inline-link-macro-rx"></block>。</block>
+  <block id="ce81f9d586b8780fcf284697d0f1283e" category="summary">NetApp 提供多种产品，帮助客户在 Red Hat OpenShift 等基于容器的环境中协调和管理持久性数据。</block>
+  <block id="45aa09c5e000fc8bb77c5b12e5429f8e" category="paragraph">存储在容器化应用程序中至关重要，可确保数据在动态且通常是短暂的环境中持续可用和有效管理。面向容器的现代存储解决方案旨在与应用程序无缝扩展，提供根据应用程序需求动态分配存储资源的灵活性，支持增长和不同工作负载。由于 OpenShift 虚拟化使虚拟机能够作为容器运行，因此它们使用与 OpenShift 集群中其他应用程序相同的存储。</block>
+  <block id="5cdc5a0bcf174e4c42857ba00bd2a704" category="paragraph">NetApp ONTAP 是一款强大且高度可扩展的数据管理软件，可作为 NetApp 企业级存储解决方案的支柱。它提供了一个统一的存储架构，可与各种存储环境（包括本地、云和混合设置）无缝集成。ONTAP 支持各种协议，如 NFS、CIFS/SMB、iSCSI、FC 和 NVMe over TCP，可与不同的应用程序和工作负载无缝集成。它可以将 SAN、NAS 和对象存储整合到单个平台中，从而简化管理并降低成本。NetApp ONTAP 可在本地部署，也可作为云中的托管服务使用。</block>
+  <block id="e71e852dc96d4d0e2da95de923a6f8ff" category="section-title">NetApp Trident</block>
+  <block id="5c76c216bd2f5dbd3a16a59e8468369d" category="paragraph">Trident 是由 NetApp 开发的开源存储编排器，旨在促进在容器化环境中使用 ONTAP 存储。它可以为容器化应用程序实现永久存储的动态配置和管理。</block>
+  <block id="90bcd3e8149ece0dade1b82c7a819488" category="section-title">Trident 的主要功能</block>
+  <block id="aaefb890c33903c8d11610d1b2b3bb6c" category="paragraph">**CSI 合规性** 确保与最新的 Kubernetes 存储功能和标准兼容。**声明性配置** 允许用户在 YAML 文件中定义存储要求，然后由 Trident 自动管理。**驱动程序** Trident 支持 ONTAP 所支持的 NFS、CIFS/SMB、iSCSI、FC 和 NVMe/TCP 协议的驱动程序。**混合云和多云支持** Trident 支持本地 ONTAP 存储以及超大规模云服务商中托管存储服务的驱动程序，包括 AWS 中的 FSx for NetApp ONTAP、Azure 中的 Azure NetApp Files 以及 Google Cloud 中的 Google Cloud NetApp Volumes。**高级数据管理** 利用 ONTAP 的快照和克隆功能，实现高效的数据保护以及测试和开发环境的快速配置。</block>
+  <block id="ebcda601f4a56421febe6496377513d0" category="paragraph">有关 Trident 的完整详细信息，请参阅 NetApp Trident <block ref="1d545162a608f5b9613f455ea27429b0" category="inline-link-macro-rx"></block></block>
+  <block id="2b51a006f2cc0f024f38e23355aa1e2e" category="paragraph">Trident Protect 是 Trident 的一项高级功能，为容器化环境提供增强的数据保护和安全性。它旨在确保关键数据免受潜在威胁和数据丢失情况的影响。它对所有 Trident 用户免费提供，并且可以在安装了 Trident 的任何 OpenShift 集群中轻松启用。</block>
+  <block id="22e8d5dffa56b3d788b7cad983632245" category="section-title">Trident Protect 的主要功能</block>
+  <block id="91b6accd41cb7947fc33ce8e9ec4f629" category="paragraph">**自动备份** Trident Protect 支持容器应用程序和虚拟机的自动策略驱动备份，确保它们定期备份，而无需人工干预。</block>
+  <block id="ddc1824b651986074453393d263a46db" category="paragraph">**快照管理** 它利用 ONTAP 的快照功能为容器应用程序和虚拟机创建频繁的时间点副本，提供可靠的恢复机制。</block>
+  <block id="da3561b6e8abd20db7b44dcbe724e6eb" category="paragraph">**数据加密** 确保数据在静态和传输过程中都得到加密，满足严格的安全要求并保护敏感信息。</block>
+  <block id="1772d045ac6084e8616a073ae3aa13a2" category="paragraph">**合规性和审计** 提供工具和功能，帮助组织满足合规性要求并对其数据保护实践进行定期审计。</block>
+  <block id="04961098dd1c9db5b3eb5179135f1cf1" category="paragraph">**灾难恢复** 与 ONTAP 的复制功能集成，提供强大的灾难恢复解决方案，即使在发生灾难性事件时也能确保业务连续性。</block>
+  <block id="06452dbfecb9925c362f50b4228f4238" category="paragraph">有关 Trident Protect 的完整详细信息，请参阅 NetApp Trident Protect <block ref="22119dfffa935338f489f6ce2e67baee" category="inline-link-macro-rx"></block>。</block>
+  <block id="2ca92584b9f53c63bf549d4b202a2351" category="section-title">NetApp ONTAP 硬件型号和协议支持</block>
+  <block id="78e3871b51a9a03feeb507b46a55c050" category="paragraph">NetApp ONTAP 软件运行在各种硬件型号上，每种型号都旨在满足不同的性能和容量要求。Trident 扩展了其强大的功能，以支持各种 NetApp ONTAP 系统，包括全闪存 FAS (AFF)、全 SAN 阵列 (ASA) 和 ASA R2 系统。这种支持可确保组织能够在容器化环境中充分利用其高性能存储解决方案的潜力。</block>
+  <block id="b8935f18ffe32272a10bdd62b7db4777" category="paragraph">**全闪存 FAS (AFF) 系统** AFF 系统提供卓越的性能和低延迟，使其成为高需求应用的理想选择。</block>
+  <block id="4393a8e49a1de4f5361d9bdd0fad982c" category="paragraph">**All SAN Array (ASA) Systems** ASA 系统专为专用 SAN 环境而设计，可提供强大的性能和可靠性。</block>
+  <block id="6e2dd8dfcfca0792c36dd5ae66a865aa" category="paragraph">**ASA R2 Systems** ASA R2 系统为 SAN 环境提供了增强的特性和功能。</block>
+  <block id="c160a7c3fe76f26a1eb3a7ae8e68161b" category="paragraph">**AFX** NetApp AFX 是一种专为企业 AI 工作负载设计的专用、分解式全闪存存储架构。它提供高性能 NAS，允许独立扩展计算和容量。NetApp AFX 存储系统在存储层的实现方面不同于其他基于 ONTAP 的系统（ASA、AFF 和 FAS）。AFX 使用分布式文件系统，可实现高性能和可扩展性，而其他基于 ONTAP 的系统则使用传统的存储架构。</block>
+  <block id="e7672ad0deaa706df754c867d11571ac" category="list-text">AFF 支持的协议：NFS、CIFS/SMB、iSCSI、FC、NVMe/TCP</block>
+  <block id="edfd90336d93ec40b5ed8bca8679b9aa" category="list-text">ASA 支持的协议：iSCSI、FC、NVMe/TCP</block>
+  <block id="483886e70fa508c09b938eb1394c50f6" category="list-text">ASA R2 支持的协议：iSCSI、FC、NVMe/TCP</block>
+  <block id="1e22e1f992f7e96e5e55bf2d61e4bf47" category="list-text">AFX 支持的协议：从 Trident 25.10 开始，仅支持 NFS 协议；不支持 SMB 协议。</block>
+  <block id="0dd6128d6f2eb1e95bb7e4597e1d9e01" category="section-title">适用于 ONTAP 存储的 Trident 驱动程序</block>
+  <block id="68edc55766f524a48117d68c7aeaf53f" category="paragraph">Trident 包括以下 CSI 驱动程序，每个驱动程序都能够在后端存储中配置卷</block>
+  <block id="985be8f460623f562d2ea84ef63651c6" category="section-title">对于支持的硬件型号上的 NAS 协议</block>
+  <block id="6f6f242b4caf9e6048b5b75b6a40049c" category="list-text">ontap-nas：一个 pvc 映射到 1 个 pv，这是一个专用的 flexvolume</block>
+  <block id="8d2475e5fcc85cb7751bf6530341aade" category="list-text">ontap-nas-economy：配置的每个 PV 都是一个 qtree，每个 FlexVolume 具有可配置数量的 qtree（默认值为 200，可配置范围为 50 到 300）。一个 pvc 映射到 1 个 pv，即共享 flexvolume 上的一个 qtree</block>
+  <block id="6b35b187dc7a6a13097d957a2cc0ca90" category="admonition">您可以将虚拟机的所有磁盘作为 qtree 放在单个卷中。但是，请注意，Snapshots、Clones 和 Replication 功能不受 Trident 支持。当这些功能由存储管理员管理时，它们不具备 PV 粒度。</block>
+  <block id="ad10c066f0a61cd907eb4fc280ac4780" category="list-text">ontap-nas-flexgroup：配置的每个 PV 都是一个完整的 ONTAP FlexGroup，并使用分配给 SVM 的所有聚合。</block>
+  <block id="03d78dff6642af51896e39c5f5f7c5f7" category="section-title">对于支持的硬件型号上的 SAN 协议</block>
+  <block id="ee8ff062ef9fb516aaceb92228d88995" category="list-text">ontap-san：一个 pvc 映射到 1 个 pv，即专用 flexvolume 上的 LUN</block>
+  <block id="b9d700f45b618e4b31f6fd3bf4882301" category="list-text">ontap-san-economy：一个 pvc 映射到 1 pv，这是共享 flexvolume 上的 LUN。您可以在共享 flexvolume 中有多个 LUN。（默认值为 100，每个 flexvol 卷可配置 50 到 200 个 LUN/PV）</block>
+  <block id="c907ece3af5b287acc45d9c2fab7658f" category="admonition">您可以将虚拟机的所有磁盘作为 LUN 放置在单个卷中。但是，此驱动程序虽然支持 Snapshots 和 Clones，但不支持 Replication。当 Replication 由存储管理员管理时，它不是 PV 粒度的。</block>
+  <block id="30393868fe2f0c5cd734de325f12f765" category="inline-image-macro">适用于 ONTAP 存储的 Trident 驱动程序</block>
+  <block id="c56a3a865e5de745752674099f3ed11c" category="paragraph"><block ref="c56a3a865e5de745752674099f3ed11c" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="a57628924f909d4edd5cb81ee4f10896" category="inline-link-macro">ONTAP 后端驱动程序</block>
+  <block id="658bf90fe27885bcceee640bd089f0f5" category="paragraph">有关通过 Trident 驱动程序公开的功能以及必须由存储管理员应用的功能的完整列表，请参阅 Trident 文档中的<block ref="76aeb42b163030535b3c6007badb0e05" category="inline-link-macro-rx"></block>部分。</block>
+  <block id="ffba8c2ed8c9fe29bc2eca21ee8591cf" category="paragraph">有关其他安装选项，请参见 <block ref="cb4b7595b915935601a1cf1d7d6ab926" category="inline-link-macro-rx"></block>。</block>
+  <block id="46a000ddbdd414536fd7f9008e475adf" category="paragraph">为每个协议创建 TridentBackendConfig 和 StorageClass。后端配置包括存储在 Kubernetes Secret 中的凭据。</block>
+  <block id="83c1fad7a1dc69296079c7f521680df2" category="example-title">后端配置基本选项的基本准则</block>
+  <block id="8d23c465ca6385d4ecc6aad29494ad8a" category="list-text">后端配置文件引用您的 **ONTAP SVM** 和 **管理 LIF**。+</block>
+  <block id="41c1b4295720f65f554932a4c9a12b99" category="list-text">您可以使用**用户名和密码**向 ONTAP 进行身份验证。可以是集群管理员或 vserver 管理员的用户名和密码。+</block>
+  <block id="a6aef8064baef92eb4b4fde7b5f09514" category="list-text">您还可以使用**客户端证书**对 ONTAP 进行身份验证。有关如何生成客户端证书、私钥和 CA 证书的详细信息，请参阅 <block ref="a45adec78b888a25c0a23865a791b2be" category="inline-link-macro-rx"></block>。</block>
+  <block id="88a89ae3016d58cc8164a3231a67e853" category="example-title">NAS 经济驱动程序后端配置选项的基本准则</block>
+  <block id="5d7ee9061ed1c7671accfb7668164b64" category="paragraph">对于 **NAS economy driver** 配置，可以包括以下参数：</block>
+  <block id="a616f8c9afc9df6dc8fbb757025fe606" category="list-text">**qtreesPerFlexvol** 该值必须在50-300的范围内，默认值为200。+</block>
+  <block id="f07c987e2bc97ddc3cdba0c9363679e1" category="list-text">**limitVolumePoolSize** 该值是在 ontap-nas-economy 后端使用 qtree 时请求的最大 FlexVol 大小。未设置默认值，默认情况下不强制执行此参数。如果设置此参数，当当前 FlexVol 达到指定大小时，Trident 操作员将创建一个新的 FlexVol。此参数可通过限制用于配置 PV 的 FlexVols 大小来帮助您控制集群中的容量利用率。+</block>
+  <block id="1e9b18554d6fe93e1389a2e9efc15bfa" category="list-text">**denyNewVolumePools** 此参数限制 ontap-nas-economy 后端创建新 FlexVol 卷以包含其 qtree。仅使用预先存在的 FlexVol 来配置新的 PV。</block>
+  <block id="cfdae40b1584f0ff404835423a168bf0" category="example-title">SAN 驱动程序后端配置选项的基本准则</block>
+  <block id="f3e16fecdaec9d5469e7d9b9c77827f3" category="paragraph">以下参数可包含在 **SAN driver** 配置中：</block>
+  <block id="0aa5f1869d6513a562485a5219a8fe68" category="list-text">**limitVolumeSize** 该值是您在使用 SAN 后端时请求的最大卷大小。未设置默认值，默认情况下不强制执行此参数。如果设置此参数，则当请求的卷大小超过此值时，Trident 操作员将无法进行配置。您可以使用此参数来限制其为 LUN 管理的卷的最大大小。+</block>
+  <block id="ef68593529d0f7efdd011bddefe13bbc" category="list-text">**lunsPerFlexvol** 每个 FlexVol 的最大 LUN 数，必须在 [50, 200] 范围内，默认值为 100。如果设置此参数，当当前 FlexVol 达到指定数量的 LUN 时，Trident 操作员会创建一个新的 FlexVol。此参数可通过限制每个用于调配 PV 的 FlexVol 的 LUN 数量，帮助您控制集群中的容量利用率。</block>
+  <block id="a37d3f32455953b1c21924ad84c422f9" category="example-title">SAN economy 驱动程序后端配置选项的基本准则</block>
+  <block id="aa8aed624a3ac049ab6ec3a10ea842c2" category="paragraph">以下参数可包含在 **SAN economy driver** 配置中：</block>
+  <block id="c6750ab6b7a08b905b32ad6c32b0911b" category="list-text">**limitVolumePoolSize** 该值是您在使用 SAN 经济后端时请求的最大 FlexVol 大小。未设置默认值，默认情况下不强制执行此参数。如果设置此参数，Trident 运算符将限制可以为在 flexvol 中创建 LUN 而创建的最大 flexvol 大小。此参数可以通过限制用于配置 PV 的 FlexVols 大小来帮助您控制集群中的容量利用率。+</block>
+  <block id="ed7abce019a5bc7e6702622ab5aca937" category="list-text">**denyNewVolumePools** 此参数限制 SAN economy 后端创建新 FlexVol 卷以包含其 LUN。仅使用预先存在的 FlexVol 来配置新的 PV。</block>
+  <block id="27279678759200cc04ad7b380f060aac" category="example-title">配置卷的后端配置选项的基本准则</block>
+  <block id="3f863f0cfb23de4bb28530bac4ceaefc" category="admonition">在为每个协议提供的示例 yaml 文件中，如果未提供 storagePrefix，则使用默认前缀"trident"。当使用 ontap-nas-economy 且 storagePrefix 为 24 个或更多字符时，qtree 将不会嵌入存储前缀，但它将包含在卷名称中。</block>
+  <block id="ef6adcdefd9e58ac05bbb885fb16bd87" category="paragraph">当您直接从系统管理器或 CLI 在 ONTAP 中创建卷时，如果未为所有可选参数提供值，则在卷配置期间会自动设置一些默认值，如下所示。</block>
+  <block id="b0c0f2a44d23ed444f476c87c6a3faad" category="inline-image-macro">在 ONTAP 中创建卷</block>
+  <block id="05cb4ada23b2791b502bc470cc531a8a" category="paragraph"><block ref="05cb4ada23b2791b502bc470cc531a8a" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="f2c76f0f44125a170190b7d5da885b3b" category="inline-image-macro">卷参数的默认值</block>
+  <block id="55bb3c5bdf166e349736a326062ddd0d" category="paragraph"><block ref="55bb3c5bdf166e349736a326062ddd0d" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="c0901cea68c2ef7625329d1cb8e8b27e" category="paragraph">以下是使用 Trident 后端配置创建的卷示例。除名称模板外，它没有在默认值部分中显式设置任何选项。</block>
+  <block id="a7b351e527f8848bf320d13d6075ba3b" category="paragraph">使用此后端配置创建卷时，未在后端配置文件中设置的选项将设置为默认值，如下所示。</block>
+  <block id="b5716ccc5940cf49153583fd54b8d962" category="inline-image-macro">使用 Trident 后端配置创建的卷</block>
+  <block id="c5b117cc48a25958455919c624406f3d" category="paragraph"><block ref="c5b117cc48a25958455919c624406f3d" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="ffe9d741f8f3acacc3c093cd99dbe79c" category="paragraph">但是，当您在 Trident 后端配置的默认部分中设置值时，您可以创建对这些参数具有特定值的卷。在以下示例中，snapshotPolicy 在后端配置 yaml 的默认部分中设置为默认策略（如果未显式设置任何内容，则为 none），snapshotDir 设置为 true。通过这些设置，您可以看到后端卷获取了这些值。（snapdir-access 为 true，snapshot-policy 为默认值）</block>
+  <block id="c6b4f655bb4c4f021688cf7709c46bd4" category="inline-image-macro">具有显式值的默认部分</block>
+  <block id="cc7ef5108f118c33a6b7b14eef0925ef" category="paragraph"><block ref="cc7ef5108f118c33a6b7b14eef0925ef" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="13db04511fc4a66b1262ea0bf81acaa0" category="inline-image-macro">在后端配置中显式设置 snapshotDir 和 snapshotPolicy 值</block>
+  <block id="486599c16898dbf45bf857c65e95415c" category="paragraph"><block ref="486599c16898dbf45bf857c65e95415c" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="dce97fea6c11e2a823860d8875764dc9" category="inline-image-macro">在卷中显式设置 snapshotDir 和 snapshotPolicy 值</block>
+  <block id="56f9b85e9db2f7acb285b8c080ec0b84" category="paragraph"><block ref="56f9b85e9db2f7acb285b8c080ec0b84" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="8366fe70b280f14d98b281603680fe12" category="paragraph">对于所有其他附加参数，请查看 Trident 文档：</block>
+  <block id="eac5ebd00ca476c592ffacb3b9c86441" category="inline-link-macro">Trident NAS后端配置选项</block>
+  <block id="19d7ad813e27f8182faebb7663097c8f" category="list-text"><block ref="84d613f0c3129ff973bd1fad3aa16273" category="inline-link-macro-rx"></block> +</block>
+  <block id="6df97c7702d995257df0e3c9a70506cd" category="inline-link-macro">Trident SAN 后端配置选项</block>
+  <block id="3a59ee3ff015196d50ff3b081a06be16" category="list-text"><block ref="3a59ee3ff015196d50ff3b081a06be16" category="inline-link-macro-rx"></block></block>
+  <block id="9f35d8633d127f4a7bb4b3cdda52238e" category="paragraph">使用用户名和密码身份验证（另存为<block ref="9d65a5d97819dedebcef81a9ba5516ec" prefix=" " category="inline-code"></block>）的后端密钥和后端配置文件示例：</block>
+  <block id="e67f742a2f68780d389b481d1a5b3a2a" category="paragraph">使用客户端证书身份验证的后端密钥和后端配置文件示例（另存为<block ref="9d65a5d97819dedebcef81a9ba5516ec" prefix=" " category="inline-code"></block>）：</block>
+  <block id="7aa21a08b2c6493a1d515e6804f58975" category="open-title">NAS 经济</block>
+  <block id="3ceacfa457525e1a5ff3840eee047d08" category="paragraph">创建 TridentBackendConfig 和 StorageClass，用于 ONTAP NAS economy 驱动程序，以启用使用 qtree 的基于 NFS 的持久存储配置。后端配置包括存储在 Kubernetes Secret 中的凭据，并引用您的 ONTAP SVM 和管理 LIF。</block>
+  <block id="c8a17f4e3ca6716789600bccc1d19b5b" category="paragraph">使用用户名和密码身份验证（另存为<block ref="4209e262889dcc16019c5e036387410f" prefix=" " category="inline-code"></block>）的后端密钥和后端配置文件示例：</block>
+  <block id="4defe485af738455b5f3576991528802" category="paragraph">StorageClass 定义（另存为<block ref="c4c356892b47240b6d3b5c9d0145861d" prefix=" " category="inline-code"></block>）：</block>
+  <block id="636ce96f71d0d6ef20031ec401a08758" category="admonition">有关可以包含在 ontap-nas-economy 驱动程序后端配置文件中的其他参数的详细信息，请参阅上述 NAS economy 驱动程序后端配置选项的基本指南部分。</block>
+  <block id="d119ad8305b9187a1b6c282928c6cc79" category="open-title">iSCSI SAN</block>
+  <block id="094d7551f2493a6afb10677169d06c6f" category="paragraph">创建 TridentBackendConfig 和 StorageClass，用于支持 iSCSI 的 ONTAP SAN，以启用基于 iSCSI 的块存储配置。后端配置使用 ontap-san 驱动程序，并包含存储在 Kubernetes Secret 中的凭据。如果省略 sanType 参数，则默认使用 iSCSI 协议。</block>
+  <block id="6783d92e10d4fe007f933fdf0a6b20b3" category="paragraph">使用用户名密码身份验证的后端 secret 和后端配置文件（另存为<block ref="5c59c4795168e3359ec88086b84ae37d" prefix=" " category="inline-code"></block>）：</block>
+  <block id="53c9f9a3fb5d5668b1a85ee9cd6d0d74" category="paragraph">使用客户端证书身份验证的后端 secret 和后端配置文件（另存为<block ref="5c59c4795168e3359ec88086b84ae37d" prefix=" " category="inline-code"></block>）：</block>
+  <block id="1a190b2764d015836b233b27d68252bf" category="open-title">NVMe/TCP SAN</block>
+  <block id="915257a5c4db37c06a2aa914c8b879ec" category="paragraph">使用用户名密码身份验证的后端 secret 和后端配置文件（另存为<block ref="4a18f0898bbae244ac9211686c34e11f" prefix=" " category="inline-code"></block>）：</block>
+  <block id="2e80feda407fd89d7ac99031d883fe04" category="paragraph">使用客户端证书身份验证的后端 secret 和后端配置文件（另存为<block ref="4a18f0898bbae244ac9211686c34e11f" prefix=" " category="inline-code"></block>）：</block>
+  <block id="8ccb0aa68de9c3db0e817a42eb2bdb62" category="admonition">如果您计划将 ReadWriteMany（RWX）卷与 NVMe 协议一起使用，则单个 RWX NVMe 卷不能由 Kubernetes 集群中超过 64 个节点挂载。有关此限制的详细信息，以及 Trident 26.02 中引入的超级子系统模型和 Trident 26.02 之前的每卷子系统模型的信息，请参见 Trident 文档：<block ref="1116bfdaa5456f1c9c9fb41ebefae759" category="inline-link-rx"></block>。</block>
+  <block id="d84b41126744795c4ee82f7b256e7234" category="open-title">FC SAN</block>
+  <block id="f9166e3796b15bf4cacd7b3ffb99c001" category="paragraph">使用用户名/密码身份验证方法或客户端证书身份验证方法通过 ONTAP 进行身份验证。有关如何生成客户端证书、私钥和 CA 证书的详细信息，请查看<block ref="a45adec78b888a25c0a23865a791b2be" category="inline-link-macro-rx"></block>。下面提供了两种方法的示例。</block>
+  <block id="c1bc1f1cd2183cd4e9369abd23124d7a" category="paragraph">使用 ONTAP 用户名和密码身份验证（另存为<block ref="cba3274042d62103b1bc947e2dd929f8" prefix=" " category="inline-code"></block>）的后端密钥和后端配置文件：</block>
+  <block id="022f2e6ea06a88cd156a44db14b1a9ab" category="paragraph">使用客户端证书身份验证的后端 secret 和后端配置文件（另存为<block ref="cba3274042d62103b1bc947e2dd929f8" prefix=" " category="inline-code"></block>）：</block>
+  <block id="8aa42fbf5a1db6db99ecf93605f9a3ac" category="open-title">iSCSI SAN 经济性</block>
+  <block id="43e3a1ce52a8ff23d7cc92edde6fc274" category="paragraph">为使用 iSCSI 的 ONTAP SAN economy 创建 TridentBackendConfig 和 StorageClass，以启用基于 iSCSI 的块存储配置。后端配置使用带有 iSCSI 协议的 ontap-san-economy 驱动程序，并包括存储在 Kubernetes Secret 中的凭据。</block>
+  <block id="c475d253241eab19c4f2de4b9d75da7a" category="paragraph">使用客户端证书身份验证的后端 secret 和后端配置文件（另存为<block ref="293b29420eda556eff611a632df309a0" prefix=" " category="inline-code"></block>）：</block>
+  <block id="3904b519c429c04678c41ec60ba13503" category="paragraph">查看 Trident 文档，了解 yaml 文件的其他示例，以及有关 SAN 驱动程序和 NAS 驱动程序支持的访问模式和卷模式的信息。</block>
+  <block id="9d68f7fd9fe733ac5a19b9d346e2c849" category="inline-link-macro">使用 NAS 驱动程序的示例</block>
+  <block id="2dcaa3726acaec82358dcbe7ba157144" category="list-text"><block ref="2dcaa3726acaec82358dcbe7ba157144" category="inline-link-macro-rx"></block></block>
+  <block id="496d23ccc6c20d7a95d695265a083673" category="inline-link-macro">使用 SAN 驱动程序的示例</block>
+  <block id="8e8518a8aa4e8dc8ce32d08997b418c6" category="list-text"><block ref="8e8518a8aa4e8dc8ce32d08997b418c6" category="inline-link-macro-rx"></block></block>
+  <block id="7bba0032657978347f0b2a46f49671b3" category="doc">通过替代方法使用 ONTAP 存储，利用 Red Hat OpenShift Virtualization 创建虚拟机</block>
+  <block id="4bb5f5d24bc6f0c4a795cf5f09049d44" category="paragraph">除了使用 OpenShift 虚拟化 UI 创建虚拟机的方法外，还有其他方法可以在 OpenShift 虚拟化上创建虚拟机。本节概述了其中一些方法。</block>
+  <block id="6205a0b1d88b6ea05268730dc69ddd8f" category="section-title">使用红帽 OpenShift 虚拟化从 YAML 文件创建虚拟机</block>
+  <block id="ed74a097718f7d0c3fcf8fbbc0d452f9" category="paragraph">也可以通过使用<block ref="0171c4a43d7468d6287b0ab615716b73" prefix=" " category="inline-code"></block>命令应用 YAML 文件来创建虚拟机。对于喜欢使用 CLI 或希望使用脚本自动创建虚拟机的用户，此方法非常有用。要使用此方法创建虚拟机，可以创建定义虚拟机及其关联资源（如虚拟机磁盘的 PVC）的 YAML 文件。然后，您可以使用<block ref="677c307da73d68d3c861682c2f154f5b" prefix=" " category="inline-code"></block>命令应用 YAML 文件，在 OpenShift 集群上创建虚拟机。</block>
+  <block id="5b72a9c65bf5dbf52465de0a73dc35e0" category="paragraph">您可以使用 OpenShift Virtualization 从快照创建虚拟机。此过程包括创建 VolumeSnapshotClass、获取 VM 的持久卷声明 (PVC) 的快照、将快照还原到新的 PVC，以及部署使用还原的 PVC 作为根磁盘的新 VM。</block>
+  <block id="af5ff993e5007159afe8ff8819449664" category="paragraph">**先决条件**</block>
+  <block id="e6f9e2920f2e111e252ed1994edf4dc4" category="inline-link-macro">第 3 步创建 VolumeSnapshotClass 配置</block>
+  <block id="f00ac29f54268219b35489405ca53951" category="paragraph">您必须在 Trident 存储类上配置已附加 PVC 的现有虚拟机，并且该虚拟机必须处于运行状态，然后才能拍摄 PVC 的快照。您必须创建一个 VolumeSnapshotClass，以便用于创建 VolumeSnapshot。这将作为安装 OpenShift 虚拟化的先决条件的一部分创建。有关详细信息，请参阅 <block ref="58d3e2ca6b1df9b3ba21a705511d935e" category="inline-link-macro-rx"></block>。</block>
+  <block id="ff867c517aff8db2f1c0fbcf4bf704f2" category="paragraph">**要创建虚拟机的快照，请完成以下步骤：**</block>
+  <block id="824b3a350dea8c86c5434de75b5d9a21" category="paragraph">**从快照创建新虚拟机**</block>
+  <block id="5f51a27f5ef1d173432850a3e8568922" category="section-title">使用 Trident 在 OpenShift Virtualization 中克隆虚拟机</block>
+  <block id="627e60a465e24d31af90f8b149252dfa" category="paragraph">此过程包括利用 Trident CSI 卷克隆，允许您通过关闭源虚拟机或保持其运行来创建新的虚拟机。</block>
+  <block id="aa265b13e76b3b3f133381aea1646399" category="paragraph">**虚拟机克隆**</block>
+  <block id="00cd3350d791bb28a39bfb8bbf1ba7c8" category="paragraph">**通过关闭源虚拟机**</block>
+  <block id="66f3d4ad9af22e8e76e6feefca1e9209" category="paragraph">**通过保持源虚拟机处于活动状态**</block>
+  <block id="e83e88f8303b4c297251277447810206" category="doc">使用带有 Red Hat OpenShift 虚拟化的 ONTAP 存储创建虚拟机</block>
+  <block id="f373de54bb8a1869ab7235a974be3ccc" category="paragraph">使用 OpenShift Virtualization 创建虚拟机。此过程包括选择操作系统模板、配置 StorageClasses 以及自定义 VM 参数以满足特定要求。作为先决条件，您应已创建 Trident 后端、StorageClass 和卷快照类对象。有关详细信息，请参阅 <block ref="9560b5e03b7757e35e94a89a11bb7aec" category="inline-link-macro-rx"></block>。</block>
+  <block id="654c2f7e11dbd98a8bb33cdf48d7910e" category="admonition">必须将 Trident StorageClass 设置为集群上的默认 StorageClass，以确保为 VM 磁盘创建的 PVC 使用 Trident 后端进行配置。集群上可以有多个 StorageClasses，但默认 StorageClass 必须用于为 VM 启动磁盘配置 PVC。如果需要，其他磁盘可以使用其他 StorageClasses。</block>
+  <block id="80ed665cc4d1831a4451933746da5921" category="paragraph">虚拟机已创建并启动，并进入 *Running* 状态。它使用默认 StorageClass 自动为启动磁盘创建 PVC 和相应的 PV。为了能够在将来对虚拟机执行实时迁移，您必须确保用于磁盘的 StorageClass 能够支持 RWX 卷。这是实时迁移的要求。ontap-nas 和 ontap-san（iSCSI 和 NVMe/TCP 协议的 volumeMode 块）可以支持使用各自 StorageClasses 创建的卷的 RWX 访问模式。</block>
+  <block id="6fd0b9a9921a3ac26915c6adaf423c4b" category="inline-link-macro">用于配置 StorageClass 的部分</block>
+  <block id="9309eed3b51c68a92f717f67b927aacb" category="paragraph">要在集群上配置 ontap-san StorageClass，请参阅 <block ref="717625525e2df59fd6a01ff8bd6d69cc" category="inline-link-macro-rx"></block>。</block>
+  <block id="d82bfe52a55a14317a3fdb2d19486228" category="admonition">单击 Quick create VirtualMachine 将使用默认的 StorageClass 来为 VM 的可引导根磁盘创建 PVC 和 PV。您可以通过选择 Customize VirtualMachine &gt; Customize VirtualMachine parameters &gt; Disks，然后编辑磁盘以使用所需的 StorageClass，从而为该磁盘选择其他 StorageClass。</block>
+  <block id="f98bd63df9b4ce237dcf5f48c4979339" category="inline-image-macro">虚拟机创建 - 选择模板</block>
+  <block id="66e41c91d9f64e66e00f5a7ee39a4545" category="paragraph"><block ref="66e41c91d9f64e66e00f5a7ee39a4545" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="337ab6ac5d6125799bfcdf6bc395de46" category="inline-image-macro">创建 VM - 选择 OS</block>
+  <block id="dc637a3957a0ff09768ab6dc445f48ae" category="paragraph"><block ref="dc637a3957a0ff09768ab6dc445f48ae" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="4e1b814bd1d444041b98ee65b6e50936" category="inline-image-macro">虚拟机创建 - 添加磁盘</block>
+  <block id="ab20be08912d2b255306b5daa22d96b9" category="paragraph"><block ref="ab20be08912d2b255306b5daa22d96b9" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="56610040d70cc7bc2153236eb1fec165" category="inline-image-macro">VM 创建 - 审核并创建</block>
+  <block id="77c00e23739b5efa73af004b9c6b3868" category="paragraph"><block ref="77c00e23739b5efa73af004b9c6b3868" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="4d096a8fc278cf7487caa86e95f550c3" category="list-text"><block ref="4d096a8fc278cf7487caa86e95f550c3" category="inline-link-macro-rx"></block></block>
+  <block id="b37c6ebf7e345a7b6a3bb3dd7a8af156" category="section-title">虚拟机的单个文件还原</block>
+  <block id="f55ba0533d8f0b107b9df54e1218cd05" category="paragraph">此单文件还原方法仅适用于在客户端 Pod 中作为文件系统装载的 NAS/基于文件的卷，例如 NFS 卷。它不适用于 SAN/原始块卷，包括如前所示使用<block ref="f772287729bdf01bff1301d6925477bb" prefix=" " category="inline-code"></block>配置的虚拟机磁盘。</block>
+  <block id="0ac773dac017a29f5a8572f942486326" category="paragraph">对于受支持的基于 NAS/文件的卷，恢复特定文件的简单方法是使备份卷上的快照目录对客户端可见。这可以通过编辑 Trident 后端配置来实现，具体方法是包含 defaults 部分并将<block ref="7ad68fdac2eac069eb8ed0fc45b0fb74" prefix=" " category="inline-code"></block>参数设置为<block ref="b326b5062b2f0e69046810717534cb09" prefix=" " category="inline-code"></block>。这样即可从与主卷相同的挂载位置访问<block ref="a15da8cecb1f1192c4d913b8ba676121" prefix=" " category="inline-code"></block>目录。<block ref="a15da8cecb1f1192c4d913b8ba676121" prefix=" " category="inline-code"></block>目录包含所有快照。您可以切换到所需的快照目录，找到要还原的文件，然后将其复制到所需位置。</block>
+  <block id="815d9ee68bd2412d1573877df1020bcd" category="admonition">此方法会向具有挂载访问权限的工作负载/用户公开历史数据，并且可能会违反最小特权/合规性预期。请考虑安全/运营影响，并注意您应该临时启用它，并在恢复文件后将其恢复。此外，如果您使用的是 NFS 第 4 版，则在使用 <block ref="44ba5ca65651b4f36f1927576dd35436" prefix=" " category="inline-code"></block> 命令列出文件时，将无法看到 <block ref="a15da8cecb1f1192c4d913b8ba676121" prefix=" " category="inline-code"></block> 目录。但是，您可以 <block ref="6865aeb3a9ed28f9a79ec454b259e5d0" prefix=" " category="inline-code"></block> 到 <block ref="a15da8cecb1f1192c4d913b8ba676121" prefix=" " category="inline-code"></block> 目录。</block>
+  <block id="0cfdce87b16c6f2c2d55c3ed19db5163" category="example-title">通过访问 .snapshot 目录并从快照复制文件进行单个文件还原的示例</block>
+  <block id="87c7bbe14ca468636751bd07a58ac4ba" category="inline-image-macro">VM 的 pod 和 PVC</block>
+  <block id="c657a0fbfba89dd4ce553a32efa3ecc4" category="paragraph"><block ref="c657a0fbfba89dd4ce553a32efa3ecc4" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="daf227423ecd5212a11f1fc1c390c8fd" category="inline-image-macro">虚拟机磁盘的 ONTAP 卷名称</block>
+  <block id="0960ece6df3a9aa2b95d39f9f5565ec4" category="paragraph"><block ref="0960ece6df3a9aa2b95d39f9f5565ec4" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="bf0b6ba167d81e543b4489a40081f93b" category="inline-image-macro">快照目录在客户端中可见</block>
+  <block id="7c1b8d2c5c8c30f93014b74384b58ecf" category="paragraph"><block ref="7c1b8d2c5c8c30f93014b74384b58ecf" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="93d8871c978a32df54b1d5f4e1d7c272" category="inline-image-macro">VM 中的 mount 目录</block>
+  <block id="1b64f8932eaaebc1ff4454bc8a04da7e" category="paragraph"><block ref="1b64f8932eaaebc1ff4454bc8a04da7e" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="5dd63b826b49c6a66e02dfd2f32e739c" category="inline-image-macro">丢失虚拟机中的文件并将文件从快照目录复制到主目录以还原它</block>
+  <block id="3c170f64a72c8b4261742adc8ac2ca25" category="paragraph"><block ref="3c170f64a72c8b4261742adc8ac2ca25" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="feac6b98126db3badd7ad37960a8ecaf" category="sidebar">OpenShift 虚拟化部署模型</block>
+  <block id="0793521bafc290659c843c314205d45f" category="sidebar">存储和虚拟化入门</block>
+  <block id="66cc9a15a430dd2501f828aaee650e8c" category="sidebar">存储入门</block>
+  <block id="55ee9ea0184e0912612878b7786f7e40" category="sidebar">存储资源调配</block>
+  <block id="36e5d7b7b14e46d14ad80d6379119186" category="sidebar">部署 VM</block>
+  <block id="f5b5ab06843c14569341d7306f64f841" category="sidebar">创建虚拟机的其他方法</block>
+  <block id="084c455ac309b1d7f872102a3bd448fe" category="sidebar">集群节点之间 VM 的实时迁移</block>
+  <block id="f0b1bcc288e557d769ffacabadaa19e8" category="sidebar">存储类之间 VM 的存储迁移</block>
+  <block id="9895fe05822e1ac218734aecea63c4c1" category="sidebar">使用 NetApp 存储保护 VM</block>
+  <block id="891d6e5d08fcdff0fde5679e860be892" category="sidebar">使用 Trident Protect 备份和还原</block>
+  <block id="c2532ce9bbb06a8eaed5a9b4985daaa0" category="sidebar">使用第三方工具进行备份和还原</block>
+  <block id="bdd7a155ab66e9b903a8d2476321ca1f" category="sidebar">DR 的要求和注意事项</block>
+  <block id="c0a3617b8b5c1e0817a71008a7ef5d33" category="sidebar">灾难恢复的源集群设置</block>
+  <block id="3bb902ee80977f61058d77b8a838e5f5" category="sidebar">灾难恢复的目标集群设置</block>
+  <block id="f50e5980fcda6539b2c9f5089a1b966c" category="sidebar">灾难恢复 - 手动 DR</block>
+  <block id="f06bb60a89565306b6074d70367e458f" category="sidebar">故障回复 - 实时 DR</block>
+  <block id="295b519ef048bff2edb8931d30976e63" category="sidebar">迁移过程概述</block>
+  <block id="6762973af9b127d271f0d2b2aea0bc96" category="sidebar">部署模型</block>
+  <block id="11c5688b1e5be341844c28c94f9f3602" category="sidebar">Red Hat OpenShift 虚拟化部署模型</block>
+  <block id="9d97612811d57d7dfde82e28fc3bf8bc" category="sidebar">Red Hat OpenShift 存储和虚拟化</block>
+  <block id="8e0e4dcfd6008936c01b448fab253d4e" category="sidebar">Red Hat OpenShift 虚拟化灾难恢复</block>
+  <block id="5a2ebfb8baa378cfcfcba58bbb1380c2" category="sidebar">要求</block>
+  <block id="cff9b0e8b1c1c7426b72f45e3a9ac644" category="sidebar">源集群设置</block>
+  <block id="824c1665365457f3bde955b98c2b7f55" category="sidebar">目标集群设置</block>
+  <block id="2aeae710edc424cc326d6cb63b550031" category="sidebar">Red Hat OpenShift Virtualization Monitor 虚拟机与 Data Infrastructure Insights</block>
 </blocks>

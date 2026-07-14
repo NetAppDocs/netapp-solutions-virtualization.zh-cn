@@ -18,6 +18,7 @@ Red Hat OpenShift 容器平台将开发和 IT 运营整合在一个平台上，�
 
 
 
+[[red-hat-openshift-provides-the-following-capabilities]]
 == Red Hat OpenShift 提供以下功能：
 
 * *自助服务配置* 开发人员可以使用他们最常用的工具快速轻松地按需创建应用程序，同时操作保留对整个环境的完全控制。
@@ -37,6 +38,7 @@ image:redhat-openshift-004.png["该图显示输入/输出对话框或表示书�
 
 
 
+[[deployment-methods-for-red-hat-openshift]]
 == Red Hat OpenShift 的部署方法
 
 从 Red Hat OpenShift 4 开始，OpenShift 的部署方法包括使用用户配置基础设施 (UPI) 进行高度定制的部署的手动部署或使用安装程序配置基础设施 (IPI) 进行全自动部署。
@@ -45,6 +47,7 @@ image:redhat-openshift-004.png["该图显示输入/输出对话框或表示书�
 
 
 
+[[ipi-installation-of-red-hat-openshift]]
 === Red Hat OpenShift 的 IPI 安装
 
 OpenShift 的安装程序配置基础设施 (IPI) 部署涉及以下高级步骤：
@@ -63,6 +66,7 @@ image:redhat-openshift-009.png["该图显示输入/输出对话框或表示书�
 
 
 
+[[netapp-validated-openshift-deployments]]
 === NetApp验证的 OpenShift 部署
 
 NetApp已在其实验室中使用安装程序配置基础架构 (IPI) 部署方法在以下每个数据中心环境中测试并验证了 Red Hat OpenShift 的部署：

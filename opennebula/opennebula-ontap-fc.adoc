@@ -18,6 +18,7 @@ summary: '使用 ONTAP 为 OpenNebula 配置带有光纤通道的逻辑卷管理
 
 
 
+[[initial-virtualization-administrator-tasks]]
 == 初始虚拟化管理员任务
 
 完成这些初始任务，让 OpenNebula 主机为 FC 连接做好准备，并为存储管理员收集必要的信息。
@@ -60,6 +61,7 @@ cat /sys/class/fc_host/host*/port_name
 
 
 
+[[storage-administrator-tasks]]
 == 存储管理员任务
 
 如果您是ONTAP新手，请使用系统管理器以获得更好的体验。
@@ -73,6 +75,7 @@ cat /sys/class/fc_host/host*/port_name
 
 
 
+[[final-virtualization-administrator-tasks]]
 == 最终虚拟化管理员任务
 
 完成这些任务以在 OpenNebula 中将 FC LUN 配置为共享 LVM 数据存储。

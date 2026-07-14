@@ -18,6 +18,7 @@ SnapCenter Plug-in for VMware vSphere可对虚拟机、数据存储区和 VMDK �
 
 
 
+[[documentation-resources]]
 == 文档资源
 
 有关详细信息，请参阅以下文档资源。
@@ -27,6 +28,7 @@ SnapCenter Plug-in for VMware vSphere可对虚拟机、数据存储区和 VMDK �
 
 
 
+[[solution-resources]]
 == 解决方案资源
 
 请参阅以下 3-2-1 备份解决方案，该方案包含SnapCenter Plug-in for VMware vSphere以及适用于虚拟机的NetApp备份和恢复功能。
@@ -37,6 +39,7 @@ Tech ONTAP博客：link:https://community.netapp.com/t5/Tech-ONTAP-Blogs/3-2-1-D
 
 
 
+[[video-resources]]
 == 视频资源
 
 .SnapCenter Plug-in for VMware vSphere- 解决方案先决条件

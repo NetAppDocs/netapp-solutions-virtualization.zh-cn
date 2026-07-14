@@ -18,6 +18,7 @@ summary: '本技术报告介绍了如何使用 Cirrus Migrate Cloud (CMC) 的 Mi
 
 
 
+[[configure-fsx-ontap-and-cirrus-data-for-migration-operations]]
 == 配置 FSx ONTAP和 Cirrus Data 进行迁移操作
 
 这 https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/getting-started-step1.html["分步部署指南"]展示如何将 FSx ONTAP卷添加到 VPC。由于这些步骤本质上是连续的，因此请确保按顺序涵盖它们。
@@ -91,6 +92,7 @@ image:migrate-ec2-fsxn-006.png["Cirrus Data“添加集成”用户界面图片"
 
 
 
+[[host-registration-scenario]]
 == 主机注册场景
 
 驻留在本地数据中心 vCenter 上的来宾 VMware VM：
@@ -233,6 +235,7 @@ image:migrate-ec2-fsxn-013.png["Cirrus Data 迁移完成的图像"]
 
 
 
+[[post-migration-verification]]
 == 迁移后验证
 
 让我们看一下运行 Windows Server OS 的已迁移 Amazon EC2 实例以及已完成的以下步骤：

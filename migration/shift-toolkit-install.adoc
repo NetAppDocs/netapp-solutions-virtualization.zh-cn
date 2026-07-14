@@ -17,6 +17,7 @@ summary: 在确认您的环境满足准备和先决条件要求后，安装或�
 
 
 
+[[install-the-shift-toolkit]]
 == 安装 Shift 工具包
 
 下载并运行安装程序，在您的 Windows 服务器上安装 Shift Toolkit。
@@ -137,6 +138,7 @@ NOTE: 对于无法访问互联网的虚拟机，离线安装程序执行相同�
 
 
 
+[[upgrade-the-shift-toolkit]]
 == 升级换挡工具包
 
 升级过程完全自动化，只需单击一下即可完成。

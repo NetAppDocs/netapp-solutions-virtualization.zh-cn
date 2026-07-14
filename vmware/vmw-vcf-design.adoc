@@ -18,6 +18,7 @@ summary: 您可以从 VCF 9 重新开始，也可以重复使用现有部署来�
 
 
 
+[[storage-options]]
 == 存储选项
 
 VMware Cloud Foundation with ONTAP支持多种存储配置，以满足不同的性能、可扩展性和可用性要求。下表总结了适合您的环境的主要存储选项和补充存储选项。
@@ -50,12 +51,14 @@ VMware Cloud Foundation with ONTAP支持多种存储配置，以满足不同的�
 |===
 
 
+[[blueprints]]
 == 蓝图
 
 以下蓝图说明了 VMware Cloud Foundation 和ONTAP在各种站点和资源场景中的常见部署模型。
 
 
 
+[[vcf-fleet-in-a-single-site-with-minimal-footprint]]
 === VCF 车队位于单个站点，占地面积极小
 
 此设计蓝图用于在具有最少资源的单个 vSphere 集群中部署管理和工作负载组件。它支持 VMFS 和 NFSv3 主要数据存储以及具有双节点配置的简单部署选项。如果您计划将 VCF 自动化与所有应用程序组织模型一起使用，则需要第二个集群来部署 vSphere Supervisor 和 NSX Edge 节点。
@@ -71,6 +74,7 @@ NOTE: 如果您缺乏资源来探索 VCF，许多云提供商都提供 VCF 即�
 
 
 
+[[vcf-fleet-in-a-single-site]]
 === 单一站点内的 VCF 车队
 
 此设计蓝图适用于依赖应用程序高可用性的单个主数据中心的客户。通常，它涉及单个 VCF 环境。您可以将ASA用于块工作负载，将AFF用于文件/统一工作负载。
@@ -94,6 +98,7 @@ video::e7cf90b9-2744-404b-9831-b33f00164626[panopto]
 
 
 
+[[vcf-fleet-with-multiple-sites-in-a-single-region]]
 === 单个区域内有多个站点的 VCF 机群
 
 此设计适用于通过将工作负载分散到不同的故障域来提供具有更高可用性的类似云的服务的客户。
@@ -116,6 +121,7 @@ Trident Protect 或NetApp Backup and Recovery for Kubernetes 可保护 VKS 集�
 
 
 
+[[vcf-fleet-with-multiple-sites-across-multiple-regions]]
 === 拥有多个区域多个站点的 VCF 车队
 
 此设计针对的是遍布全球的客户，提供就近的服务和灾难恢复解决方案。
@@ -143,6 +149,7 @@ ONTAP工具为数据存储区复制设置提供了 UI。NetApp Console还可以�
 
 
 
+[[vcf-fleet-with-multiple-sites-in-a-single-region-plus-additional-regions]]
 === VCF 机群在单个区域和其他区域设有多个站点
 
 该设计解决了虚拟机和 VKS 应用程序的可用性和灾难恢复问题。

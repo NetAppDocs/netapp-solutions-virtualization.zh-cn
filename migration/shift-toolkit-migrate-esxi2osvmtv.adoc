@@ -18,6 +18,7 @@ summary: 使用 Shift Toolkit 和 Migration Toolkit for virtualization 将虚拟
 
 
 
+[[before-you-begin]]
 == 开始之前
 
 开始迁移之前，请确认满足以下先决条件。
@@ -54,6 +55,7 @@ NOTE: 当 VMDK 放置在 qtree 中时，Shift Toolkit 使用 ONTAP-NAS-economy �
 
 
 
+[[step-1-create-migration-plans-using-migration-toolkit-for-virtualization]]
 == 步骤 1：使用虚拟化迁移工具包创建迁移计划
 
 . 为了充分利用虚拟机 (VM) 的快速转换优势，第一步是使用 MTV 为虚拟机创建迁移计划。link:https://docs.redhat.com/en/documentation/migration_toolkit_for_virtualization/2.3/html/installing_and_using_the_migration_toolkit_for_virtualization/migrating-vms-web-console["Web 控制台"]或者link:https://docs.redhat.com/en/documentation/migration_toolkit_for_virtualization/2.0/html/installing_and_using_the_migration_toolkit_for_virtualization/migrating-virtual-machines-to-virt_mtv#migrating-virtual-machines-cli_mtv["命令行"]。

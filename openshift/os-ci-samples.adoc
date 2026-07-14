@@ -18,6 +18,7 @@ NetApp Data Infrastructure Insights （以前称为Cloud Insights）为 OpenShif
 
 
 
+[[monitoring-based-on-events-and-creating-alerts]]
 == **基于事件的监控并创建警报**
 
 下面是一个示例，其中包含 OpenShift Virtualization 中的 VM 的命名空间根据事件进行监控。本示例中，基于**logs.kubernetes**.event为集群中的指定命名空间创建一个监视器。
@@ -28,6 +29,7 @@ image:redhat-openshift-ci-samples-001.png["Cloud Insights示例"]
 
 
 
+[[change-analytics]]
 == **变更分析**
 
 通过变更分析，您可以了解集群状态的变化，包括谁进行了变更，这有助于解决问题。
@@ -42,6 +44,7 @@ image:redhat-openshift-ci-samples-004.png["Cloud Insights示例"]
 
 
 
+[[backend-storage-mapping]]
 == 后端存储映射
 
 通过Cloud Insights，您可以轻松查看 VM 磁盘的后端存储以及有关 PVC 的几个统计信息。

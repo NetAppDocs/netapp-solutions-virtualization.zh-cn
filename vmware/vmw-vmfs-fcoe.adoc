@@ -18,6 +18,7 @@ summary: 本页面提供在 VMware vSphere 环境中部署NetApp ONTAP存储 FCo
 
 
 
+[[what-you-need]]
 == 你需要什么
 
 * 管理 vSphere 环境和ONTAP所需的基本技能
@@ -51,6 +52,7 @@ summary: 本页面提供在 VMware vSphere 环境中部署NetApp ONTAP存储 FCo
 
 
 
+[[provision-a-vmfs-datastore]]
 == 配置 VMFS 数据存储区
 
 * 检查与 https://mysupport.netapp.com/matrix["互操作性表工具 (IMT)"]。
@@ -59,6 +61,7 @@ summary: 本页面提供在 VMware vSphere 环境中部署NetApp ONTAP存储 FCo
 
 
 
+[[ontap-tasks]]
 == ONTAP 任务
 
 . link:https://docs.netapp.com/us-en/ontap-cli-98/system-license-show.html["验证 FCP 的ONTAP许可证。"]
@@ -86,6 +89,7 @@ summary: 本页面提供在 VMware vSphere 环境中部署NetApp ONTAP存储 FCo
 
 
 
+[[vmware-vsphere-tasks]]
 == VMware vSphere 任务
 
 . 验证 HBA 驱动程序是否已安装。  VMware 支持的 HBA 具有开箱即用的驱动程序，应该在link:++https://techdocs.broadcom.com/us/en/vmware-cis/vsphere/vsphere/7-0/vsphere-storage-7-0/getting-started-with-a-traditional-storage-model-in-vsphere-environment/supported-storage-adapters/view-storage-adapters-available-on-an-esxi-host.html++["存储适配器信息"]。

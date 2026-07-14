@@ -17,6 +17,7 @@ NOTE: 使用 VCF Automation、vSphere Supervisor（或其他 Kubernetes 版本�
 
 
 
+[[network-requirements]]
 == 网络要求
 
 .使用 vMotion 进行虚拟机迁移
@@ -38,6 +39,7 @@ TIP: 确保 vMotion 和 Provisioning VMkernel 接口使用的端口组至少有�
 ====
 
 
+[[vm-migration-scenarios]]
 == 虚拟机迁移场景
 
 vMotion 通常用于迁移虚拟机，而不管其电源状态如何。以下是针对特定场景的额外注意事项和迁移程序。
@@ -412,6 +414,7 @@ TIP: 当源虚拟机驻留在块 vVol 数据存储上时，可以使用SnapMirro
 ====
 
 
+[[vm-template-migration-scenarios]]
 == 虚拟机模板迁移场景
 
 VM 模板可以由 vCenter Server 或内容库管理。  VM 模板、OVF 和 OVA 模板的分发，其他类型文件的发布方式是将其发布在本地内容库中，远程内容库可以订阅它。
@@ -494,6 +497,7 @@ NOTE: 有关内容库中虚拟机模板的更多详细信息，请查看 https:/
 ====
 
 
+[[use-cases]]
 == 使用案例
 
 .从第三方存储系统（包括 vSAN）迁移到ONTAP数据存储。
@@ -527,6 +531,7 @@ NOTE: 为了允许与源 vCenter 上其他群集上的现有虚拟机进行网�
 ====
 
 
+[[additional-resources]]
 == 其他资源
 
 * https://techdocs.broadcom.com/us/en/vmware-cis/vsphere/vsphere/8-0/vcenter-and-host-management-8-0/migrating-virtual-machines-host-management.html["vSphere 虚拟机迁移"]

@@ -18,6 +18,7 @@ NetApp ONTAP是适用于 VMware vSphere 的领先存储解决方案，为数据�
 
 
 
+[[introduction]]
 == 简介
 
 NetApp继续增加创新功能以简化存储管理，同时降低成本并增强对基于 VMware 的整合云虚拟基础架构的信心。该解决方案集合引入了适用于 VMware vSphere Foundation 和 VMware Cloud Foundation 的ONTAP产品，包括最新产品信息和最佳实践，以简化部署、降低风险和简化管理。
@@ -26,6 +27,7 @@ NetApp继续增加创新功能以简化存储管理，同时降低成本并增�
 
 
 
+[[why-ontap-for-vmware]]
 == 为什么选择ONTAP for VMware
 
 成千上万的客户选择ONTAP作为 vSphere 存储解决方案的原因有很多，例如支持 SAN 和 NAS 协议的统一存储系统、使用节省空间的快照的强大数据保护功能以及帮助您管理应用程序数据的丰富工具。使用与虚拟机管理程序分离的存储系统允许您卸载许多功能并最大化您对 vSphere 主机系统的投资。这种方法不仅可以确保您的主机资源专注于应用程序工作负载，还可以避免存储操作对应用程序的随机性能产生影响。

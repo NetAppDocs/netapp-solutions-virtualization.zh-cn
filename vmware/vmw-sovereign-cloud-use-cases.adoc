@@ -23,6 +23,8 @@ NetApp通过集成多种NetApp技术为 VMware Sovereign Cloud 概念提供支�
 
 
 
+[[netapp-storagegrid-as-an-object-store-extension]]
+[[storageGRID]]
 == NetApp StorageGRID作为对象存储扩展
 
 NetApp与 VMware 合作，将NetApp StorageGRID集成到 VMware Cloud Director 中，以支持 VMware Sovereign Cloud。  VMware Cloud Director 的这个插件使服务提供商能够使用StorageGRID作为其对象存储产品（无论使用情况如何），并允许通过服务提供商用来管理其产品目录其他部分的相同 VMware 多租户解决方案（VMware Cloud Director）来管理StorageGRID 。

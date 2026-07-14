@@ -20,6 +20,7 @@ summary: 使用 Proxmox Backup Server 和NetApp ONTAP存储保护 Proxmox VE 工
 
 
 
+[[before-you-begin]]
 == 开始之前
 
 * 确保 PBS 和ONTAP存储之间有冗余的网络路径，以实现高可用性和高性能。
@@ -31,6 +32,7 @@ summary: 使用 Proxmox Backup Server 和NetApp ONTAP存储保护 Proxmox VE 工
 
 
 
+[[configure-datastores]]
 == 配置数据存储
 
 使用NetApp ONTAP存储配置 Proxmox 备份服务器数据存储。这包括在 PBS 主机上挂载ONTAP存储、在 PBS Web 界面中创建本地数据存储，以及（可选）配置ONTAP S3 存储以进行异地备份和长期保留。
@@ -94,6 +96,7 @@ image::proxmox-wkld-dp-pbs-006.png[PBS 中的 S3 数据存储配置文件]
 ====
 
 
+[[create-local-sync-jobs-to-ontap-s3-storage]]
 == 创建本地同步作业到ONTAP S3 存储。
 
 + 通过在 PBS 中创建本地同步作业，将数据从本地 PBS 数据存储迁移到ONTAP S3 存储。此作业将备份数据从本地数据存储复制到 S3 数据存储，以便进行异地存储和长期保留。
@@ -122,6 +125,7 @@ NOTE: 对于异地存储和使用ONTAP存储的更长时间保留，可以使用
 
 
 
+[[add-proxmox-backup-server-to-proxmox-ve-cluster]]
 == 将 Proxmox 备份服务器添加到 Proxmox VE 集群
 
 添加 Proxmox Backup Server 作为存储目标，以启用虚拟机和容器的备份操作。
@@ -157,6 +161,7 @@ Proxmox VE 集群现在可以使用 PBS 数据存储对虚拟机和容器进行�
 
 
 
+[[perform-backups]]
 == 执行备份
 
 将 Proxmox VE 工作负载备份到 Proxmox 备份服务器。这包括执行按需备份、配置计划备份作业、备份主机配置文件以及使用备份前和备份后脚本执行自定义操作。
@@ -280,6 +285,7 @@ NOTE: 也可以使用以下方法在虚拟机或容器级别设置钩子脚本�
 
 
 
+[[restore-vms-and-containers]]
 == 恢复虚拟机和容器
 
 直接从 Proxmox VE Web 界面或 PBS 存储恢复虚拟机和容器。
@@ -307,6 +313,7 @@ image::proxmox-wkld-dp-pbs-022.png[在 Proxmox VE UI 中从 PBS 存储恢复丢�
 
 
 
+[[configure-disaster-recovery-with-snapmirror]]
 == 使用SnapMirror配置灾难恢复
 
 使用SnapMirror将ONTAP存储上的 PBS 数据存储复制到另一个ONTAP系统，以实现灾难恢复。这样可以保护备份数据，并在站点故障后实现数据恢复。
@@ -341,6 +348,7 @@ image::proxmox-wkld-dp-pbs-024.png[在PBS中重用现有的S3数据存储。]
 
 
 
+[[monitor-multiple-clusters-with-proxmox-datacenter-manager]]
 == 使用 Proxmox 数据中心管理器监控多个集群
 
 使用 Proxmox 数据中心管理器 (PDM) 监控和管理多个 Proxmox VE 和 Proxmox 备份服务器实例。PDM 提供集中式管理界面，用于监控多个 Proxmox VE 集群和 PBS 实例的运行状况、性能和状态。
@@ -353,6 +361,7 @@ image::proxmox-wkld-dp-pbs-025.png[Proxmox 数据中心管理器概述]
 ====
 
 
+[[summary]]
 == 摘要
 
 Proxmox Backup Server 与NetApp ONTAP存储集成，可为 Proxmox VE 工作负载提供强大而高效的数据保护。组织可以通过利用 ONTAP 的高级数据管理功能和 PBS 的备份功能来确保虚拟化工作负载的可用性和完整性。

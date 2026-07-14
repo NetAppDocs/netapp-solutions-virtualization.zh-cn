@@ -18,6 +18,7 @@ summary: 搭载NetApp ONTAP 的Red Hat OpenShift 虚拟化
 
 
 
+[[steps-to-create-a-backup-of-a-vm]]
 == 创建虚拟机备份的步骤
 
 要创建整个 VM（VM 元数据和 VM 磁盘）的按需备份，请单击“备份”选项卡。这将创建一个备份自定义资源 (CR)。提供了一个示例 yaml 来创建备份 CR。使用此 yaml，将备份指定命名空间中的 VM 及其磁盘。可以设置其他参数，如下所示link:https://docs.openshift.com/container-platform/4.14/backup_and_restore/application_backup_and_restore/backing_up_and_restoring/oadp-creating-backup-cr.html["文档"]。
@@ -51,6 +52,7 @@ image:redhat-openshift-oadp-backup-002.png["S3 中的备份对象"]
 
 
 
+[[creating-scheduled-backups-for-vms-in-openshift-virtualization]]
 == 在 OpenShift 虚拟化中为虚拟机创建计划备份
 
 要按计划创建备份，您需要创建计划 CR。该计划只是一个 Cron 表达式，允许您指定要创建备份的时间。用于创建 Schedule CR 的示例 yaml。

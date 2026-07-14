@@ -18,6 +18,7 @@ summary: 该解决方案提供了在NetApp存储上部署 Hyper-V 所需的步�
 
 
 
+[[pre-requisites-for-deployment-procedure]]
 == 部署过程的先决条件
 
 * 所有硬件必须针对您正在运行的 Windows Server 版本进行认证，并且完整的故障转移群集解决方案必须通过验证配置向导中的所有测试
@@ -39,6 +40,7 @@ summary: 该解决方案提供了在NetApp存储上部署 Hyper-V 所需的步�
 
 
 
+[[installing-windows-features]]
 === 安装 Windows 功能
 
 以下步骤介绍如何安装所需的 Windows Server 2022 功能。
@@ -58,6 +60,7 @@ Add-WindowsFeature Hyper-V, Failover-Clustering, Multipath-IO `-IncludeManagemen
 
 
 
+[[configuring-networks]]
 === 配置网络
 
 适当的网络规划是实现容错部署的关键。为每种类型的流量设置不同的物理网络适配器是故障转移群集的标准建议。通过添加虚拟网络适配器、交换机嵌入式组合 (SET) 以及引入 Hyper-V QoS 等功能，可以将网络流量压缩到更少的物理适配器上。设计网络配置时要考虑服务质量、冗余和流量隔离。结合流量隔离技术配置 VLAN 等网络隔离技术可为流量和服务质量提供冗余，从而改善并增加存储流量性能的一致性。
@@ -79,6 +82,7 @@ Add-WindowsFeature Hyper-V, Failover-Clustering, Multipath-IO `-IncludeManagemen
 
 
 
+[[deciding-on-storage-design-for-hyper-v]]
 === 确定 Hyper-V 的存储设计
 
 Hyper-V支持NAS（SMB3.0）和块存储（iSCSI/FC）作为虚拟机的后备存储。 NetApp支持 SMB3.0、iSCSI 和 FC 协议，可用作虚拟机的本机存储 - 使用 iSCSI/FC 和 SMB3 的集群共享卷 (CSV)。对于需要直接访问存储的工作负载，客户还可以使用 SMB3 和 iSCSI 作为来宾连接存储选项。  ONTAP为需要混合协议访问的工作负载提供了统一存储（全闪存阵列）的灵活选项，并为仅 SAN 配置提供了 SAN 优化存储（全 SAN 阵列）。
@@ -100,6 +104,7 @@ Hyper-V支持NAS（SMB3.0）和块存储（iSCSI/FC）作为虚拟机的后备�
 
 
 
+[[installing-netapp-windows-iscsi-host-utilities]]
 === 安装NetApp Windows iSCSI 主机实用程序
 
 以下部分介绍如何执行NetApp Windows iSCSI Host Utilities 的无人值守安装。有关安装的详细信息，请参阅link:https://docs.netapp.com/us-en/ontap-sanhost/hu_wuhu_72.html["安装 Windows Unified Host Utilities 7.2（或最新支持的版本）"]
@@ -125,6 +130,7 @@ Unblock-file ~\Downloads\netapp_windows_host_utilities_7.2_x64.msi
 
 
 
+[[configuring-windows-host-iscsi-initiator]]
 === 配置 Windows 主机 iSCSI 启动器
 
 以下步骤介绍如何配置内置的 Microsoft iSCSI 启动器。
@@ -182,6 +188,7 @@ Get-IscsiTarget | Connect-IscsiTarget -IsPersistent $true -IsMultipathEnabled $t
 
 
 
+[[creating-a-cluster]]
 === 创建集群
 
 *仅限一台服务器*

@@ -20,6 +20,7 @@ Shift Toolkit 能够通过目标环境中的磁盘格式转换和网络重新配
 
 
 
+[[before-you-begin]]
 == 开始之前
 
 开始迁移之前，请确认满足以下先决条件。
@@ -57,6 +58,7 @@ NOTE: 当前版本不支持使用 SCVMM 进行迁移。
 
 
 
+[[step-1-add-the-destination-site-hyper-v]]
 == 步骤 1：添加目标站点（Hyper-V）
 
 将目标 Hyper-V 环境添加到 Shift 工具包中。
@@ -117,6 +119,7 @@ NOTE: 源和目标存储系统应该相同，因为磁盘格式转换发生在�
 
 
 
+[[step-2-create-resource-groups]]
 == 步骤 2：创建资源组
 
 将虚拟机组织成资源组，以保留启动顺序和启动延迟配置。
@@ -223,6 +226,7 @@ image::shift-toolkit-318.png[创建资源组]
 
 
 
+[[step-3-create-a-migration-blueprint]]
 == 步骤 3：创建迁移蓝图
 
 创建迁移计划蓝图，包括平台映射、网络配置和虚拟机设置。
@@ -397,6 +401,7 @@ image::shift-toolkit-332.png[活动蓝图]
 ====
 
 
+[[step-4-execute-the-migration]]
 == 步骤 4：执行迁移
 
 触发迁移工作流，将虚拟机从 VMware ESXi 转换为 Microsoft Hyper-V。
@@ -494,6 +499,7 @@ NOTE: Shift Toolkit 使用 cron 作业在 Linux 发行版启动时执行。  Lin
 
 
 
+[[video-demonstration]]
 == 视频演示
 
 以下视频演示了本解决方案中概述的流程。

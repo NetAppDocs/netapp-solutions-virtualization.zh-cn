@@ -18,12 +18,14 @@ ONTAP和 VMware 提供用于实现存储和虚拟化平台之间无缝集成和�
 
 
 
+[[introduction]]
 == 简介
 
 VMware 提供了一系列 API，允许管理员以编程方式与各种 VMware 产品和服务进行交互，从而提高操作的效率和一致性。此外， NetApp ONTAP API 提供了一套强大的工具，使管理员能够自动化、集成和优化存储环境的管理，尤其是与 VMware 工作负载结合使用时。这些 API 促进了ONTAP存储系统和 VMware 之间的无缝交互，从而提高了效率、性能和数据保护。
 
 
 
+[[vmware-based-apis]]
 == 基于 VMware 的 API
 
 * *VMware vSphere API：* vSphere API 是一个综合性的 API，允许管理员管理和自动化 VMware vSphere 环境。它提供对各种 vSphere 功能的访问，包括虚拟机配置、配置、监控和生命周期管理。
@@ -35,6 +37,7 @@ VMware 提供了一系列 API，允许管理员以编程方式与各种 VMware �
 
 
 
+[[ontap-based-apis]]
 == 基于ONTAP的 API
 
 * * NetApp ONTAP REST API：* ONTAP REST API 提供了一个用于管理ONTAP存储系统的现代 RESTful 界面。它简化了配置、监控和配置等存储任务的自动化。它可以轻松与 VMware vSphere 和其他 VMware 管理工具集成，从而直接从 VMware 环境实现自动化存储操作。它支持广泛的操作，从基本的存储管理到高级数据保护和复制任务，实现可扩展和灵活的存储管理。
@@ -43,6 +46,7 @@ VMware 提供了一系列 API，允许管理员以编程方式与各种 VMware �
 
 
 
+[[summary]]
 == 摘要
 
 总之，借助ONTAP API，管理员可以编写脚本在 VMware 环境中创建和配置数据存储区，确保快速、一致的存储配置。此外，它们还可以自动创建、安排和删除 VMware 虚拟机的快照，提供高效的数据保护和恢复选项。 SnapMirror API 促进了复制关系设置和管理的自动化，确保为 VMware 工作负载提供强大的灾难恢复解决方案。管理员还可以实施脚本来监控存储性能指标，并在超出性能阈值时触发警报或自动操作，确保 VMware 工作负载的最佳存储性能。通过将ONTAP API 与 VMware API（例如 vSphere 和 vRealize 提供的 API）相集成，管理员可以获得无缝且高度自动化的管理体验，从而提高其虚拟化基础架构的整体效率和可靠性。

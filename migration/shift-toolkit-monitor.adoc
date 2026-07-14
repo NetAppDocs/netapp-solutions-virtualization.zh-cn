@@ -18,6 +18,7 @@ summary: 使用 Shift Toolkit 作业监控仪表板实时跟踪迁移、转换�
 
 
 
+[[job-monitoring-dashboard]]
 == 作业监控仪表板
 
 作业监控仪表板提供了一个集中视图，显示 Shift Toolkit 中所有正在进行和已完成的操作。使用此仪表板监控迁移、转换和蓝图作业的进度。
@@ -35,6 +36,7 @@ image::shift-toolkit-190.png[工作监控仪表板显示 Shift Toolkit 中的活
 
 
 
+[[understanding-job-status]]
 == 了解工作状态
 
 直观的界面使您能够快速评估所有操作的状态，并识别需要关注的任务。

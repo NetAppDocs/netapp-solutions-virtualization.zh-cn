@@ -20,6 +20,7 @@ summary: 本页面提供在 VMware vSphere 环境中部署NetApp ONTAP存储 iSC
 
 
 
+[[what-you-need]]
 == 你需要什么
 
 * 管理 vSphere 环境和ONTAP所需的基本技能。
@@ -46,6 +47,7 @@ summary: 本页面提供在 VMware vSphere 环境中部署NetApp ONTAP存储 iSC
 
 
 
+[[steps]]
 == 步骤
 
 . 检查与 https://mysupport.netapp.com/matrix["互操作性表工具 (IMT)"]。
@@ -55,6 +57,7 @@ summary: 本页面提供在 VMware vSphere 环境中部署NetApp ONTAP存储 iSC
 
 
 
+[[ontap-tasks]]
 == ONTAP 任务
 
 . link:https://docs.netapp.com/us-en/ontap-cli-98/system-license-show.html["验证 iSCSI 的ONTAP许可证"] 。
@@ -82,6 +85,7 @@ TIP: 建议每个节点使用两个 iSCSI 网络接口。
 
 
 
+[[vmware-vsphere-tasks]]
 == VMware vSphere 任务
 
 . 验证至少有一个 NIC 可用于 iSCSI VLAN。为了获得更好的性能和容错能力，最好使用两个 NIC。
@@ -102,10 +106,12 @@ TIP: 建议每个节点使用两个 iSCSI 网络接口。
 
 
 
+[[whats-next]]
 == 下一步是什么？
 
 完成这些任务后，VMFS 数据存储即可用于配置虚拟机。
 
+[[Ansible]]
 .Ansible 剧本
 [source]
 ----

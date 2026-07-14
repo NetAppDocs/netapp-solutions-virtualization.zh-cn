@@ -22,6 +22,7 @@ image::shift-toolkit-250.png[Shift Toolkit 工具栏中的“设置”图标]
 
 
 
+[[credential-security-service-provider-credssp]]
 == 凭证安全服务提供商 (CredSSP)
 
 Shift Toolkit 使用凭证安全服务提供商 (CredSSP) 来管理转换过程中的凭证传输。  Shift 服务器在被转换的虚拟机的客户操作系统上运行脚本，通过 Hyper-V 服务器从 Shift 服务器向客户操作系统“双跳”传递凭据。
@@ -30,6 +31,7 @@ image::shift-toolkit-251.png[CredSSP 配置设置]
 
 
 
+[[configure-the-shift-server-as-a-credssp-client]]
 === 将 Shift 服务器配置为 CredSSP 客户端
 
 高级设置向导会自动将 Shift 服务器配置为 CredSSP 客户端，使其能够将凭据委派给 Hyper-V 服务器。
@@ -56,6 +58,7 @@ Shift Toolkit 执行以下命令和策略配置，将自身设置为客户端：
 
 
 
+[[configure-the-hyper-v-server-as-a-credssp-server]]
 === 将 Hyper-V 服务器配置为 CredSSP 服务器
 
 使用 `Enable-WSManCredSSP`使用 Hyper-V 服务器上的 cmdlet 将其配置为 CredSSP 服务器，使其能够从 Shift 服务器接收凭据。
@@ -73,6 +76,7 @@ Enable-WSManCredSSP -Role server
 
 
 
+[[logging-and-debugging]]
 == 日志记录和调试
 
 Shift Toolkit 包含默认日志记录功能，保留期限为 30 天。根据技术支持的要求，日志记录可以切换到调试模式，以便进行故障排除。
@@ -81,6 +85,7 @@ image::shift-toolkit-252.png[日志配置设置]
 
 
 
+[[swagger]]
 == 昂首阔步
 
 高级设置中的 Swagger 页面允许您与 Shift Toolkit REST API 进行交互。
@@ -93,6 +98,7 @@ image::shift-toolkit-254.png[API资源类别]
 
 
 
+[[authentication-and-setup-apis]]
 === 身份验证和设置 API
 
 使用这些 API 来建立连接、管理用户以及配置 Shift Toolkit 服务器的身份验证。
@@ -145,6 +151,7 @@ image::shift-toolkit-254.png[API资源类别]
 
 
 
+[[infrastructure-management-apis]]
 === 基础设施管理 API
 
 使用这些 API 来配置和发现您的源环境和目标环境。
@@ -182,6 +189,7 @@ image::shift-toolkit-254.png[API资源类别]
 
 
 
+[[vm-and-resource-management-apis]]
 === 虚拟机和资源管理 API
 
 使用这些 API 来清点、组织和管理虚拟机和资源以进行迁移。
@@ -220,6 +228,7 @@ image::shift-toolkit-254.png[API资源类别]
 
 
 
+[[migration-and-recovery-apis]]
 === 迁移和恢复 API
 
 使用这些 API 来执行迁移、监控合规性和管理恢复操作。
@@ -270,6 +279,7 @@ image::shift-toolkit-254.png[API资源类别]
 
 
 
+[[automation-apis]]
 === 自动化 API
 
 使用这些 API 来扩展和自动化 Shift Toolkit 的功能。
@@ -286,6 +296,7 @@ image::shift-toolkit-254.png[API资源类别]
 
 
 
+[[script-block-and-automation]]
 == 脚本块和自动化
 
 Shift Toolkit 中的脚本块提供了示例代码，可帮助您使用内部和外部 API 实现自动化、集成和开发功能。浏览并下载代码示例部分中的示例，这些示例由 Shift Toolkit 自动化团队和社区成员编写。使用这些示例开始执行自动化、管理或集成任务。
@@ -304,6 +315,7 @@ image::shift-toolkit-257.png[用于删除作业的 PowerShell 脚本示例]
 
 
 
+[[email-notifications-and-alerts]]
 == 电子邮件通知和提醒
 
 配置电子邮件通知，向指定收件人发送有关发现、转换或迁移作业的警报。  UI 通知（界面内的警报）也可用，并存储 7 天。
@@ -337,6 +349,7 @@ NOTE: 此版本中，电子邮件通知使用基本的 SMTP 身份验证和 Send
 
 
 
+[[abort-and-revert-capabilities]]
 == 中止并恢复功能
 
 Shift Toolkit 提供了在工作流程的任何步骤取消正在运行的作业的选项。取消作业时，所有孤立组件都会自动清理，包括：
@@ -350,6 +363,7 @@ Shift Toolkit 提供了在工作流程的任何步骤取消正在运行的作业
 
 
 
+[[verify-migration]]
 == 验证迁移
 
 Shift 工具包现在提供了一个针对蓝图级别的验证选项，该选项在迁移状态标记为"成功"或"部分失败"后启用。成功后，验证选项将启动一个新作业，并检查蓝图映射中指定的 VM 设置。验证迁移作业的状态将在作业监控中列出，可以通过单击作业并选择"查看日志"查看详细信息。
@@ -366,6 +380,7 @@ image::shift-toolkit-472.png[验证迁移作业列表]
 
 
 
+[[split-workflow]]
 == 拆分工作流
 
 拆分工作流程（仅适用于使用 ONTAP NAS 驱动程序的 OpenShift 迁移蓝图）会自动发现与虚拟机关联的卷及其对应的 FlexClone 卷。
@@ -389,6 +404,7 @@ image::shift-toolkit-474.png[拆分工作流作业进度]
 
 
 
+[[advanced-hypervisor-settings]]
 == 高级虚拟机监控程序设置
 
 Shift Toolkit 包括用于将迁移作业迁移到目标虚拟机管理程序的高级虚拟机管理程序设置。这些设置允许迁移管理员根据需要为每个 VM 迁移波启用功能。Shift Toolkit 在运行时读取设置，因此每个作业在启动时应用所选选项。

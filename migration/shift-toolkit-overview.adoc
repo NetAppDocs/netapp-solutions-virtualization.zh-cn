@@ -18,6 +18,7 @@ NetApp Shift Toolkit 是一款独立产品，旨在简化和加速跨虚拟机�
 
 
 
+[[use-case]]
 == 用例
 
 每个组织现在都看到了拥有多虚拟机管理程序环境的好处。随着近期市场的变化，每个组织都在权衡技术和商业风险，以决定最佳行动方案，包括将工作负载虚拟机迁移到其他虚拟机管理程序，专注于实现业务目标，并控制供应商锁定。这使得他们能够以优化的方式运营，降低许可成本，并将 IT 预算扩展到正确的领域，而不是将资金投入到特定虚拟机管理程序上那些未使用的核心上。然而，挑战始终在于迁移时间和相关的停机时间。
@@ -26,6 +27,7 @@ NetApp Shift Toolkit 是一款独立产品，旨在简化和加速跨虚拟机�
 
 
 
+[[toolkit-overview]]
 == 工具包概述
 
 NetApp Shift 工具包是一种易于使用的图形用户界面 (GUI) 解决方案，允许在不同的虚拟机管理程序之间迁移虚拟机 (VM) 并转换虚拟磁盘格式。它利用NetApp FlexClone® 技术快速转换 VM 硬盘。此外，该工具包还管理目标虚拟机的创建和配置。
@@ -54,6 +56,7 @@ Shift 工具包可以下载link:https://mysupport.netapp.com/site/tools/tool-eul
 
 
 
+[[benefits-of-vm-portability]]
 == VM可移植性的好处
 
 ONTAP适用于任何虚拟机管理程序和任何超标量。采用FlexClone技术。几分钟内即可实现虚拟机可移植性，而无需等待更长的停机时间或使用直通选项来解决。
@@ -68,6 +71,7 @@ Shift 工具包：
 
 
 
+[[how-shift-toolkit-works]]
 == Shift 工具包的工作原理
 
 在转换时，Shift 工具包连接到 VMware ESXi 和 Microsoft Hyper-V 主机以及共享NetApp存储。  Shift 工具包利用FlexClone并通过三项关键的NetApp技术将 VM 硬盘从一个虚拟机管理程序转换到另一个虚拟机管理程序：
@@ -81,6 +85,7 @@ image::shift-toolkit-002.png[NetApp Shift Toolkit 的工作原理示意图]
 
 
 
+[[protocols-and-communication-methods]]
 === 协议和通信方法
 
 Shift 工具包在转换或迁移操作期间使用以下协议。

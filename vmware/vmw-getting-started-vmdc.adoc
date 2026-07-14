@@ -18,6 +18,7 @@ summary:
 
 
 
+[[introduction]]
 == 简介
 
 虚拟机数据收集器 (VMDC) 是一款免费、轻量级、基于简单 GUI 的 VMware 环境工具包，允许用户收集有关其虚拟机 (VM)、主机、存储和网络的详细库存信息。
@@ -26,6 +27,7 @@ summary:
 
 
 
+[[vmdc-capabilities]]
 == VMDC 功能
 
 VMDC 只是收集快速即时统计数据的垫脚石，用于预测 VMWare 核心许可以及 vCPU 和 RAM 的优化可能性。  NetAppData Infrastructure Insights需要安装 AU 和数据收集器，这显然是了解详细 VM 拓扑、使用注释对 VM 进行分组的下一步，以便正确调整工作负载大小并确保基础设施的未来发展。

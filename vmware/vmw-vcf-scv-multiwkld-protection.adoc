@@ -20,6 +20,7 @@ VMware Cloud Foundation (VCF) 工作负载域使组织能够将资源逻辑地�
 
 
 
+[[introduction]]
 == 简介
 
 域可以独立扩展、满足特定的合规性并提供多租户功能。  VMware Cloud Foundation (VCF) 的数据保护是确保管理域和工作负载域中数据的可用性、完整性和可恢复性的关键方面。 NetApp SnapCenter Plug-in for VMware vSphere (SCV) 是一款功能强大的工具，可将 NetApp 的数据保护功能集成到 VMware 环境中。它简化了NetApp存储上托管的 VMware vSphere 虚拟机 (VM) 的备份、恢复和克隆。
@@ -28,12 +29,14 @@ VMware Cloud Foundation (VCF) 工作负载域使组织能够将资源逻辑地�
 
 
 
+[[audience]]
 == 受众
 
 解决方案架构师或存储管理员确保 VMware VCF 工作负载域的数据保护和灾难恢复。
 
 
 
+[[architecture-overview]]
 == 架构概述
 
 SCV 使用 OVA 文件部署为 Linux 虚拟设备，为虚拟机、数据存储区以及文件和文件夹提供快速、节省空间、崩溃一致和虚拟机一致的备份和还原操作。 SCV采用远程插件架构。在VCF管理域vCenter上部署并托管了多个SCV。  SCV 和 VCF 域是一对一的关系，因此 VCF 管理域和每个工作负载域都需要一个 SCV。
@@ -46,6 +49,7 @@ image:vmware-vcf-aff-050.png["具有 SCV 的 VCF 多工作负载域"]
 
 
 
+[[deploy-a-vcf-with-management-domain-and-multiple-workload-domains]]
 == 部署具有管理域和多个工作负载域的 VCF
 
 VCF 工作负载域是一组具有一个或多个 vSphere 集群的 ESXi 主机，由 SDDC Manager 配置并准备好应用程序。在下面的 VCF 示例中，部署了一个管理域和两个工作负载域。有关如何使用NetApp存储部署 VCF 的更多详细信息，请查看link:vmw-vcf-overview.html["NetApp VCF 部署文档。"]
@@ -54,6 +58,7 @@ image:vmware-vcf-aff-051.png["VCF 一个管理域和两个工作负载域"]
 
 
 
+[[scv-deployment-configuration-and-restoration-steps]]
 == SCV部署、配置和恢复步骤
 
 根据工作负载域的数量以及管理域的数量，需要部署多个 SCV。有两个工作负载域和一个管理域，下面的示例显示在 VCF 管理域 vCenter 上部署了三个 SCV。image:vmware-vcf-aff-063.png["VCF域与SCV一对一"]
@@ -136,6 +141,7 @@ NetApp SnapCenter for VCP 多域集中数据保护，有效减少使用NetApp快
 
 
 
+[[video-demo-for-protect-vcf-multiple-domains-with-scv]]
 == 使用 SCV 保护 VCF 多个域的视频演示
 
 .使用NetApp SCV 保护 VMware VCF 多个域

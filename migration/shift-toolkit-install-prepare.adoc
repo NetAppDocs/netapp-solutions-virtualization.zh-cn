@@ -17,6 +17,7 @@ summary: 请确保您的环境满足先决条件，并为您的部署方案选�
 
 
 
+[[before-you-begin]]
 == 开始之前
 
 请确认您的环境满足以下要求：
@@ -32,6 +33,7 @@ NOTE: 在专用虚拟机上安装 Shift Toolkit，即可从单个服务器管理
 
 
 
+[[select-an-installation-package]]
 == 选择安装包
 
 Shift Toolkit 提供两种安装包： link:https://mysupport.netapp.com/site/tools/tool-eula/netapp-shift-toolkit["NetApp工具箱"]：

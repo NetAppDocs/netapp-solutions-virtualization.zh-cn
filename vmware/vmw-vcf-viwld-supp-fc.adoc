@@ -46,6 +46,7 @@ summary:
 
 
 
+[[additional-information]]
 == 追加信息
 
 * 有关配置ONTAP存储系统的信息，请参阅link:https://docs.netapp.com/us-en/ontap["ONTAP 9 文档"^]。

@@ -17,6 +17,7 @@ summary: 在 VMware Cloud Foundation 管理域中的 ESXi 主机上配置 iSCSI 
 
 
 
+[[step-1-create-distributed-port-groups-for-iscsi-traffic]]
 == 步骤 1：为 iSCSI 流量创建分布式端口组
 
 完成以下步骤为每个 iSCSI 网络创建一个新的分布式端口组：
@@ -69,6 +70,7 @@ image:vmware-vcf-asa-026.png["将上行链路 1 移至未使用状态"]
 
 
 
+[[step-2-create-vmkernel-adapters-on-each-esxi-host]]
 == 步骤 2：在每个 ESXi 主机上创建 VMkernel 适配器
 
 在管理域中的每个 ESXi 主机上创建 VMkernel 适配器。
@@ -127,6 +129,7 @@ image:vmware-vcf-asa-034.png["检查 VMkernel 选择"]
 
 
 
+[[whats-next]]
 == 下一步是什么？
 
 在工作负载域中的所有 ESXi 主机上配置 iSCSI 网络后，link:vmw-vcf-mgmt-supplemental-iscsi-storage.html["在 ESXi 主机上配置 iSCSI 存储"] 。

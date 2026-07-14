@@ -17,6 +17,7 @@ summary: 请确认您的 Windows 和 Linux 客户操作系统、 ONTAP版本和�
 
 
 
+[[supported-vm-guest-operating-systems]]
 == 支持的虚拟机客户操作系统
 
 Shift Toolkit 支持以下 Windows 和 Linux 客户操作系统，用于 VM 转换。
@@ -52,12 +53,14 @@ NOTE: Windows Server 2008 未获得官方支持。但是，转换过程可能有
 
 
 
+[[supported-ontap-versions]]
 == 支持的 ONTAP 版本
 
 Shift Toolkit 支持ONTAP 9.14.1 或更高版本。
 
 
 
+[[supported-hypervisors]]
 == 支持的虚拟机管理程序
 
 Shift Toolkit 支持以下虚拟机管理程序平台，用于虚拟机迁移和转换。

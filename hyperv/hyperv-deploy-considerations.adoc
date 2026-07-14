@@ -18,6 +18,7 @@ summary: 该解决方案提供了在NetApp存储上部署 Hyper-V 所需的步�
 
 
 
+[[right-sizing-the-storage]]
 == 正确调整存储大小
 
 在部署工作负载或从现有虚拟机管理程序迁移之前，请确保工作负载的大小能够满足所需的性能。这可以通过收集每个单独的 VM 的性能数据轻松完成，这些数据收集 CPU（已使用/已配置）、内存（已使用/已配置）、存储（已配置/已利用）、网络吞吐量和延迟的统计信息以及读/写 IOP、吞吐量和块大小的聚合。这些参数对于成功部署以及正确确定存储阵列和工作负载主机的大小是必需的。
@@ -30,6 +31,7 @@ summary: 该解决方案提供了在NetApp存储上部署 Hyper-V 所需的步�
 
 
 
+[[enhance-virtual-machine-performance]]
 == 增强虚拟机性能
 
 选择适当数量的 RAM 和 vCPU 以获得最佳性能，并将多个磁盘连接到单个虚拟 SCSI 控制器。仍然建议使用固定 VHDx 作为部署虚拟磁盘的主要选择，并且对使用任何类型的 VHDX 虚拟磁盘没有任何限制。
@@ -42,6 +44,7 @@ summary: 该解决方案提供了在NetApp存储上部署 Hyper-V 所需的步�
 
 
 
+[[smb3-0-design-and-consideration]]
 == SMB3.0的设计与考量
 
 SMB 3.0 文件共享可用作 Hyper-V 的共享存储。ONTAPONTAP通过 SMB 共享为 Hyper-V 进行无中断操作。Hyper-V 可以使用 SMB 文件共享来存储虚拟机文件，例如配置、快照和虚拟硬盘 (VHD) 文件。使用专用ONTAP CIFS SVM 为 Hyper-V 提供基于 SMB3.0 的共享。用于存储虚拟机文件的卷必须使用 NTFS 安全模式卷创建。如果有 10GB 网络，建议使用 10GB 网络建立 Hyper-V 主机与NetApp阵列之间的连接。对于 1GB 网络连接， NetApp建议创建一个由多个 1GB 端口组成的接口组。将每个为 SMB 多通道提供服务的 NIC 连接到其专用 IP 子网，以便每个子网在客户端和服务器之间提供单一路径。
@@ -63,6 +66,7 @@ SMB 3.0 文件共享可用作 Hyper-V 的共享存储。ONTAPONTAP通过 SMB 共
 
 
 
+[[provisioning-smb-volume]]
 == 配置 SMB 卷
 
 . 验证存储虚拟机 (SVM) 上是否启用了所需的 CIFS 服务器选项
@@ -89,6 +93,7 @@ image:hyperv-deploy-005.png["NTFS 权限设置的图片"]
 
 
 
+[[block-protocol-design-and-consideration]]
 == 区块协议设计与考量
 
 *要点*
@@ -106,6 +111,7 @@ image:hyperv-deploy-005.png["NTFS 权限设置的图片"]
 
 
 
+[[provisioning-iscsi-volume]]
 == 配置 ISCSI 卷
 
 要配置 ISCSI 卷，请确保满足以下先决条件。
@@ -168,6 +174,7 @@ image:hyperv-deploy-007.png["添加到集群共享卷界面的图片"]
 
 
 
+[[fast-provisioning-of-virtual-disks-using-odx-feature]]
 == 使用 ODX 功能快速配置虚拟磁盘
 
 ONTAP中的 ODX 功能允许通过简单地复制ONTAP存储系统托管的主 VHDX 文件来制作主 VHDX 的副本。由于支持 ODX 的副本不会将任何数据放在网络上，因此复制过程发生在NetApp存储端，因此速度可提高六到八倍。快速配置的一般考虑包括存储在文件共享上的主系统准备映像和由 Hyper-V 主机启动的常规复制过程。
@@ -178,12 +185,14 @@ ONTAP中的 ODX 功能允许通过简单地复制ONTAP存储系统托管的主 V
 
 
 
+[[performance-optimization]]
 == 性能优化
 
 虽然每个 CSV 的推荐虚拟机数量是主观的，但有许多因素决定了可以放置在每个 CSV 或 SMB 卷上的虚拟机的最佳数量。尽管大多数管理员只考虑容量，但发送到 VHDx 的并发 I/O 量是整体性能的最关键因素之一。控制性能的最简单方法是调节每个 CSV 或共享上放置的虚拟机的数量。如果并发虚拟机 I/O 模式向 CSV 或共享发送过多流量，则磁盘队列将被填满，并产生更高的延迟。
 
 
 
+[[smb-volume-and-csv-sizing]]
 == SMB 卷和 CSV 大小
 
 确保解决方案端到端大小足够以避免瓶颈，并且在为 Hyper-V VM 存储目的创建卷时，最佳做法是创建不大于所需大小的卷。正确调整卷大小可防止意外在 CSV 上放置过多的虚拟机，并降低资源争用的可能性。每个集群共享卷 (CSV) 支持一个或多个 VM。放置在 CSV 上的虚拟机数量取决于工作负载和业务偏好，以及如何使用ONTAP存储功能（例如快照和复制）。在大多数部署场景中，将多个虚拟机放置在 CSV 上是一个很好的起点。针对具体用例调整此方法以满足性能和数据保护要求。
@@ -192,6 +201,7 @@ ONTAP中的 ODX 功能允许通过简单地复制ONTAP存储系统托管的主 V
 
 
 
+[[migration]]
 == 迁移
 
 当前市场条件下最常见的用例之一是迁移。客户可以使用 VMM Fabric 或其他第三方迁移工具来迁移虚拟机。这些工具使用主机级复制将数据从源平台移动到目标平台，这可能会很耗时，具体取决于迁移范围内的虚拟机数量。

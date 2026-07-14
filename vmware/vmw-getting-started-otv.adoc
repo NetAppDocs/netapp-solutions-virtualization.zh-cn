@@ -18,12 +18,14 @@ ONTAP tools for VMware vSphere简化了使用NetApp存储的虚拟机的生命�
 
 
 
+[[introduction]]
 == 简介
 
 它使管理员能够直接管理 vCenter Server 内的存储，并简化 VMware 环境的存储和数据管理。 VMware vSphere Client 插件工具旨在将插件功能集成到 vSphere Client 中，而无需在 vCenter Server 内部运行。这提供了插件隔离并支持在大型 vSphere 环境中运行的插件的横向扩展。
 
 
 
+[[ontap-tools-components]]
 == ONTAP工具组件
 
 * *虚拟存储控制台 (VSC)* VSC 包括与 vSphere 客户端集成的界面，您可以在其中添加存储控制器、配置数据存储库、监控数据存储库的性能以及查看和更新 ESXi 主机设置。

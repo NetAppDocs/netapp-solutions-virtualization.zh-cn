@@ -20,6 +20,7 @@ image:vmware-vcf-asa-mgmt-stretchcluster-001.png["单实例 - 多可用区域"]
 
 
 
+[[scenario-overview]]
 == 场景概述
 
 可以使用SnapMirror主动同步保护 VCF 工作负载域上的数据存储，以提供延伸集群解决方案。该保护在 vSphere 集群级别启用，并且集群中的所有ONTAP块数据存储都将受到保护。
@@ -50,6 +51,7 @@ TIP: 如果 vSphere 群集受到保护，则群集中的所有数据存储都将
 ====
 
 
+[[additional-information]]
 == 追加信息
 
 有关配置ONTAP存储系统的信息，请参阅link:https://docs.netapp.com/us-en/ontap["ONTAP 9 文档"]中心。
@@ -58,6 +60,7 @@ TIP: 如果 vSphere 群集受到保护，则群集中的所有数据存储都将
 
 
 
+[[video-demo-for-this-solution]]
 == 此解决方案的视频演示
 
 .使用ONTAP工具为 VCF 扩展集群

@@ -20,6 +20,7 @@ Shift Toolkit 能够实现虚拟机管理程序之间的直接虚拟机转换，
 
 
 
+[[before-you-begin]]
 == 开始之前
 
 开始迁移之前，请确认满足以下先决条件。
@@ -51,6 +52,7 @@ Shift Toolkit 能够实现虚拟机管理程序之间的直接虚拟机转换，
 
 
 
+[[step-1-add-the-source-site-hyper-v]]
 == 步骤 1：添加源站点（Hyper-V）
 
 将源 Hyper-V 环境添加到 Shift 工具包中。
@@ -126,6 +128,7 @@ NOTE: 虚拟机清单每 24 小时自动刷新一次。修改后要手动刷新�
 
 
 
+[[step-2-add-the-destination-site-vmware-esxi]]
 == 步骤 2：添加目标站点（VMware ESXi）
 
 将目标 VMware 环境添加到 Shift Toolkit 中。
@@ -187,6 +190,7 @@ NOTE: 源存储系统和目标存储系统必须相同，因为磁盘格式转�
 
 
 
+[[step-3-create-resource-groups]]
 == 步骤 3：创建资源组
 
 将虚拟机组织成资源组，以保留启动顺序和启动延迟配置。
@@ -270,6 +274,7 @@ image::shift-toolkit-365.png[启动顺序配置]
 
 
 
+[[step-4-create-a-migration-blueprint]]
 == 步骤 4：创建迁移蓝图
 
 创建迁移计划蓝图，包括平台映射、网络配置和虚拟机设置。
@@ -423,6 +428,7 @@ image::shift-toolkit-376.png[蓝图激活状态]
 ====
 
 
+[[step-5-execute-the-migration]]
 == 步骤 5：执行迁移
 
 触发迁移工作流，将虚拟机从 Hyper-V 转换为 VMware ESXi。
@@ -493,6 +499,7 @@ image::shift-toolkit-381.png[迁移完成]
 ====
 
 
+[[step-6-validate-the-migration]]
 == 步骤 6：验证迁移
 
 确认虚拟机在 VMware ESXi 主机上运行正常。

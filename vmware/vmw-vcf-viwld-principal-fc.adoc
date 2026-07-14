@@ -18,6 +18,7 @@ summary:
 
 
 
+[[benefits-of-fibre-channel]]
 == 光纤通道的优势
 
 *高性能：* FC 提供高速数据传输速率，使其成为需要快速可靠地访问大量数据的应用程序的理想选择。
@@ -32,6 +33,7 @@ summary:
 
 
 
+[[scenario-overview]]
 == 场景概述
 
 此场景涵盖以下高级步骤：
@@ -55,6 +57,7 @@ NOTE: 该解决方案适用于支持NFS存储的ONTAP平台，包括NetApp AFF�
 
 
 
+[[prerequisites]]
 == 前提条件
 
 此场景中使用以下组件和配置：
@@ -70,22 +73,26 @@ NOTE: NetApp建议对 FC LUN 使用多路径。
 
 
 
+[[deployment-steps]]
 == 部署步骤
 
 
 
+[[management-domain-default-cluster]]
 === 管理域 - 默认集群
 
 初始集群上的 FC 主存储仅受 VCF 棕地导入工具支持。如果使用 cloudbuilder 工具（直到版本 5.2.x）部署 VCF，则仅支持 VSAN。参考 https://techdocs.broadcom.com/us/en/vmware-cis/vcf/vcf-5-2-and-earlier/5-2/map-for-administering-vcf-5-2/importing-existing-vsphere-environments-admin/convert-or-import-a-vsphere-environment-into-vmware-cloud-foundation-admin.html["将现有 vSphere 环境转换为管理域"]了解更多信息。
 
 
 
+[[management-domain-additional-cluster]]
 === 管理域 - 附加集群
 
 管理域上的附加 vSphere 集群可以通过以下选项进行部署：* 在 vSphere 环境中拥有附加集群，并使用 VCF 棕地导入工具将 vSphere 环境转换为管理域。 https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere-10/configure/create-datastore.html["适用于 VMware vSphere 的 ONTAP 工具"] ， https://docs.netapp.com/us-en/ontap/san-admin/provision-storage.html["系统管理器或ONTAP API"]可用于将 VMFS 数据存储部署到 vSphere 集群。* 使用 SDDC API 部署额外的集群。vSphere 主机应该配置 VMFS 数据存储。使用 https://docs.netapp.com/us-en/ontap/san-admin/provision-storage.html["系统管理器或ONTAP API"]将 LUN 部署到 vSphere 主机。* 使用 SDDC Manager UI 部署额外的集群。但此选项仅创建 VSAN 数据存储至 5.2.x 版本。
 
 
 
+[[vi-workload-domain-default-cluster]]
 === VI 工作负载域 - 默认集群
 
 管理域启动并运行后，可以创建 VI Workload 域：
@@ -96,6 +103,7 @@ NOTE: NetApp建议对 FC LUN 使用多路径。
 
 
 
+[[vi-workload-domain-additional-cluster]]
 === VI 工作负载域 - 附加集群
 
 一旦 VI 工作负载启动并运行，就可以使用以下选项在 FC LUN 上使用 VMFS 部署其他集群。
@@ -106,6 +114,7 @@ NOTE: NetApp建议对 FC LUN 使用多路径。
 
 
 
+[[additional-information]]
 == 追加信息
 
 有关配置ONTAP存储系统的信息，请参阅link:https://docs.netapp.com/us-en/ontap["ONTAP 9 文档"]中心。

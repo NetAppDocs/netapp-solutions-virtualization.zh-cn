@@ -18,6 +18,7 @@ summary:
 
 
 
+[[overview]]
 == 概述
 
 vSphere 存储感知 API (VASA) 使虚拟机管理员能够轻松使用配置虚拟机所需的任何存储功能，而无需与存储团队进行交互。在 VASA 出现之前，虚拟机管理员可以定义虚拟机存储策略，但必须与存储管理员合作来确定合适的数据存储，通常是通过文档或命名约定来实现的。借助 VASA，具有相应权限的 vCenter 管理员可以定义一系列存储功能，vCenter 用户随后可以使用这些功能来配置虚拟机。VM 存储策略与数据存储存储功能配置文件之间的映射关系，使得 vCenter 能够显示可供选择的兼容数据存储列表，并支持其他技术（例如 VCF Automation（以前称为 Aria 或 vRealize）Automation 或 VMware vSphere Kubernetes Service）从分配的策略中自动选择存储。这种方法被称为基于存储策略的管理。虽然存储功能配置文件和策略也可以用于传统数据存储，但我们这里主要关注的是vVols数据存储。VASA 提供程序 for ONTAP包含在ONTAP tools for VMware vSphere中。
@@ -49,6 +50,7 @@ ONTAP工具管理 PE 的生命周期以及 vSphere 主机与 vSphere 集群扩�
 
 
 
+[[ontap-tools-9-x]]
 == ONTAP工具 9.x
 
 * 何时需要 vVol 支持 NVMe/FC
@@ -58,6 +60,7 @@ ONTAP工具管理 PE 的生命周期以及 vSphere 主机与 vSphere 集群扩�
 
 
 
+[[ontap-tools-10-x]]
 == ONTAP工具 10.x
 
 * 高可用性
@@ -69,6 +72,7 @@ ONTAP工具管理 PE 的生命周期以及 vSphere 主机与 vSphere 集群扩�
 
 
 
+[[why-vvols]]
 == 为什么选择vVols？
 
 VMware 虚拟卷 (vVols) 具有以下优势：
@@ -86,6 +90,7 @@ VMware 虚拟卷 (vVols) 具有以下优势：
 
 
 
+[[connectivity-options]]
 == 连接选项
 
 通常建议存储网络采用双重结构环境来解决高可用性、性能和容错问题。 vVols支持 iSCSI、FC、NFSv3 和 NVMe/FC。注意：请参阅link:https://imt.netapp.com/matrix["互操作性表工具 (IMT)"]适用于受支持的ONTAP工具版本
@@ -98,12 +103,14 @@ image:vmware-vvol-overview-004.png["NFS 网络"]
 
 
 
+[[provisioning-using-ontap-tools-for-vmware-vsphere]]
 == 使用ONTAP tools for VMware vSphere进行配置
 
 可以使用ONTAP工具来配置 vVol 数据存储，类似于 VMFS 或 NFS 数据存储。如果 vSphere 客户端 UI 上没有ONTAP工具插件，请参阅下面的如何开始部分。
 
 
 
+[[with-ontap-tools-9-13]]
 === 使用ONTAP工具 9.13
 
 . 右键单击 vSphere 集群或主机，然后在NetApp ONTAP工具下选择 Provision Datastore。
@@ -132,6 +139,7 @@ image:vmware-vvol-overview-011.png["9.13 版 vVol 扩展"]
 
 
 
+[[with-ontap-tools-10-1]]
 === 使用ONTAP工具 10.1
 
 . 右键单击 vSphere 集群或主机，然后在NetApp ONTAP工具下选择“创建数据存储 (10.1)”。
@@ -145,6 +153,7 @@ image:vmware-vvol-overview-011.png["9.13 版 vVol 扩展"]
 
 
 
+[[data-protection-of-vms-on-vvol-datastore]]
 == vVol 数据存储上的虚拟机数据保护
 
 有关 vVol 数据存储上虚拟机数据保护的概述，请参阅link:https://docs.netapp.com/us-en/ontap-apps-dbs/vmware/vmware-vvols-protect.html["保护vVols"]。
@@ -160,18 +169,21 @@ image:vmware-vvol-overview-011.png["9.13 版 vVol 扩展"]
 
 
 
+[[vm-migration-from-traditional-datastores-to-vvol-datastore]]
 == 虚拟机从传统数据存储迁移到 vVol 数据存储
 
 要将虚拟机从其他数据存储迁移到 vVol 数据存储，可以根据场景使用各种选项。它可以从简单的存储 vMotion 操作到使用 HCX 的迁移。参考link:../migration/migrate-vms-to-ontap-datastore.html["将虚拟机迁移到ONTAP数据存储"]了解更多详情。
 
 
 
+[[vm-migration-between-vvol-datastores]]
 == vVol 数据存储之间的虚拟机迁移
 
 对于 vVol 数据存储之间的虚拟机批量迁移，请检查link:../migration/migrate-vms-to-ontap-datastore.html["将虚拟机迁移到ONTAP数据存储"]。
 
 
 
+[[sample-reference-architecture]]
 == 示例参考架构
 
 ONTAP tools for VMware vSphere可以安装在其管理的同一 vCenter 上，也可以安装在不同的 vCenter 服务器上。最好避免在其管理的 vVol 数据存储上托管。
@@ -192,6 +204,7 @@ image:vmware-vvol-overview-037.png["混合使用共享和专用ONTAP工具"]
 
 
 
+[[how-to-get-started]]
 == 如何开始
 
 如果您的环境中未安装ONTAP工具，请从以下位置下载link:https://support.netapp.com["NetApp 支持站点"]并按照以下网址的说明进行操作link:https://docs.netapp.com/us-en/ontap-apps-dbs/vmware/vmware-vvols-ontap.html["将vVols与ONTAP结合使用"]。

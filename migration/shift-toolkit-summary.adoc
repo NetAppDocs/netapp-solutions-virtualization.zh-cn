@@ -18,12 +18,14 @@ summary:
 
 
 
+[[conclusion]]
 == 结束语
 
 NetApp Shift 工具包可帮助管理员快速无缝地将虚拟机从 VMware 转换为 Hyper-V。它还可以在不同的虚拟机管理程序之间转换虚拟磁盘。因此，每次您想要将工作负载从一个虚拟机管理程序移动到另一个虚拟机管理程序时，Shift 工具包都可以为您节省数小时的精力。组织现在可以托管多虚拟机管理程序环境，而不必担心工作负载是否绑定到单个虚拟机管理程序。此功能提高了灵活性并降低了许可成本、锁定和对单一供应商的承诺。
 
 
 
+[[next-steps]]
 == 后续步骤
 
 通过下载 Shift 工具包释放Data ONTAP的潜力并开始迁移或转换虚拟机或磁盘文件以简化和优化迁移。
@@ -34,6 +36,7 @@ NetApp Shift 工具包可帮助管理员快速无缝地将虚拟机从 VMware �
 video::6bf11896-3219-4ba7-9a00-b2d800d47144[panopto,width=360]
 
 
+[[troubleshooting-and-known-issues]]
 == 故障排除和已知问题
 
 . 用于设置 IP 地址和删除 VMware 工具的触发脚本在 Windows VM 上失败，并出现以下错误：凭据无效
@@ -116,10 +119,12 @@ a. Decrypt the VMDK inside VMware and retry the operation.
 
 
 
+[[appendix]]
 == 附录
 
 
 
+[[custom-ontap-role-for-shift-toolkit]]
 === Shift 工具包的自定义ONTAP角色
 
 创建具有最小权限的ONTAP角色，这样就无需使用ONTAP管理员角色在 Shift 工具包中执行操作。  ONTAP存储端的 SVM 级别需要这些最低角色。
@@ -154,6 +159,7 @@ image:shift-toolkit-084.png["该图显示输入/输出对话框或表示书面�
 
 
 
+[[minimum-permissions-role-required-on-vmware]]
 === VMware 上所需的最低权限角色
 
 要使用 Shift 工具包从 VMware vSphere 迁移虚拟机，请使用管理 > 访问控制 > 角色创建具有以下权限的 RBAC 用户。

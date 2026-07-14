@@ -20,6 +20,7 @@ summary: '使用ONTAP为 Proxmox 虚拟环境配置 iSCSI 逻辑卷管理器 (LV
 video::d66ef67f-bcc2-4ced-848e-b22e01588e8c[panopto,width=360]
 
 
+[[initial-virtualization-administrator-tasks]]
 == 初始虚拟化管理员任务
 
 完成这些初始任务，为 Proxmox VE 主机准备 iSCSI 连接，并收集存储管理员所需的必要信息。
@@ -48,6 +49,7 @@ cat /etc/iscsi/initiator.name
 
 
 
+[[storage-administrator-tasks]]
 == 存储管理员任务
 
 如果您是ONTAP新手，请使用系统管理器以获得更好的体验。
@@ -67,6 +69,7 @@ image:proxmox-ontap-iscsi-002.png["iscsi lun 详细信息"]
 
 
 
+[[final-virtualization-administrator-tasks]]
 == 最终虚拟化管理员任务
 
 完成以下任务，将 iSCSI LUN 配置为 Proxmox VE 中的共享 LVM 存储。

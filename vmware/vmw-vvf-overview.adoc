@@ -18,12 +18,14 @@ NetApp ONTAP和 VMware vSphere 8 协同工作，使用NetApp全闪存阵列为�
 
 
 
+[[using-nfs-v3-with-vsphere-8-and-ontap-storage-systems]]
 == 将 NFS v3 与 vSphere 8 和ONTAP存储系统结合使用
 
 本文档提供有关使用NetApp全闪存阵列的 VMware Cloud vSphere Foundation 可用的存储选项的信息。支持的存储选项包含有关部署 NFS 数据存储的具体说明。此外，还演示了用于 NFS 数据存储灾难恢复的 VMware Live Site Recovery。最后，回顾了 NetApp 针对 NFS 存储的自主勒索软件防护。
 
 
 
+[[use-cases]]
 === 使用案例
 
 本文档涵盖的用例：
@@ -38,6 +40,7 @@ NetApp ONTAP和 VMware vSphere 8 协同工作，使用NetApp全闪存阵列为�
 
 
 
+[[audience]]
 === 受众
 
 此解决方案适用于以下人群：
@@ -50,12 +53,14 @@ NetApp ONTAP和 VMware vSphere 8 协同工作，使用NetApp全闪存阵列为�
 
 
 
+[[technology-overview]]
 == 技术概述
 
 vSphere 8 的 NFS v3 VVF 参考指南由以下主要组件组成：
 
 
 
+[[vmware-vsphere-foundation]]
 === VMware vSphere 基金会
 
 VMware vCenter 是 vSphere Foundation 的核心组件，它是一个集中式管理平台，用于提供 vSphere 环境的配置、控制和管理。vCenter 是管理虚拟化基础架构的基础，允许管理员在虚拟环境中部署、监控和管理虚拟机、容器和 ESXi 主机。
@@ -73,6 +78,7 @@ VVF 解决方案支持原生 Kubernetes 和基于虚拟机的工作负载。关�
 
 
 
+[[vvf-storage-options]]
 === VVF 存储选项
 
 成功且强大的虚拟环境的核心是存储。无论是通过 VMware 数据存储区还是通过来宾连接的用例进行存储，都可以释放您的工作负载的功能，因为您可以选择每 GB 的最佳价格，以提供最大的价值，同时减少利用不足。近二十年来， ONTAP一直是 VMware vSphere 环境的领先存储解决方案，并不断添加创新功能以简化管理并降低成本。
@@ -85,6 +91,7 @@ image:vmware-nfs-overview-001.png["虚拟机存储选项"]{nbsp}
 
 
 
+[[netapp-ontap]]
 === NetApp ONTAP
 
 数以万计的客户选择ONTAP作为 vSphere 的主要存储解决方案，有许多令人信服的理由。其中包括：
@@ -103,6 +110,7 @@ ONTAP与 vSphere 结合使用是一种很好的组合，可以让您减少主机
 
 
 
+[[netapp-all-flash-arrays]]
 === NetApp全闪存阵列
 
 NetApp AFF （All Flash FAS）是全闪存存储阵列的产品线。它旨在为企业工作负载提供高性能、低延迟的存储解决方案。  AFF系列将闪存技术的优势与 NetApp 的数据管理功能相结合，为企业提供强大而高效的存储平台。
@@ -159,6 +167,7 @@ NetApp通过NetApp全闪存阵列提供一套独特的存储保证。其独特�
 
 
 
+[[netapp-ontap-tools-for-vmware-vsphere]]
 === 适用于 VMware vSphere 的NetApp ONTAP工具
 
 vCenter 的一个强大组件是能够集成插件或扩展，从而进一步增强其功能并提供额外的特性和能力。这些插件扩展了 vCenter 的管理功能，并允许管理员将第三方解决方案、工具和服务集成到他们的 vSphere 环境中。
@@ -171,6 +180,7 @@ NetApp ONTAP工具 for VMware 是一套全面的工具，旨在通过其 vCenter
 
 
 
+[[netapp-nfs-plug-in-for-vmware-vaai]]
 === 适用于 VMware VAAI 的 NetApp NFS 插件
 
 适用于 VAAI（用于阵列集成的 vStorage API）的NetApp NFS 插件通过将某些任务卸载到NetApp存储系统来增强存储操作，从而提高性能和效率。这包括完整复制、块清零和硬件辅助锁定等操作。此外，VAAI 插件通过减少虚拟机配置和克隆操作期间通过网络传输的数据量来优化存储利用率。
@@ -181,6 +191,7 @@ NetApp ONTAP工具 for VMware 是一套全面的工具，旨在通过其 vCenter
 
 
 
+[[snapcenter-plug-in-for-vmware-vsphere]]
 === 适用于 VMware vSphere 的 SnapCenter 插件
 
 SnapCenter Plug-in for VMware vSphere (SCV) 是NetApp推出的一款软件解决方案，可为 VMware vSphere 环境提供全面的数据保护。它旨在简化和精简保护和管理虚拟机 (VM) 和数据存储的过程。  SCV 使用基于存储的快照和复制到辅助阵列来满足较低的恢复时间目标。
@@ -207,6 +218,7 @@ NetApp Backup and Recovery支持将数据副本扩展到云端对象存储的备
 
 
 
+[[storage-considerations]]
 === 存储注意事项
 
 利用ONTAP NFS 数据存储库和 VMware vSphere 可实现高性能、易于管理且可扩展的环境，从而提供基于块的存储协议无法实现的虚拟机与数据存储库比率。这种架构可以使数据存储密度增加十倍，同时数据存储数量相应减少。
@@ -225,6 +237,7 @@ NetApp Backup and Recovery支持将数据副本扩展到云端对象存储的备
 
 
 
+[[ransomware-protection]]
 === 勒索软件防护
 
 NetApp ONTAP数据管理软件具有一套全面的集成技术，可帮助您保护、检测和恢复勒索软件攻击。 ONTAP内置的NetApp SnapLock Compliance功能可使用具有高级数据保留功能的 WORM（一次写入，多次读取）技术来防止删除已启用卷中存储的数据。确定保留期并锁定 Snapshot 副本后，即使具有完全系统权限的存储管理员或NetApp支持团队的成员也无法删除 Snapshot 副本。但更重要的是，拥有泄露凭证的黑客无法删除数据。
@@ -239,6 +252,7 @@ NetApp保证我们能够在符合条件的阵列上恢复您受保护的NetApp S
 
 
 
+[[disaster-recovery-considerations]]
 === 灾难恢复注意事项
 
 NetApp提供全球最安全的存储。  NetApp可以帮助保护数据和应用程序基础架构，在本地存储和云之间移动数据，并帮助确保跨云的数据可用性。  ONTAP配备强大的数据保护和安全技术，可通过主动检测威胁并快速恢复数据和应用程序来帮助保护客户免受灾难。
@@ -255,6 +269,7 @@ NetApp提供全球最安全的存储。  NetApp可以帮助保护数据和应用
 
 
 
+[[solutions-overview]]
 === 解决方案概述
 
 本文档涵盖的解决方案：

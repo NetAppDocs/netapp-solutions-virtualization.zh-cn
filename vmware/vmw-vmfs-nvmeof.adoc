@@ -18,6 +18,7 @@ summary: 本页面提供在 VMware vSphere 环境中为 VMFS 数据存储部署N
 
 
 
+[[what-you-need]]
 == 你需要什么
 
 * 管理 vSphere 环境和ONTAP所需的基本技能。
@@ -41,6 +42,7 @@ summary: 本页面提供在 VMware vSphere 环境中为 VMFS 数据存储部署N
 
 
 
+[[provision-vmfs-datastore]]
 == 配置 VMFS 数据存储
 
 . 检查与 https://mysupport.netapp.com/matrix["互操作性表工具 (IMT)"]。
@@ -49,6 +51,7 @@ summary: 本页面提供在 VMware vSphere 环境中为 VMFS 数据存储部署N
 
 
 
+[[ontap-tasks]]
 == ONTAP 任务
 
 . link:https://docs.netapp.com/us-en/ontap-cli-98/system-license-show.html["验证 FCP 的ONTAP许可证。"]使用 `system license show`命令并检查是否列出了 NVMe_oF。使用 `license add -license-code <license code>`添加许可证。
@@ -69,6 +72,7 @@ summary: 本页面提供在 VMware vSphere 环境中为 VMFS 数据存储部署N
 
 
 
+[[vmware-vsphere-tasks]]
 == VMware vSphere 任务
 
 . 验证 HBA 驱动程序是否已安装。  VMware 支持的 HBA 已部署了驱动程序，并且应该在link:++https://docs.vmware.com/en/VMware-vSphere/7.0/com.vmware.vsphere.storage.doc/GUID-ED20B7BE-0D1C-4BF7-85C9-631D45D96FEC.html++["存储适配器信息"]

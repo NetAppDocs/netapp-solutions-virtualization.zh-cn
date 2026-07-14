@@ -18,6 +18,7 @@ summary: '使用 ONTAP 为 OpenNebula 配置带有 iSCSI 的逻辑卷管理器 (
 
 
 
+[[initial-virtualization-administrator-tasks]]
 == 初始虚拟化管理员任务
 
 完成这些初始任务，让 OpenNebula 主机为 iSCSI 连接做好准备，并为存储管理员收集必要的信息。
@@ -73,6 +74,7 @@ image:opennebula-ontap-iscsi-001.png["iSCSI接口详细信息"]
 
 
 
+[[final-virtualization-administrator-tasks]]
 == 最终虚拟化管理员任务
 
 完成这些任务，将 iSCSI LUN 配置为 OpenNebula 中的共享 LVM 数据存储区。

@@ -20,6 +20,7 @@ summary: 在 VMware Cloud Foundation 管理域中的 ESXi 主机上配置 NFS �
 
 
 
+[[step-1-create-a-distributed-port-group-for-nfs-traffic]]
 == 步骤 1：为 NFS 流量创建分布式端口组
 
 完成以下步骤，为网络创建一个新的分布式端口组来承载 NFS 流量。
@@ -64,6 +65,7 @@ image:vmware-vcf-aff-038.png["DPG-- 团队上行链路"]
 
 
 
+[[step-2-create-a-vmkernel-adapter-on-each-esxi-host]]
 == 步骤 2：在每个 ESXi 主机上创建 VMkernel 适配器
 
 在工作负载域中的每个 ESXi 主机上创建一个 VMkernel 适配器。
@@ -114,6 +116,7 @@ image:vmware-vcf-aff-041.png["检查 VMkernel 选择"]
 
 
 
+[[whats-next]]
 == 下一步是什么？
 
 在工作负载域中的所有 ESXi 主机上配置 NFS 网络后，link:vmw-vcf-viwld-supp-nfs-vvols-storage.html["为 NFS vVols配置存储"] 。

@@ -18,6 +18,7 @@ summary: 要在 VMware Cloud Foundation VI 工作负载域中部署 NVMe vVols �
 
 
 
+[[infrastructure-requirements]]
 == 基础设施要求
 
 * ONTAP AFF或ASA存储系统，其以太网交换机上的物理数据端口专用于存储流量。
@@ -27,6 +28,7 @@ summary: 要在 VMware Cloud Foundation VI 工作负载域中部署 NVMe vVols �
 
 
 
+[[recommended-nvmetcp-network-design]]
 == 推荐的 NVMe/TCP 网络设计
 
 NetApp建议对 NVMe/TCP 采用完全冗余的网络设计。下图说明了冗余配置的示例，为存储系统、交换机、网络适配器和主机系统提供容错功能。
@@ -37,6 +39,7 @@ image:vmware-vcf-asa-074.png["NVMe-tcp网络设计"]
 
 
 
+[[whats-next]]
 == 下一步是什么？
 
 在审查了部署要求之后，link:vmw-vcf-viwld-supp-nvme-svm-lifs.html["创建 SVM 和 LIF"] 。

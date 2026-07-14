@@ -20,6 +20,7 @@ Amazon FSx for NetApp ONTAP可以轻松地将 VMware vSphere VM 迁移到 Amazon
 
 
 
+[[overview]]
 == 概述
 
 对于在 VMware vSphere 上投入大量资金的企业来说，考虑到当前的市场状况，迁移到 AWS 是一种经济高效的选择，也是一个独特的机会。
@@ -32,6 +33,7 @@ Amazon FSx for NetApp ONTAP可以轻松地将 VMware vSphere VM 迁移到 Amazon
 
 
 
+[[solution-requirements]]
 == 解决方案要求
 
 VMware 客户目前正在寻求解决许多挑战。这些组织希望：
@@ -43,10 +45,12 @@ VMware 客户目前正在寻求解决许多挑战。这些组织希望：
 
 
 
+[[technical-components-overview]]
 == 技术组件概述
 
 
 
+[[fsx-ontap-concepts]]
 === FSx ONTAP概念
 
 Amazon FSx ONTAP是一项完全托管的 AWS 存储服务，它为NetApp ONTAP文件系统提供 AWS 上所有熟悉的ONTAP数据管理功能、性能和 API。其高性能存储支持多种协议（NFS、SMB、iSCSI），为使用 Windows、Linux 和 macOS EC2 实例的工作负载提供单一服务。
@@ -63,6 +67,7 @@ FSx ONTAP的核心资源是基于固态硬盘 (SSD) 存储的文件系统。在�
 
 
 
+[[storage-virtual-machines]]
 === 存储虚拟机
 
 FSx ONTAP文件系统中的数据通过称为存储虚拟机 (SVM) 的逻辑存储分区进行访问。 SVM 实际上是自己的文件服务器，配备了自己的数据和管理访问点。访问 FSx ONTAP文件系统上的 iSCSI LUN 时，Amazon EC2 实例使用 SVM 的 iSCSI 端点 IP 地址直接与 SVM 交互。
@@ -77,6 +82,7 @@ FSx ONTAP SVM 中的数据存储和组织在称为卷的结构中，这些结构
 
 
 
+[[the-cirrus-migrate-cloud-migrateops-concept]]
 === Cirrus Migrate Cloud MigrateOps 概念
 
 CMC 是 Cirrus Data Solutions, Inc. 提供的可交易软件即服务 (SaaS) 产品，可通过 AWS Marketplace 获取。  MigrateOps 是 CMC 的一项数据移动即代码自动化功能，它允许您使用 YAML 中的简单操作配置以声明方式大规模管理数据移动操作。 MigrateOps 配置决定了您希望如何执行数据移动任务。要了解有关 MigrateOps 的更多信息，请参阅link:https://www.google.com/url?q=https://customer.cirrusdata.com/cdc/kb/articles/about-migrateops-hCCHcmhfbj&sa=D&source=docs&ust=1715480377722215&usg=AOvVaw033gzvuAlgxAWDT_kOYLg1["关于 MigrateOps"]。
@@ -100,6 +106,7 @@ FSx ONTAP用于提供数据 LUN 并调整 Amazon EC2 实例类型的大小，同
 
 
 
+[[benefits-of-using-amazon-fsx-ontap-with-ec2-instances]]
 == 将Amazon FSx ONTAP与 EC2 实例结合使用的优势
 
 适用于 Amazon EC2 实例的 FSx ONTAP存储具有多项优势：
