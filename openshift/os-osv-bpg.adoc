@@ -174,9 +174,9 @@ NOTE: 有关存储配置和Trident使用最佳实践的更多详细信息，请�
 [[openshift-virtualization-tuning-scaling-guide]]
 == OpenShift 虚拟化 - 调整和扩展指南
 
-Red Hat 已记录link:https://docs.openshift.com/container-platform/latest/scalability_and_performance/recommended-performance-scale-practices/recommended-control-plane-practices.html["OpenShift 集群扩展建议和限制"]。
+Red Hat 对此进行了记录 link:https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/scalability_and_performance/recommended-performance-and-scalability-practices-2["OpenShift 集群扩展建议和限制"]。
 
-此外，他们还记录了link:https://access.redhat.com/articles/6994974]["OpenShift 虚拟化调整指南"]和link:https://access.redhat.com/articles/6571671["OpenShift Virtualization 4.x 支持的限制"]。
+此外，他们还记录了link:https://access.redhat.com/articles/6994974["OpenShift 虚拟化调整指南"]和link:https://access.redhat.com/articles/6571671["OpenShift Virtualization 4.x 支持的限制"]。
 
 
 NOTE: 需要有效的 Red Hat 订阅才能访问上述内容。
@@ -185,7 +185,7 @@ NOTE: 需要有效的 Red Hat 订阅才能访问上述内容。
 
 * 调整参数以一次性或批量创建多个虚拟机
 * 虚拟机实时迁移
-* link:https://docs.openshift.com/container-platform/latest/virt/vm_networking/virt-dedicated-network-live-migration.html["为实时迁移配置专用网络"]
+* link:https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/virtualization/live-migration#virt-configuring-secondary-network-vm-live-migration_virt-configuring-cross-cluster-live-migration-network["为实时迁移配置专用网络"]
 * 通过包含工作负载类型来定制虚拟机模板
 
 

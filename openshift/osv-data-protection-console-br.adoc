@@ -1,0 +1,276 @@
+---
+sidebar: sidebar 
+permalink: openshift/osv-data-protection-console-br.html 
+keywords: OpenShift, OCP, Trident, Trident Protect, NetApp ONTAP, Red Hat OpenShift, OpenShift Virtualization, Red Hat OpenShift Virtualization 
+summary: 使用 NetApp Console Backup and Recovery 服务备份和恢复 OpenShift Virtualization VM 
+---
+= 使用 NetApp Console Backup and Recovery Service 备份和还原虚拟机
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+使用 NetApp Console 备份和还原 Red Hat OpenShift Virtualization 中的 VM。此步骤介绍了如何通过 NetApp Console 的 Backup and Recovery 服务创建和管理备份与还原操作，并使用 Azure Blob Storage 容器作为备份目标。
+
+NetApp Console 提供跨本地和云环境的存储和数据服务的集中管理。它提供统一控制、操作简便和安全管理。可从以下用户界面访问多种数据服务和管理功能：link:https://console.netapp.com["console.netapp.com"^]。有关 NetApp Console 的完整详细信息，请参阅 link:https://docs.netapp.com/us-en/console-family/["NetApp Console 文档"]。
+
+本节重点介绍 Kubernetes 工作负载的 NetApp Backup and Recovery 数据服务，特别是 OpenShift 虚拟机。NetApp Backup and Recovery Service 使您能够使用单个界面发现、管理、创建保护策略并将其与 Kubernetes 应用程序和虚拟机相关联。有关完整指南，请参阅 link:https://docs.netapp.com/us-en/data-services-backup-recovery/br-use-kubernetes-protect-overview.html["NetApp Backup and Recovery 文档"]。
+
+
+
+[[backup-and-recovery-workflow]]
+== 备份和恢复工作流程
+
+. *请确保您拥有控制台代理*
++
+确保在运行 OpenShift 集群的环境中部署了控制台代理。有关安装控制台代理的详细信息，请参见 link:https://docs.netapp.com/us-en/console-setup-admin/concept-agent-install-options.html#agent-console-deploy["NetApp Console Setup 文档"]。
+
++
+.显示示例
+[%collapsible]
+====
+在 NetApp Console 中，单击 Deploy Agent（如屏幕截图所示），然后在运行 OpenShift 集群的环境中部署代理。
+
+在此示例中，我们选择了本地。复制代理安装程序 URL，使用 curl 命令在 vSphere 上运行的 Ubuntu 计算机上下载代理安装程序，然后运行安装程序以部署控制台代理。
+
+使用 URL 中代理的 IP 地址进行注册。有关详细说明，请参阅 link:https://docs.netapp.com/us-en/console-setup-admin/task-install-agent-on-prem-ova.html["文档"]。代理注册后，您可以在 NetApp Console 中看到它，如下面的屏幕截图所示。
+
+image:osv-data-protection-console-001.png["控制台代理安装"]
+
+image:osv-data-protection-console-002.png["使用代理安装程序 URL"]
+
+image:osv-data-protection-console-003.png["Console Agent 已连接至 NetApp Console"]
+
+====
+. *将 Azure Blob 存储容器设置为 OpenShift 虚拟机备份和还原方案的备份目标。*
++
+在此示例中，我们使用 Azure Blob Storage 作为备份目标。您还可以使用 AWS S3、Google Cloud Storage、StorageGRID 或 ONTAP 对象存储作为备份目标。
+
++
+有关其他详细信息，请查看 link:https://docs.netapp.com/us-en/data-services-backup-recovery/br-start-setup.html#prepare-the-backup-destination["NetApp Console 文档"]。
+
++
+若要在 NetApp Console 中将 Azure Blob 存储容器发现为备份目标，您需要从 Azure 门户获取以下信息。
+
++
+[listing]
+----
+Application (Client) ID:
+Client Secret:
+Directory (tenant) ID:
+----
++
+若要获取这些值，请在Azure门户中执行以下操作。
+
++
+.. 创建 Blob 存储容器。
+.. 创建企业应用程序，将此应用程序所需的访问权限分配给 Blob 存储容器。获取此应用程序的应用程序 ID、目录 ID 和客户端密码，以便在 NetApp Console 中使用，将 Azure Blob 存储容器发现为备份目标。
++
+.显示示例
+[%collapsible]
+====
+... *创建存储帐户和 Blob 容器*
++
+.... 在订阅中创建资源组。
+.... 创建存储帐户，然后创建 Blob 容器。
+
+
+
+
+image:osv-data-protection-console-004.png["存储帐户"]
+
+image:osv-data-protection-console-005.png["Blob Storage"]
+
+image:osv-data-protection-console-006.png["容器"]
+
+image:osv-data-protection-console-007.png["已创建 Blob 容器"]
+
+... *创建具有适当权限的企业应用程序。*在 Azure 门户中完成这些步骤。
++
+.... 在 Azure 订阅中创建企业应用程序。
+.... 注册应用程序。获取刚刚注册的应用程序的应用程序 ID 和目录 ID。
+.... 分配角色以提供对应用程序的存储 Blob 容器的访问权限。+ 为此，请转到之前创建的存储 Blob 的 IAM，单击 *Add Role Assignment*。+ 选择 Storage Account Contributor 角色，单击 Next。选择将访问权限分配给 User、group 或 Service Principal，并在 Select members 部分中选择您创建的 Enterprise Application。+ 单击 *Review + assign*，完成分配。+ 重复此过程以添加下面列出的其他角色。应用程序访问 Blob 容器需要所有这些角色。
++
+..... 存储 Blob 数据读取员
+..... Storage Blob Data Contributor
+..... 存储帐户贡献者
+
+
+.... 最后，为此应用程序创建一个客户端密码。
+
+
+
+
+image:osv-data-protection-console-008.png["正在创建企业应用程序"]
+
+image:osv-data-protection-console-009.png["创建企业应用程序"]
+
+image:osv-data-protection-console-010.png["注册企业应用程序"]
+
+image:osv-data-protection-console-011.png["获取应用 ID、目录 ID"]
+
+image:osv-data-protection-console-012.png["Storage Account IAM"]
+
+image:osv-data-protection-console-013.png["添加角色分配"]
+
+image:osv-data-protection-console-014.png["选择服务主体"]
+
+image:osv-data-protection-console-015.png["查看并分配"]
+
+image:osv-data-protection-console-016.png["为应用程序创建客户端密钥"]
+
+image:osv-data-protection-console-017.png["为应用程序创建客户端密钥"]
+
+====
+
+
+. *在 NetApp Console 中，发现 OpenShift 集群。*
++
+.显示示例
+[%collapsible]
+====
+此步骤要求 OpenShift 集群正在运行，且 Console 代理已部署在同一环境中。请按照以下步骤在 NetApp Console 中发现 OpenShift 集群。
+
+.. 在 NetApp Console 中，选择 *Inventory > Kubernetes* 并提供 OpenShift 集群的详细信息。
+.. 选择在 OpenShift 集群所在的相同环境中部署的代理。
+.. 复制提供的命令以安装 Trident Protect，并从用于在 OpenShift 集群上执行 `oc`命令的计算机上运行这些命令。
+.. Trident Protect 安装成功后，单击 *Discover*。NetApp Console 通过代理发现 OpenShift 集群及其所有资源，并将其填充到 UI 中。
+
+
+image:osv-data-protection-console-018.png["发现 OpenShift 集群"]
+
+image:osv-data-protection-console-019.png["安装 Trident Protect，然后单击\"发现\""]
+
+====
+. *在 NetApp Console 中，发现 Azure Blob Storage。*
++
+.显示示例
+[%collapsible]
+====
+若要在 NetApp Console 中发现 Azure Blob 存储，需要先前在 Azure 门户中创建的企业应用程序的应用程序（客户端）ID、客户端密码和目录（租户）ID。
+
+在 NetApp Console 中提供这些详细信息后，NetApp Console 将发现 Azure Blob Storage 并将其填充到 UI 中。
+
+Azure 凭据存储在 NetApp Console 中，用于访问 Azure Blob 存储以进行备份和还原操作。
+
+image:osv-data-protection-console-020.png["发现备份目标"]
+
+image:osv-data-protection-console-021.png["添加 Azure 凭据"]
+
+image:osv-data-protection-console-022.png["凭据信息为必填项"]
+
+image:osv-data-protection-console-023.png["提供 Azure 凭据"]
+
+image:osv-data-protection-console-024.png["选择 Azure 订阅和市场订阅"]
+
+image:osv-data-protection-console-025.png["查看并添加"]
+
+image:osv-data-protection-console-026.png["已添加 Azure 凭据并发现 Azure Blob Storage"]
+
+====
+. *在 NetApp Console 中，为虚拟机创建应用程序并使用备份保护它们*
++
+.显示示例
+[%collapsible]
+====
+在此步骤中，在 NetApp Console 中为需要保护的虚拟机创建一个应用程序。您可以为单个虚拟机或多个虚拟机创建应用程序。您还可以使用命名空间创建应用程序，以保护 OpenShift 集群中命名空间内的所有虚拟机。
+
+您还需要保护策略才能与应用程序关联。您可以创建新的保护策略或使用现有的保护策略。在此示例中，将使用应用程序创建新的保护策略并与之关联。将根据与其关联的保护策略为应用程序创建备份。保留的备份数基于保护策略中定义的保留策略。
+
+image:osv-data-protection-console-027.png["为 VM 创建应用程序"]
+
+image:osv-data-protection-console-028.png["提供详细信息"]
+
+image:osv-data-protection-console-029.png["保护命名空间中的所有虚拟机"]
+
+image:osv-data-protection-console-030.png["创建新保护策略"]
+
+image:osv-data-protection-console-031.png["提供名称"]
+
+image:osv-data-protection-console-032.png["提供策略详细信息"]
+
+image:osv-data-protection-console-033.png["选择本地快照设置和 Azure Blob Storage 作为备份目标"]
+
+image:osv-data-protection-console-034.png["已创建保护策略"]
+
+image:osv-data-protection-console-035.png["已启动使用此策略的应用程序保护"]
+
+image:osv-data-protection-console-036.png["应用程序受保护且运行状况良好"]
+
+image:osv-data-protection-console-037.png["使用 2 个磁盘保护 1 个 VM"]
+
+image:osv-data-protection-console-038.png["保护5个虚拟机，每个虚拟机有2个磁盘"]
+
+如果您的应用程序/虚拟机具有多个磁盘，并且备份失败并出现以下错误，请编辑 `volumegroupsnapshots`和 `volumegroupsnapshotcontents` API 规则，使其包含所显示的谓词。
+
+.<strong>显示改进项</strong>
+[%collapsible]
+=====
+image:osv-data-protection-console-043.png["保护每个具有多个磁盘的虚拟机时出错"]
+
+[source, yaml]
+----
+- apiGroups:
+  - groupsnapshot.storage.k8s.io
+  resources:
+  - volumegroupsnapshots
+  verbs:
+  - get
+  - list
+  - watch
+  - create
+  - delete
+  - update
+  - patch
+- apiGroups:
+  - groupsnapshot.storage.k8s.io
+  resources:
+  - volumegroupsnapshotcontents
+  - volumegroupsnapshotcontents/status
+  verbs:
+  - get
+  - list
+  - watch
+  - create
+  - delete
+  - update
+  - patch
+- apiGroups:
+  - groupsnapshot.storage.k8s.io
+  resources:
+  - volumegroupsnapshotclasses
+  verbs:
+  - get
+  - list
+  - watch
+
+----
+=====
+====
+
+
+. *从备份还原应用程序*
++
+.显示示例
+[%collapsible]
+====
+** 您可以根据需要从众多可用备份中选择一个来恢复虚拟机。
+** 您可以还原到原始命名空间或其他命名空间。
+** 您可以选择需要还原的资源。
+** 您可以选择恢复虚拟机时使用的存储类。
+
+
+image:osv-data-protection-console-039.png["选择一个还原点"]
+
+image:osv-data-protection-console-040.png["从备份还原应用程序"]
+
+image:osv-data-protection-console-041.png["从备份还原应用程序"]
+
+image:osv-data-protection-console-042.png["从备份还原应用程序"]
+
+====
+

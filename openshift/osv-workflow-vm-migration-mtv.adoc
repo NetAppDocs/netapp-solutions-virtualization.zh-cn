@@ -14,12 +14,12 @@ summary: 搭载NetApp ONTAP 的Red Hat OpenShift 虚拟化
 
 
 [role="lead"]
-使用 OpenShift 虚拟化迁移工具包将虚拟机从 VMware 迁移到 OpenShift 集群。此迁移涉及安装虚拟化迁移工具包 (MTV)、创建源和目标提供程序、创建迁移计划以及执行冷迁移或热迁移。
+使用 OpenShift 虚拟化迁移工具包将 VM 从 VMware 迁移到 OpenShift 集群。此迁移包括安装虚拟化迁移工具包 (MTV)、创建源和目标提供程序、创建迁移计划以及执行冷迁移或热迁移。
 
 .冷迁移
 [%collapsible%open]
 ====
-这是默认的迁移类型。复制数据时源虚拟机将关闭。
+这是默认迁移类型。复制数据时，源虚拟机将关闭。
 
 ====
 .暖迁移
@@ -42,9 +42,9 @@ video::bac58645-dd75-4e92-b5fe-b12b015dc199[panopto,width=360]
 [[migration-of-vm-from-vmware-to-openshift-virtualization-using-migration-toolkit-for-virtualization]]
 == 使用虚拟化迁移工具包将虚拟机从 VMware 迁移到 OpenShift 虚拟化
 
-在本节中，我们将了解如何使用虚拟化迁移工具包 (MTV) 将虚拟机从 VMware 迁移到在 OpenShift Container 平台上运行并使用Trident与NetApp ONTAP存储集成的 OpenShift 虚拟化。
+本节介绍如何使用 Migration Toolkit for Virtualization (MTV) 将虚拟机从 VMware 迁移到在 OpenShift Container Platform 上运行并使用 Trident 与 NetApp ONTAP 存储集成的 OpenShift Virtualization。
 
-下图显示了 VM 从 VMware 迁移到 Red Hat OpenShift Virtualization 的高级视图。
+下图显示了虚拟机从 VMware 迁移到 Red Hat OpenShift Virtualization 的高层视图。
 
 image:rh-os-n-use-case-vm-migration-using-mtv.png["该图显示输入/输出对话框或表示书面内容"]
 
@@ -56,43 +56,45 @@ image:rh-os-n-use-case-vm-migration-using-mtv.png["该图显示输入/输出对�
 
 
 [[on-vmware]]
-=== **在 VMware 上**
+=== 在 VMware 上
 
-* 安装了使用 rhel 9.3 的 RHEL 9 VM，其配置如下：
+* 已安装使用 RHEL 9.3 且具有以下配置的 RHEL 9 VM：
 +
 ** CPU：2个，内存：20GB，硬盘：20GB
-** 用户凭证：root 用户和管理员用户凭证
+** 用户凭据：root 用户和 admin 用户
 
 
-* VM 准备好后，安装 postgresql 服务器。
+* VM 就绪后，安装了 PostgreSQL 服务器。
 +
-** postgresql 服务器已启动并启用在启动时启动
-+
+** PostgreSQL 服务器已启动，并已启用开机自动启动
+
+
+
+
 [source, console]
 ----
-systemctl start postgresql.service`
+systemctl start postgresql.service
 systemctl enable postgresql.service
-The above command ensures that the server can start in the VM in OpenShift Virtualization after migration
 ----
-** 添加了 2 个数据库，1 个表，并在表中添加了 1 行。参考link:https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/9/html/configuring_and_using_database_servers/using-postgresql_configuring-and-using-database-servers#configuring-postgresql_using-postgresql["此处"]有关在 RHEL 上安装 PostgreSQL 服务器以及创建数据库和表条目的说明。
+这些命令可确保服务器在迁移后可以在 OpenShift Virtualization 中的虚拟机中启动。
+
+* 向表中添加了 2 个数据库、1 个表和 1 行。有关在 RHEL 上安装 PostgreSQL 服务器以及创建数据库和表项的说明，请参见link:https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/9/html/configuring_and_using_database_servers/using-postgresql_configuring-and-using-database-servers#configuring-postgresql_using-postgresql["此处"]。
 
 
 
-
-
-NOTE: 确保启动 postgresql 服务器并启用服务在启动时启动。
+NOTE: 确保启动 PostgreSQL 服务器并启用该服务在系统启动时自动启动。
 
 
 
 [[on-openshift-cluster]]
-=== **在 OpenShift 集群上**
+=== 在 OpenShift 集群上
 
 在安装 MTV 之前已完成以下安装：
 
 * OpenShift Cluster 4.17 或更高版本
 * 为 iSCSI 启用的集群节点上的多路径（用于 ontap-san 存储类）。如果使用 node-prep 标志安装Trident 25.02，则可以轻松启用多路径。您可以参考link:osv-trident-install.html["Trident安装部分"]了解详情。
 * 安装所需的后端和存储类以及快照类。请参阅link:osv-trident-install.html["Trident安装部分"]了解详情。
-* link:https://docs.openshift.com/container-platform/4.13/virt/install/installing-virt-web.html["OpenShift 虚拟化"]
+* link:https://docs.redhat.com/en/documentation/openshift_container_platform/4.19#Virtualization["OpenShift 虚拟化"]
 
 
 
@@ -100,18 +102,20 @@ NOTE: 确保启动 postgresql 服务器并启用服务在启动时启动。
 [[install-mtv]]
 === 安装 MTV
 
-现在您可以安装虚拟化迁移工具包 (MTV)。请参阅提供的说明link:https://access.redhat.com/documentation/en-us/migration_toolkit_for_virtualization/2.5/html/installing_and_using_the_migration_toolkit_for_virtualization/installing-the-operator["此处"]寻求安装帮助。
+现在您可以安装 Migration Toolkit for Virtualization (MTV)。有关安装的帮助，请参见所提供的link:https://access.redhat.com/documentation/en-us/migration_toolkit_for_virtualization/2.5/html/installing_and_using_the_migration_toolkit_for_virtualization/installing-the-operator["此处"]说明。
 
-虚拟化迁移工具包 (MTV) 用户界面集成到 OpenShift Web 控制台中。你可以参考link:https://access.redhat.com/documentation/en-us/migration_toolkit_for_virtualization/2.5/html/installing_and_using_the_migration_toolkit_for_virtualization/migrating-vms-web-console#mtv-ui_mtv["此处"]开始使用用户界面执行各种任务。
+虚拟化迁移工具包 (MTV) 用户界面已集成到 OpenShift Web 控制台中。您可以参考 link:https://access.redhat.com/documentation/en-us/migration_toolkit_for_virtualization/2.5/html/installing_and_using_the_migration_toolkit_for_virtualization/migrating-vms-web-console#mtv-ui_mtv["此处"] 开始使用用户界面执行各种任务。
 
-**创建源提供商**
 
-为了将 RHEL VM 从 VMware 迁移到 OpenShift Virtualization，您需要首先为 VMware 创建源提供程序。参考说明link:https://access.redhat.com/documentation/en-us/migration_toolkit_for_virtualization/2.5/html/installing_and_using_the_migration_toolkit_for_virtualization/migrating-vms-web-console#adding-providers["此处"]创建源提供程序。
+
+==== 创建源提供程序
+
+要将 RHEL 虚拟机从 VMware 迁移到 OpenShift 虚拟化，需要首先为 VMware 创建源提供程序。请参阅说明 link:https://access.redhat.com/documentation/en-us/migration_toolkit_for_virtualization/2.5/html/installing_and_using_the_migration_toolkit_for_virtualization/migrating-vms-web-console#adding-providers["此处"] 以创建源提供程序。
 
 您需要以下内容来创建 VMware 源提供程序：
 
-* 中心网址
-* VCenter 凭证
+* vCenter URL
+* vCenter 凭据
 * vCenter 服务器指纹
 * 存储库中的 VDDK 映像
 
@@ -125,18 +129,22 @@ NOTE: 虚拟化迁移工具包 (MTV) 使用 VMware 虚拟磁盘开发工具包 (
 
 按照提供的说明进行操作link:https://access.redhat.com/documentation/en-us/migration_toolkit_for_virtualization/2.5/html/installing_and_using_the_migration_toolkit_for_virtualization/prerequisites#creating-vddk-image_mtv["此处"]创建 VDDK 映像并将其推送到可从 OpenShift 集群访问的注册表。
 
-**创建目的地提供商**
 
-由于 OpenShift 虚拟化提供商是源提供商，因此主机集群会自动添加。
 
-**创建迁移计划**
+==== 创建目标提供程序
+
+此主机集群将自动添加为目标提供程序。
+
+
+
+==== 创建迁移计划
 
 按照提供的说明进行操作link:https://access.redhat.com/documentation/en-us/migration_toolkit_for_virtualization/2.5/html/installing_and_using_the_migration_toolkit_for_virtualization/migrating-vms-web-console#creating-migration-plan_mtv["此处"]创建迁移计划。
 
 创建计划时，如果尚未创建，则需要创建以下内容：
 
 * 将源网络映射到目标网络的网络映射。
-* 将源数据存储映射到目标存储类的存储映射。为此，您可以选择 ontap-san 存储类。一旦创建了迁移计划，计划的状态应该显示*就绪*，您现在应该能够*开始*该计划。
+* 用于将源数据存储区映射到目标存储类的存储映射。为此，您可以选择 ontap-san 存储类。创建迁移计划后，计划的状态应显示 *Ready*，您现在应该能够 *Start* 该计划。
 
 
 image:rh-os-n-use-case-vm-migration-mtv-plan-ready.png["该图显示输入/输出对话框或表示书面内容"]
@@ -146,48 +154,48 @@ image:rh-os-n-use-case-vm-migration-mtv-plan-ready.png["该图显示输入/输�
 [[perform-cold-migration]]
 === 执行冷迁移
 
-单击“*开始*”将运行一系列步骤来完成虚拟机的迁移。
+单击*开始*，运行一系列步骤并完成 VM 的迁移。
 
 image:rh-os-n-use-case-vm-migration-mtv-plan-complete.png["该图显示输入/输出对话框或表示书面内容"]
 
-当所有步骤完成后，您可以通过点击左侧导航菜单中的“虚拟化”下的“虚拟机”来查看迁移后的虚拟机。提供了访问虚拟机的说明link:https://docs.openshift.com/container-platform/4.13/virt/virtual_machines/virt-accessing-vm-consoles.html["此处"]。
+完成所有步骤后，您可以通过单击左侧导航菜单中*虚拟化*下的*虚拟机*查看迁移的虚拟机。要管理虚拟机，请参阅 link:https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/virtualization/managing-vms["the OpenShift 虚拟化文档"]。
 
-您可以登录虚拟机并验证 posgresql 数据库的内容。数据库、表和表中的条目应该与源虚拟机上创建的相同。
+您可以登录虚拟机并验证 PostgreSQL 数据库的内容。表中的数据库、表和条目应与在源 VM 上创建的内容相同。
 
 
 
 [[perform-warm-migration]]
 === 执行热迁移
 
-要执行热迁移，在创建如上所示的迁移计划后，您需要编辑计划设置以更改默认迁移类型。单击冷迁移旁边的编辑图标并切换按钮将其设置为热迁移。点击**保存**。现在单击**开始**来开始迁移。
+要执行热迁移，在创建如上所示的迁移计划后，需要编辑计划设置以更改默认迁移类型。单击冷迁移旁边的编辑图标，然后切换按钮将其设置为热迁移。单击 *Save*。现在单击 *Start* 开始迁移。
 
 
-NOTE: 确保在从 VMware 中的块存储移动时，已为 OpenShift 虚拟化 VM 选择了块存储类。此外，volumeMode 应设置为 block，访问模式应为 rwx，以便您稍后可以执行 VM 的实时迁移。
+NOTE: 确保从 VMware 中的块存储迁移时，为 OpenShift 虚拟化虚拟机选择了块存储类。此外，volumeMode 应设置为 Block，访问模式应为 ReadWriteMany（RWX），以便您可以在稍后执行虚拟机的实时迁移。
 
 image:rh-os-n-use-case-vm-migration-mtv-plan-warm-001.png["1"]
 
-点击**0 of 1 vms done**，展开虚拟机，你就能看到迁移的进度。
+单击 *0 of 1 VMs completed*，展开 VM，即可查看迁移进度。
 
 image:rh-os-n-use-case-vm-migration-mtv-plan-warm-002.png["2"]
 
-经过一段时间后，磁盘传输完成，迁移等待进入切换状态。数据卷处于暂停状态。返回计划并单击**切换**按钮。
+一段时间后，磁盘传输完成，迁移等待进入切换状态。DataVolume 处于"已暂停"状态。返回计划，然后单击*切换*按钮。
 
 image:rh-os-n-use-case-vm-migration-mtv-plan-warm-003.png["3"]
 
 image:rh-os-n-use-case-vm-migration-mtv-plan-warm-004.png["4"]
 
-对话框中将显示当前时间。如果您想要安排稍后的切换，请将时间更改为未来的时间。如果没有，要立即执行切换，请单击**设置切换**。
+对话框显示当前时间。更改时间以计划稍后的切换，或单击 *Set cutover* 以立即执行切换。
 
 image:rh-os-n-use-case-vm-migration-mtv-plan-warm-005.png["5"]
 
-几秒钟后，当切换阶段开始时，DataVolume 从暂停状态变为 ImportScheduled 状态，再变为 ImportInProgress 状态。
+几秒钟后，切换阶段开始时，DataVolume 会从"已暂停"变为 ImportScheduled，再变为 ImportInProgress 状态。
 
 image:rh-os-n-use-case-vm-migration-mtv-plan-warm-006.png["6"]
 
-当切换阶段完成后，DataVolume 进入成功状态并且 PVC 被绑定。
+切换阶段完成后，DataVolume进入"成功"状态，PVC 将被绑定。
 
 image:rh-os-n-use-case-vm-migration-mtv-plan-warm-007.png["7"]
 
-迁移计划继续完成 ImageConversion 阶段，最后完成 VirtualMachineCreation 阶段。  VM 在 OpenShift Virtualization 上进入运行状态。
+迁移计划继续完成 ImageConversion 阶段，最后 VirtualMachineCreation 阶段完成。虚拟机在 OpenShift 虚拟化上处于运行状态。
 
 image:rh-os-n-use-case-vm-migration-mtv-plan-warm-008.png["8"]

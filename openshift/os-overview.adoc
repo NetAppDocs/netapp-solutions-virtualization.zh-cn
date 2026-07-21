@@ -61,7 +61,7 @@ image:redhat-openshift-008.png["该图显示输入/输出对话框或表示书�
 +
 image:redhat-openshift-009.png["该图显示输入/输出对话框或表示书面内容"]
 
-. 关注link:https://docs.openshift.com/container-platform/4.7/installing/index.html["安装说明"]由 Red Hat 提供，可部署到您选择的环境中。
+. 按照 Red Hat 提供的 link:https://docs.redhat.com/en/documentation/openshift_container_platform/4.22#Install["安装说明"] 部署到您选择的环境。
 
 
 

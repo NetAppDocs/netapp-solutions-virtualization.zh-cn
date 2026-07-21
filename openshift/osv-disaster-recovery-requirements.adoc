@@ -29,7 +29,7 @@ summary: Red Hat OpenShift 虚拟化
 . 对 OpenShift 集群的 Cluster-admin 访问权限和对 ONTAP 存储系统的管理员访问权限，以执行必要的配置。
 . 已安装  `tridentctl` 和  `oc` 工具并将其添加到 $PATH 环境变量中的管理工作站，用于与 OpenShift 集群和 Trident 交互。
 . OpenShift 集群上有足够的硬件资源来支持 OpenShift Virtualization operator 和将要预配的虚拟机。有关资源要求的详细信息，请参见 link:https://docs.openshift.com/container-platform/4.7/virt/install/preparing-cluster-for-virt.html#virt-cluster-resource-requirements_preparing-cluster-for-virt["此处文档"]。
-. （可选）为 OpenShift 虚拟化配置节点放置规则，以指定集群节点的子集来托管 OpenShift 虚拟化操作员、控制器和虚拟机。有关如何配置节点放置规则的说明，请参见 link:https://docs.openshift.com/container-platform/4.7/virt/install/virt-specifying-nodes-for-virtualization-components.html["此处文档"]。
+. （可选）为 OpenShift 虚拟化配置节点放置规则，以指定集群节点的子集来托管 OpenShift 虚拟化操作员、控制器和虚拟机。有关如何配置节点放置规则的说明，请参见 link:https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/virtualization/installing["此处文档"]。
 . 对于支持 OpenShift 虚拟化的存储，建议使用专用的 StorageClass，从特定 Trident 后端请求存储，而该后端又由专用 SVM 提供支持。这在 OpenShift 集群上为基于虚拟机的工作负载提供数据方面保持了一定程度的多租户隔离。
 . OpenShift Virtualization 中必须有一个可用的 VM。有关部署新 VM 或将现有 VM 迁移到 OpenShift Virtualization 的详细信息，请参阅文档中的相应部分。
 
