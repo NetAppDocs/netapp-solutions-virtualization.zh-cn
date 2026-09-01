@@ -2,9 +2,9 @@
 sidebar: sidebar 
 permalink: vmware/vmw-vcf-migrate.html 
 keywords: vmware, vcf, migrate, import 
-summary: 转换具有ONTAP上现有光纤通道或 NFS 数据存储的 vSphere 环境涉及将当前基础架构集成到现代私有云架构中。 
+summary: 将具有现有光纤通道或 NFS 数据存储库的 vSphere 环境与 ONTAP 融合，需要将当前基础设施集成到现代私有云架构中。 
 ---
-= 了解如何将具有现有数据存储的 vSphere 环境转换为 VCF 管理域
+= 了解如何将具有现有数据存储的 vSphere 环境融合到 VCF 管理域
 :hardbreaks:
 :allow-uri-read: 
 :nofooter: 
@@ -14,16 +14,16 @@ summary: 转换具有ONTAP上现有光纤通道或 NFS 数据存储的 vSphere �
 
 
 [role="lead"]
-转换具有ONTAP上现有光纤通道或 NFS 数据存储的 vSphere 环境涉及将当前基础架构集成到现代私有云架构中。
+任何受支持的 vSphere 环境都可以作为 VCF 私有云环境的一部分。它可以融合到 VCF 管理域或作为工作负载域导入。此解决方案演示了当集群转换为 VCF 管理域时，vSphere 中的现有 VMFS 或 NFS 数据存储如何成为主存储。
 
 
 
 [[solution-overview]]
 == 解决方案概述
 
-该解决方案演示了当集群转换为 VCF 管理域时，vSphere 中现有的 FC 或 NFS 数据存储如何成为主要存储。
+此解决方案演示了当集群聚合到 VCF 管理域时，vSphere 中现有的 VMFS 或 NFS 数据存储如何成为主存储。
 
-此过程受益于ONTAP存储的稳健性和灵活性，可确保无缝的数据访问和管理。通过转换过程建立 VCF 管理域后，管理员可以有效地将其他 vSphere 环境（包括使用 FC 和 NFS 数据存储的环境）导入 VCF 生态系统。
+这一过程得益于 ONTAP 存储的稳健性和灵活性，确保无缝的数据访问和管理。通过融合过程建立 VCF 管理域后，管理员可以高效地将其他 vSphere 环境（包括使用 VMFS 和 NFS 数据存储的环境）导入 VCF 生态系统。
 
 这种集成不仅提高了资源利用率，还简化了私有云基础设施的管理，确保了平稳过渡，并最大限度地减少了对现有工作负载的干扰。
 
@@ -40,13 +40,13 @@ image::vmware-vcf-import-nfs-010.png[ONTAP工具架构]
 
 
 
-[[supported-solutions-for-converting-a-vsphere-environment]]
-== 转换 vSphere 环境的受支持解决方案
+[[supported-solutions-for-converging-a-vsphere-environment]]
+== 支持融合 vSphere 环境的解决方案
 
 有关转换 vCenter 实例的技术细节，请参阅以下解决方案。
 
-* link:vmw-vcf-mgmt-nfs.html["将 vCenter 实例转换为 VCF 管理域（NFS 数据存储）"]
-* link:vmw-vcf-mgmt-fc.html["将 vCenter 实例转换为 VCF 管理域（FC 数据存储）"]
+* link:vmw-vcf-mgmt-nfs.html["将 vCenter 实例收敛到 VCF 管理域（NFS 数据存储）"]
+* link:vmw-vcf-mgmt-vmfs.html["将 vCenter 实例收敛到 VCF 管理域（VMFS 数据存储区）"]
 
 
 
@@ -55,8 +55,8 @@ image::vmware-vcf-import-nfs-010.png[ONTAP工具架构]
 == 追加信息
 
 * 有关这些解决方案的视频演示，请参阅link:../videos/vmware-videos.html#vmware-datastore-provisioning-with-ontap["使用ONTAP配置 VMware 数据存储库"]。
-* 有关转换过程的概述，请参阅 https://techdocs.broadcom.com/us/en/vmware-cis/vcf/vcf-5-2-and-earlier/5-2/map-for-administering-vcf-5-2/importing-existing-vsphere-environments-admin/convert-or-import-a-vsphere-environment-into-vmware-cloud-foundation-admin.html["将 vSphere 环境转换为管理域或在 VMware Cloud Foundation 中将 vSphere 环境导入为 VI 工作负载域"]。
+* 有关收敛过程的概述，请参阅 https://techdocs.broadcom.com/us/en/vmware-cis/vcf/vcf-9-0-and-later/9-1/deployment/converging-your-existing-vsphere-infrastructure-to-a-vcf-or-vvf-platform-.html["将现有虚拟基础设施融合到 VCF"]。
 * 有关配置ONTAP存储系统的信息，请参阅link:https://docs.netapp.com/us-en/ontap["ONTAP 9 文档"]。
 * 有关配置 VCF 的信息，请参阅link:https://techdocs.broadcom.com/us/en/vmware-cis/vcf.html["VMware Cloud Foundation 文档"]。
-* 有关支持的存储以及将 vSphere 转换或导入到 VCF 5.2 的其他注意事项，请参阅 https://techdocs.broadcom.com/fr/fr/vmware-cis/vcf/vcf-5-2-and-earlier/5-2/considerations-before-converting-or-importing-existing-vsphere-environments-into-vcf.html["将现有 vSphere 环境转换或导入 VMware Cloud Foundation 之前的注意事项"]。
+* 要了解支持的存储和其他要收敛的注意事项，请参阅 https://techdocs.broadcom.com/us/en/vmware-cis/vcf/vcf-9-0-and-later/9-1/deployment/converging-your-existing-vsphere-infrastructure-to-a-vcf-or-vvf-platform-/supported-and-not-supported-configurations.html["支持和不支持融合到 VCF 的配置"]。
 

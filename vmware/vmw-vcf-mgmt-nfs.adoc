@@ -2,9 +2,9 @@
 sidebar: sidebar 
 permalink: vmware/vmw-vcf-mgmt-nfs.html 
 keywords: netapp, vmware, cloud, foundation, vcf, aff, all-flash, nfs, array, ontap tools, otv, sddc, sddc manager, ontap tools, ontap tools 10 
-summary: 将具有NetApp ONTAP NFS 数据存储区的现有 vSphere 8 集群转换为 VMware Cloud Foundation 管理域。您将查看配置要求、部署ONTAP工具和配置 NFS 数据存储区，并使用 VCF 导入工具来验证和转换集群。 
+summary: 将包含 NetApp ONTAP NFS 数据存储的现有 vSphere 集群收敛到 VMware Cloud Foundation 管理域。您将查看配置要求，部署 ONTAP tools 并配置 NFS 数据存储，然后使用 VCF Installer Tool 来验证和使用现有组件、部署所需的新组件并配置平台 
 ---
-= 将 vCenter 服务器实例转换为具有 NFS 数据存储的 VCF 管理域的部署工作流
+= 使用 NFS 数据存储将 vCenter 服务器实例融合到 VCF 管理域的部署工作流程
 :hardbreaks:
 :allow-uri-read: 
 :nofooter: 
@@ -14,18 +14,30 @@ summary: 将具有NetApp ONTAP NFS 数据存储区的现有 vSphere 8 集群转�
 
 
 [role="lead"]
-将具有NetApp ONTAP NFS 数据存储区的现有 vSphere 8 集群转换为 VMware Cloud Foundation 管理域。您将查看配置要求、部署ONTAP工具和配置 NFS 数据存储区，并使用 VCF 导入工具来验证和转换集群。
+将包含 NetApp ONTAP NFS 数据存储的现有 vSphere 群集融合到 VMware Cloud Foundation 管理域中。您将审查配置要求，部署 ONTAP tools 并置备 NFS 数据存储，然后使用 VCF Installer Tool 验证和使用现有组件、部署所需的新组件并配置该平台。
 
-有关转换过程的概述，请参阅 VMware 文档： https://techdocs.broadcom.com/us/en/vmware-cis/vcf/vcf-5-2-and-earlier/5-2/map-for-administering-vcf-5-2/importing-existing-vsphere-environments-admin/convert-or-import-a-vsphere-environment-into-vmware-cloud-foundation-admin.html["将 vSphere 环境转换为管理域或在 VMware Cloud Foundation 中将 vSphere 环境导入为 VI 工作负载域"] 。
+如果要将 ONTAP NFS 4.1 数据存储区用作 VCF 管理域的主存储，则此工作流也适用。
+
+有关融合过程的概述，请参阅 VMware 文档： https://techdocs.broadcom.com/us/en/vmware-cis/vcf/vcf-9-0-and-later/9-1/deployment/converging-your-existing-vsphere-infrastructure-to-a-vcf-or-vvf-platform-.html["将现有虚拟基础设施融合到 VCF"]。
 
 .image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-1.png["一个"]link:vmw-vcf-mgmt-nfs-requirements.html["查看配置要求"]
 [role="quick-margin-para"]
-查看使用 NFS 数据存储将 vCenter 服务器实例转换为 VCF 管理域的关键要求。
+查看使用 NFS 数据存储将 vCenter 服务器实例融合到 VCF 管理域的关键要求。
 
 .image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-2.png["两个"]link:vmw-vcf-mgmt-nfs-deploy.html["部署ONTAP工具并配置 NFS 数据存储库"]
 [role="quick-margin-para"]
 ONTAP tools for VMware vSphere并配置 NFS 数据存储区。
 
-.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-3.png["三"]link:vmw-vcf-mgmt-nfs-conversion.html["将 vSphere 群集转换为 VCF 管理域"]
+.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-3.png["三"]link:vmw-vcf-mgmt-nfs-converge.html["将 vSphere 集群融合到 VCF 管理域"]
 [role="quick-margin-para"]
-使用 VCF 导入工具验证并将 vSphere 8 转换为 VCF 管理域。
+使用 VCF Installer Tool 验证、重用现有组件并部署组成 VCF 管理域的新组件。
+
+
+
+[[reference-video-demo-for-this-solution]]
+== 此解决方案的参考视频演示
+
+以下视频演示了使用 ONTAP tools 利用 nConnect 功能创建 NFS 数据存储区。
+
+.使用 SnapMirror 主动同步 NAS 的 VCF 延伸集群
+video::76549cac-a1e3-4471-acf5-b49c00eebcf7[panopto,width=360]

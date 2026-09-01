@@ -2,9 +2,9 @@
 sidebar: sidebar 
 permalink: vmware/vmw-vcf-viwld-supp-nfs-vvols-network.html 
 keywords: netapp, vmware, cloud, foundation, vcf, aff, all-flash, nfs, vvol, vvols, array, ontap tools, otv, sddc 
-summary: 在 VMware Cloud Foundation 管理域中的 ESXi 主机上配置 NFS 网络以实现与ONTAP存储系统的连接。您将创建具有 VLAN 分离的分布式端口组，配置上行链路组合以实现冗余，并在每个 ESXi 主机上设置 VMkernel 适配器以建立专用的 NFS 路径来实现故障转移功能。 
+summary: 在 VMware Cloud Foundation 工作负载域中的 vSphere 主机上配置 NFS 网络，以启用与 ONTAP 存储系统的连接。您将创建具有 VLAN 分离的分布式端口组，为冗余配置上行链路分组，并在每台 vSphere 主机上设置 VMkernel 适配器，以建立用于故障转移功能的专用 NFS 路径。 
 ---
-= 在 VCF VI 工作负载域中的 ESXi 主机上配置 NFS 网络
+= 在 VCF 工作负载域中的 vSphere 主机上配置 NFS 网络
 :hardbreaks:
 :allow-uri-read: 
 :nofooter: 
@@ -14,9 +14,9 @@ summary: 在 VMware Cloud Foundation 管理域中的 ESXi 主机上配置 NFS �
 
 
 [role="lead"]
-在 VMware Cloud Foundation 管理域中的 ESXi 主机上配置 NFS 网络以实现与ONTAP存储系统的连接。您将创建具有 VLAN 分离的分布式端口组，配置上行链路组合以实现冗余，并在每个 ESXi 主机上设置 VMkernel 适配器以建立专用的 NFS 路径来实现故障转移功能。
+在 VMware Cloud Foundation 工作负载域中的 vSphere 主机上配置 NFS 网络，以启用与 ONTAP 存储系统的连接。您将创建具有 VLAN 分离的分布式端口组，为冗余配置上行链路分组，并在每台 vSphere 主机上设置 VMkernel 适配器，以建立用于故障转移功能的专用 NFS 路径。
 
-使用 vSphere 客户端在 VI 工作负载域集群上执行以下步骤。在这种情况下，使用 vCenter Single Sign-On，因此 vSphere 客户端在管理和工作负载域中是通用的。
+使用 vSphere 客户端在工作负载域集群上执行以下步骤。在这种情况下，正在使用 vCenter Single Sign-On，因此 vSphere 客户端在管理域和工作负载域之间是通用的。
 
 
 
@@ -60,18 +60,18 @@ image:vmware-vcf-aff-037.png["DPG——编辑设置"]
 image:vmware-vcf-aff-038.png["DPG-- 团队上行链路"]
 
 ====
-. 对群集中的每个 ESXi 主机重复此过程。
+. 对集群中的每个vSphere主机重复此过程。
 
 
 
 
-[[step-2-create-a-vmkernel-adapter-on-each-esxi-host]]
-== 步骤 2：在每个 ESXi 主机上创建 VMkernel 适配器
+[[step-2-create-a-vmkernel-adapter-on-each-vsphere-host]]
+== 步骤 2：在每个 vSphere 主机上创建 VMkernel 适配器
 
-在工作负载域中的每个 ESXi 主机上创建一个 VMkernel 适配器。
+在工作负载域中的每个 vSphere 主机上创建 VMkernel 适配器。
 
 .步骤
-. 从 vSphere 客户端导航到工作负载域清单中的其中一个 ESXi 主机。从*配置*选项卡中选择*VMkernel 适配器*，然后单击*添加网络...*开始。
+. 从 vSphere 客户端导航到工作负载域清单中的某个 vSphere 主机。从*配置*选项卡中选择 *VMkernel adapters*，然后单击*添加网络……*开始。
 +
 .显示示例
 [%collapsible]
@@ -119,4 +119,4 @@ image:vmware-vcf-aff-041.png["检查 VMkernel 选择"]
 [[whats-next]]
 == 下一步是什么？
 
-在工作负载域中的所有 ESXi 主机上配置 NFS 网络后，link:vmw-vcf-viwld-supp-nfs-vvols-storage.html["为 NFS vVols配置存储"] 。
+在工作负载域中的所有 vSphere 主机上配置 NFS 网络后，link:vmw-vcf-viwld-supp-nfs-vvols-storage.html["为 NFS vVols配置存储"]。

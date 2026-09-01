@@ -4,7 +4,7 @@ permalink: vmware/vmw-vcf-viwld-supp-fc.html
 keywords: netapp, vmware, cloud, foundation, vcf, asa, all-flash, array, ontap tools, otv, sddc, fc 
 summary:  
 ---
-= 将基于 FC 的 VMFS 数据存储作为补充存储添加到 VI 工作负载域
+= 将基于 FC 的 VMFS 数据存储区作为补充存储添加到工作负载域
 :hardbreaks:
 :allow-uri-read: 
 :nofooter: 
@@ -14,7 +14,7 @@ summary:
 
 
 [role="lead"]
-在此用例中，我们概述了使用光纤通道 (FC) 配置 VMFS 数据存储作为 VMware Cloud Foundation (VCF) 虚拟基础架构 (VI) 工作负载域的补充存储的过程。此过程总结了为 VMware vSphere 部署ONTAP工具、注册 VI 工作负载 vCenter 服务器、定义存储后端以及配置 FC 数据存储库。
+在此用例中，我们概述了使用光纤通道 (FC) 作为 VMware Cloud Foundation (VCF) 工作负载域的补充存储来配置 VMFS 数据存储区的过程。此过程总结了部署 ONTAP Tools for VMware vSphere、注册工作负载 vCenter 服务器、定义存储后端以及配置 FC 数据存储区。
 
 .开始之前
 确保以下组件和配置已到位。
@@ -33,9 +33,9 @@ summary:
 
 ====
 .步骤
-. 按照适用于ONTAP tools for VMware vSphere文档中的说明注册 VI 工作负载 vCenter：link:https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere-10/configure/add-vcenter.html["注册 VI 工作负载 vCenter"] 。
+. 请按照 ONTAP tools for VMware vSphere 文档中的说明注册工作负载域 vCenter：link:https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere-10/configure/add-vcenter.html["注册工作负载 vCenter"]。
 +
-注册 VI 工作负载 vCenter 可启用 vCenter 插件。
+注册工作负载域 vCenter 服务器将启用 vCenter 插件。
 
 . 按照适用于ONTAP tools for VMware vSphere文档中的说明，使用 vSphere 客户端界面添加存储后端：link:https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere-10/configure/add-storage-backend.html["使用 vSphere 客户端界面定义存储后端"] 。
 +
@@ -46,11 +46,18 @@ summary:
 
 
 
+[[reference-video]]
+== 参考视频
+
+.使用 FC 的补充数据存储
+video::96311abf-aa45-4ce9-984b-b4b001005bab[panopto,width=360]
+
+
 [[additional-information]]
 == 追加信息
 
 * 有关配置ONTAP存储系统的信息，请参阅link:https://docs.netapp.com/us-en/ontap["ONTAP 9 文档"^]。
-* 有关配置 VCF 的信息，请参阅link:https://techdocs.broadcom.com/us/en/vmware-cis/vcf/vcf-5-2-and-earlier/5-2.html["VMware Cloud Foundation 文档"^]。
+* 有关配置 VCF 的信息，请参见 link:https://techdocs.broadcom.com/us/en/vmware-cis/vcf/vcf-9-0-and-later/9-1.html["VMware Cloud Foundation 文档"^]。
 * 有关在ONTAP存储系统上配置光纤通道的信息，请参阅 https://docs.netapp.com/us-en/ontap/san-management/index.html["SAN存储管理"^]在ONTAP 9 文档中。
 * 有关将 VMFS 与ONTAP存储系统结合使用的信息，请参阅link:vmw-vmfs-deploy.html["VMFS 部署指南"]。
 * 有关此解决方案的视频演示，请参阅link:../videos/vmware-videos.html#vmware-datastore-provisioning-with-ontap["VMware 数据存储区配置"]。

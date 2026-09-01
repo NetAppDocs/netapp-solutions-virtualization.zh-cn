@@ -4,7 +4,7 @@ permalink: vmware/vmw-vcf-overview.html
 keywords: netapp, vmware, cloud, foundation, vcf, flexpod 
 summary:  
 ---
-= 利用 VMware Cloud Foundation 和ONTAP简化混合云体验
+= 借助 VMware Cloud Foundation 和 ONTAP 提升私有云体验
 :hardbreaks:
 :allow-uri-read: 
 :nofooter: 
@@ -14,29 +14,80 @@ summary:
 
 
 [role="lead"]
-NetApp ONTAP与 VMware Cloud Foundation (VCF) 集成，提供支持块和文件协议的统一存储解决方案。这种集成简化了混合云部署，改善了数据管理和性能，并确保了跨本地和云环境的一致数据服务。
+NetApp ONTAP 与 VMware Cloud Foundation (VCF) 集成，提供支持块、文件和对象协议的统一存储解决方案。ONTAP 的多租户功能使组织能够整合工作负载并简化管理，同时提供企业级数据保护和可用性。本文档概述了 VCF 以及如何使用 NetApp ONTAP 增强 VCF 环境中的存储功能。
 
 
 
-= 简介
+[[introduction]]
+== 简介
 
-将NetApp与 VCF 结合使用可通过 NetApp 的重复数据删除、压缩和快照等高级功能增强数据管理和存储效率。这种组合为虚拟化环境提供了无缝集成、高性能和可扩展性。此外，它通过在本地和云基础设施中实现一致的数据服务和管理，简化了混合云部署。
+VCF 使组织能够轻松部署和管理私有云环境。开箱即用，它提供虚拟机、Kubernetes、容器和网络即服务，并能够扩展到在自助服务门户中以目录项的形式提供其他服务。通过将 NetApp ONTAP 用作 VCF 中的存储解决方案，组织可以在管理工作负载方面实现更大的灵活性、可扩展性和效率。
 
 
 
 [[introduction-to-netapp-ontap]]
 == NetApp ONTAP简介
 
-NetApp ONTAP是一款全面的数据管理软件，可在广泛的产品线中提供先进的存储功能。  ONTAP可作为软件定义存储使用，也可作为通过主要云提供商提供的第一方服务使用，也可作为NetApp ASA （全闪存阵列）、 AFF （全闪存FAS）和FAS （光纤连接存储）平台的存储操作系统使用。  ONTAP为包括 VMware 虚拟化在内的各种用例提供高性能和低延迟，而不会产生孤岛。
+NetApp ONTAP 是一款全面的数据管理软件，可在广泛的产品线中提供高级存储功能。ONTAP 可用作软件定义存储、通过主要云提供商提供的第一方服务以及 NetApp ASA（针对块优化进行分解）、AFX（针对非结构化数据进行分解）、AFF 和 FAS（统一）平台的存储操作系统。ONTAP 为各种用例（包括 VMware 虚拟化）提供高性能和低延迟，而不会形成数据孤岛。与在计算资源上创建虚拟机的方式类似，ONTAP 允许创建存储虚拟机（SVM），用于创建和管理存储资源。ONTAP 提供统一存储解决方案，支持多种协议，包括 NFS、SMB、iSCSI、FC、NVMe/TCP、NVMe/FC 和 NVMe/RDMA。这种灵活性使组织能够整合工作负载并简化管理，同时提供企业级数据保护和可用性。
 
 
 
 [[introduction-to-vmware-cloud-foundation]]
 == VMware Cloud Foundation 简介
 
-VCF 将计算、网络和存储产品与 VMware 产品和第三方集成相结合，从而支持原生 Kubernetes 和基于虚拟机的工作负载。该软件平台包含 VMware vSphere、NSX、Aria Suite Enterprise、VMware vSphere Kubernetes Service、HCX Enterprise、SDDC Manager 等关键组件，并通过 vSAN 与主机 CPU 内核连接存储容量。NetApp ONTAP可与各种 VCF 部署模型无缝集成，无论是在本地还是在公有云中。
+VMware Cloud Foundation (VCF) 使组织能够创建虚拟私有云，在其中可以将虚拟机、Kubernetes 集群、容器、网络和存储作为服务使用，无论是针对 AI 工作负载、DevOps，还是传统的基于虚拟机的工作负载。
+
+VCF 部署到全新环境，或将现有 vSphere 环境扩展为完整的私有云。一组计算主机构成一个 vSphere 集群，一组 vSphere 集群构成一个 VCF 域，一组 VCF 域构成一个 VCF 实例。一个机群由一个或多个 VCF 实例组成。VCF 私有云环境使用一个或多个机群创建。操作和自动化在机群级别处理，而 VCF 实例是部署单元。
+
+A vSphere 命名空间用于设置工作负载的资源限制。A vSphere Zone 是一组 vSphere 集群，可用于为在该区域中运行的工作负载提供高可用性和灾难恢复功能。
 
 image:vmware-vcf-overview-components.png["VMware 云基础组件"]
+
+在 VCF Automation 中，区域是共享相同 NSX 基础架构的一个或多个 VCF 域的 vSphere 区域集合。组织是一个或多个区域的用户和资源的逻辑分组。组织可以细分为多个项目，每个项目都有自己的中转网关和外部连接。项目具有一个或多个命名空间，可用于为项目中运行的工作负载提供隔离和资源分配。
+
+命名空间是项目中资源分配的基本单位。每个命名空间都映射到虚拟私有云 (VPC)，可用于为命名空间中运行的工作负载提供隔离和资源分配。
+
+命名空间是使用专用 VPC 或共享 VPC 创建的。专用 VPC 是专用于单个命名空间的 VPC，而共享 VPC 是可供多个命名空间使用的 VPC。子网是在部署工作负载的 VPC 中创建的。
+
+[cols="25%, 25%, 50%"]
+|===
+
+
+| *组件* | *包含* | *备注* 
+
+
+| vSphere 集群 | vSphere 主机 | 集群是共享相同资源的 vSphere 主机的集合，可用于为集群中运行的工作负载提供高可用性和灾难恢复功能。 
+
+
+| VCF 域 | vSphere 集群 | 域是 vSphere 集群的集合。它可以是专用 NSX 实例的一部分，也可以与其他域共享现有 NSX 实例。 
+
+
+| VCF 实例 | VCF 域 | 实例是 VCF 域的集合。 
+
+
+| VCF Fleet | VCF 实例 | Fleet 是由 VCF Operations Manager 集中管理的 VCF 实例的集合。 
+
+
+| vSphere 区域 | vSphere 集群 | 区域是一组 vSphere 集群，可用于为在区域中运行的工作负载提供高可用性和灾难恢复功能。 
+
+
+| VCF Automation Region | vSphere 区域 | 区域是来自一个或多个 VCF 域的 vSphere 区域的集合，这些域共享相同的 NSX 基础架构。 
+
+
+| VCF Automation Organization | VCF Automation Project(s) | 组织映射到 NSX 项目。 
+
+
+| VCF 自动化项目 | vSphere 命名空间 | 一个项目映射到 NSX 中转网关和外部连接。 
+
+
+| VCF Automation 命名空间 | vSphere 区域 | 每个命名空间都映射到虚拟私有云 (VPC)，可用于为命名空间中运行的工作负载提供隔离和资源分配。 
+
+
+| 虚拟私有云 (VPC) | 子网 | VPC 是一种虚拟网络，可用于为在 VPC 中运行的工作负载提供隔离和资源分配。VPC 可以专用于单个命名空间，也可以由多个命名空间共享。 
+|===
+存储由在 vCenter 中定义的基于存储策略的管理 (SPBM) 策略使用。SPBM 可以使用一组规则来创建，这些规则定义了工作负载的存储要求。数据存储通常被标记并用于创建与不同工作负载的特定需求相匹配的存储策略。
+
+需要相关性和反相关性规则的工作负载由基础架构策略管理，这些策略使用 vCenter 计算策略来定义工作负载在特定主机或集群上的放置。可以使用基础架构策略来确保根据工作负载的需求将其放置在特定主机或集群上。
 
 
 
@@ -49,8 +100,8 @@ image:vmware-vcf-overview-domains.png["VMware 云域"]
 
 具有 VCF 的域主要有两种类型：
 
-* *管理域* – 管理域包括负责 VCF 环境核心功能的组件。这些组件处理资源配置、监控、维护等基本任务，并包括第三方插件集成，例如NetApp ONTAP Tools for VMware。可以使用 Cloud Builder Appliance 部署管理域以确保遵循最佳实践，或者可以将现有的 vCenter 环境转换为 VCF 管理域。
-* *虚拟基础设施工作负载域* – 虚拟基础设施工作负载域被设计为专用于特定运营需求、工作负载或组织的资源池。工作负载域可通过 SDDC 管理器轻松部署，有助于自动执行一系列复杂任务。  VCF 环境中最多可配置 24 个工作负载域，每个域代表一个应用程序就绪基础设施单元。
+* *管理域* – 管理域包括负责 VCF 环境核心功能的组件。这些组件处理资源调配、监控、维护等基本任务，并包括第三方插件集成，如 NetApp ONTAP Tools for VMware。可以使用 VCF 安装程序设备部署管理域，以确保遵循最佳实践，或者可以将现有 vCenter 环境转换为 VCF 管理域。
+* *工作负载域* – 工作负载域旨在成为专用于特定运营需求、工作负载或组织的资源池。工作负载域可通过 OPS Manager 轻松部署，有助于自动完成一系列复杂的任务。在 VCF 环境中最多可以配置 24 个工作负载域，每个工作负载域代表一个应用程序就绪的基础架构单元。每个工作负载域都有自己的 NSX 基础架构，或者共享现有的 NSX 基础架构，具体取决于它是单区域还是多区域部署。
 
 
 
@@ -62,8 +113,8 @@ image:vmware-vcf-overview-domains.png["VMware 云域"]
 
 VCF 存储主要有两种类型：
 
-* *主要存储* – 此存储类型在域的初始创建期间分配。对于管理域，此存储包含 VCF 管理和操作组件。对于工作负载域，此存储旨在支持部署该域的工作负载、虚拟机或容器。
-* *补充存储*——部署后，可以将补充存储添加到任何工作负载域。这种存储类型可帮助组织利用现有的存储基础设施投资并集成各种存储技术以优化性能、可扩展性和成本效益。
+* *主体存储* – 此存储类型作为新 VCF 域的第 0 天部署的一部分，或作为现有 vCenter 的融合或导入的一部分自动进行配置。VCF 安装程序支持将 VSAN、FC 上的 VMFS 和 NFS 作为全新部署的一部分，而其他受支持的存储类型（包括 iSCSI 上的 VMFS 和 NVMe-oF）可以作为现有 vCenter 的融合或导入的一部分用作主体存储。ONTAP Tools for VMware vSphere 只能用于融合或导入现有 vCenter，以便为 VCF 域部署主体存储。作为附加集群部署的一部分或作为域扩展的一部分创建的任何数据存储均被视为主体存储。主体存储用于托管 VCF 管理组件，包括 vCenter、NSX Manager 和 SDDC Manager，以及在域内运行的工作负载。
+* *补充存储* – 补充存储是在初始部署 VCF 域或融合或导入现有 vCenter 环境后配置的任何数据存储。可以使用 ONTAP Tools for VMware vSphere 创建补充存储，以便为 VCF 域部署数据存储区。创建补充存储是为了满足额外的容量需求、性能要求，或支持需要不同存储特性的特定工作负载。还可以创建补充存储以构建延伸集群，从而实现高可用性。
 
 
 *支持VCF存储类型*
@@ -75,12 +126,13 @@ VCF 存储主要有两种类型：
 | *域名类型* | *主要存储* | *补充存储* 
 
 
-| 管理域 | vSAN FC* NFS* | vVols （FC、iSCSI 或 NFS）FC NFS iSCSI NVMe/TCP NVMe/FC NVMe/RDMA 
+| 管理域 | vSAN FC NFS 3 NFS 4.1 ^2^ iSCSI ^2^ NVMe/TCP ^2^ NVMe/FC ^2^ NVMe/RDMA ^2^ | vVols （FC、iSCSI 或 NFS）^1^ FC NFS 3 NFS 4.1 iSCSI NVMe/TCP NVMe/FC NVMe/RDMA 
 
 
-| 虚拟基础架构工作负载域 | vSAN vVols （FC、iSCSI 或 NFS）FC NFS | vVols （FC、iSCSI 或 NFS）FC NFS iSCSI NVMe/TCP NVMe/FC NVMe/RDMA 
+| 工作负载域 | vSAN vVols (FC、iSCSI 或 NFS) ^1^ FC NFS 3 NFS 4.1 ^2^ iSCSI ^2^ NVMe/TCP ^2^ NVMe/FC ^2^ NVMe/RDMA ^2^ | vVols (FC、iSCSI 或 NFS) ^1^ FC NFS 3 NFS 4.1 iSCSI NVMe/TCP NVMe/FC NVMe/RDMA 
 |===
-注意：* 在现有 vSphere 环境中使用 VCF 导入工具时提供特定协议支持。
+
+NOTE: ^1^ vVol 支持在 vSphere 环境中已弃用。^2^ 使用 Converge 或 import 选项
 
 
 
@@ -135,7 +187,7 @@ ONTAP提供了一个满足所有工作负载需求的平台，提供定制的块
 
 *VMware 云基础文档*
 
-* link:https://techdocs.broadcom.com/us/en/vmware-cis/vcf.html["VMware 云基础文档"]
+* https://techdocs.broadcom.com/us/en/vmware-cis/vcf/vcf-9-0-and-later/9-1.html["VMware 云基础文档"]
 
 
 NetApp推出的 VCF 博客系列共有四部分，共 4 部分。
@@ -148,23 +200,29 @@ NetApp推出的 VCF 博客系列共有四部分，共 4 部分。
 
 VMware Cloud Foundation 与NetApp全闪存 SAN 阵列
 
-* link:vmw-getting-started-ntap-options.html#netapp-asa-all-san-array-benefits["VCF 与NetApp ASA阵列的简介和技术概述"]
+* link:vmw-getting-started-ntap-options.html["VCF 与NetApp ASA阵列的简介和技术概述"]
 * link:vmw-vcf-mgmt-principal-fc.html["使用ONTAP和 FC 作为管理域的主要存储"]
-* link:vmw-vcf-viwld-principal-fc.html["使用ONTAP和 FC 作为 VI 工作负载域的主要存储"]
-* link:vmw-vcf-mgmt-supplemental-iscsi.html["使用 Ontap Tools 在 VCF 管理域中部署 iSCSI 数据存储"]
-* link:vmw-vcf-mgmt-supplemental-fc.html["使用 Ontap Tools 在 VCF 管理域中部署 FC 数据存储"]
-* link:vmw-vcf-viwld-supp-iscsi-vvols.html["使用 Ontap Tools 在 VI 工作负载域中部署vVols （iSCSI）数据存储"]
-* link:vmw-vcf-viwld-supp-nvme.html["配置 NVMe over TCP 数据存储以用于 VI 工作负载域"]
-* link:vmw-vcf-scv-viwld.html["部署并使用SnapCenter Plug-in for VMware vSphere来保护和恢复 VI 工作负载域中的虚拟机"]
-* link:vmw-vcf-scv-nvme.html["部署并使用SnapCenter Plug-in for VMware vSphere来保护和恢复 VI 工作负载域（NVMe/TCP 数据存储区）中的虚拟机"]
+* link:vmw-vcf-viwld-principal-fc.html["将 ONTAP 与 FC 用作工作负载域的主存储"]
+* link:vmw-vcf-mgmt-supplemental-iscsi.html["使用 ONTAP Tools 在 VCF 管理域中部署 iSCSI 数据存储区"]
+* link:vmw-vcf-mgmt-vmfs.html["使用 ONTAP tools 将 NVMe-oF 数据存储区部署为 VCF 管理域中的主存储"]
+* link:vmw-vcf-mgmt-supplemental-fc.html["使用 ONTAP Tools 在 VCF 管理域中部署补充 FC 数据存储区"]
+* link:vmw-vcf-vmsc-viwld-smas.html["使用 ONTAP 工具在工作负载域中部署补充 iSCSI 数据存储"]
+* link:vmw-vcf-viwld-supp-iscsi-vvols.html["使用 ONTAP Tools 在工作负载域中部署 vVols (iSCSI) 数据存储区"]
+* link:vmw-vcf-viwld-supp-nvme.html["将 NVMe-oF 数据存储区配置为在工作负载域中使用"]
+* link:vmw-vcf-scv-viwld.html["部署和使用 SnapCenter Plug-in for VMware vSphere，以保护和恢复工作负载域中的虚拟机"]
+* link:vmw-vcf-scv-nvme.html["部署和使用 SnapCenter Plug-in for VMware vSphere 来保护和恢复工作负载域中的虚拟机（NVMe/TCP 数据存储区）"]
 
 
 VMware Cloud Foundation 与NetApp全闪存AFF阵列
 
-* link:vmw-getting-started-ntap-options.html#netapp-aff-all-flash-fas-benefits["VCF 与NetApp AFF阵列的简介和技术概述"]
-* link:vmw-vcf-mgmt-principal-nfs.html["使用ONTAP和 NFS 作为管理域的主要存储"]
-* link:vmw-vcf-viwld-principal-nfs.html["使用ONTAP和 NFS 作为 VI 工作负载域的主要存储"]
-* link:vmw-vcf-viwld-supp-nfs-vvols.html["使用ONTAP工具在 VI 工作负载域中部署vVols (NFS) 数据存储库"]
+ASA 的链接主要适用于 AFF 阵列，但以下链接仅适用于 AFF 阵列及其功能。
+
+* link:vmw-getting-started-ntap-options.html["VCF 与NetApp AFF阵列的简介和技术概述"]
+* link:vmw-vcf-mgmt-principal-nfs.html["将 ONTAP 与 NFSv3 一起用作管理域的主存储"]
+* link:vmw-vcf-mgmt-nfs.html["使用 ONTAP 工具在 VCF 管理域中部署 NFSv3/NFSv4.1 数据存储区"]
+* link:vmw-vcf-viwld-principal-nfs.html["将 ONTAP 与 NFS 结合使用作为工作负载域的主存储"]
+* link:vmw-vcf-vmsc-viwld-smas.html["使用 ONTAP tools 在工作负载域中部署 NFSv3/NFSv4.1 数据存储区"]
+* link:vmw-vcf-viwld-supp-nfs-vvols.html["使用 ONTAP 工具在工作负载域中部署 vVols（NFS）数据存储区"]
 
 
 * 适用于 VMware Cloud Foundation 的NetApp FlexPod解决方案*

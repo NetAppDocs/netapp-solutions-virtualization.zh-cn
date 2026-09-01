@@ -2,9 +2,9 @@
 sidebar: sidebar 
 permalink: vmware/vmw-vcf-viwld-supp-nvme.html 
 keywords: netapp, vmware, cloud, foundation, vcf, aff, all-flash, nfs, vvol, vvols, array, ontap tools, otv, sddc, iscsi 
-summary: '开始添加 NVMe over TCP (NVMe/TCP) 数据存储作为 VMware Cloud Foundation (VCF) 虚拟基础架构 (VI) 工作负载域的补充存储。您将设置支持 NVMe/TCP 的存储虚拟机 (SVM) 和 LIF、创建 NVMe 命名空间、配置 ESXi 主机网络以及部署 VMFS 数据存储区。' 
+summary: '开始添加 NVMe over TCP (NVMe/TCP) 数据存储区作为 VMware Cloud Foundation (VCF) 工作负载域的补充存储。您将设置支持 NVMe/TCP 的 Storage Virtual Machine (SVM) 和 LIF、创建 NVMe 命名空间、配置 vSphere 主机网络并部署 VMFS 数据存储区。' 
 ---
-= 在 VI 工作负载域中添加vVols NVMe 数据存储作为补充存储的部署工作流程
+= 将 vVols NVMe 数据存储区添加为工作负载域中的补充存储的部署工作流程
 :hardbreaks:
 :allow-uri-read: 
 :nofooter: 
@@ -14,11 +14,11 @@ summary: '开始添加 NVMe over TCP (NVMe/TCP) 数据存储作为 VMware Cloud 
 
 
 [role="lead"]
-开始添加 NVMe/TCP vVols数据存储作为 VMware Cloud Foundation (VCF) 虚拟基础架构 (VI) 工作负载域的补充存储。您将查看部署要求、设置支持 NVMe/TCP 的 SVM 和 LIF、配置 ESXi 主机网络以及部署 NVMe/TCP 数据存储区。
+开始将 NVMe/TCP vVols 数据存储区添加为 VMware Cloud Foundation (VCF) 工作负载域的补充存储。您将查看部署要求，设置启用 NVMe/TCP 的 SVM 和 LIF，配置 vSphere 主机网络并部署 NVMe/TCP vVol 数据存储区。
 
 .image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-1.png["一个"]link:vmw-vcf-viwld-supp-nvme-requirements.html["查看部署要求"]
 [role="quick-margin-para"]
-查看在 VMware Cloud Foundation VI 工作负载域中部署 NVMe/TCP 数据存储的要求。
+查看在 VMware Cloud Foundation 工作负载域中部署 NVMe/TCP 数据存储区的要求。
 
 .image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-2.png["两个"]link:vmw-vcf-viwld-supp-nvme-svm-lifs.html["创建 SVM 和 LIF 以及 NVMe 命名空间"]
 [role="quick-margin-para"]
@@ -26,8 +26,18 @@ summary: '开始添加 NVMe over TCP (NVMe/TCP) 数据存储作为 VMware Cloud 
 
 .image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-3.png["三"]link:vmw-vcf-viwld-supp-nvme-network.html["配置网络"]
 [role="quick-margin-para"]
-在 ESXi 主机上为 VI 工作负载域创建分布式端口组和 vmkernel 适配器。
+在 VCF 工作负载域的 vSphere 主机上创建分布式端口组和 vmkernel 适配器。
 
 .image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-4.png["四个"]link:vmw-vcf-viwld-supp-nvme-storage.html["配置存储"]
 [role="quick-margin-para"]
 部署 NVMe/TCP 数据存储。
+
+
+
+[[video-demo-for-this-solution]]
+== 此解决方案的视频演示
+
+.使用 NVMe/TCP 的补充数据存储区
+video::f85530ec-ff24-4c7d-abb4-b49b0176402c[panopto,width=360]
+.使用 NVMe/FC 的补充数据存储区
+video::b2b16a35-05cd-49c9-a91a-b4ac0127813d[panopto,width=360]

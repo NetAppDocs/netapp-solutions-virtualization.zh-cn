@@ -32,10 +32,10 @@ NetApp MetroCluster使用 NetApp 的高可用性 (HA) 功能来防止控制器�
 
 
 
-[[netapp-snapmirror-active-sync]]
-== NetApp SnapMirror主动同步
+[[netapp-snapmirror-active-sync-san-and-nas-protocols]]
+== NetApp SnapMirror 主动同步（SAN 和 NAS 协议）
 
-NetApp SnapMirror主动同步通过 FCP 和 iSCSI SAN 协议提供数据存储粒度保护，有选择地保护高优先级工作负载拓扑。与主动-备用MetroCluster不同，它提供对本地和远程站点的主动-主动访问。从ONTAP 9.15.1 开始， SnapMirror主动同步支持对称主动/主动功能，允许通过双向同步复制从受保护 LUN 的两个副本执行读写 I/O 操作。
+NetApp SnapMirror 主动同步通过 SAN 协议提供数据存储粒度（一致性组）保护，有选择地保护高优先级工作负载拓扑。与主动-备用 MetroCluster 不同，它提供对本地和远程站点的主动-主动访问。从 ONTAP 9.15.1 开始，SnapMirror 主动同步支持对称主动/主动功能，允许通过双向同步复制从受保护 LUN/命名空间的两个副本执行读写 I/O 操作。从 ONTAP 9.19.1 开始，SnapMirror 主动同步支持 NAS 协议，在 SVM 级别提供保护。SVM 将在一个站点处于活动状态，在另一个站点处于备用状态，并进行双向同步复制。
 
 
 

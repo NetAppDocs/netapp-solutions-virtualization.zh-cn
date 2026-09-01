@@ -13,7 +13,7 @@ Broadcom 的 VMware vSphere 支持用于托管虚拟机的 VMFS、NFS 和 vVol �
 客户可以使用ONTAP Tools vCenter 插件或其 API 轻松配置数据存储，并且即使在开启电源时也可以将虚拟机迁移到ONTAP数据存储。
 
 
-NOTE: 使用 VCF Automation、vSphere Supervisor（或其他 Kubernetes 版本）等外部管理工具部署的一些虚拟机通常依赖于虚拟机存储策略。如果在同一虚拟机存储策略内的不同数据存储之间进行迁移，对应用程序的影响应该较小。请与应用程序所有者确认，以确保这些虚拟机能够正确迁移到新的数据存储。vSphere 8 引入了 https://techdocs.broadcom.com/us/en/vmware-cis/vsphere/vsphere/8-0/how-to-prepare-an-application-for-vsphere-vmotion.html#:~:text=vSphere%208.0%20introduces%20a%20notification,the%20necessary%20steps%20to%20prepare.["针对延迟敏感型应用程序的 vSphere vMotion 通知"] 准备 vMotion 应用程序。
+NOTE: 一些使用外部管理工具（如 VCF Automation、vSphere Supervisor（或其他 Kubernetes 风格））部署的虚拟机通常取决于虚拟机存储策略。如果在同一虚拟机存储策略内的数据存储区之间迁移，则对应用程序的影响应该较小。请与应用程序所有者联系，以正确地将这些虚拟机迁移到新的数据存储区。vSphere 8 引入 https://techdocs.broadcom.com/us/en/vmware-cis/vsphere/vsphere/8-0/vcenter-and-host-management/migrating-virtual-machines-host-management/migration-with-vmotion-host-management/virtual-machine-conditions-and-limitation-for-vmotion-host-management/how-to-prepare-an-application-for-vsphere-vmotion-host-management.html["针对延迟敏感型应用程序的 vSphere vMotion 通知"]是为了让应用程序为 vMotion 做好准备。
 
 
 

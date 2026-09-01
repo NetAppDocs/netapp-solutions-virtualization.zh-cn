@@ -1,0 +1,47 @@
+---
+sidebar: sidebar 
+permalink: vmware/vmw-vcf-mgmt-vmfs.html 
+keywords: netapp, vmware, cloud, foundation, vcf, asa, aff, all-flash, fc, array, ontap tools, otv, sddc, sddc manager, ontap tools, ontap tools 10 
+summary: 将配置了受支持 NetApp ONTAP VMFS 数据存储的现有 vSphere 集群融合到 VMware Cloud Foundation 管理域中。您将审查配置要求，部署 ONTAP tools 并配置 VMFS 数据存储，然后使用 VCF Installer Tool 来验证和融合集群。 
+---
+= 将 vCenter 服务器实例融合到具有 VMFS 数据存储的 VCF 管理域的部署工作流
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+将包含 NetApp ONTAP VMFS 数据存储的现有 vSphere 集群收敛到 VMware Cloud Foundation 管理域。您将审查配置要求，部署 ONTAP tools 并配置 VMFS 数据存储，然后使用 VCF Installer 工具验证并使用现有组件、部署所需的新组件并配置平台。
+
+此工作流还用于将任何受支持的 VMFS 数据存储用作 VCF 管理域的主体存储。
+
+有关转换过程的概述，请参阅 VMware 文档： https://techdocs.broadcom.com/us/en/vmware-cis/vcf/vcf-9-0-and-later/9-1/deployment/converging-your-existing-vsphere-infrastructure-to-a-vcf-or-vvf-platform-.html["将现有虚拟基础设施融合到 VCF"]。
+
+.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-1.png["一个"]link:vmw-vcf-mgmt-vmfs-requirements.html["查看配置要求"]
+[role="quick-margin-para"]
+查看使用 VMFS 数据存储将 vCenter 服务器实例融合到 VCF 管理域的关键要求。
+
+.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-2.png["两个"]link:vmw-vcf-mgmt-vmfs-deploy.html["部署 ONTAP tools 并置备受支持的 VMFS 数据存储"]
+[role="quick-margin-para"]
+部署 ONTAP tools for VMware vSphere，并配置受支持的 VMFS 数据存储库。
+
+.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-3.png["三"]link:vmw-vcf-mgmt-vmfs-converge.html["将 vSphere 集群融合到 VCF 管理域"]
+[role="quick-margin-para"]
+使用 VCF Installer Tool 验证、重用现有组件并部署组成 VCF 管理域的新组件。
+
+
+
+[[reference-video]]
+== 参考视频：
+
+.具有 AFF 和 ASA r2 的 iSCSI 多路径
+video::62c2a66c-1a07-4284-bc7b-b4ac00e9aeea[panopto,width=360]
+.使用 NVMe/TCP 的补充数据存储区
+video::f85530ec-ff24-4c7d-abb4-b49b0176402c[panopto,width=360]
+.使用 NVMe/FC 的补充数据存储区
+video::b2b16a35-05cd-49c9-a91a-b4ac0127813d[panopto,width=360]
+.使用 FC 的补充数据存储
+video::96311abf-aa45-4ce9-984b-b4b001005bab[panopto,width=360]

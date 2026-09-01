@@ -94,6 +94,18 @@ video::255640f5-4dff-438c-8d50-b01200f017d1[panopto,width=360]
 video::9b66ac8d-d2b1-4ac4-a33c-b16900f67df6[panopto]
 .iSCSI 数据存储作为 VCF 管理域的补充存储
 video::1d0e1af1-40ae-483a-be6f-b156015507cc[panopto]
+.使用 NVMe/FC 的补充数据存储区
+video::b2b16a35-05cd-49c9-a91a-b4ac0127813d[panopto,width=360]
+.使用 FC 的补充数据存储
+video::96311abf-aa45-4ce9-984b-b4b001005bab[panopto,width=360]
+.使用 ONTAP tools 通过 SnapMirror 主动同步 iSCSI 扩展 VCF 集群
+video::4c21ee83-dc11-43bf-a9af-b4ac014aaa0e[panopto,width=360]
+.使用 SnapMirror 活动同步 NVMe/TCP 的 VCF 延伸集群
+video::f85530ec-ff24-4c7d-abb4-b49b0176402c[panopto,width=360]
+.使用 SnapMirror 主动同步 NAS 的 VCF 延伸集群
+video::76549cac-a1e3-4471-acf5-b49c00eebcf7[panopto,width=360]
+.具有 AFF 和 ASA r2 的 iSCSI 多路径
+video::62c2a66c-1a07-4284-bc7b-b4ac00e9aeea[panopto,width=360]
 
 
 [[netapp-cloud-insights]]
@@ -101,3 +113,12 @@ video::1d0e1af1-40ae-483a-be6f-b156015507cc[panopto]
 
 .NetApp Cloud Insights - 现代数据中心的可观察性
 video::1e4da521-3104-4d51-8cde-b0e001502d3d[panopto,width=360]
+
+
+[[vks-with-ontap]]
+== VKS with ONTAP
+
+.Virtual Distributed Switch 上带有 Supervisor 的 VKS
+video::4ef64b3c-7a68-41d5-bacf-b4a8012b49f8[panopto,width=360]
+.结合 VCF Automation 的 VKS
+video::571ced1a-58e8-4bf4-9c24-b4b10118bc22[panopto,width=360]

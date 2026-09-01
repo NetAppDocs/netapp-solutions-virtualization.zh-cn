@@ -1,8 +1,8 @@
 ---
 sidebar: sidebar 
 permalink: vmware/vmw-vcf-expand.html 
-keywords: vmware, vcf, expand, supplemental, storage 
-summary: 'VMware Cloud Foundation (VCF) 支持多种补充存储选项，以扩展 VCF 管理域和虚拟基础架构 (VI) 工作负载域上的存储。' 
+keywords: vmware, vcf, expand, supplemental, storage, workload 
+summary: 'VMware Cloud Foundation (VCF) 支持广泛的补充存储选项，以扩展 VCF 管理域和工作负载域上的存储。' 
 ---
 = 了解如何使用补充存储扩展 VCF 环境的存储
 :hardbreaks:
@@ -14,7 +14,7 @@ summary: 'VMware Cloud Foundation (VCF) 支持多种补充存储选项，以扩�
 
 
 [role="lead"]
-VMware Cloud Foundation (VCF) 支持多种补充存储选项，以扩展 VCF 管理域和虚拟基础架构 (VI) 工作负载域上的存储。
+VMware Cloud Foundation (VCF) 支持广泛的补充存储选项，以扩展 VCF 管理域和工作负载域上的存储。
 
 NetApp 的ONTAP tools for VMware vSphere通过将NetApp存储无缝集成到 VCF 环境中，为这种扩展提供了有效的解决方案。
 
@@ -27,12 +27,12 @@ ONTAP工具简化了数据存储区的设置和管理，允许管理员直接从
 
 VCF 环境可以使用多种存储协议进行扩展，每种协议都提供独特的优势和用例。
 
-您可以使用以下协议扩展 VCF 管理域和 VI 工作负载域中的存储。选择最适合您环境的选项，将补充存储无缝集成到您的 VCF 部署中。
+您可以使用以下协议来扩展 VCF 管理域和工作负载域中的存储。为您的环境选择最佳选项，将补充存储无缝集成到您的 VCF 部署中。
 
 .iSCSI
 使用标准以太网网络的基于块的协议。非常适合需要高性能、灵活性和经济高效扩展的环境。
 
-iSCSI 广泛用于 VMFS 数据存储，并支持高级ONTAP功能，例如快照和克隆。
+iSCSI 广泛用于 VMFS 数据存储，并支持高级 ONTAP 功能，例如快照和克隆。ONTAP 9.19.1 及更高版本也支持 AFF 系统上的对称主动-主动配置。最初，该功能仅在 ASA 系统上可用。
 
 * *高性能：*提供高性能，以实现快速、高效的数据传输速率和低延迟。非常适合要求严格的企业应用程序和虚拟化环境。
 * *易于管理：*通过使用熟悉的基于 IP 的工具和协议简化存储管理。
@@ -43,6 +43,8 @@ iSCSI 广泛用于 VMFS 数据存储，并支持高级ONTAP功能，例如快照
 
 .Fibre Channel（光纤通道）(FC)
 使用专用 FC 网络的高速、低延迟协议。对于需要可靠性、专用带宽和强大纠错能力的关键任务工作负载来说，FC 是首选。它通常用于企业环境中的 VMFS 数据存储。
+
+ONTAP 9.19.1 及更高版本也支持 AFF 系统上的对称主动-主动配置。最初，该功能仅在 ASA 系统上可用。
 
 * *高性能：* FC 提供高速数据传输速率，使其成为需要快速可靠地访问大量数据的应用程序的理想选择。
 * *低延迟*：非常低的延迟，这对于数据库和虚拟化环境等性能敏感的应用程序至关重要。
@@ -58,18 +60,20 @@ iSCSI 广泛用于 VMFS 数据存储，并支持高级ONTAP功能，例如快照
 ONTAP和 vSphere 支持用于管理域和工作负载域的 NFS 数据存储库。
 
 * *简单易用：*NFS 设置和管理简单，使其成为需要快速简便的文件共享环境的绝佳选择。
-* *可扩展性*：ONTAP 的架构允许 NFS 有效扩展，从而无需对基础架构进行重大更改即可支持不断增长的数据需求。
+* *可扩展性：* ONTAP 的架构允许 NFS 有效扩展，支持不断增长的数据需求，而无需对基础设施进行重大更改。FlexGroup 与 pNFS 结合使用，可将 NFS 数据存储扩展到 PB 级别。
 * *灵活性*：NFS 支持广泛的应用程序和工作负载，使其适用于各种用例，包括虚拟化环境。
 
 
 欲了解更多信息，请参阅link:vmw-vvf-overview.html["适用于 vSphere 8 的 NFS v3 参考指南"] 。
 
-.NVMe/TCP
-使用 TCP/IP 通过标准以太网网络提供高性能和低延迟的现代协议。  NVMe/TCP 非常适合要求苛刻的应用程序和大规模数据操作，无需专门的硬件即可提供可扩展性和成本效率。
+.NVMe-oF
+通过使用 TCP/IP 的标准以太网网络提供高性能和低延迟的现代协议。NVMe-oF（NVMe over Fabrics）非常适合要求苛刻的应用程序和大规模数据操作，无需专用硬件即可提供可扩展性和成本效益。
+
+ONTAP 9.19.1 及更高版本也支持 AFF 系统上的对称主动-主动配置。最初，该功能仅在 ASA 系统上可用。
 
 * *高性能：*以低延迟和高数据传输速率提供卓越的性能。这对于要求苛刻的应用程序和大规模数据操作至关重要。
 * *可扩展性：*支持可扩展配置，允许 IT 管理员随着数据需求的增长无缝扩展其基础设施。
-* *成本效益：*在标准以太网交换机上运行并封装在 TCP 数据报内。无需特殊设备即可实施。
+* *经济高效：* 在标准以太网交换机上运行，并封装在 TCP 数据报中。无需特殊设备即可实施。NVMe-oF over TCP 是常用的。
 
 
 有关 NVMe 优势的更多信息，请参阅 https://www.netapp.com/data-storage/nvme/what-is-nvme/["什么是 NVME？"]。

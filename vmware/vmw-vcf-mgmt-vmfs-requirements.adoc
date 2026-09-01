@@ -1,0 +1,54 @@
+---
+sidebar: sidebar 
+permalink: vmware/vmw-vcf-mgmt-vmfs-requirements.html 
+keywords: netapp, vmware, cloud, foundation, vcf, asa, aff, all-flash, fc, array, ontap tools, otv, sddc, sddc manager, ontap tools, ontap tools 10 
+summary: 查看将包含 NetApp ONTAP VMFS 数据存储的 vSphere 集群收敛到 VMware Cloud Foundation 管理域的要求。 
+---
+= 使用 VMFS 数据存储将 vCenter 服务器实例融合到 VCF 管理域的部署要求
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+查看将包含 NetApp ONTAP VMFS 数据存储的 vSphere 集群收敛到 VMware Cloud Foundation 管理域的要求。
+
+
+
+[[infrastructure-requirements]]
+== 基础设施要求
+
+确保以下组件和配置已到位。
+
+* NetApp ASA R2/ASA/AFF 存储系统，其中 Storage Virtual Machine (SVM) 已配置为允许 FC/iSCSI 流量。
+* 为传输 FC/iSCSI 流量而创建并与 SVM 相关联的逻辑接口 (LIF)。
+* 对于 FC 和 NVMe/FC，在结构交换机上配置 FC 分区。
+* 对于 iSCSI 和 NVMe/TCP，在 vSphere 主机上配置的 vmkernel 端口组用于传输相应的流量。
+* 受支持的 vSphere 集群，具有 4 台 vSphere 主机和一个位于集群上的 vCenter 设备。
+* 在为此目的建立的 VLAN 或网络段上为 vMotion 配置的分布式端口组。
+* 已下载 VCF 收敛所需的 VCF 安装程序工具。有关其他详细信息，请参阅 https://techdocs.broadcom.com/us/en/vmware-cis/vcf/vcf-9-0-and-later/9-1/deployment.html["VCF 部署、融合和升级"]。
+* 满足ONTAP工具的先决条件。
++
+有关ONTAP工具前提条件的完整信息，请参阅 https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere-10/deploy/prerequisites.html#system-requirements["适用于ONTAP tools for VMware vSphere的先决条件"]。
+
++
+ONTAP tools for VMware vSphere可以安装在 HA 或非 HA 配置中。
+
+
+
+
+
+[[additional-resources]]
+== 其他资源
+
+* 要了解支持的存储和将 vSphere 收敛到 VCF 的其他注意事项，请参阅 https://techdocs.broadcom.com/us/en/vmware-cis/vcf/vcf-9-0-and-later/9-1/deployment/converging-your-existing-vsphere-infrastructure-to-a-vcf-or-vvf-platform-/supported-and-not-supported-configurations.html["支持和不支持融合到 VCF 的配置"]。
+* 有关配置ONTAP存储系统的信息，请参阅link:https://docs.netapp.com/us-en/ontap["ONTAP 9 文档"]。
+* 有关配置 VCF 的信息，请参见 link:https://techdocs.broadcom.com/us/en/vmware-cis/vcf/vcf-9-0-and-later/9-1.html["VMware Cloud Foundation 9.1 文档"]。
+
+
+
+
+[[whats-next]]
+== 下一步是什么？
+
+查看部署要求后，link:vmw-vcf-mgmt-vmfs-deploy.html["部署 ONTAP tools 并配置 VMFS 数据存储区"]。

@@ -2,26 +2,26 @@
 sidebar: sidebar 
 permalink: vmware/vmw-vcf-viwld-supp-iscsi-vvols-network.html 
 keywords: netapp, vmware, cloud, foundation, vcf, aff, all-flash, nfs, vvol, vvols, array, ontap tools, otv, sddc, iscsi 
-summary: 为 VI 工作负载域中的 ESXi 主机上的 iSCSI 存储配置网络。您将为 iSCSI 流量创建分布式端口组，并使用 vSphere 客户端设置 VMkernel 适配器，以实现可靠的连接和多路径。 
+summary: 为工作负载域中 vSphere 主机上的 iSCSI 存储配置网络。您将为 iSCSI 流量创建分布式端口组，并使用 vSphere 客户端设置 VMkernel 适配器，以实现可靠的连接和多路径。 
 ---
-= 在 VCF VI 工作负载域中的 ESXi 主机上配置 iSCSI 网络
-:hardbreaks:
+= 为 VCF 工作负载域中 vSphere 主机上的 iSCSI 配置网络
 :allow-uri-read: 
-:nofooter: 
-:icons: font
-:linkattrs: 
-:imagesdir: ../media/
 
+
+
+
+[[configure-networking-for-iscsi-on-vsphere-hosts-in-a-vcf-workload-domain]]
+== 为 VCF 工作负载域中 vSphere 主机上的 iSCSI 配置网络
 
 [role="lead"]
-为 VI 工作负载域中的 ESXi 主机上的 iSCSI 存储配置网络。您将为 iSCSI 流量创建分布式端口组，并使用 vSphere 客户端设置 VMkernel 适配器，以实现可靠的连接和多路径。
+为工作负载域中 vSphere 主机上的 iSCSI 存储配置网络。您将为 iSCSI 流量创建分布式端口组，并使用 vSphere 客户端设置 VMkernel 适配器，以实现可靠的连接和多路径。
 
-使用带有 vCenter Single Sign-On 的 vSphere 客户端在 VI 工作负载域集群上执行这些步骤。同一个 vSphere 客户端同时管理管理域和工作负载域。
+使用结合了 vCenter 单点登录的 vSphere 客户端在工作负载域集群上执行这些步骤。同一个 vSphere 客户端可同时管理管理域和工作负载域。
 
 
 
 [[step-1-create-distributed-port-groups-for-iscsi-traffic]]
-== 步骤 1：为 iSCSI 流量创建分布式端口组
+=== 步骤 1：为 iSCSI 流量创建分布式端口组
 
 完成以下步骤为每个 iSCSI 网络创建一个新的分布式端口组。
 
@@ -73,10 +73,10 @@ image:vmware-vcf-asa-026.png["将上行链路 1 移至未使用状态"]
 
 
 
-[[step-2-create-vmkernel-adapters-on-each-esxi-host]]
-== 步骤 2：在每个 ESXi 主机上创建 VMkernel 适配器
+[[step-2-create-vmkernel-adapters-on-each-vsphere-host]]
+=== 步骤 2：在每个 vSphere 主机上创建 VMkernel 适配器
 
-使用 vSphere 客户端在工作负载域中的每个 ESXi 主机上执行以下步骤。
+使用 vSphere 客户端在工作负载域中的每台 vSphere 主机上执行以下步骤。
 
 .步骤
 . 从 vSphere 客户端导航到工作负载域清单中的其中一个 ESXi 主机。从*配置*选项卡中选择*VMkernel 适配器*，然后单击*添加网络...*开始。
@@ -133,6 +133,6 @@ image:vmware-vcf-asa-034.png["检查 VMkernel 选择"]
 
 
 [[whats-next]]
-== 下一步是什么？
+=== 下一步是什么？
 
-在工作负载域中的所有 ESXi 主机上配置 iSCSI 网络后，link:vmw-vcf-viwld-supp-iscsi-vvols-storage.html["为 iSCSI vVols配置存储"] 。
+在为工作负载域中的所有 vSphere 主机上的 iSCSI 配置网络后，link:vmw-vcf-viwld-supp-iscsi-vvols-storage.html["为 iSCSI vVols配置存储"]。

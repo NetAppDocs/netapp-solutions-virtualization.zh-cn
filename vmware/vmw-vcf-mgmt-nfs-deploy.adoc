@@ -2,16 +2,16 @@
 sidebar: sidebar 
 permalink: vmware/vmw-vcf-mgmt-nfs-deploy.html 
 keywords: netapp, vmware, cloud, foundation, vcf, aff, all-flash, nfs, array, ontap tools, otv, sddc, sddc manager, ontap tools, ontap tools 10 
-summary: ONTAP tools for VMware vSphere并配置 NFS 数据存储以实现与 VMware Cloud Foundation 的无缝集成。您将部署ONTAP工具、配置存储后端并创建 NFS 数据存储区以支持 vSphere 8cluster 到 VCF 管理域的转换。 
+summary: 部署 ONTAP tools for VMware vSphere 10 并调配 NFS 数据存储，以实现与 VMware Cloud Foundation 的无缝集成。您将部署 ONTAP tools、配置存储后端并创建 NFS 数据存储区，以支持将 vCenter 融合到 VCF 管理域。 
 ---
-= 部署ONTAP工具并为 VCF 管理域转换配置 NFS 数据存储
+= 部署 ONTAP tools 并为 VCF 管理域配置 NFS 数据存储
 :allow-uri-read: 
 :icons: font
 :imagesdir: ../media/
 
 
 [role="lead"]
-ONTAP tools for VMware vSphere并配置 NFS 数据存储以实现与 VMware Cloud Foundation 的无缝集成。您将部署ONTAP工具、配置存储后端并创建 NFS 数据存储区以支持 vSphere 8 集群到 VCF 管理域的转换。
+部署 ONTAP tools for VMware vSphere 10 并调配 NFS 数据存储，以实现与 VMware Cloud Foundation 的无缝集成。您将部署 ONTAP tools、配置存储后端并创建 NFS 数据存储区，以支持将 vCenter 融合到 VCF 管理域。
 
 
 
@@ -27,7 +27,7 @@ ONTAP tools for VMware vSphere并配置 NFS 数据存储以实现与 VMware Clou
 .显示示例
 [%collapsible]
 ====
-image::vmware-vcf-import-nfs-001.png[部署 OVF 模板]
+image::vmw-vcf-mgmt-nfs-deploy-001.png[部署 OVF 模板]
 
 ====
 . 在*部署 OVF 模板*中完成以下步骤：
@@ -44,7 +44,7 @@ image::vmware-vcf-import-nfs-001.png[部署 OVF 模板]
 .显示示例
 [%collapsible]
 ====
-image::vmware-vcf-import-nfs-002.png[配置 - 部署类型]
+image::vmw-vcf-mgmt-nfs-deploy-002.png[配置 - 部署类型]
 
 ====
 . 在*选择存储*页面上，选择要安装虚拟机的数据存储，然后单击*下一步*。
@@ -62,7 +62,7 @@ image::vmware-vcf-import-nfs-002.png[配置 - 部署类型]
 .显示示例
 [%collapsible]
 ====
-image::vmware-vcf-import-nfs-003.png[自定义模板]
+image::vmw-vcf-mgmt-nfs-deploy-003.png[自定义模板]
 
 ====
 
@@ -84,7 +84,7 @@ image::vmware-vcf-import-nfs-003.png[自定义模板]
 .显示示例
 [%collapsible]
 ====
-image::vmware-vcf-import-nfs-004.png[打开ONTAP工具]
+image::vmw-vcf-mgmt-nfs-deploy-004.png[打开ONTAP工具]
 
 ====
 . 导航到左侧菜单中的“*存储后端*”，然后单击“*添加*”以访问“*添加存储后端*”窗口。
@@ -93,7 +93,7 @@ image::vmware-vcf-import-nfs-004.png[打开ONTAP工具]
 .显示示例
 [%collapsible]
 ====
-image::vmware-vcf-import-nfs-005.png[添加存储后端]
+image::vmw-vcf-mgmt-nfs-deploy-005.png[添加存储后端]
 
 ====
 +
@@ -116,7 +116,7 @@ ONTAP工具集成了整个 vSphere 客户端 UI 的功能。在此步骤中，�
 .显示示例
 [%collapsible]
 ====
-image::vmware-vcf-import-nfs-006.png[创建数据存储区]
+image::vmw-vcf-mgmt-nfs-deploy-006.png[创建数据存储区]
 
 ====
 . 在“创建数据存储”向导中，选择要创建的数据存储的类型。选项有 NFS 或 VMFS。
@@ -125,7 +125,7 @@ image::vmware-vcf-import-nfs-006.png[创建数据存储区]
 .显示示例
 [%collapsible]
 ====
-image::vmware-vcf-import-nfs-007.png[名称和协议]
+image::vmw-vcf-mgmt-nfs-deploy-007.png[名称和协议]
 
 ====
 . 在“存储”页面上，选择ONTAP存储平台和存储虚拟机 (SVM)。您还可以在这里选择任何可用的自定义导出策略。单击“*下一步*”继续。
@@ -133,19 +133,19 @@ image::vmware-vcf-import-nfs-007.png[名称和协议]
 .显示示例
 [%collapsible]
 ====
-image::vmware-vcf-import-nfs-008.png[存储页面]
+image::vmw-vcf-mgmt-nfs-deploy-008.png[存储页面]
 
 ====
 . 在“存储属性”页面上，选择要使用的存储聚合。单击“*下一步*”继续。
 . 在“*摘要*”页面上，查看信息并单击“*完成*”开始配置过程。
 +
-ONTAP工具在ONTAP存储系统上创建一个卷，并将其作为 NFS 数据存储挂载到集群中的所有 ESXi 主机。
+ONTAP tools 在 ONTAP 存储系统上创建卷，并将其作为 NFS 数据存储挂载到集群中的所有 vSphere 主机。
 
 +
 .显示示例
 [%collapsible]
 ====
-image::vmware-vcf-import-nfs-009.png[摘要页面]
+image::vmw-vcf-mgmt-nfs-deploy-009.png[摘要页面]
 
 ====
 
@@ -155,4 +155,4 @@ image::vmware-vcf-import-nfs-009.png[摘要页面]
 [[whats-next]]
 == 下一步是什么？
 
-部署ONTAP工具并配置 NFS 数据存储库后，link:vmw-vcf-mgmt-nfs-conversion.html["将 vSphere 集群转换为 VCF 管理域"] 。
+部署 ONTAP tools 并配置 NFS 数据存储库后，link:vmw-vcf-mgmt-nfs-converge.html["将 vSphere 集群收敛到 VCF 管理域"]。

@@ -2,7 +2,7 @@
 sidebar: sidebar 
 permalink: vmware/vmw-vcf-mgmt-supplemental-iscsi.html 
 keywords: netapp, vmware, cloud, foundation, vcf, iscsi, information 
-summary: '开始添加 iSCSI 数据存储作为 VMware Cloud Foundation (VCF) 管理域的补充存储。您将设置一个具有用于 iSCSI 的逻辑接口 (LIF) 的存储虚拟机 (SVM)，在 ESXi 主机上配置 iSCSI 网络，ONTAP tools for VMware vSphere，并创建 VMFS 数据存储库。' 
+summary: '开始为 VMware Cloud Foundation (VCF) 管理域添加 iSCSI 数据存储区作为补充存储。您将为 iSCSI 设置具有逻辑接口 (LIF) 的 Storage Virtual Machine (SVM)，在 vSphere 主机上配置 iSCSI 网络，为 VMware vSphere 部署 ONTAP tools，并创建 VMFS 数据存储区。' 
 ---
 = 在 VCF 管理域中添加 iSCSI 数据存储作为补充存储的部署工作流程
 :hardbreaks:
@@ -14,7 +14,7 @@ summary: '开始添加 iSCSI 数据存储作为 VMware Cloud Foundation (VCF) �
 
 
 [role="lead"]
-开始添加 iSCSI 数据存储作为 VMware Cloud Foundation (VCF) 管理域的补充存储。您将设置一个具有用于 iSCSI 的逻辑接口 (LIF) 的存储虚拟机 (SVM)，在 ESXi 主机上配置 iSCSI 网络，ONTAP tools for VMware vSphere，并创建 VMFS 数据存储库。
+开始为 VMware Cloud Foundation (VCF) 管理域添加 iSCSI 数据存储区作为补充存储。您将为 iSCSI 设置具有逻辑接口 (LIF) 的 Storage Virtual Machine (SVM)，在 vSphere 主机上配置 iSCSI 网络，为 VMware vSphere 部署 ONTAP tools，并创建 VMFS 数据存储区。
 
 .image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-1.png["一个"]link:vmw-vcf-mgmt-supplemental-iscsi-requirements.html["查看部署要求"]
 [role="quick-margin-para"]
@@ -26,8 +26,16 @@ summary: '开始添加 iSCSI 数据存储作为 VMware Cloud Foundation (VCF) �
 
 .image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-3.png["三"]link:vmw-vcf-mgmt-supplemental-iscsi-network.html["配置网络"]
 [role="quick-margin-para"]
-在 ESXi 主机上设置 iSCSI 网络。
+在 vSphere 主机上设置 iSCSI 网络。
 
 .image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-4.png["四个"]link:vmw-vcf-mgmt-supplemental-iscsi-storage.html["配置存储"]
 [role="quick-margin-para"]
 部署并使用ONTAP工具配置存储。
+
+
+
+[[reference-video]]
+== 参考视频：
+
+.具有 AFF 和 ASA r2 的 iSCSI 多路径
+video::62c2a66c-1a07-4284-bc7b-b4ac00e9aeea[panopto]

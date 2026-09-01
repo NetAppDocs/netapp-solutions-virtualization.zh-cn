@@ -31,6 +31,9 @@ VMware Cloud Foundation with ONTAP支持多种存储配置，以满足不同的�
 | ASA A系列和C系列 | 是 | 否 
 
 
+| AFX | 否 | 是 
+
+
 | AFF A系列和C系列 | 是 | 是 
 
 
@@ -42,6 +45,9 @@ VMware Cloud Foundation with ONTAP支持多种存储配置，以满足不同的�
 
 
 | ASA A系列和C系列 | 是 | 是 | 是 | 否 | 否 
+
+
+| AFX | 否 | 否 | 否 | 是 | 是 
 
 
 | AFF A系列和C系列 | 是 | 是 | 是 | 是 | 是 
@@ -61,7 +67,7 @@ VMware Cloud Foundation with ONTAP支持多种存储配置，以满足不同的�
 [[vcf-fleet-in-a-single-site-with-minimal-footprint]]
 === VCF 车队位于单个站点，占地面积极小
 
-此设计蓝图用于在具有最少资源的单个 vSphere 集群中部署管理和工作负载组件。它支持 VMFS 和 NFSv3 主要数据存储以及具有双节点配置的简单部署选项。如果您计划将 VCF 自动化与所有应用程序组织模型一起使用，则需要第二个集群来部署 vSphere Supervisor 和 NSX Edge 节点。
+此设计蓝图用于以最少的资源在单个 vSphere 集群中部署管理和工作负载组件。它支持 VMFS 和 NFSv3 主体数据存储以及具有双节点配置的简单部署选项。
 
 image::vmw-vcf-design-001.png[VCF 车队位于单一站点，占地面积极小]
 
@@ -70,7 +76,7 @@ image::vmw-vcf-design-001.png[VCF 车队位于单一站点，占地面积极小]
 
 NOTE: 如果您缺乏资源来探索 VCF，许多云提供商都提供 VCF 即服务，并且ONTAP可作为云提供商的第一方服务使用。
 
-有关此设计的更多详细信息，请参阅link:https://techdocs.broadcom.com/us/en/vmware-cis/vcf/vcf-9-0-and-later/9-0/design/blueprints/vcf-fleet-basic-management-design.html["Broadcom 技术文档在单个站点的 VCF Fleet 上以最小的占用空间提供"]。
+有关此设计的更多详细信息，请参阅 link:https://techdocs.broadcom.com/us/en/vmware-cis/vcf/vcf-9-0-and-later/9-1/design/design-blueprints-for/infrastructure-modernization/vcf-fleet-in-a-single-site-with-minimal-footprint-blueprint.html["Broadcom 技术文档在单个站点的 VCF Fleet 上以最小的占用空间提供"]。
 
 
 
@@ -92,9 +98,9 @@ HA 模式下的ONTAP工具的单个实例可以管理 VCF Fleet 中的所有 vCe
 video::e7cf90b9-2744-404b-9831-b33f00164626[panopto]
 您必须在每个 vCenter 实例上部署SnapCenter插件以保护虚拟机和数据存储区。
 
-基于存储策略的管理与 vSphere Supervisor 一起使用来托管 VKS 的控制虚拟机。标签在 VCF Ops 集中管理。 NetApp Trident CSI 与 VKS 一起使用，利用本机阵列功能实现应用程序备份保护。当您使用 vSphere CSI 时，持久卷详细信息会出现在 VCF Automation 上。
+基于存储策略的管理与 vSphere Supervisor 配合使用，以主机控制 VKS 的虚拟机。标签由 VCF Ops 集中管理。NetApp Trident CSI 与 VKS 配合使用，利用原生阵列功能实现应用程序备份保护。使用 vSphere CSI 时，持久卷详细信息将显示在 vCenter 以及 VCF Automation 上。
 
-有关此蓝图的更多详细信息，请参阅link:https://techdocs.broadcom.com/us/en/vmware-cis/vcf/vcf-9-0-and-later/9-0/design/blueprints/vcf-fleet-management-design-with-multiple-availability-zones.html["Broadcom 在单一站点上提供 VCF Fleet 技术文档"]。
+有关此蓝图的更多详细信息，请参阅 link:https://techdocs.broadcom.com/us/en/vmware-cis/vcf/vcf-9-0-and-later/9-1/design/design-blueprints-for/infrastructure-modernization/vcf-fleet-in-a-single-site-blueprint.html["Broadcom 在单一站点上提供 VCF Fleet 技术文档"]。
 
 
 
@@ -105,19 +111,19 @@ video::e7cf90b9-2744-404b-9831-b33f00164626[panopto]
 
 对于 VMFS 数据存储库， SnapMirror主动同步提供了主动-主动存储单元，可与 vSphere Metro Storage Cluster 一起使用。统一访问模式提供透明的存储故障转移，而非统一访问模式则要求在故障域发生故障时重新启动虚拟机。
 
-对于 NFS 数据存储，带有 vSphere Metro Storage Cluster 的ONTAP MetroCluster可确保高可用性。中介器可以避免脑裂情况，现在可以托管在NetApp Console上。
+对于 NFS 数据存储，SnapMirror active sync for NAS（结合 ONTAP 9.19.1 及更高版本）或结合 vSphere Metro Storage Cluster 的 ONTAP MetroCluster 可确保高可用性。协调器可避免脑裂情况，并且现在可以托管在 NetApp Console 上。
 
 VM 放置规则控制管理域组件的同一故障域内的 VM。
 
 image::vmw-vcf-design-003.png[单个区域内有多个站点的 VCF 机队]
 
-ONTAP工具提供了一个 UI 来设置SnapMirror主动同步关系。必须在ONTAP工具和SnapCenter Plug-in for VMware vSphere中注册两个故障域的存储系统。
+ONTAP tools 提供了一个 UI 来为 iSCSI 和 FC 设置 SnapMirror active sync 关系。两个故障域的存储系统都必须在 ONTAP tools 和 SnapCenter Plug-in for VMware vSphere 中注册。
 
 您可以使用NetApp Backup and Recovery for VMs 通过SnapMirror和SnapMirror to Cloud 实现 3-2-1 备份策略。您可以从三个位置中的任意一个执行恢复。
 
-Trident Protect 或NetApp Backup and Recovery for Kubernetes 可保护 VKS 集群应用程序。
+Trident Protect 或 NetApp Console Backup and Recovery for Kubernetes 保护 VKS 集群应用程序。
 
-欲了解更多信息，请查看link:https://techdocs.broadcom.com/us/en/vmware-cis/vcf/vcf-9-0-and-later/9-0/design/blueprints/vsphere-only-to-vcf-fleet-upgrade-blueprint.html["Broadcom 有关单个区域内具有多个站点的 VCF 集群的技术文档"]。
+有关更多信息，请查看 link:https://techdocs.broadcom.com/us/en/vmware-cis/vcf/vcf-9-0-and-later/9-1/design/design-blueprints-for/infrastructure-modernization/vcf-fleet-with-multiple-sites-in-a-single-region-blueprint.html["Broadcom 有关单个区域内具有多个站点的 VCF 集群的技术文档"]。
 
 
 
@@ -126,26 +132,29 @@ Trident Protect 或NetApp Backup and Recovery for Kubernetes 可保护 VKS 集�
 
 此设计针对的是遍布全球的客户，提供就近的服务和灾难恢复解决方案。
 
-您可以使用 VMware Live Site Recovery 或NetApp Disaster Recovery来管理虚拟机的灾难恢复。ONTAP工具提供 SRA（存储复制适配器）来协调ONTAP的存储操作。
+您可以使用 VMware Protect and Recovery 或 NetApp Console Disaster Recovery 管理虚拟机的灾难恢复。ONTAP tools 提供 SRA（Storage Replication Adapter）来协调 ONTAP 的存储操作。
 
-[cols="4,2,2"]
+[cols="4,2,2,2"]
 |===
-| 产品系列 | SnapMirror主动同步 | MetroCluster 
+| 产品系列 | SnapMirror主动同步 | SnapMirror 适用于 NAS 的活动同步 | MetroCluster 
 
 
-| ASA A系列和C系列 | 是 | 是 
+| ASA A系列和C系列 | 是 | 否 | 是 
 
 
-| AFF A系列和C系列 | 是 | 是 
+| AFX | 否 | 是 | 不适用 
 
 
-| FAS | 否 | 是 
+| AFF A系列和C系列 | 是 | 是 | 是 
+
+
+| FAS | 否 | 否 | 是 
 |===
 image::vmw-vcf-design-004.png[拥有多个区域多个站点的 VCF 车队]
 
 ONTAP工具为数据存储区复制设置提供了 UI。NetApp Console还可以用于存储阵列之间的复制。SnapCenter Plug-in for VMware vSphere利用现有的SnapMirror关系来实现 SnapShot。
 
-欲了解更多信息，请查看link:https://techdocs.broadcom.com/us/en/vmware-cis/vcf/vcf-9-0-and-later/9-0/design/blueprints/blueprint-4.html["Broadcom 关于跨区域多站点 VCF Fleet 的技术文档"]。
+有关更多信息，请查看 link:https://techdocs.broadcom.com/us/en/vmware-cis/vcf/vcf-9-0-and-later/9-1/design/design-blueprints-for/infrastructure-modernization/vcf-fleet-with-multiple-sites-across-multiple-regions-blueprint.html["Broadcom 关于跨区域多站点 VCF Fleet 的技术文档"]。
 
 
 
@@ -154,10 +163,10 @@ ONTAP工具为数据存储区复制设置提供了 UI。NetApp Console还可以�
 
 该设计解决了虚拟机和 VKS 应用程序的可用性和灾难恢复问题。
 
-ASA、 AFF和FAS支持此设计选项。
+ASA、AFX、AFF 和 FAS 支持此设计选项。
 
 image::vmw-vcf-design-005.png[VCF 车队在单个区域及其他区域设有多个站点]
 
 您可以使用ONTAP工具或NetApp Console来设置复制关系。
 
-有关更多信息，请参阅link:https://techdocs.broadcom.com/us/en/vmware-cis/vcf/vcf-9-0-and-later/9-0/design/blueprints/blueprint-5.html["Broadcom 有关在单个区域和其他区域内具有多个站点的 VCF Fleet 的技术文档"] 。
+有关详细信息，请参见 link:https://techdocs.broadcom.com/us/en/vmware-cis/vcf/vcf-9-0-and-later/9-1/design/design-blueprints-for/infrastructure-modernization/vcf-fleet-with-multiple-sites-in-a-single-region-plus-additional-region-blueprint.html["Broadcom 有关在单个区域和其他区域内具有多个站点的 VCF Fleet 的技术文档"]。

@@ -2,26 +2,26 @@
 sidebar: sidebar 
 permalink: vmware/vmw-vcf-viwld-supp-iscsi-vvols-storage.html 
 keywords: netapp, vmware, cloud, foundation, vcf, aff, all-flash, nfs, vvol, vvols, array, ontap tools, otv, sddc, iscsi 
-summary: 使用ONTAP工具在 VI 工作负载域中配置 iSCSI vVols存储。您将为ONTAP tools for VMware vSphere、注册存储系统、创建存储功能配置文件并在 vSphere 客户端中配置vVols数据存储区。 
+summary: 使用 ONTAP 工具在工作负载域中配置 iSCSI vVols 存储。您将部署 ONTAP tools for VMware vSphere、注册存储系统、创建存储能力配置文件，并在 vSphere 客户端中配置 vVols 数据存储。 
 ---
-= 使用ONTAP工具在 VCF VI 工作负载域中配置 iSCSI vVols存储
-:hardbreaks:
+= 使用 ONTAP tools 在 VCF 工作负载域中配置 iSCSI vVols 存储
 :allow-uri-read: 
-:nofooter: 
-:icons: font
-:linkattrs: 
-:imagesdir: ../media/
 
+
+
+
+[[configure-iscsi-vvols-storage-in-a-vcf-workload-domain-using-ontap-tools]]
+== 使用 ONTAP tools 在 VCF 工作负载域中配置 iSCSI vVols 存储
 
 [role="lead"]
-使用ONTAP工具在 VI 工作负载域中配置 iSCSI vVols存储。您将为ONTAP tools for VMware vSphere、注册存储系统、创建存储功能配置文件并在 vSphere 客户端中配置vVols数据存储区。
+使用 ONTAP 工具在工作负载域中配置 iSCSI vVols 存储。您将部署 ONTAP tools for VMware vSphere、注册存储系统、创建存储能力配置文件，并在 vSphere 客户端中配置 vVols 数据存储。
 
 
 
 [[step-1-deploy-ontap-tools-for-vmware-vsphere]]
-== 步骤 1：ONTAP tools for VMware vSphere
+=== 步骤 1：ONTAP tools for VMware vSphere
 
-对于 VI 工作负载域， ONTAP工具安装到 VCF 管理集群，但向与 VI 工作负载域关联的 vCenter 注册。
+对于工作负载域，ONTAP tools 已安装到 VCF 管理集群，但已注册到与工作负载域关联的 vCenter。
 
 ONTAP tools for VMware vSphere作为 VM 设备部署，并提供用于管理ONTAP存储的集成 vCenter UI。
 
@@ -89,7 +89,7 @@ image:vmware-vcf-asa-035.png["自定义OTV模板2"]
 
 
 [[step-2-add-a-storage-system]]
-== 步骤 2：添加存储系统
+=== 步骤 2：添加存储系统
 
 执行以下步骤使用ONTAP工具添加存储系统。
 
@@ -134,7 +134,7 @@ image:vmware-vcf-asa-017.png["授权集群证书"]
 
 
 [[step-3-create-a-storage-capability-profile-in-ontap-tools]]
-== 步骤 3：在ONTAP工具中创建存储功能配置文件
+=== 步骤 3：在ONTAP工具中创建存储功能配置文件
 
 存储能力配置文件描述了存储阵列或存储系统提供的功能。它们包括服务质量定义，并用于选择符合配置文件中定义的参数的存储系统。您可以使用所提供的配置文件之一，也可以创建新的配置文件。
 
@@ -201,7 +201,7 @@ image:vmware-vcf-asa-040.png["SCP摘要"]
 
 
 [[step-4-create-a-vvols-datastore-in-ontap-tools]]
-== 步骤 4：在ONTAP工具中创建vVols数据存储区
+=== 步骤 4：在ONTAP工具中创建vVols数据存储区
 
 要在ONTAP工具中创建vVols数据存储，请完成以下步骤。
 

@@ -94,3 +94,11 @@ summary: 本页面提供在 VMware vSphere 环境中部署NetApp ONTAP存储 FC 
 . 验证 HBA 驱动程序是否已安装。  VMware 支持的 HBA 具有现成的驱动程序，并且应该在link:++https://techdocs.broadcom.com/us/en/vmware-cis/vsphere/vsphere/7-0/vsphere-storage-7-0/getting-started-with-a-traditional-storage-model-in-vsphere-environment/supported-storage-adapters/view-storage-adapters-available-on-an-esxi-host.html++["存储适配器信息"]。
 . link:++https://docs.netapp.com/vapp-98/topic/com.netapp.doc.vsc-iag/GUID-D7CAD8AF-E722-40C2-A4CB-5B4089A14B00.html++["使用ONTAP工具配置 VMFS 数据存储库"] 。
 
+
+
+
+[[reference-video]]
+== 参考视频
+
+.使用 FC 的补充数据存储
+video::96311abf-aa45-4ce9-984b-b4b001005bab[panopto,width=360]

@@ -49,25 +49,25 @@ entries:
     url: "/vmware/vmw-vcf-deployment.html"
   - title: VCF 9 DR 与NetApp Disaster Recovery
     url: "/vmware/vmw-vcf-disaster-recovery-nfs.html"
-  - title: 将现有 vSphere 集群转换为 VCF
+  - title: 将现有 vSphere 集群聚合到 VCF
     entries:
-    - title: 关于将现有 vSphere 集群转换为 VCF
+    - title: 关于将现有 vSphere 集群融合到 VCF
       url: "/vmware/vmw-vcf-migrate.html"
-    - title: 将现有 vSphere 集群与 NFS 数据存储进行转换
+    - title: 将现有 vSphere 集群与 NFS 数据存储融合
       url: "/vmware/vmw-vcf-mgmt-nfs.html"
-    - title: 将现有 vSphere 集群与 FC 数据存储进行转换
-      url: "/vmware/vmw-vcf-mgmt-fc.html"
+    - title: 将现有 vSphere 集群与 VMFS 数据存储融合
+      url: "/vmware/vmw-vcf-mgmt-vmfs.html"
   - title: 为 VCF 提供主要存储
     entries:
     - title: 关于配置主体存储
       url: "/vmware/vmw-vcf-provision.html"
-    - title: 使用 FC 配置管理域
+    - title: 使用 FC 设置管理域
       url: "/vmware/vmw-vcf-mgmt-principal-fc.html"
-    - title: 使用 NFS 配置管理域
+    - title: 使用 NFS 设置管理域
       url: "/vmware/vmw-vcf-mgmt-principal-nfs.html"
-    - title: 使用 FC 调配 VI 工作负载域
+    - title: 使用 FC 配置工作负载域
       url: "/vmware/vmw-vcf-viwld-principal-fc.html"
-    - title: 使用 NFS 预配 VI 工作负载域
+    - title: 使用 NFS 配置工作负载域
       url: "/vmware/vmw-vcf-viwld-principal-nfs.html"
   - title: 使用补充存储扩展 VCF
     entries:
@@ -85,9 +85,9 @@ entries:
         url: "/vmware/vmw-vcf-mgmt-supplemental-iscsi-network.html"
       - title: 配置存储
         url: "/vmware/vmw-vcf-mgmt-supplemental-iscsi-storage.html"
-    - title: 利用FC扩展管理域
+    - title: 使用 FC 扩展管理域
       url: "/vmware/vmw-vcf-mgmt-supplemental-fc.html"
-    - title: 使用vVols iSCSI 扩展 VI 工作负载域
+    - title: 使用 vVols iSCSI 扩展 VCF 工作负载域
       entries:
       - title: 部署工作流
         url: "/vmware/vmw-vcf-viwld-supp-iscsi-vvols.html"
@@ -99,7 +99,7 @@ entries:
         url: "/vmware/vmw-vcf-viwld-supp-iscsi-vvols-network.html"
       - title: 配置存储
         url: "/vmware/vmw-vcf-viwld-supp-iscsi-vvols-storage.html"
-    - title: 使用vVols NFS 扩展 VI 工作负载域
+    - title: 使用 vVols NFS 扩展 VCF 工作负载域
       entries:
       - title: 部署工作流
         url: "/vmware/vmw-vcf-viwld-supp-nfs-vvols.html"
@@ -111,7 +111,7 @@ entries:
         url: "/vmware/vmw-vcf-viwld-supp-nfs-vvols-network.html"
       - title: 配置存储
         url: "/vmware/vmw-vcf-viwld-supp-nfs-vvols-storage.html"
-    - title: 使用 NVMe/TCP 扩展 VI 工作负载域
+    - title: 使用 NVMe/TCP 扩展 VCF 工作负载域
       entries:
       - title: 部署工作流
         url: "/vmware/vmw-vcf-viwld-supp-nvme.html"
@@ -123,7 +123,7 @@ entries:
         url: "/vmware/vmw-vcf-viwld-supp-nvme-network.html"
       - title: 配置存储
         url: "/vmware/vmw-vcf-viwld-supp-nvme-storage.html"
-    - title: 使用 FC 扩展 VI 工作负载域
+    - title: 使用 FC 扩展 VCF 工作负载域
       url: "/vmware/vmw-vcf-viwld-supp-fc.html"
   - title: 使用SnapCenter保护 VCF
     entries:
@@ -141,11 +141,11 @@ entries:
       url: "/vmware/vmw-vcf-protect-vmsc.html"
     - title: 使用MetroCluster配置管理域
       url: "/vmware/vmw-vcf-vmsc-mgmt-mcc.html"
-    - title: 使用MetroCluster配置 VI 工作负载域
+    - title: 使用 MetroCluster 配置工作负载域
       url: "/vmware/vmw-vcf-vmsc-viwld-mcc.html"
-    - title: 使用SnapMirror Active Sync 配置管理域
+    - title: 使用 SnapMirror Active Sync 配置管理域（SAN 和 NAS）
       url: "/vmware/vmw-vcf-vmsc-mgmt-smas.html"
-    - title: 使用SnapMirror Active Sync 配置 VI 工作负载域
+    - title: 使用 SnapMirror Active Sync 配置工作负载域（SAN 和 NAS）
       url: "/vmware/vmw-vcf-vmsc-viwld-smas.html"
   - title: 从 vSphere 迁移虚拟机
     url: "/vmware/migrate-vms-to-ontap-datastore.html"

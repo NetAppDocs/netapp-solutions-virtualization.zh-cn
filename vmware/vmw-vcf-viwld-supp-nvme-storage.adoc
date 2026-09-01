@@ -2,9 +2,9 @@
 sidebar: sidebar 
 permalink: vmware/vmw-vcf-viwld-supp-nvme-storage.html 
 keywords: netapp, vmware, cloud, foundation, vcf, aff, all-flash, nfs, vvol, vvols, array, ontap tools, otv, sddc, iscsi 
-summary: '在 VI 工作负载域中配置 NVMe over TCP (NVMe/TCP) vVols存储。您将部署ONTAP工具、注册存储系统、创建存储功能配置文件并在 vSphere 客户端中配置vVols数据存储。' 
+summary: '在 VMware Cloud Foundation 工作负载域中配置 NVMe over TCP (NVMe/TCP) 数据存储库。您将部署 ONTAP tools，注册存储系统，创建存储功能配置文件，并在 vSphere 客户端中配置 NVMe/TCP 数据存储库。' 
 ---
-= 在 VCF VI 工作负载域中配置 NVMe/TCP vVols存储
+= 在 VCF 工作负载域中配置 NVMe/TCP 数据存储区
 :hardbreaks:
 :allow-uri-read: 
 :nofooter: 
@@ -14,7 +14,7 @@ summary: '在 VI 工作负载域中配置 NVMe over TCP (NVMe/TCP) vVols存储�
 
 
 [role="lead"]
-在 VMware Cloud Foundation VI 工作负载域中配置 NVMe/TCP vVols存储。您将部署ONTAP工具、注册存储系统、创建存储功能配置文件并在 vSphere 客户端中配置vVols数据存储。
+在 VMware Cloud Foundation 工作负载域中配置 NVMe/TCP 数据存储库。您将部署 ONTAP tools，注册存储系统，创建存储功能配置文件，并在 vSphere 客户端中配置 NVMe/TCP 数据存储库。
 
 .步骤
 . 在 vSphere 客户端中，导航到工作负载域集群中的其中一个 ESXi 主机。从*操作*菜单中选择*存储>新建数据存储...*。
@@ -22,11 +22,11 @@ summary: '在 VI 工作负载域中配置 NVMe over TCP (NVMe/TCP) vVols存储�
 .显示示例
 [%collapsible]
 ====
-image:vmware-vcf-asa-104.png["添加 NVMe/TCP 适配器"]
+image:vmware-vcf-asa-104.png["添加 NVMe/TCP 数据存储"]
 
 ====
 . 在“新建数据存储”向导中，选择“VMFS”作为类型。单击“*下一步*”继续。
-. 在*名称和设备选择*页面上，提供数据存储的名称，并从可用设备列表中选择 NVMe 命名空间。
+. 在*名称和设备选择*页面上，为数据存储库提供一个名称，然后从可用设备列表中选择 NVMe/TCP 命名空间。
 +
 .显示示例
 [%collapsible]
@@ -62,5 +62,5 @@ image:vmware-vcf-asa-107.png["连接到数据存储区的主机"]
 * 有关配置 SAN 冗余的更多信息，请参阅link:https://docs.netapp.com/us-en/ontap/san-config/index.html["NetApp SAN 配置参考"^]。
 * 有关ONTAP存储系统的 NVMe 设计注意事项的更多信息，请参阅link:https://docs.netapp.com/us-en/ontap/nvme/support-limitations.html["NVMe 配置、支持和限制"^]。
 * 有关配置ONTAP存储系统的信息，请参阅link:https://docs.netapp.com/us-en/ontap["ONTAP 9 文档"^]。
-* 有关配置 VCF 的信息，请参阅link:https://techdocs.broadcom.com/us/en/vmware-cis/vcf.html["VMware Cloud Foundation 文档"^]。
+* 有关配置 VCF 的信息，请参见 link:https://techdocs.broadcom.com/us/en/vmware-cis/vcf/vcf-9-0-and-later/9-1.html["VMware Cloud Foundation 文档"^]。
 

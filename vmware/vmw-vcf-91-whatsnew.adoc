@@ -1,0 +1,49 @@
+---
+sidebar: sidebar 
+permalink: vmware/vmw-vcf-91-whatsnew.html 
+keywords: netapp, vmware, cloud, foundation, vcf, flexpod 
+summary: VCF 9.1 增加了新的功能和增强功能。 
+---
+= VMware Cloud Foundation 9.1 中的新增功能
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+VCF 9.1 引入了几项新功能和增强功能，可改善私有云环境的整体功能和性能。了解最新更新以及 NetApp 产品如何继续增加价值。
+
+以下是 VCF 9.1 中的一些关键新功能和增强功能：
+
+* 针对 vSphere 集群的零接触配置 (ZTP)，支持 vSphere 集群的自动化部署和配置。
++
+** 如果您计划将 VAAI 与 ONTAP NFS 数据存储配合使用，请记得在映像中包含 NFS VAAI 插件。 https://mysupport.netapp.com/site/products/all/details/nfsplugin-vmware-vaai/about-tab["NFS VAAI 插件"] 可以从 NetApp 支持站点下载，并添加到用于 vSphere 集群部署的映像中。
+
+
+* UNMAP 支持 NFS 4.1 数据存储，从而提高存储效率和空间回收。
+* NVMe over RDMA 支持，可提高存储性能并减少延迟。
++
+** 用于数据包分析和 RoCEv2 连接故障排除的工具（pktcap-uw、rdmaperf-uw、rdmaperf）现已随 hypervisor 提供。
+
+
+* 使用互联网存储名称服务 (iSNS) 协议自动发现、配置和管理 iSCSI 连接。如需了解更多信息，请查看 https://techdocs.broadcom.com/us/en/vmware-cis/vsphere/vsphere/9-1/vsphere-storage/configuring-iscsi-and-iser-adapters-and-storage-with-esxi/using-isns-with-esx.html["在 ESXi 中使用 iSNS"]。
+* 内存分层支持包括支持所有虚拟机类型和简化部署。
+* 扩展的来宾操作系统支持，包括 Ubuntu 26.04 LTS、Debian 13 和 SUSE Linux Enterprise Server 16。
+* vSphere 主机 Web 客户端已更新，以提供与 vCenter Server Web 客户端类似的体验，并与以前版本具有完整的功能对等性。
+* 用于在 VMware Kubernetes 服务 (VKS) 中快速配置容器存储卷的一流磁盘 (FCD) 的链接克隆。
+* 分布式传输网关支持使用虚拟网络设备 (VNA) 的 VKS Supervisor 和 VCF Automation。VNA 还提供第 4 层负载平衡器支持。
+* VPC Transit Gateway、Traceflow 和实时流量分析现在可从 vSphere 客户端使用。
+* VPC 子网的 VLAN 扩展可将工作负载从分布式 vswitch 端口组引入到 VPC 子网。
+* 能够为 Transit Gateway 和 VPC 定义网络跨度，使其仅限于特定集群或跨越网络域的所有 vCenter 实例。
+* 提高了批量迁移的 vMotion 速度。
+* VPC 连接策略可提高安全性并控制 VPC 之间的网络流量。
+* VKS 多接口网络支持隔离管理和工作负载流量。
+* 包括用于从 vCloud Director 到 VCF Automation 就地迁移的迁移工具。
+
+
+有关这些功能和增强功能的更多详细信息，请参阅 link:https://techdocs.broadcom.com/us/en/vmware-cis/vcf/vcf-9-0-and-later/9-1/release-notes/vmware-cloud-foundation-9-1-0-0-release-notes/what-s-new.html["关于 VCF 9.1 中新增功能的 Broadcom 技术文档"]。
+
+除非另有说明，我们的大部分文档仍然适用于 VCF 9.1。在生产环境中使用之前，请务必查看 https://imt.netapp.com/matrix/#search["互操作性表工具"]和 https://www.vmware.com/resources/compatibility/search.php?deviceCategory=san["VMware 兼容性指南"]，以了解与特定版本相关的详细信息。
