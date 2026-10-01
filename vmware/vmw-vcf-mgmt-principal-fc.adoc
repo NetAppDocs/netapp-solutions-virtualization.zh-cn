@@ -41,6 +41,7 @@ NOTE: 该解决方案适用于支持FC存储的ONTAP平台，包括NetApp ASA、
 * NetApp存储系统配置了存储虚拟机 (SVM) 以允许 FC 流量。
 * 已在 FC 结构上创建用于承载 FC 流量并与 SVM 关联的逻辑接口 (LIF)。
 * 分区已配置为在 FC 交换机上使用单个启动器-目标分区，用于主机 HBA 和存储目标。
+* 在群集中的其中一台 vSphere 主机上创建 VMFS 数据存储区（使用 FC LUN）。
 
 
 有关配置ONTAP存储系统的信息，请参阅link:https://docs.netapp.com/us-en/ontap["ONTAP 9 文档"]中心。
@@ -70,6 +71,13 @@ VCF Installer tool 支持管理域的 FC、NFS v3 和 vSAN 数据存储上的 VM
 
 在高层面上，向管理域添加其他集群的步骤如下：* 确保主机已调试完毕，并在 vCenter 中配置了网络池。* LUN 已在 ONTAP 存储系统上进行配置，并呈现给其他集群中的主机。* 在 vCenter 上的管理域中创建新的 SDDC 集群，然后按照向导将其他集群添加到管理域。
 
+
+
+[[reference-video]]
+== 参考视频
+
+.使用 FC 的主要数据存储区
+video::9c51101c-292b-41ef-8dd5-b4cf0131dd62[panopto,width=360]
 
 
 [[additional-information]]

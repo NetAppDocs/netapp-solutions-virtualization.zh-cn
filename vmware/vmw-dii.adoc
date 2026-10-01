@@ -267,5 +267,5 @@ image:vmware-asa-053.png["ONTAP基础 - VMware"]
 
 * https://www.netapp.com/console/["NetApp Console登录页面"]
 * https://www.netapp.com/data-infrastructure-insights/["NetAppData Infrastructure Insights登录页面"]
-* https://docs.netapp.com/us-en/data-infrastructure-insights/index.html/["NetAppData Infrastructure Insights文档"]
+* https://docs.netapp.com/us-en/data-infrastructure-insights/index.html["NetAppData Infrastructure Insights文档"]
 
