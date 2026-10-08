@@ -1,0 +1,179 @@
+---
+sidebar: sidebar 
+permalink: vmware/vmw-vvol-nfs-migration.html 
+keywords: netapp, vmware, vvol, vvols, ONTAP tools, nfs, flexgroup, migration 
+summary: 了解 VMware vSphere 虚拟卷（vVols）、组织采用它们的原因，以及 ONTAP NFS 数据存储如何在简化管理和提升扩展性的同时取代 vVols 数据存储。 
+---
+= 了解如何从 vVols 数据存储迁移到 ONTAP NFS 数据存储
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+了解 VMware vSphere 虚拟卷（vVols）、采用它们的原因、其体系结构以及 ONTAP NFS 数据存储如何作为替代方案。ONTAP NFS 数据存储简化了管理并提高了可扩展性，同时保持了虚拟化环境所需的性能和灵活性。
+
+
+
+[[solution-overview]]
+== 解决方案概述
+
+私有云环境需要规模、灵活性和操作简单性。vVols 在 vSphere 6.0 中引入，以在单个虚拟机磁盘级别应用策略，并通过使用 SCSI 存储的辅助 LUN 功能来解决 LUN 限制问题。
+
+LUN 多路径和 NFS 装载由作为存储阵列数据路径的协议端点（PE）处理。
+
+使用 ONTAP vVols 实现，对于用于 SCSI LUN 的每个 FlexVol 卷，以及用于 NFS 协议的 SVM 上的每个逻辑接口（LIF），都有一个 PE。
+
+[cols="4a,4a"]
+|===
+| vVols 使用 SCSI | vVols 使用 NFS 
+
+
+ a| 
+image:vmw-vvol-nfs-migration-001.png["vVols 使用 SCSI"]
+ a| 
+image:vmw-vvol-nfs-migration-002.png["vVols 使用 NFS"]
+
+|===
+
+NOTE: VMware 从 VCF 和 VVF 9.0 开始弃用 vVols，并计划在未来的版本中停止使用。vVols 仍可在 VCF 和 VVF 9.1 中使用。有关详细信息，请参见 link:https://knowledge.broadcom.com/external/article?articleId=401070["在 VCF 9.0 和 VVF 9.0 中弃用 VMware vSphere 虚拟卷（vVols）"^]。
+
+
+
+[[scale-considerations]]
+=== 扩展注意事项
+
+由于采用 vVols 时每个虚拟机磁盘都是一个独立的 LUN，因此环境可能会快速接近每个 ESXi 主机支持的最大 LUN 和路径数。vVols 通过使用辅助 LUN 功能来解决 LUN 扩展问题，这需要存储阵列和网络架构交换机的支持。
+
+NFS 数据存储不受每个主机 LUN 限制的影响。ESXi 最多支持每个主机挂载 256 个 NFS 数据存储。有关当前限制，请参见 link:https://configmax.broadcom.com["VMware 配置最大值"^]。
+
+
+
+[[storage-consumption-models]]
+=== 存储消耗模型
+
+使用 NFS，数据存储通过挂载点使用，虚拟机配置和数据文件存储在卷中。添加存储卷需要额外的挂载点。
+
+vVols 通过添加更多 FlexVol 卷来解决容量限制，协议端点指向每个 LIF 上的 SVM 根。vVols 数据存储是一个存储容器，其容量是附加到其上的所有 FlexVol 卷的总和。
+
+vVols 包括几种对象类型：config、data、swap、snapshot 和 memory。vVols 默认采用精简配置。
+
+
+
+[[vasa-and-storage-policy-management]]
+=== VASA 和存储策略管理
+
+快照、虚拟机磁盘克隆、复制和其他存储操作通过使用存储感知 vSphere API （VASA）（vVols 的核心组件）卸载到存储阵列。
+
+一些存储供应商在阵列上实现 VASA。NetApp 在 ONTAP tools for VMware vSphere 中的阵列外实现 VASA，因此单个实例可以管理多个阵列。
+
+基于存储策略的管理（SPBM）根据所需的存储策略将虚拟机磁盘放置在特定存储上。
+
+
+
+[[why-organizations-use-vvols]]
+== 组织为何使用 vVols
+
+组织采用 vVols 有以下几个原因：
+
+* *精细存储管理*：存储策略适用于单个虚拟机磁盘级别，可对性能、可用性和数据保护进行精确控制。
+* *简化操作*：通过 SPBM 自动化存储配置和管理，减少手动任务和错误。
+* *卸载存储操作*：快照、克隆和复制通过 VASA 卸载到存储阵列。
+* *提高可扩展性*：协议端点和辅助 LUN 克服了传统的每主机 LUN 限制。
+* *VMware 生态系统集成*：vVols 与 VMware 工具和工作流紧密集成，包括自动化策略实施。
+
+
+随着 vVols 被弃用，组织需要一个替代品，以保留这些运营优势，而不依赖于 VASA。
+
+
+
+[[architecture-overview]]
+== 架构概述
+
+NFS 因其简单性、可扩展性和灵活性而成为 vSphere 环境的热门选择。NFS 数据存储易于配置和扩展，它们以最小的管理开销支持大型部署。借助 ONTAP，NFS 增加了多路径、用于提升性能的 nConnect 以及与 VMware 工具的集成。
+
+
+
+[[ontap-nfs-advantages]]
+=== ONTAP NFS 优势
+
+ONTAP 客户重视 link:https://docs.netapp.com/us-en/ontap-apps-dbs/vmware/vmware-vsphere-datastores-nfs.html["NFS 数据存储库"^] 的简单性，包括跨 vCenter Server 实例移动数据的能力。使用 ONTAP，您可以恢复单个虚拟机磁盘，而不会影响同一卷上的其他虚拟机。
+
+单个 ONTAP FlexGroup 卷可以扩展到 20 PB 和 4000 亿个文件，并可以托管数千个虚拟机。单个虚拟机磁盘最高可达 62 TB。ONTAP Snapshot 副本简化了备份和还原操作。
+
+
+
+[[performance-and-disaster-recovery-tools]]
+=== 性能和灾难恢复工具
+
+NetApp NFS Plug-in for VMware VAAI（vSphere APIs for Array Integration）可将克隆等操作卸载到存储阵列，以提高性能。
+
+对于灾难恢复，NetApp 提供用于 VMware Live Site Recovery（以前称为 VMware Site Recovery Manager）的存储复制适配器 (SRA) 以及 link:vmw-dr-gs.html["NetApp Disaster Recovery"] 服务。
+
+image:vmw-vvol-nfs-migration-004.png["NFS VAAI"]
+
+
+
+[[nfs-operational-simplicity]]
+=== NFS 操作简便性
+
+下图比较了托管在物理服务器（左）、NFS 数据存储中的虚拟机（中）以及 vVols 数据存储中的虚拟机（右）上的两个应用程序。在 vVols 和 NFS 数据存储上托管虚拟机非常相似。
+
+image:vmw-vvol-nfs-migration-003.png["vVols 和 NFS"]
+
+NFS 数据存储不依赖于 VASA 和 SPBM 进行日常操作。NFS 数据存储可以挂载到多个 vCenter Server 实例上，并支持 vMotion、DRS、HA、FT 和其他 VMware 功能。管理员使用 ONTAP tools for VMware vSphere 从 vSphere Client 管理存储。
+
+
+
+[[ontap-cluster-architecture]]
+=== ONTAP 集群架构
+
+ONTAP NAS 集群最多可扩展到 24 个节点。每个节点可以有多个聚合，每个聚合可以包含多个 FlexVol 或 FlexGroup 卷。SVM 可以跨越节点，并且可以为 NFS 协议提供多个 LIF。ESXi 主机可以通过每个 LIF 挂载 NFS 数据存储。
+
+
+
+[[pnfs-support]]
+=== pNFS 支持
+
+pNFS 允许客户端跨多个网络路径并行访问存储，从而提高性能和可扩展性。ONTAP 支持带有 NFSv4.1 的 pNFS，使 ESXi 主机能够在 ONTAP SVM 上使用多个 LIF 进行并行数据访问。
+
+下图显示了用于测试 pNFS 的示例设置。
+
+image:vmw-vvol-nfs-migration-006.png["pNFS 设置"]
+
+
+NOTE: pNFS 需要 link:https://docs.netapp.com/us-en/ontap/nfs-admin/enable-disable-pnfs-task.html["要在 SVM 上启用的 pNFS 选项"^]。只有 NFSv4.1 才支持 pNFS。
+
+
+
+[[benefits-of-migrating-to-ontap-nfs]]
+== 迁移到 ONTAP NFS 的优势
+
+从 vVols 数据存储迁移到 ONTAP NFS 数据存储有几个优点：
+
+* *简化管理*：使用 ONTAP tools for VMware vSphere（与 vCenter 集成）配置、扩展和管理 NFS 数据存储。
+* *可扩展性*：FlexGroup 卷在单个数据存储中支持数千个虚拟机。
+* *性能*：NFS 多路径、nConnect 和 ONTAP 优化可提供高吞吐量和低延迟。
+* *数据保护*：ONTAP Snapshot 副本可在不影响虚拟机性能的情况下提供快速、节省空间的备份和恢复。
+* *操作灵活性*：NFS 数据存储可以挂载到多个 vCenter Server 实例上，并支持 vMotion、DRS、HA 和 FT。
+* *集成*：ONTAP NFS 可与 NFS VAAI 插件、VMware Live Site Recovery 和 NetApp Disaster Recovery 配合使用。
+* *高效的空间利用率*：精简配置、重复数据删除和压缩可降低存储成本。
+* *安全性和合规性*：导出策略、RBAC、Kerberos 和加密可保护数据并控制访问。
+* *面向未来*：NFS 不受 vVols 弃用的影响，确保长期兼容性和支持。
+
+
+
+
+[[whats-next]]
+== 下一步
+
+* link:vmw-vvol-nfs-migration-best-practices.html["查看 NFS 数据存储的部署最佳实践"]
+* link:vmw-vvol-nfs-migration-storage-options.html["在 FlexVol 和 FlexGroup 卷之间进行选择"]
+* link:vmw-vvol-nfs-migration-sizing.html["查看规模调整准则"]
+* link:vmw-vvol-nfs-migration-integ-tools.html["了解 ONTAP 集成工具"]
+* link:vmw-vvol-nfs-migration-options.html["选择迁移选项"]
+* link:vmw-vvol-nfs-migration-add-info.html["查找其他资源"]
+

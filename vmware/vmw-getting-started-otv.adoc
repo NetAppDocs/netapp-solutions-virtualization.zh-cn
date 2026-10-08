@@ -14,7 +14,7 @@ summary:
 
 
 [role="lead"]
-ONTAP tools for VMware vSphere简化了使用NetApp存储的虚拟机的生命周期管理。管理员可以直接从 vCenter Server 管理存储，从而简化操作并增强可扩展性。虚拟存储控制台 (VSC)、VASA 提供程序和存储复制适配器 (SRA) 等关键组件可优化配置、性能监控和灾难恢复。
+ONTAP tools for VMware vSphere 简化了使用 NetApp 存储的虚拟机的生命周期管理。管理员可以直接从 vCenter Server 管理存储，从而简化操作并提高可扩展性。诸如 vSphere Client 插件、VASA Provider 和 Storage Replication Adapter（SRA）等关键组件可优化配置、性能监控和灾难恢复。
 
 
 
@@ -28,9 +28,13 @@ ONTAP tools for VMware vSphere简化了使用NetApp存储的虚拟机的生命�
 [[ontap-tools-components]]
 == ONTAP工具组件
 
-* *虚拟存储控制台 (VSC)* VSC 包括与 vSphere 客户端集成的界面，您可以在其中添加存储控制器、配置数据存储库、监控数据存储库的性能以及查看和更新 ESXi 主机设置。
+* *vSphere Client 插件* 该插件包含与 vSphere 客户端集成的界面，您可以在其中添加存储控制器、配置数据存储、监控数据存储性能以及查看和更新 ESXi 主机设置。在 ONTAP tools 9.x 中，此组件称为 Virtual Storage Console (VSC)。
 * *VASA 提供程序* 适用于ONTAP 的VMware vSphere APIs for Storage Awareness (VASA) 提供程序将有关 VMware vSphere 使用的存储的信息发送到 vCenter Server，从而实现 VMware 虚拟卷 (vVols) 数据存储的配置、存储功能配置文件的创建和使用、合规性验证以及性能监控。
 * *存储复制适配器 (SRA)* 启用并与 VMware Site Recovery Manager (SRM) 一起使用时，SRA 可在发生故障时促进 vCenter Server 数据存储和虚拟机的恢复，从而允许配置受保护站点和恢复站点以进行灾难恢复。
 
 
-有关适用于 VMware 的NetApp ONTAP工具的更多信息，请参阅 https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere/index.html["ONTAP tools for VMware vSphere文档"]。
+有关详细信息，请参见适用于您的版本的 ONTAP tools for VMware vSphere 文档：
+
+* link:https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere-10/index.html["ONTAP tools for VMware vSphere 10.x 文档"^] （最新版本）
+* link:https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere/index.html["ONTAP tools for VMware vSphere 9.x 文档"^]
+

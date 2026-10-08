@@ -1,0 +1,46 @@
+---
+sidebar: sidebar 
+permalink: vmware/vmw-vvol-nfs-migration-storage-options.html 
+keywords: netapp, vmware, nfs, ontap, flexvol, flexgroup, storage, options, scalability 
+summary: 了解 VMware 环境中 NFS 数据存储的 ONTAP 存储选项，并比较 FlexVol 和 FlexGroup 卷，以选择最适合您工作负载的选项。 
+---
+= 采用 ONTAP 的 VMware vSphere 环境中 NFS 数据存储的存储选项
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+了解 VMware 环境中 NFS 数据存储的 ONTAP 存储选项。比较 FlexVol 和 FlexGroup 卷，为您的工作负载需求和规模选择最佳解决方案。
+
+在 VMware 环境中为 NFS 数据存储选择 FlexVol 和 FlexGroup 卷时，请考虑以下事项：
+
+image:vmw-vvol-nfs-migration-005.png["FlexVol 和 FlexGroup 对比"]
+
+.FlexVol
+FlexVol 卷适用于需要可预测性能和细粒度管理的中小型环境。
+
+它们支持 Snapshot 副本、克隆和复制。当您需要隔离工作负载或将特定策略应用于单个数据存储时，FlexVol 卷是理想的选择。
+
+.FlexGroup
+FlexGroup 卷专为大型部署而设计，并提供巨大的可扩展性（高达 20 PB 和 4000 亿个文件）和并行性。
+
+它们自动将数据分布在多个组成卷上，为具有数千个虚拟机的环境提供高性能和简化的管理。当您需要为许多虚拟机提供单个可扩展数据存储时，请使用 FlexGroup 卷。
+
+.建议
+* *使用 FlexVol 卷*用于较小、隔离的工作负载或需要精细控制时。
+* 对于需要简化管理和可扩展性的大型高性能环境，请*使用 FlexGroup 卷*。
+
+
+
+
+[[additional-information]]
+== 追加信息
+
+* link:https://docs.netapp.com/us-en/ontap/flexgroup/index.html["FlexGroup 卷文档"^]
+* link:https://docs.netapp.com/us-en/ontap/flexgroup/supported-unsupported-config-concept.html["FlexGroup卷支持和不支持的配置"^]
+* link:https://docs.netapp.com/us-en/ontap/volumes/index.html["逻辑存储管理文档"^]
+

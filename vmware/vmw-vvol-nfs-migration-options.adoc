@@ -1,0 +1,48 @@
+---
+sidebar: sidebar 
+permalink: vmware/vmw-vvol-nfs-migration-options.html 
+keywords: netapp, vmware, nfs, migration, vvol, vvols, vmotion, storage vmotion, powercli 
+summary: 了解在采用 ONTAP 的 VMware 环境中将 VM 从 vVols 数据存储迁移到 NFS 数据存储的选项，包括存储 vMotion、冷迁移和脚本迁移。 
+---
+= 从 vVols 数据存储到 NFS 数据存储的迁移选项
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+了解在采用 ONTAP 的 VMware 环境中将 VM 从 vVols 数据存储迁移到 NFS 数据存储的选项，包括存储 vMotion、冷迁移和脚本迁移，以最大限度地减少停机时间并保持操作运行。
+
+在采用 ONTAP 的 VMware 环境中，从 vVols 数据存储迁移到 NFS 数据存储时，请考虑以下选项：
+
+* *存储 vMotion*：在虚拟机运行时，将虚拟机文件从 vVols 数据存储迁移到 NFS 数据存储。运行虚拟机的 ESXi 主机必须能够访问这两个数据存储。
+* *vMotion 带存储 vMotion*：当源和目标主机不共享存储时，在单个操作中更改计算资源和数据存储。
+* *冷迁移*：关闭虚拟机并使用 vSphere 客户端中的*迁移*选项将其移动到 NFS 数据存储。此方法很简单，但需要停机。
+* *备份和还原*：使用支持将虚拟机还原到不同数据存储的备份应用程序。当源数据存储和目标数据存储无法从同一主机访问时，此方法非常有用。
+* *脚本迁移*：使用 PowerCLI 或其他自动化工具进行批量迁移。
+
+
+在开始迁移之前，请确保 NFS 数据存储已正确调整大小、配置和测试，并备份关键数据。
+
+有关分步指导，包括 PowerCLI 示例，请参见 link:migrate-vms-to-ontap-datastore.html["将虚拟机从 VMware vSphere 迁移到ONTAP数据存储"]。
+
+
+
+[[why-use-storage-vmotion-for-migration]]
+== 为什么使用存储 vMotion 进行迁移
+
+存储 vMotion 是将虚拟机从 vVols 数据存储迁移到 NFS 数据存储的推荐方法，因为它可以在不停机的情况下移动虚拟机文件。
+
+此方法可最大限度地减少对工作负载的中断，并允许管理员在应用程序保持可用的情况下移动虚拟机。存储 vMotion 会保留虚拟机配置和元数据，您可以在迁移期间保留或更改虚拟磁盘格式。
+
+
+
+[[concurrency-limits]]
+== 并发限制
+
+vCenter 限制并发迁移的数量。默认情况下，一台主机最多可运行两个并发存储 vMotion 操作，一个数据存储最多可参与八个。其他操作将排队等待，直到资源可用。
+
+围绕这些限制规划迁移批次，并在迁移期间监控主机、网络和存储利用率。有关当前限制，请参见link:https://configmax.broadcom.com["VMware 配置最大值"^]。

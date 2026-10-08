@@ -160,7 +160,7 @@ image:vmfs-deploy-015.png["该图显示输入/输出对话框或表示书面内�
 
 
 
-请参阅这些链接以了解 vVol、FC、NVMe/TCP 数据存储配置。
+要配置 vVols 数据存储，或使用 FC 或 NVMe/TCP 配置 VMFS 数据存储，请参阅 link:https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere-10/configure/create-datastore.html["在 ONTAP tools 中创建数据存储库"^]。该页面还列出了 NVMe/TCP 所需的 ESXi 主机配置。
 
 
 

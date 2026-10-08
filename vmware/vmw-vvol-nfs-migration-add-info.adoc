@@ -1,0 +1,46 @@
+---
+sidebar: sidebar 
+permalink: vmware/vmw-vvol-nfs-migration-add-info.html 
+keywords: netapp, vmware, vvol, vvols, ONTAP tools, nfs, flexgroup, resources 
+summary: 查找更多有关在使用 ONTAP 的 VMware vSphere 环境中从 vVols 数据存储迁移到 NFS 数据存储的资源。 
+---
+= 从 vVols 迁移到 NFS 数据存储的其他资源
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+查找更多有关在使用 ONTAP 的 VMware vSphere 环境中从 vVols 数据存储迁移到 NFS 数据存储的资源。
+
+
+
+[[netapp-documentation]]
+== NetApp文档
+
+* link:https://docs.netapp.com/us-en/ontap-apps-dbs/vmware/vmware-vsphere-overview.html["VMware vSphere with ONTAP 最佳实践指南"^]
+* link:https://docs.netapp.com/us-en/ontap-apps-dbs/vmware/vmware-vsphere-datastores-nfs.html["NFS 数据存储库"^]
+* link:https://docs.netapp.com/us-en/ontap-apps-dbs/vmware/vmware-vvols-overview.html["vVols 与 ONTAP"^]
+* link:https://docs.netapp.com/us-en/ontap-apps-dbs/vmware/vmware-vsphere-settings.html["推荐的 ESXi 主机和其他ONTAP设置"^]
+* link:vmw-nfs-otv10.html["使用适用ONTAP tools for VMware vSphere为 vSphere 8 配置 NFS 数据存储区"]
+* link:vmw-vsphere8-nfs-nconnect.html["在 NFS v3 数据存储上使用 nConnect 来提高数据存储性能"]
+* link:migrate-vms-to-ontap-datastore.html["将虚拟机从 VMware vSphere 迁移到ONTAP数据存储"]
+* link:https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere-10/index.html["ONTAP tools for VMware vSphere文档"^]
+* link:https://docs.netapp.com/us-en/nfs-plugin-vmware-vaai/index.html["适用于 VMware VAAI 的 NetApp NFS 插件文档"^]
+* link:https://docs.netapp.com/us-en/sc-plugin-vmware-vsphere/index.html["SnapCenter Plug-in for VMware vSphere文档"^]
+* link:https://docs.netapp.com/us-en/ontap/flexgroup/index.html["ONTAP FlexGroup 卷文档"^]
+* link:https://docs.netapp.com/us-en/ontap/nfs-admin/index.html["ONTAP NFS 文档"^]
+
+
+
+
+[[vmware-documentation]]
+== VMware 文档
+
+* link:https://knowledge.broadcom.com/external/article?articleId=401070["在 VCF 9.0 和 VVF 9.0 中弃用 VMware vSphere 虚拟卷（vVols）"^]
+* link:https://knowledge.broadcom.com/external/article/313464/support-for-nconnect-feature-added-in-es.html["支持 NFS 客户端中的 nConnect 功能 - ESXi"^]
+* link:https://configmax.broadcom.com["VMware 配置最大值"^]
+

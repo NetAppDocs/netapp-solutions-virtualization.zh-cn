@@ -1,0 +1,104 @@
+---
+sidebar: sidebar 
+permalink: vmware/vmw-vvol-nfs-migration-best-practices.html 
+keywords: netapp, vmware, nfs, ontap, deployment, best practices, connectivity, provisioning, nconnect, security 
+summary: 了解在采用 ONTAP 的 VMware 环境中使用 NFS 数据存储的最佳实践，包括连接、配置、nConnect 和安全性。 
+---
+= 在采用 ONTAP 的 VMware 环境中使用 NFS 数据存储的最佳实践
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+了解在采用 ONTAP 的 VMware 环境中使用 NFS 数据存储的最佳实践，包括连接、配置、nConnect 和安全性，以确保在从 vVols 迁移后获得最佳性能和可靠性。
+
+
+
+[[deployment-best-practices]]
+== 部署最佳实践
+
+在采用 ONTAP 的 VMware 环境中部署 NFS 数据存储时，请考虑以下最佳实践：
+
+* 根据环境要求使用 NFSv3 或 NFSv4.1。NFSv3 受到广泛支持。NFSv4.1 为多路径添加了 Kerberos 身份验证和会话中继。会话中继需要 ONTAP 9.14.1 或更高版本。
+* 为 NFS 流量配置专用网络接口，以隔离存储流量并提高性能。
+* 在 SVM 上启用 vStorage 选项。适用于 VMware VAAI 的 NetApp NFS 插件需要它。
+* 在 ESXi 主机、网络交换机和 ONTAP 上端到端启用巨型帧（MTU 9000）。
+* 在 ONTAP 上使用多个 LIF 以实现负载均衡和高可用性。
+* 确保 ESXi 主机和 ONTAP 系统之间一致的 DNS 和时间同步。
+* 应用 NetApp 推荐的 ESXi 主机设置。ONTAP tools for VMware vSphere 可以为您应用这些设置。
+* 使用 ONTAP Snapshot 副本进行高效备份和恢复。
+* 使用 RBAC 和导出策略来限制对 NFS 卷的访问。
+* 测试故障转移方案以验证高可用性和灾难恢复配置。
+
+
+有关详细信息，请参阅link:https://docs.netapp.com/us-en/ontap-apps-dbs/vmware/vmware-vsphere-datastores-nfs.html["VMware vSphere 结合 ONTAP 最佳实践指南中的 NFS 数据存储"^]和link:https://docs.netapp.com/us-en/ontap-apps-dbs/vmware/vmware-vsphere-settings.html["推荐的 ESXi 主机和其他ONTAP设置"^]。
+
+
+
+[[nfs-connectivity-best-practices]]
+== NFS 连接最佳实践
+
+配置 ESXi 主机和 ONTAP 存储之间的 NFS 连接时，请遵循以下最佳实践：
+
+* 将 ESXi 主机和 ONTAP NFS LIF 放置在同一网段上，或确保路由正确。
+* 使用专用 VLAN 隔离和保护 NFS 流量。
+* 为 NFS 配置多个 ONTAP LIF 以提供负载平衡和故障转移。
+* 验证 ONTAP 导出策略是否允许从挂载此数据存储的所有 ESXi 主机进行访问。
+* 在所有主机上装载 NFS 数据存储时，使用一致的 DNS 名称或 IP 地址。
+* 使用 `vmkping`测试每个 ESXi 主机到 ONTAP LIF 的连接。
+
+
+有关网络设计指导，请参见 link:https://docs.netapp.com/us-en/ontap-apps-dbs/vmware/vmware-vsphere-network.html["网络配置"^]。
+
+
+
+[[nfs-provisioning-best-practices]]
+== NFS 配置最佳实践
+
+在为 VMware 环境在 ONTAP 上配置 NFS 数据存储时，请遵循以下最佳实践：
+
+* *使用 ONTAP tools for VMware vSphere*：使用 ONTAP 工具配置 NFS 数据存储，以确保正确配置并与 vSphere 集成。请参阅 link:vmw-nfs-otv10.html["使用适用ONTAP tools for VMware vSphere为 vSphere 8 配置 NFS 数据存储区"]。
+* *选择适当的卷类型*：为较小的工作负载选择 FlexVol 卷，或为需要高可扩展性的大型环境选择 FlexGroup 卷。请参阅 link:vmw-vvol-nfs-migration-storage-options.html["存储选项"]。
+* *配置导出策略*：限制对授权 ESXi 主机或 IP 范围的访问。
+* *启用精简配置*：优化空间利用率，并监控容量以避免超额配置。
+* *设置 Snapshot 预留*：根据您的保留要求调整 Snapshot 预留的大小。
+* *使用多个 LIF*：在 LIF 之间分布数据存储，以实现负载均衡和高可用性。
+* *监控容量和性能*：定期检查数据存储使用情况和性能指标，以避免瓶颈。
+
+
+
+
+[[nconnect-recommendations]]
+== nConnect 建议
+
+nConnect 允许每个 NFS 数据存储有多个 TCP 连接，从而通过更好地利用高速网络接口卡来提高吞吐量。
+
+* ESXi 8.0 Update 1 引入了针对 NFSv3 数据存储的 nConnect，并在 ESXi 8.0 Update 2 中正式提供。ESXi 8.0 Update 3 增加了针对 NFSv4.1 的 nConnect。
+* 默认值为每个数据存储一个连接。默认情况下，每个数据存储最多可以设置四个连接，并且可以使用 `/NFS/MaxConnectionsPerDatastore`高级设置将最大值提高到八个。通常不需要提高默认最大值。
+* ESXi 在所有挂载的数据存储中最多支持每个主机 256 个 NFS 连接，每个 nConnect 连接都计入该总数。
+* 为避免 vMotion 的性能问题，请对 vSphere 集群中所有主机上的 NFS 数据存储使用相同数量的连接。
+* 在生产环境中进行大规模更改之前，请先测试 nConnect 对您环境的性能影响。
+
+
+有关详细信息，请参见 link:vmw-vsphere8-nfs-nconnect.html["在 NFS v3 数据存储上使用 nConnect 来提高数据存储性能"] 和 Broadcom 知识库文章 link:https://knowledge.broadcom.com/external/article/313464/support-for-nconnect-feature-added-in-es.html["支持 NFS 客户端中的 nConnect 功能 - ESXi"^]。
+
+
+
+[[security-features]]
+== 安全功能
+
+ONTAP 为 VMware 环境中的 NFS 数据存储提供了以下安全功能：
+
+* *导出策略*：通过指定允许的主机、IP 地址或子网来控制对 NFS 卷的访问。
+* *Kerberos 身份验证*：带有 Kerberos 的 NFSv4.1（krb5、krb5i、krb5p）提供安全的身份验证、完整性和机密性。
+* *基于角色的访问控制 (RBAC)*：授予管理存储资源的细粒度权限。
+* *静态数据加密*：link:https://docs.netapp.com/us-en/ontap/encryption-at-rest/index.html["加密静态数据"^]在卷或聚合级别。
+* *安全多租户*：使用 SVM 隔离工作负载。
+* *勒索软件防护*：link:https://docs.netapp.com/us-en/ontap/anti-ransomware/index.html["ONTAP 自主勒索软件防护"^]检测可疑活动并创建恢复点。
+
+
+有关详细信息，请参见 link:https://docs.netapp.com/us-en/ontap/nfs-admin/index.html["ONTAP NFS 文档"^]。

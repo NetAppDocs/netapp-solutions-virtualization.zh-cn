@@ -3027,14 +3027,10 @@
   <block id="24a1e84f171f7624a56edc931ebd942f" category="paragraph">{nbsp}</block>
   <block id="d8a96954bccc700a607871c9542b9037" category="paragraph">总之， ONTAP和NetApp平台为 VMware 工作负载提供了全面的优势，增强了性能、可扩展性和数据管理。虽然常见的功能提供了坚实的基础，但每个平台都提供了针对特定需求的差异化优势，无论是通过FAS实现的经济高效的存储、通过AFF实现的高性能、通过ASA实现的优化 SAN 性能，还是通过NetApp云产品实现的混合云灵活性。</block>
   <block id="de305ca3a2f074c655aead3d63987ae7" category="doc">了解如何使用适用ONTAP tools for VMware vSphere管理虚拟机</block>
-  <block id="34f86cf3833621fff795ca830d48b870" category="paragraph">ONTAP tools for VMware vSphere简化了使用NetApp存储的虚拟机的生命周期管理。管理员可以直接从 vCenter Server 管理存储，从而简化操作并增强可扩展性。虚拟存储控制台 (VSC)、VASA 提供程序和存储复制适配器 (SRA) 等关键组件可优化配置、性能监控和灾难恢复。</block>
   <block id="4ea586fae1575af3ecf73e2d65182b4a" category="paragraph">它使管理员能够直接管理 vCenter Server 内的存储，并简化 VMware 环境的存储和数据管理。 VMware vSphere Client 插件工具旨在将插件功能集成到 vSphere Client 中，而无需在 vCenter Server 内部运行。这提供了插件隔离并支持在大型 vSphere 环境中运行的插件的横向扩展。</block>
   <block id="44c7dfa7e274f41322d9436ad8713067" category="section-title">ONTAP工具组件</block>
-  <block id="544854cfc99d46b2c0db05d3e008beee" category="list-text">*虚拟存储控制台 (VSC)* VSC 包括与 vSphere 客户端集成的界面，您可以在其中添加存储控制器、配置数据存储库、监控数据存储库的性能以及查看和更新 ESXi 主机设置。</block>
   <block id="e89fa7b942a673efd0bf6aeb134af6d3" category="list-text">*VASA 提供程序* 适用于ONTAP 的VMware vSphere APIs for Storage Awareness (VASA) 提供程序将有关 VMware vSphere 使用的存储的信息发送到 vCenter Server，从而实现 VMware 虚拟卷 (vVols) 数据存储的配置、存储功能配置文件的创建和使用、合规性验证以及性能监控。</block>
   <block id="9f4dd025ba55d2e03e368b3a2ae89ab9" category="list-text">*存储复制适配器 (SRA)* 启用并与 VMware Site Recovery Manager (SRM) 一起使用时，SRA 可在发生故障时促进 vCenter Server 数据存储和虚拟机的恢复，从而允许配置受保护站点和恢复站点以进行灾难恢复。</block>
-  <block id="46c4d9bfa1c229940459326940489ab0" category="inline-link">ONTAP tools for VMware vSphere文档</block>
-  <block id="29c47efbd8bbf63e61c46ec3cdc0b75a" category="paragraph">有关适用于 VMware 的NetApp ONTAP工具的更多信息，请参阅<block ref="20b60c31d47f743ee9878127e24d7f6c" category="inline-link-rx"></block>。</block>
   <block id="e6714c03113e6f7397c69075f48c2e45" category="doc">了解适用于 VMware vSphere 的ONTAP</block>
   <block id="4546a7029c48c92e8f6a8b1e08508598" category="paragraph">NetApp ONTAP是适用于 VMware vSphere 的领先存储解决方案，为数据存储和客户机连接存储用例提供近二十年的可靠性能。 ONTAP支持 SAN 和 NAS 协议，允许独立扩展存储和计算资源，并从主机卸载存储任务。其优势包括强大的数据保护、高可用性以及先进的业务连续性功能，如SnapMirror和MetroCluster。</block>
   <block id="76b704a843058147579aa37e5f6da52a" category="paragraph">NetApp继续增加创新功能以简化存储管理，同时降低成本并增强对基于 VMware 的整合云虚拟基础架构的信心。该解决方案集合引入了适用于 VMware vSphere Foundation 和 VMware Cloud Foundation 的ONTAP产品，包括最新产品信息和最佳实践，以简化部署、降低风险和简化管理。</block>
@@ -4288,7 +4284,6 @@
   <block id="21e65f2c709a631e9cc3798b4bc7c39f" category="paragraph"><block ref="21e65f2c709a631e9cc3798b4bc7c39f" category="inline-image-macro-rx" type="image"></block></block>
   <block id="3f3cd6c71b4c86cd18deb1f280284ebf" category="list-text">查看“摘要”窗格中的数据存储详细信息，然后单击“完成”。  VMFS 数据存储区已创建并安装在所有主机上。</block>
   <block id="0638359262d90d198eefccd3db6eac18" category="paragraph"><block ref="0638359262d90d198eefccd3db6eac18" category="inline-image-macro-rx" type="image"></block></block>
-  <block id="062f81940e9e834c4aa167b4cc1c815a" category="paragraph">请参阅这些链接以了解 vVol、FC、NVMe/TCP 数据存储配置。</block>
   <block id="3873ae11f446d3141576af8a36d10cd8" category="section-title">VAAI 卸载</block>
   <block id="99f7a318619b00dc5c546d5924194fc7" category="paragraph">VAAI 原语用于常规 vSphere 操作，例如创建、克隆、迁移、启动和停止虚拟机。为了简单起见，这些操作可以通过 vSphere 客户端执行，或者通过命令行执行，以便编写脚本或获得更准确的时间。  ESX 本身支持 SAN 的 VAAI。  VAAI 在受支持的NetApp存储系统上始终处于启用状态，并为 SAN 存储上的以下 VAAI 操作提供本机支持：</block>
   <block id="55e0e7799b68cd76cf68be0ee82fef7b" category="list-text">副本卸载</block>
@@ -9655,4 +9650,240 @@
   <block id="32cd4e96e16ea22218701d95fbb8641b" category="list-text"><block ref="32cd4e96e16ea22218701d95fbb8641b" category="inline-link-rx"></block></block>
   <block id="4ac9ef937d6829e78f453d8c03de16a1" category="list-text">在群集中的其中一台 vSphere 主机上创建 VMFS 数据存储区（使用 FC LUN）。</block>
   <block id="1cda12e319bfea043837b8254a9a7c84" category="video-title">使用 FC 的主要数据存储区</block>
+  <block id="c9fc175ae71120c6e7775650b30e8945" category="paragraph">ONTAP tools for VMware vSphere 简化了使用 NetApp 存储的虚拟机的生命周期管理。管理员可以直接从 vCenter Server 管理存储，从而简化操作并提高可扩展性。诸如 vSphere Client 插件、VASA Provider 和 Storage Replication Adapter（SRA）等关键组件可优化配置、性能监控和灾难恢复。</block>
+  <block id="fb3600e8a3a76392e672132761f31b79" category="list-text">*vSphere Client 插件* 该插件包含与 vSphere 客户端集成的界面，您可以在其中添加存储控制器、配置数据存储、监控数据存储性能以及查看和更新 ESXi 主机设置。在 ONTAP tools 9.x 中，此组件称为 Virtual Storage Console (VSC)。</block>
+  <block id="d91d3d08a6ceb3319a2a2defa9eeda5e" category="paragraph">有关详细信息，请参见适用于您的版本的 ONTAP tools for VMware vSphere 文档：</block>
+  <block id="087fb4aab52badcbbf98da3fb602aef3" category="inline-link-macro">ONTAP tools for VMware vSphere 10.x 文档</block>
+  <block id="647b8fdd8bee5ac0dc777ac9aeafea5e" category="list-text"><block ref="611501c9f51b3b11436b7a3345297fdd" category="inline-link-macro-rx"></block> （最新版本）</block>
+  <block id="085512c3cdf90f02f292234e4c517366" category="inline-link-macro">ONTAP tools for VMware vSphere 9.x 文档</block>
+  <block id="c9adc68a153ae13d9600eb7a1a66854c" category="list-text"><block ref="c9adc68a153ae13d9600eb7a1a66854c" category="inline-link-macro-rx"></block></block>
+  <block id="95d5cac81150e067965210d361bbfb2f" category="inline-link-macro">在 ONTAP tools 中创建数据存储库</block>
+  <block id="a1e46fe78585b04d2aa2d82bda26e391" category="paragraph">要配置 vVols 数据存储，或使用 FC 或 NVMe/TCP 配置 VMFS 数据存储，请参阅 <block ref="d56b16d585d28b72cb539633a3efd1f9" category="inline-link-macro-rx"></block>。该页面还列出了 NVMe/TCP 所需的 ESXi 主机配置。</block>
+  <block id="0531ba28779c48290224e48d1b88644d" category="summary">查找更多有关在使用 ONTAP 的 VMware vSphere 环境中从 vVols 数据存储迁移到 NFS 数据存储的资源。</block>
+  <block id="d31889cff52db23e7f06d9836d050eb7" category="doc">从 vVols 迁移到 NFS 数据存储的其他资源</block>
+  <block id="58826bba5b6c0010e4915ab23035b67d" category="inline-link-macro">VMware vSphere with ONTAP 最佳实践指南</block>
+  <block id="8b0506d704f22748f91140bd48ebfda0" category="list-text"><block ref="8b0506d704f22748f91140bd48ebfda0" category="inline-link-macro-rx"></block></block>
+  <block id="1f25f9cc2f9e277c0318faa6969f3552" category="inline-link-macro">NFS 数据存储库</block>
+  <block id="724cd8e2558b4cecc94bdd54e799582e" category="list-text"><block ref="724cd8e2558b4cecc94bdd54e799582e" category="inline-link-macro-rx"></block></block>
+  <block id="d19737fb7ccbbd3ca395e946bf73bd7f" category="inline-link-macro">vVols 与 ONTAP</block>
+  <block id="1f68b1645a3ff001ba0f49331d327ca5" category="list-text"><block ref="1f68b1645a3ff001ba0f49331d327ca5" category="inline-link-macro-rx"></block></block>
+  <block id="45853bfe7a0670548e6acf2361e9eb27" category="list-text"><block ref="45853bfe7a0670548e6acf2361e9eb27" category="inline-link-macro-rx"></block></block>
+  <block id="0d680c93e70eb587d0d3742752e0ff2f" category="list-text"><block ref="0d680c93e70eb587d0d3742752e0ff2f" category="inline-link-macro-rx"></block></block>
+  <block id="52ebf8255237b0af6efe8f00d0c08dce" category="list-text"><block ref="52ebf8255237b0af6efe8f00d0c08dce" category="inline-link-macro-rx"></block></block>
+  <block id="af4b36f905d0ae3146568db400f35931" category="list-text"><block ref="af4b36f905d0ae3146568db400f35931" category="inline-link-macro-rx"></block></block>
+  <block id="8845c0ae6eebdc1c35dd1cf33d8cf039" category="list-text"><block ref="8845c0ae6eebdc1c35dd1cf33d8cf039" category="inline-link-macro-rx"></block></block>
+  <block id="84e618c2d718dbe12d71b9c8a26ad64f" category="inline-link-macro">适用于 VMware VAAI 的 NetApp NFS 插件文档</block>
+  <block id="0222c26ef02136645541e5fb2739f09c" category="list-text"><block ref="0222c26ef02136645541e5fb2739f09c" category="inline-link-macro-rx"></block></block>
+  <block id="2fe5c9e4df51cf1981d3b349cd931f83" category="list-text"><block ref="2fe5c9e4df51cf1981d3b349cd931f83" category="inline-link-macro-rx"></block></block>
+  <block id="1932521b118b7fe83bb18bc2d61b3755" category="inline-link-macro">ONTAP FlexGroup 卷文档</block>
+  <block id="c7248dcca5a36308681ea070a28a2a4f" category="list-text"><block ref="c7248dcca5a36308681ea070a28a2a4f" category="inline-link-macro-rx"></block></block>
+  <block id="36e97ea1c4a19b8422ff0e725eebe4d7" category="inline-link-macro">ONTAP NFS 文档</block>
+  <block id="50fb74599eeb3fc588ab7256092410f8" category="list-text"><block ref="50fb74599eeb3fc588ab7256092410f8" category="inline-link-macro-rx"></block></block>
+  <block id="70cd8bfb8fd7a4082087201414ab2fe4" category="section-title">VMware 文档</block>
+  <block id="2d1279dea106141cc00dd273793fdf89" category="inline-link-macro">在 VCF 9.0 和 VVF 9.0 中弃用 VMware vSphere 虚拟卷（vVols）</block>
+  <block id="ada6abfb66864dc84a028f034f7fd4d7" category="list-text"><block ref="ada6abfb66864dc84a028f034f7fd4d7" category="inline-link-macro-rx"></block></block>
+  <block id="d970d5886df0091ef44e253109b29416" category="inline-link-macro">支持 NFS 客户端中的 nConnect 功能 - ESXi</block>
+  <block id="2942a0ef55e774b8a042dfc1d01ccfea" category="list-text"><block ref="2942a0ef55e774b8a042dfc1d01ccfea" category="inline-link-macro-rx"></block></block>
+  <block id="0f2f72ef3f176b98134caf100a06cf5f" category="inline-link-macro">VMware 配置最大值</block>
+  <block id="5542022294d7cc20a093e6b51bc7ee5b" category="list-text"><block ref="5542022294d7cc20a093e6b51bc7ee5b" category="inline-link-macro-rx"></block></block>
+  <block id="2f65c92cd3fb1b8b0c58ae1a9be1a011" category="summary">了解在采用 ONTAP 的 VMware 环境中使用 NFS 数据存储的最佳实践，包括连接、配置、nConnect 和安全性。</block>
+  <block id="fbd58db6f640ec5ac7ad34f9ddc1fb2b" category="doc">在采用 ONTAP 的 VMware 环境中使用 NFS 数据存储的最佳实践</block>
+  <block id="1d3c8e730d7f63693640f0793a40f70e" category="paragraph">了解在采用 ONTAP 的 VMware 环境中使用 NFS 数据存储的最佳实践，包括连接、配置、nConnect 和安全性，以确保在从 vVols 迁移后获得最佳性能和可靠性。</block>
+  <block id="7520e12a140ccf3de279fe2fd48889e4" category="section-title">部署最佳实践</block>
+  <block id="7a17b230d59526ff879f569398cba03c" category="paragraph">在采用 ONTAP 的 VMware 环境中部署 NFS 数据存储时，请考虑以下最佳实践：</block>
+  <block id="2a18162f6491c4a53d8f77e3703115b7" category="list-text">根据环境要求使用 NFSv3 或 NFSv4.1。NFSv3 受到广泛支持。NFSv4.1 为多路径添加了 Kerberos 身份验证和会话中继。会话中继需要 ONTAP 9.14.1 或更高版本。</block>
+  <block id="11eb3adaa0d93cbb6073caf96701d59b" category="list-text">为 NFS 流量配置专用网络接口，以隔离存储流量并提高性能。</block>
+  <block id="368a622c9bf97ad4afaecac81662a7ff" category="list-text">在 SVM 上启用 vStorage 选项。适用于 VMware VAAI 的 NetApp NFS 插件需要它。</block>
+  <block id="bdd57dcd64f7ef286bc13c84eadb76c4" category="list-text">在 ESXi 主机、网络交换机和 ONTAP 上端到端启用巨型帧（MTU 9000）。</block>
+  <block id="b02779e4c403184c617367532bc4d814" category="list-text">在 ONTAP 上使用多个 LIF 以实现负载均衡和高可用性。</block>
+  <block id="2635dce4732bd4b3d7ca99e8f5e87726" category="list-text">确保 ESXi 主机和 ONTAP 系统之间一致的 DNS 和时间同步。</block>
+  <block id="84ebb9630472d071cfe699f876705cba" category="list-text">应用 NetApp 推荐的 ESXi 主机设置。ONTAP tools for VMware vSphere 可以为您应用这些设置。</block>
+  <block id="ad94a2faf9970d1510d79d58fe5ab26f" category="list-text">使用 ONTAP Snapshot 副本进行高效备份和恢复。</block>
+  <block id="61250d1b8db73ba4f4654efba18b8ad3" category="list-text">使用 RBAC 和导出策略来限制对 NFS 卷的访问。</block>
+  <block id="46299189d453588aa2560ea562d80523" category="list-text">测试故障转移方案以验证高可用性和灾难恢复配置。</block>
+  <block id="42b43315534f0981d01a4f7edddd81d1" category="inline-link-macro">VMware vSphere 结合 ONTAP 最佳实践指南中的 NFS 数据存储</block>
+  <block id="a0bf5c2e42555f6525628afa815ff2fc" category="paragraph">有关详细信息，请参阅<block ref="54d001beb5fb4896ee1695183334c885" category="inline-link-macro-rx"></block>和<block ref="45853bfe7a0670548e6acf2361e9eb27" category="inline-link-macro-rx"></block>。</block>
+  <block id="cb695777aa6ea5106a0dc2b48f91b65a" category="section-title">NFS 连接最佳实践</block>
+  <block id="d098a04a9e09abc8750d82cea6426e02" category="paragraph">配置 ESXi 主机和 ONTAP 存储之间的 NFS 连接时，请遵循以下最佳实践：</block>
+  <block id="5b99422152d8398a1bcacad72d938799" category="list-text">将 ESXi 主机和 ONTAP NFS LIF 放置在同一网段上，或确保路由正确。</block>
+  <block id="4b0675f45fd17289da602ba2bb29f305" category="list-text">使用专用 VLAN 隔离和保护 NFS 流量。</block>
+  <block id="a86fcaacd29775f1c5590b54c426ed5d" category="list-text">为 NFS 配置多个 ONTAP LIF 以提供负载平衡和故障转移。</block>
+  <block id="cf91e4b9034c14d3463ba62ce7756e5e" category="list-text">验证 ONTAP 导出策略是否允许从挂载此数据存储的所有 ESXi 主机进行访问。</block>
+  <block id="fb031b162a8e3dd4ac7490a884f4600e" category="list-text">在所有主机上装载 NFS 数据存储时，使用一致的 DNS 名称或 IP 地址。</block>
+  <block id="4e0d4ab1639cadcd55599547a71ad14e" category="list-text">使用<block ref="bb8dcb7aca9e5a9c6d0064e07e54900b" prefix=" " category="inline-code"></block>测试每个 ESXi 主机到 ONTAP LIF 的连接。</block>
+  <block id="5dd57c2a315d3af44c2eb40eefc47111" category="inline-link-macro">网络配置</block>
+  <block id="0eb3159608d1a5286cfc82ef9537b683" category="paragraph">有关网络设计指导，请参见 <block ref="15ebdaa05e6dbbfbb375207e1c07cb8a" category="inline-link-macro-rx"></block>。</block>
+  <block id="2d153922610c53bc9e89c0f6c7645004" category="section-title">NFS 配置最佳实践</block>
+  <block id="14bc5af699ac24bee0d18c75e90c71e3" category="paragraph">在为 VMware 环境在 ONTAP 上配置 NFS 数据存储时，请遵循以下最佳实践：</block>
+  <block id="7f0f7b559f5d2ef4877d8d3a05df4b28" category="list-text">*使用 ONTAP tools for VMware vSphere*：使用 ONTAP 工具配置 NFS 数据存储，以确保正确配置并与 vSphere 集成。请参阅 <block ref="0d680c93e70eb587d0d3742752e0ff2f" category="inline-link-macro-rx"></block>。</block>
+  <block id="5d0a899316e4939e66d195475ad74ce4" category="list-text">*选择适当的卷类型*：为较小的工作负载选择 FlexVol 卷，或为需要高可扩展性的大型环境选择 FlexGroup 卷。请参阅 <block ref="343ae1a3300260234decaad70c2456f1" category="inline-link-macro-rx"></block>。</block>
+  <block id="76e1b54ab88131753d202f4895e12db2" category="list-text">*配置导出策略*：限制对授权 ESXi 主机或 IP 范围的访问。</block>
+  <block id="a13c7b26a1f5c46478f4b132520c8029" category="list-text">*启用精简配置*：优化空间利用率，并监控容量以避免超额配置。</block>
+  <block id="818e914ee2c21a89692e649cb5fd3f59" category="list-text">*设置 Snapshot 预留*：根据您的保留要求调整 Snapshot 预留的大小。</block>
+  <block id="652bd5cd0bb8657169f78372ecdf15a1" category="list-text">*使用多个 LIF*：在 LIF 之间分布数据存储，以实现负载均衡和高可用性。</block>
+  <block id="3aa8d0ddf193a6ba229dbf03927fcf72" category="list-text">*监控容量和性能*：定期检查数据存储使用情况和性能指标，以避免瓶颈。</block>
+  <block id="699cfee4343b1154e706fb530881e63c" category="section-title">nConnect 建议</block>
+  <block id="963367cd633ff2add84645a58e0ee373" category="paragraph">nConnect 允许每个 NFS 数据存储有多个 TCP 连接，从而通过更好地利用高速网络接口卡来提高吞吐量。</block>
+  <block id="7984bd975ac30c9e97b6856d9a6d78b9" category="list-text">ESXi 8.0 Update 1 引入了针对 NFSv3 数据存储的 nConnect，并在 ESXi 8.0 Update 2 中正式提供。ESXi 8.0 Update 3 增加了针对 NFSv4.1 的 nConnect。</block>
+  <block id="01d29bb5fbb61a57094e29cdc9642a6a" category="list-text">默认值为每个数据存储一个连接。默认情况下，每个数据存储最多可以设置四个连接，并且可以使用<block ref="bb30760726e34e333701019a393e520a" prefix=" " category="inline-code"></block>高级设置将最大值提高到八个。通常不需要提高默认最大值。</block>
+  <block id="8e25316dce76a0de39496d5db4340351" category="list-text">ESXi 在所有挂载的数据存储中最多支持每个主机 256 个 NFS 连接，每个 nConnect 连接都计入该总数。</block>
+  <block id="e660ddc514edfa33cd4f7b560bc66ba4" category="list-text">为避免 vMotion 的性能问题，请对 vSphere 集群中所有主机上的 NFS 数据存储使用相同数量的连接。</block>
+  <block id="24c422e4e15cfb808a801ab393bffd77" category="list-text">在生产环境中进行大规模更改之前，请先测试 nConnect 对您环境的性能影响。</block>
+  <block id="9ace5ee8d9f27aa628402f71e71022be" category="paragraph">有关详细信息，请参见 <block ref="52ebf8255237b0af6efe8f00d0c08dce" category="inline-link-macro-rx"></block> 和 Broadcom 知识库文章 <block ref="2942a0ef55e774b8a042dfc1d01ccfea" category="inline-link-macro-rx"></block>。</block>
+  <block id="c81d278ed6d59212379f4589585fc795" category="section-title">安全功能</block>
+  <block id="8bcab5f13fc70a17af03e6e87bf0e713" category="paragraph">ONTAP 为 VMware 环境中的 NFS 数据存储提供了以下安全功能：</block>
+  <block id="5a92a01e71b038c438754cc1dacb4e87" category="list-text">*导出策略*：通过指定允许的主机、IP 地址或子网来控制对 NFS 卷的访问。</block>
+  <block id="b1901d97b69d8bfdeb5bd040182aa087" category="list-text">*Kerberos 身份验证*：带有 Kerberos 的 NFSv4.1（krb5、krb5i、krb5p）提供安全的身份验证、完整性和机密性。</block>
+  <block id="2b99da005f53f8e62c6ee88c7f834bc6" category="list-text">*基于角色的访问控制 (RBAC)*：授予管理存储资源的细粒度权限。</block>
+  <block id="adfd33fbce17f21dd8572d1c07677009" category="inline-link-macro">加密静态数据</block>
+  <block id="d230ba3519261d09a65aa68297611369" category="list-text">*静态数据加密*：<block ref="c971e7d3a8a3d9b24129b2e05462746c" category="inline-link-macro-rx"></block>在卷或聚合级别。</block>
+  <block id="79d4850b86c8b6fe1029dbd03fff21f0" category="list-text">*安全多租户*：使用 SVM 隔离工作负载。</block>
+  <block id="26614a7649b9605c8e9b89f419dcbbc9" category="inline-link-macro">ONTAP 自主勒索软件防护</block>
+  <block id="71905cb6be380977de9edcbed49ae264" category="list-text">*勒索软件防护*：<block ref="1448b230297de6aae5be5a84ffad1b2b" category="inline-link-macro-rx"></block>检测可疑活动并创建恢复点。</block>
+  <block id="b19a59c9839ff4eaf8aa424295bee213" category="paragraph">有关详细信息，请参见 <block ref="50fb74599eeb3fc588ab7256092410f8" category="inline-link-macro-rx"></block>。</block>
+  <block id="ad5a0477b7fb7ed227370fd97d9502da" category="summary">了解用于管理和保护 VMware 环境中 NFS 数据存储的 ONTAP 集成工具，包括 ONTAP tools for VMware vSphere、NFS VAAI 插件以及 SnapCenter Plug-in for VMware vSphere。</block>
+  <block id="35a9b8e0fa26b3ab14bb0e6320ec12a3" category="doc">适用于 VMware 环境中 NFS 数据存储的 ONTAP 集成工具</block>
+  <block id="61c05613775f1281336d6f9afb433e2a" category="paragraph">了解有关在 VMware 环境中管理、监控和保护 NFS 数据存储的 ONTAP 集成工具，包括 ONTAP tools for VMware vSphere、NFS VAAI 插件以及 SnapCenter Plug-in for VMware vSphere。</block>
+  <block id="fa025904f617c6309991353eb03c4d1c" category="paragraph">NetApp 可提供以下工具来管理和保护 VMware 环境中的 NFS 数据存储：</block>
+  <block id="ba6a871b97ada13b5fbd922f7de6d0c5" category="list-text">*<block ref="a09d09958ab34bd489d1c54a305db5c1" category="inline-link-macro-rx"></block>*：将 ONTAP 管理集成到 vSphere 客户端中，以配置、监控和管理 NFS 数据存储，并应用推荐的 ESXi 主机设置。</block>
+  <block id="72584b796960a93bbbfd7df2f9adf818" category="list-text">*<block ref="5962d717db10688205693927408d889d" category="inline-link-macro-rx"></block>*：将克隆等存储操作卸载到 ONTAP，从而提高性能并减少 ESXi 主机上的负载。</block>
+  <block id="410414402089bdca884f44be14088a59" category="inline-link-macro">Storage Replication Adapter (SRA)</block>
+  <block id="520ca8449546c8fd42b18e3e76603aae" category="list-text">*<block ref="c91a88b72027ff0cdbd072be49a6e027" category="inline-link-macro-rx"></block>*：与 VMware Live Site Recovery（以前称为 VMware Site Recovery Manager）集成，通过使用 ONTAP SnapMirror 复制来协调灾难恢复。</block>
+  <block id="a4fcdb8bf32dba0ee7847afad48f7df7" category="list-text">*<block ref="18a4b71a7568a7e230d66172dcac7b76" category="inline-link-macro-rx"></block>*：从 NetApp Console 协调 NFS 数据存储上虚拟机的灾难恢复。</block>
+  <block id="a4f9b82fea3d72daa499dbf66bd4e63b" category="list-text">*<block ref="8987e864af9dd51059fdecc8bb2ddfb1" category="inline-link-macro-rx"></block>*：为 NFS 数据存储上的虚拟机提供崩溃一致性和虚拟机一致性的备份和还原。</block>
+  <block id="91df8af1a410ff0536582b5ad9c23ba0" category="list-text">*<block ref="d49f201a4e7b665f861dd10222e32e49" category="inline-link-macro-rx"></block>*：提供 ONTAP 存储和 VMware 基础架构的性能和运行状况的可见性。</block>
+  <block id="08e9f9240a938919b78302274dba7e03" category="paragraph">这些工具可简化操作、增强性能，并为 VMware 环境中的 NFS 数据存储提供数据保护。</block>
+  <block id="3eceddc0cce15a503760133f19c7d5a7" category="summary">了解在采用 ONTAP 的 VMware 环境中将 VM 从 vVols 数据存储迁移到 NFS 数据存储的选项，包括存储 vMotion、冷迁移和脚本迁移。</block>
+  <block id="614aa3cc2930861d42413591f9e23ff0" category="doc">从 vVols 数据存储到 NFS 数据存储的迁移选项</block>
+  <block id="36fa939810fb43818bbf7194fff7ec84" category="paragraph">了解在采用 ONTAP 的 VMware 环境中将 VM 从 vVols 数据存储迁移到 NFS 数据存储的选项，包括存储 vMotion、冷迁移和脚本迁移，以最大限度地减少停机时间并保持操作运行。</block>
+  <block id="90ec90c4cbcaf3ca3bee732a57af50c1" category="paragraph">在采用 ONTAP 的 VMware 环境中，从 vVols 数据存储迁移到 NFS 数据存储时，请考虑以下选项：</block>
+  <block id="c089cd8d8c0d67154a9163132008629a" category="list-text">*存储 vMotion*：在虚拟机运行时，将虚拟机文件从 vVols 数据存储迁移到 NFS 数据存储。运行虚拟机的 ESXi 主机必须能够访问这两个数据存储。</block>
+  <block id="3189418f4a4c1bc7e0b6d033ef7f569c" category="list-text">*vMotion 带存储 vMotion*：当源和目标主机不共享存储时，在单个操作中更改计算资源和数据存储。</block>
+  <block id="e05905b6ebab1ac81e3c10374cd55ad3" category="list-text">*冷迁移*：关闭虚拟机并使用 vSphere 客户端中的*迁移*选项将其移动到 NFS 数据存储。此方法很简单，但需要停机。</block>
+  <block id="b1aa99ad83b5ef6b18cfd290532d4bf3" category="list-text">*备份和还原*：使用支持将虚拟机还原到不同数据存储的备份应用程序。当源数据存储和目标数据存储无法从同一主机访问时，此方法非常有用。</block>
+  <block id="89c370e94fc4f356cca57191c0f656ec" category="list-text">*脚本迁移*：使用 PowerCLI 或其他自动化工具进行批量迁移。</block>
+  <block id="0d87ea5bfd5444ea6d8e981e270016e7" category="paragraph">在开始迁移之前，请确保 NFS 数据存储已正确调整大小、配置和测试，并备份关键数据。</block>
+  <block id="c5d4d2a23310508ae9a63bf46ae80aa1" category="paragraph">有关分步指导，包括 PowerCLI 示例，请参见 <block ref="af4b36f905d0ae3146568db400f35931" category="inline-link-macro-rx"></block>。</block>
+  <block id="719993b5c740fabe192bcb72fe1cc7e6" category="section-title">为什么使用存储 vMotion 进行迁移</block>
+  <block id="3e6a8aa8e2ba928856117463b86fd362" category="paragraph">存储 vMotion 是将虚拟机从 vVols 数据存储迁移到 NFS 数据存储的推荐方法，因为它可以在不停机的情况下移动虚拟机文件。</block>
+  <block id="86f516a81f2897eea85a4acfc742f660" category="paragraph">此方法可最大限度地减少对工作负载的中断，并允许管理员在应用程序保持可用的情况下移动虚拟机。存储 vMotion 会保留虚拟机配置和元数据，您可以在迁移期间保留或更改虚拟磁盘格式。</block>
+  <block id="42812ebd23233e6654fccf3c34e0769e" category="section-title">并发限制</block>
+  <block id="6a5c8b0c9bd8159384a6107fe385379d" category="paragraph">vCenter 限制并发迁移的数量。默认情况下，一台主机最多可运行两个并发存储 vMotion 操作，一个数据存储最多可参与八个。其他操作将排队等待，直到资源可用。</block>
+  <block id="9c5d862d1808849d4dac29f4b09e57eb" category="paragraph">围绕这些限制规划迁移批次，并在迁移期间监控主机、网络和存储利用率。有关当前限制，请参见<block ref="5542022294d7cc20a093e6b51bc7ee5b" category="inline-link-macro-rx"></block>。</block>
+  <block id="f9d7ff727a34dcf6958b76b2514cfc08" category="summary">了解采用 ONTAP 的 VMware vSphere 环境中 NFS 数据存储的大小调整指南，包括容量规划、数据存储大小、虚拟机密度和性能。</block>
+  <block id="617d8f314aaa70a599f7ec17f46de3ab" category="doc">采用 ONTAP 的 VMware vSphere 环境中 NFS 数据存储的规模调整准则</block>
+  <block id="27b26bc414eacd1b5df877e88d05e539" category="paragraph">了解采用 ONTAP 的 VMware vSphere 环境中 NFS 数据存储的大小调整指南，包括容量规划、数据存储大小调整、虚拟机密度和性能，以便在从 vVols 迁移虚拟机之前准备好目标 NFS 数据存储。</block>
+  <block id="613b8920c86a143bd93003270b170cd1" category="paragraph">在使用 ONTAP 为 VMware vSphere 环境调整 NFS 数据存储大小时，请考虑以下准则：</block>
+  <block id="1ea9c7c8cd3f832c4c42290760fa6828" category="list-text">*容量规划*：根据虚拟机数量、虚拟机磁盘大小、增长率和快照保留估算所需的总存储量。包括虚拟机交换文件和日志的开销。使用 vVols 数据存储当前消耗的容量作为起点。</block>
+  <block id="e5e09031843479ef9ef8cbbd4c2f404c" category="inline-link-macro">NetApp Hardware Universe</block>
+  <block id="5a14b48f20fcbb4b2beb7bce8dbec6b4" category="list-text">*数据存储大小*：在平台的 ONTAP 卷限制内调整每个数据存储的大小。FlexGroup 卷可扩展到单个 FlexVol volume 的限制之外。有关平台限制，请参见 <block ref="43b42c26c42f7c6fe4ef77f9f2ed17ff" category="inline-link-macro-rx"></block>。</block>
+  <block id="f0326cc25270f49b97711086a16d52a6" category="list-text">*虚拟机密度*：根据工作负载性能要求、备份和恢复粒度以及操作首选项，规划每个数据存储的虚拟机数量。FlexGroup 卷可以在单个数据存储中托管数千个虚拟机。</block>
+  <block id="4404eaff3428d5c32a1b14782317d0d9" category="list-text">*性能*：考虑 IOPS、吞吐量和延迟要求。使用多个 ONTAP LIF，并在节点和聚合之间分配卷，以分散负载。</block>
+  <block id="136617bda11590ffd5f622fc1027103e" category="list-text">*Snapshot 预留*：为 ONTAP Snapshot 副本分配足够的空间，以满足您的备份和恢复保留要求。</block>
+  <block id="2199fbf020b0b59d10072d52f1b31d0e" category="list-text">*精简配置*：启用精简配置以优化空间利用率，并监控使用情况以避免超额配置。</block>
+  <block id="9773492253b2f1917a3dd82f4433413c" category="list-text">*增长与扩展*：在设计数据存储时要考虑到未来的增长。您可以在不停机的情况下扩展 FlexVol 和 FlexGroup 卷。</block>
+  <block id="c52489e730f9943096d6661e9f74f8aa" category="list-text">*备份和灾难恢复*：考虑备份副本和复制所需的空间。</block>
+  <block id="43b42c26c42f7c6fe4ef77f9f2ed17ff" category="list-text"><block ref="43b42c26c42f7c6fe4ef77f9f2ed17ff" category="inline-link-macro-rx"></block></block>
+  <block id="54d001beb5fb4896ee1695183334c885" category="list-text"><block ref="54d001beb5fb4896ee1695183334c885" category="inline-link-macro-rx"></block></block>
+  <block id="1413a0cddd12ca9c70a3b996f1b4f660" category="summary">了解 VMware 环境中 NFS 数据存储的 ONTAP 存储选项，并比较 FlexVol 和 FlexGroup 卷，以选择最适合您工作负载的选项。</block>
+  <block id="994fd3b0fbb43396212dff654ea62c98" category="doc">采用 ONTAP 的 VMware vSphere 环境中 NFS 数据存储的存储选项</block>
+  <block id="69461b68760b5fda8b873e784cbba94b" category="paragraph">了解 VMware 环境中 NFS 数据存储的 ONTAP 存储选项。比较 FlexVol 和 FlexGroup 卷，为您的工作负载需求和规模选择最佳解决方案。</block>
+  <block id="411f1a3092218cb0df47a0e4bcc925dc" category="paragraph">在 VMware 环境中为 NFS 数据存储选择 FlexVol 和 FlexGroup 卷时，请考虑以下事项：</block>
+  <block id="bb1fde595405c6477cc3a638427e0e91" category="inline-image-macro">FlexVol 和 FlexGroup 对比</block>
+  <block id="3033bf4ef53f9dfa3f2d2241a2327732" category="paragraph"><block ref="3033bf4ef53f9dfa3f2d2241a2327732" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="84b9523e45d813a33b6812a09967996f" category="paragraph-title">FlexVol</block>
+  <block id="82cbc780ff1a9c3d0becbfa1df348b91" category="paragraph">FlexVol 卷适用于需要可预测性能和细粒度管理的中小型环境。</block>
+  <block id="7171795bde417ce404cd35362e6b9016" category="paragraph">它们支持 Snapshot 副本、克隆和复制。当您需要隔离工作负载或将特定策略应用于单个数据存储时，FlexVol 卷是理想的选择。</block>
+  <block id="54452390cac5f65f3bcec580ba079531" category="paragraph-title">FlexGroup</block>
+  <block id="1fd987469c4793c65db340f23c8b7204" category="paragraph">FlexGroup 卷专为大型部署而设计，并提供巨大的可扩展性（高达 20 PB 和 4000 亿个文件）和并行性。</block>
+  <block id="9b73f2d34e64f3367671111cc48b743d" category="paragraph">它们自动将数据分布在多个组成卷上，为具有数千个虚拟机的环境提供高性能和简化的管理。当您需要为许多虚拟机提供单个可扩展数据存储时，请使用 FlexGroup 卷。</block>
+  <block id="c76e3867213cff8946148c6510af0736" category="list-title">建议</block>
+  <block id="2bce45d95f8f80d0852715e5ded95174" category="list-text">*使用 FlexVol 卷*用于较小、隔离的工作负载或需要精细控制时。</block>
+  <block id="6ab743d169a8b094adc05ef8eccb1a38" category="list-text">对于需要简化管理和可扩展性的大型高性能环境，请*使用 FlexGroup 卷*。</block>
+  <block id="727d90dd71142dec001908132ebe8da8" category="inline-link-macro">FlexGroup 卷文档</block>
+  <block id="31cdfc741de26829e5812e3d99bed3c6" category="list-text"><block ref="31cdfc741de26829e5812e3d99bed3c6" category="inline-link-macro-rx"></block></block>
+  <block id="1a48a9f0b4ca8c7e10299183e1a9e74b" category="list-text"><block ref="1a48a9f0b4ca8c7e10299183e1a9e74b" category="inline-link-macro-rx"></block></block>
+  <block id="db1c47cb254f2a1b4c167e1251a1116d" category="inline-link-macro">逻辑存储管理文档</block>
+  <block id="b65b01edd67736c36316a28aeb44efa4" category="list-text"><block ref="b65b01edd67736c36316a28aeb44efa4" category="inline-link-macro-rx"></block></block>
+  <block id="26ea3b8975ae19efe92e4b797228147b" category="summary">了解 VMware vSphere 虚拟卷（vVols）、组织采用它们的原因，以及 ONTAP NFS 数据存储如何在简化管理和提升扩展性的同时取代 vVols 数据存储。</block>
+  <block id="3f97c9c4dc3cae9a5850cc5e50549ce8" category="doc">了解如何从 vVols 数据存储迁移到 ONTAP NFS 数据存储</block>
+  <block id="1aa8ed6fc04b714832c488c18b99d2a3" category="paragraph">了解 VMware vSphere 虚拟卷（vVols）、采用它们的原因、其体系结构以及 ONTAP NFS 数据存储如何作为替代方案。ONTAP NFS 数据存储简化了管理并提高了可扩展性，同时保持了虚拟化环境所需的性能和灵活性。</block>
+  <block id="071699dfa88bd5887a3bba5c1e6ed64c" category="paragraph">私有云环境需要规模、灵活性和操作简单性。vVols 在 vSphere 6.0 中引入，以在单个虚拟机磁盘级别应用策略，并通过使用 SCSI 存储的辅助 LUN 功能来解决 LUN 限制问题。</block>
+  <block id="5e83456a39b6d0eb7b230cd85c273816" category="paragraph">LUN 多路径和 NFS 装载由作为存储阵列数据路径的协议端点（PE）处理。</block>
+  <block id="242f4636163c00892d010129f3c4306f" category="paragraph">使用 ONTAP vVols 实现，对于用于 SCSI LUN 的每个 FlexVol 卷，以及用于 NFS 协议的 SVM 上的每个逻辑接口（LIF），都有一个 PE。</block>
+  <block id="c3974f7a710b3a2583bff2237a50a3bc" category="cell">vVols 使用 SCSI</block>
+  <block id="896bbc939db98da49ac9fcc87b8213e3" category="cell">vVols 使用 NFS</block>
+  <block id="209193cfff18699c8455116ca9f9c262" category="paragraph"><block ref="209193cfff18699c8455116ca9f9c262" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="32da2c5e586e349851d0978bdab877ed" category="paragraph"><block ref="32da2c5e586e349851d0978bdab877ed" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="fb1bdffcf7548cd36919a71196cf39e4" category="admonition">VMware 从 VCF 和 VVF 9.0 开始弃用 vVols，并计划在未来的版本中停止使用。vVols 仍可在 VCF 和 VVF 9.1 中使用。有关详细信息，请参见 <block ref="ada6abfb66864dc84a028f034f7fd4d7" category="inline-link-macro-rx"></block>。</block>
+  <block id="f4d384aefa47eef32c8bd47b5def3310" category="section-title">扩展注意事项</block>
+  <block id="ad26dcda3d2e3832df0a451554c987f1" category="paragraph">由于采用 vVols 时每个虚拟机磁盘都是一个独立的 LUN，因此环境可能会快速接近每个 ESXi 主机支持的最大 LUN 和路径数。vVols 通过使用辅助 LUN 功能来解决 LUN 扩展问题，这需要存储阵列和网络架构交换机的支持。</block>
+  <block id="de4a8ced81ffe7e61870da629e1e7297" category="paragraph">NFS 数据存储不受每个主机 LUN 限制的影响。ESXi 最多支持每个主机挂载 256 个 NFS 数据存储。有关当前限制，请参见 <block ref="5542022294d7cc20a093e6b51bc7ee5b" category="inline-link-macro-rx"></block>。</block>
+  <block id="e53a1d429dade23ff6dfde1e50de4065" category="section-title">存储消耗模型</block>
+  <block id="34b5e3d333e2a84e265f5e40421e5e26" category="paragraph">使用 NFS，数据存储通过挂载点使用，虚拟机配置和数据文件存储在卷中。添加存储卷需要额外的挂载点。</block>
+  <block id="1a82558d7f770deef585ae75af4b8e63" category="paragraph">vVols 通过添加更多 FlexVol 卷来解决容量限制，协议端点指向每个 LIF 上的 SVM 根。vVols 数据存储是一个存储容器，其容量是附加到其上的所有 FlexVol 卷的总和。</block>
+  <block id="f4a198615f4acb8e37639f65b9bc5637" category="paragraph">vVols 包括几种对象类型：config、data、swap、snapshot 和 memory。vVols 默认采用精简配置。</block>
+  <block id="26440eebcc3a1acfdd820c40129242d9" category="section-title">VASA 和存储策略管理</block>
+  <block id="02900456fde6ce97a262464ea409891f" category="paragraph">快照、虚拟机磁盘克隆、复制和其他存储操作通过使用存储感知 vSphere API （VASA）（vVols 的核心组件）卸载到存储阵列。</block>
+  <block id="be40cb46fae8cfd06e00a1d627f0109c" category="paragraph">一些存储供应商在阵列上实现 VASA。NetApp 在 ONTAP tools for VMware vSphere 中的阵列外实现 VASA，因此单个实例可以管理多个阵列。</block>
+  <block id="b0e136f28f885c093a58cd8db8634d2b" category="paragraph">基于存储策略的管理（SPBM）根据所需的存储策略将虚拟机磁盘放置在特定存储上。</block>
+  <block id="188f0402eee91d3b529facee13365a94" category="section-title">组织为何使用 vVols</block>
+  <block id="fdf21834f5832054d8d0943a546e0ce4" category="paragraph">组织采用 vVols 有以下几个原因：</block>
+  <block id="d2b44349a2d52dab6e326369a2878e8f" category="list-text">*精细存储管理*：存储策略适用于单个虚拟机磁盘级别，可对性能、可用性和数据保护进行精确控制。</block>
+  <block id="bde7d59ad30100a227a4412b83f6dc05" category="list-text">*简化操作*：通过 SPBM 自动化存储配置和管理，减少手动任务和错误。</block>
+  <block id="a988bdff613eb4107e7232a446e73044" category="list-text">*卸载存储操作*：快照、克隆和复制通过 VASA 卸载到存储阵列。</block>
+  <block id="aa52ef5be2a81f453e9c473f93ea5cab" category="list-text">*提高可扩展性*：协议端点和辅助 LUN 克服了传统的每主机 LUN 限制。</block>
+  <block id="60b6bb3a598c6894bbf1c054dcfdffe7" category="list-text">*VMware 生态系统集成*：vVols 与 VMware 工具和工作流紧密集成，包括自动化策略实施。</block>
+  <block id="09d5164eb14c998113fa7b8db9484c0e" category="paragraph">随着 vVols 被弃用，组织需要一个替代品，以保留这些运营优势，而不依赖于 VASA。</block>
+  <block id="80c85d656515ee9fa1e6739e6c04d414" category="paragraph">NFS 因其简单性、可扩展性和灵活性而成为 vSphere 环境的热门选择。NFS 数据存储易于配置和扩展，它们以最小的管理开销支持大型部署。借助 ONTAP，NFS 增加了多路径、用于提升性能的 nConnect 以及与 VMware 工具的集成。</block>
+  <block id="b1e394eb96217a95abcf8581a81f2710" category="section-title">ONTAP NFS 优势</block>
+  <block id="5c269aa5855b6afaab849a233e2f2611" category="paragraph">ONTAP 客户重视 <block ref="724cd8e2558b4cecc94bdd54e799582e" category="inline-link-macro-rx"></block> 的简单性，包括跨 vCenter Server 实例移动数据的能力。使用 ONTAP，您可以恢复单个虚拟机磁盘，而不会影响同一卷上的其他虚拟机。</block>
+  <block id="866e1ec76d8141fde664ea9656812f80" category="paragraph">单个 ONTAP FlexGroup 卷可以扩展到 20 PB 和 4000 亿个文件，并可以托管数千个虚拟机。单个虚拟机磁盘最高可达 62 TB。ONTAP Snapshot 副本简化了备份和还原操作。</block>
+  <block id="b142f4ea70b501e3af58ab935b27f97c" category="section-title">性能和灾难恢复工具</block>
+  <block id="5df4cca80fbb9f57e3ea33da5b1bf641" category="paragraph">NetApp NFS Plug-in for VMware VAAI（vSphere APIs for Array Integration）可将克隆等操作卸载到存储阵列，以提高性能。</block>
+  <block id="de92a2f12f2df39267a66420b9d5e309" category="paragraph">对于灾难恢复，NetApp 提供用于 VMware Live Site Recovery（以前称为 VMware Site Recovery Manager）的存储复制适配器 (SRA) 以及 <block ref="18a4b71a7568a7e230d66172dcac7b76" category="inline-link-macro-rx"></block> 服务。</block>
+  <block id="9716e3adb79311b7a771056a7a5f5592" category="inline-image-macro">NFS VAAI</block>
+  <block id="b0963cba5b03bf6fb816b0ee3a94d3ad" category="paragraph"><block ref="b0963cba5b03bf6fb816b0ee3a94d3ad" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="6d8a16e6462eb36f4aee57dfea0d8979" category="section-title">NFS 操作简便性</block>
+  <block id="c8e3d7cc7c2b550ef5f21876ea554206" category="paragraph">下图比较了托管在物理服务器（左）、NFS 数据存储中的虚拟机（中）以及 vVols 数据存储中的虚拟机（右）上的两个应用程序。在 vVols 和 NFS 数据存储上托管虚拟机非常相似。</block>
+  <block id="5e7bb070e3f0ebe430aa48ed1a8ade10" category="inline-image-macro">vVols 和 NFS</block>
+  <block id="c89314c0a39b758d7e61995099a2d54c" category="paragraph"><block ref="c89314c0a39b758d7e61995099a2d54c" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="ca71be9e3a706edd526591c11b4f117b" category="paragraph">NFS 数据存储不依赖于 VASA 和 SPBM 进行日常操作。NFS 数据存储可以挂载到多个 vCenter Server 实例上，并支持 vMotion、DRS、HA、FT 和其他 VMware 功能。管理员使用 ONTAP tools for VMware vSphere 从 vSphere Client 管理存储。</block>
+  <block id="b9c88984f038a65683036517022a7bfb" category="section-title">ONTAP 集群架构</block>
+  <block id="83ee3e57d672e7cbfad9e9bf52b75c64" category="paragraph">ONTAP NAS 集群最多可扩展到 24 个节点。每个节点可以有多个聚合，每个聚合可以包含多个 FlexVol 或 FlexGroup 卷。SVM 可以跨越节点，并且可以为 NFS 协议提供多个 LIF。ESXi 主机可以通过每个 LIF 挂载 NFS 数据存储。</block>
+  <block id="bf67a11172581ffa84d94aba730abf67" category="section-title">pNFS 支持</block>
+  <block id="52d1d4022151bf3e9e3cbf7cb4ea6d1c" category="paragraph">pNFS 允许客户端跨多个网络路径并行访问存储，从而提高性能和可扩展性。ONTAP 支持带有 NFSv4.1 的 pNFS，使 ESXi 主机能够在 ONTAP SVM 上使用多个 LIF 进行并行数据访问。</block>
+  <block id="c944408e9f293980b0bf3441deb811ec" category="paragraph">下图显示了用于测试 pNFS 的示例设置。</block>
+  <block id="c6a4ebc3ec8ca178e3bbec37a6e323d0" category="inline-image-macro">pNFS 设置</block>
+  <block id="3f1d67d33607ea8a1adeb499f4f8504a" category="paragraph"><block ref="3f1d67d33607ea8a1adeb499f4f8504a" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="d7dfba2666942f30ef63136f2f48cdbb" category="inline-link-macro">要在 SVM 上启用的 pNFS 选项</block>
+  <block id="5c66cd059de348695a1d5abd0586f05b" category="admonition">pNFS 需要 <block ref="9a9750c632d4a77764b99bbade184f13" category="inline-link-macro-rx"></block>。只有 NFSv4.1 才支持 pNFS。</block>
+  <block id="38e7c9eb7abd8b585d7ebd9f7add9fe5" category="section-title">迁移到 ONTAP NFS 的优势</block>
+  <block id="7af4daf3640494ae50aac3eb16bff57f" category="paragraph">从 vVols 数据存储迁移到 ONTAP NFS 数据存储有几个优点：</block>
+  <block id="666fd63c1e93069f99b15e009184b0ed" category="list-text">*简化管理*：使用 ONTAP tools for VMware vSphere（与 vCenter 集成）配置、扩展和管理 NFS 数据存储。</block>
+  <block id="68cd59bf17ddf1c1fec3ed0b8feee0b0" category="list-text">*可扩展性*：FlexGroup 卷在单个数据存储中支持数千个虚拟机。</block>
+  <block id="88c06798ec59fc645b5ba62a632635f0" category="list-text">*性能*：NFS 多路径、nConnect 和 ONTAP 优化可提供高吞吐量和低延迟。</block>
+  <block id="2c82a054c19404035b0145dae589212f" category="list-text">*数据保护*：ONTAP Snapshot 副本可在不影响虚拟机性能的情况下提供快速、节省空间的备份和恢复。</block>
+  <block id="5a25799586cf5d2ad42b000668463a0b" category="list-text">*操作灵活性*：NFS 数据存储可以挂载到多个 vCenter Server 实例上，并支持 vMotion、DRS、HA 和 FT。</block>
+  <block id="d9a3b5cf1e6e50566efc8b9d334a4717" category="list-text">*集成*：ONTAP NFS 可与 NFS VAAI 插件、VMware Live Site Recovery 和 NetApp Disaster Recovery 配合使用。</block>
+  <block id="ce8c6974f2329ae2a0874a1b2d8b64a5" category="list-text">*高效的空间利用率*：精简配置、重复数据删除和压缩可降低存储成本。</block>
+  <block id="08c9d0b860a4b5148b3ba40dd53d3c16" category="list-text">*安全性和合规性*：导出策略、RBAC、Kerberos 和加密可保护数据并控制访问。</block>
+  <block id="9ae054cac94d119d5bec7127768e5c9b" category="list-text">*面向未来*：NFS 不受 vVols 弃用的影响，确保长期兼容性和支持。</block>
+  <block id="4a0a5350bc5b1c1c3dc43edf89a9548c" category="inline-link-macro">查看 NFS 数据存储的部署最佳实践</block>
+  <block id="3fb93eebf74feecf210a3f4f30948055" category="list-text"><block ref="3fb93eebf74feecf210a3f4f30948055" category="inline-link-macro-rx"></block></block>
+  <block id="22cb5da9b38563407793a7425844cdcd" category="inline-link-macro">在 FlexVol 和 FlexGroup 卷之间进行选择</block>
+  <block id="237e07e07eee513b00db7c5a2d28f4e6" category="list-text"><block ref="237e07e07eee513b00db7c5a2d28f4e6" category="inline-link-macro-rx"></block></block>
+  <block id="0e81289ee54290af5da9741eb4e8e13a" category="inline-link-macro">查看规模调整准则</block>
+  <block id="81a02518a657220262caadde62ab4710" category="list-text"><block ref="81a02518a657220262caadde62ab4710" category="inline-link-macro-rx"></block></block>
+  <block id="a046cab681d95313d36b4719c1532f71" category="inline-link-macro">了解 ONTAP 集成工具</block>
+  <block id="25cfc13a7040c181cd38215f2580f41e" category="list-text"><block ref="25cfc13a7040c181cd38215f2580f41e" category="inline-link-macro-rx"></block></block>
+  <block id="0d5abf1f506147cbe14652f2155c03a2" category="inline-link-macro">选择迁移选项</block>
+  <block id="3fe87e57f7dc5e7a2bece9373565fc1d" category="list-text"><block ref="3fe87e57f7dc5e7a2bece9373565fc1d" category="inline-link-macro-rx"></block></block>
+  <block id="4d08883c12082c88339e22d371aa427f" category="inline-link-macro">查找其他资源</block>
+  <block id="1b969ee8779871636818fe8e9ceeb111" category="list-text"><block ref="1b969ee8779871636818fe8e9ceeb111" category="inline-link-macro-rx"></block></block>
+  <block id="509378a847344560e8b53252a99f3706" category="sidebar">将虚拟机从 vVols 迁移到 NFS</block>
+  <block id="c2f99c994ca34e9d82cf89c1b42f2133" category="sidebar">了解如何从 vVols 迁移到 NFS</block>
+  <block id="137e4d3e0bc5586af6fc7ca9441511e1" category="sidebar">规模估算准则</block>
+  <block id="ec7f55f91b201191775a6197f011f7f7" category="sidebar">ONTAP 集成工具</block>
+  <block id="7fb0755110f4a96ae5bd0935a2d5ccbb" category="sidebar">迁移选项</block>
 </blocks>

@@ -1,0 +1,39 @@
+---
+sidebar: sidebar 
+permalink: vmware/vmw-vvol-nfs-migration-sizing.html 
+keywords: netapp, vmware, nfs, ontap, sizing, capacity, planning, datastore, performance 
+summary: 了解采用 ONTAP 的 VMware vSphere 环境中 NFS 数据存储的大小调整指南，包括容量规划、数据存储大小、虚拟机密度和性能。 
+---
+= 采用 ONTAP 的 VMware vSphere 环境中 NFS 数据存储的规模调整准则
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+了解采用 ONTAP 的 VMware vSphere 环境中 NFS 数据存储的大小调整指南，包括容量规划、数据存储大小调整、虚拟机密度和性能，以便在从 vVols 迁移虚拟机之前准备好目标 NFS 数据存储。
+
+在使用 ONTAP 为 VMware vSphere 环境调整 NFS 数据存储大小时，请考虑以下准则：
+
+* *容量规划*：根据虚拟机数量、虚拟机磁盘大小、增长率和快照保留估算所需的总存储量。包括虚拟机交换文件和日志的开销。使用 vVols 数据存储当前消耗的容量作为起点。
+* *数据存储大小*：在平台的 ONTAP 卷限制内调整每个数据存储的大小。FlexGroup 卷可扩展到单个 FlexVol volume 的限制之外。有关平台限制，请参见 link:https://hwu.netapp.com["NetApp Hardware Universe"^]。
+* *虚拟机密度*：根据工作负载性能要求、备份和恢复粒度以及操作首选项，规划每个数据存储的虚拟机数量。FlexGroup 卷可以在单个数据存储中托管数千个虚拟机。
+* *性能*：考虑 IOPS、吞吐量和延迟要求。使用多个 ONTAP LIF，并在节点和聚合之间分配卷，以分散负载。
+* *Snapshot 预留*：为 ONTAP Snapshot 副本分配足够的空间，以满足您的备份和恢复保留要求。
+* *精简配置*：启用精简配置以优化空间利用率，并监控使用情况以避免超额配置。
+* *增长与扩展*：在设计数据存储时要考虑到未来的增长。您可以在不停机的情况下扩展 FlexVol 和 FlexGroup 卷。
+* *备份和灾难恢复*：考虑备份副本和复制所需的空间。
+
+
+
+
+[[additional-information]]
+== 追加信息
+
+* link:https://configmax.broadcom.com["VMware 配置最大值"^]
+* link:https://hwu.netapp.com["NetApp Hardware Universe"^]
+* link:https://docs.netapp.com/us-en/ontap-apps-dbs/vmware/vmware-vsphere-datastores-nfs.html["VMware vSphere 结合 ONTAP 最佳实践指南中的 NFS 数据存储"^]
+
