@@ -60,24 +60,13 @@ Trident Protect 是 Trident 的一项高级功能，为容器化环境提供增�
 
 
 
-[[netapp-ontap-hardware-models-and-protocols-supported]]
-== NetApp ONTAP 硬件型号和协议支持
+[[trident-support-for-orchestrators-and-storage-backends]]
+== Trident 对编排器和存储后端的支持
 
-NetApp ONTAP 软件运行在各种硬件型号上，每种型号都旨在满足不同的性能和容量要求。Trident 扩展了其强大的功能，以支持各种 NetApp ONTAP 系统，包括全闪存 FAS (AFF)、全 SAN 阵列 (ASA) 和 ASA R2 系统。这种支持可确保组织能够在容器化环境中充分利用其高性能存储解决方案的潜力。
+有关支持的 Kubernetes 发行版和存储后端，请参阅 link:https://docs.netapp.com/us-en/trident/trident-get-started/requirements.html["Trident 要求"]。
 
-**全闪存 FAS (AFF) 系统** AFF 系统提供卓越的性能和低延迟，使其成为高需求应用的理想选择。
 
-**All SAN Array (ASA) Systems** ASA 系统专为专用 SAN 环境而设计，可提供强大的性能和可靠性。
-
-**ASA R2 Systems** ASA R2 系统为 SAN 环境提供了增强的特性和功能。
-
-**AFX** NetApp AFX 是一种专为企业 AI 工作负载设计的专用、分解式全闪存存储架构。它提供高性能 NAS，允许独立扩展计算和容量。NetApp AFX 存储系统在存储层的实现方面不同于其他基于 ONTAP 的系统（ASA、AFF 和 FAS）。AFX 使用分布式文件系统，可实现高性能和可扩展性，而其他基于 ONTAP 的系统则使用传统的存储架构。
-
-. AFF 支持的协议：NFS、CIFS/SMB、iSCSI、FC、NVMe/TCP
-. ASA 支持的协议：iSCSI、FC、NVMe/TCP
-. ASA R2 支持的协议：iSCSI、FC、NVMe/TCP
-. AFX 支持的协议：从 Trident 25.10 开始，仅支持 NFS 协议；不支持 SMB 协议。
-
+NOTE: Trident 也支持 NetApp link:https://docs.netapp.com/us-en/ontap-afx/get-started/ontap-afx-storage.html#typical-application-workloads["AFX"]。有关 AFX 支持要求，请参阅 link:https://docs.netapp.com/us-en/trident/trident-use/ontap-nas-prep.html["ONTAP NAS 准备文档"]。
 
 
 
@@ -88,8 +77,8 @@ Trident 包括以下 CSI 驱动程序，每个驱动程序都能够在后端存�
 
 
 
-[[for-nas-protocols-on-supported-hardware-models]]
-=== 对于支持的硬件型号上的 NAS 协议
+[[for-nas-protocols]]
+=== 对于 NAS 协议
 
 . ontap-nas：一个 pvc 映射到 1 个 pv，这是一个专用的 flexvolume
 . ontap-nas-economy：配置的每个 PV 都是一个 qtree，每个 FlexVolume 具有可配置数量的 qtree（默认值为 200，可配置范围为 50 到 300）。一个 pvc 映射到 1 个 pv，即共享 flexvolume 上的一个 qtree
@@ -103,8 +92,8 @@ NOTE: 您可以将虚拟机的所有磁盘作为 qtree 放在单个卷中。但�
 
 
 
-[[for-san-protocols-on-supported-hardware-models]]
-=== 对于支持的硬件型号上的 SAN 协议
+[[for-san-protocols]]
+=== 对于 SAN 协议
 
 . ontap-san：一个 pvc 映射到 1 个 pv，即专用 flexvolume 上的 LUN
 . ontap-san-economy：一个 pvc 映射到 1 pv，这是共享 flexvolume 上的 LUN。您可以在共享 flexvolume 中有多个 LUN。（默认值为 100，每个 flexvol 卷可配置 50 到 200 个 LUN/PV）

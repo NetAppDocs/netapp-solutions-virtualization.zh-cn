@@ -1475,7 +1475,6 @@
   <block id="b5fd692a7ea9558930c2173bc3c46a5e" category="inline-link">Red Hat OpenShift 文档</block>
   <block id="89ac02f553c84b8fc9e61169e79f2c7f" category="list-text"><block ref="89ac02f553c84b8fc9e61169e79f2c7f" category="inline-link-rx"></block></block>
   <block id="b9ccb9a7b6b82d2a5c7f42314d2a7d2a" category="inline-link">Red Hat OpenStack 平台文档</block>
-  <block id="ed0676f65fd9fcde9ee42fb4fee3ab6b" category="list-text"><block ref="ed0676f65fd9fcde9ee42fb4fee3ab6b" category="inline-link-rx"></block></block>
   <block id="a881011d7c5d5c51ae176f0592eaa6bc" category="inline-link">Red Hat 虚拟化文档</block>
   <block id="f6dd4cc664e64de4d4824ac86c3bfb28" category="list-text"><block ref="f6dd4cc664e64de4d4824ac86c3bfb28" category="inline-link-rx"></block></block>
   <block id="7a32ae1d68cfe1067bd30afa48a7f0ef" category="inline-link">VMware vSphere 文档</block>
@@ -1987,7 +1986,6 @@
   <block id="bdb7ca310f573681391786bf3cb42689" category="paragraph"><block ref="bdb7ca310f573681391786bf3cb42689" category="inline-image-macro-rx" type="image"></block></block>
   <block id="0f2ed001ca108c8ae69e0de13c18a4e2" category="section-title">创建应用程序</block>
   <block id="0309bfa11ebaa855df6d24af0acfb503" category="example-title">创建应用程序</block>
-  <block id="fdb727d66243e25346b3d13832ab432c" category="paragraph">**为虚拟机创建一个 Trident 保护应用程序**</block>
   <block id="b4558b01953ba19496b47e3314b4c464" category="paragraph">在示例中，demo 命名空间有一个 VM，并且在创建应用程序时包含了该命名空间的所有资源。</block>
   <block id="d8c2b35beac411ce0afb9c51a5672d73" category="inline-image-macro">应用程序已创建</block>
   <block id="42d4770af6ec88890eee6837918615e4" category="paragraph"><block ref="42d4770af6ec88890eee6837918615e4" category="inline-image-macro-rx" type="image"></block></block>
@@ -2113,7 +2111,6 @@
   <block id="4d6fbe9b83d5f0fb3e028f70cf910b17" category="doc">使用 Velero 为 Red Hat OpenShift Virtualization 中的虚拟机创建按需备份</block>
   <block id="bc4ce070ed8db68d82ed3da6ba7ac97e" category="paragraph">使用 Velero 和NetApp ONTAP S3 或StorageGRID在 OpenShift Virtualization 中备份虚拟机。此过程包括为按需备份创建备份自定义资源 (CR) 和为计划备份创建计划 CR。每个备份都会捕获虚拟机元数据和持久卷，并将它们存储在指定的对象存储位置以用于恢复或合规目的。</block>
   <block id="a35185b73e84533fd73cfb8322fefa9c" category="section-title">创建虚拟机备份的步骤</block>
-  <block id="f4c2b4c588235f6ac7745db472c4d9ab" category="paragraph">要创建整个 VM（VM 元数据和 VM 磁盘）的按需备份，请单击“备份”选项卡。这将创建一个备份自定义资源 (CR)。提供了一个示例 yaml 来创建备份 CR。使用此 yaml，将备份指定命名空间中的 VM 及其磁盘。可以设置其他参数，如下所示<block ref="45bf4fcb30cb666d5b02b54fb671e73b" category="inline-link-macro-rx"></block>。</block>
   <block id="f5895613b4fc01023daa64f694a33785" category="paragraph">CSI 将创建支持磁盘的持久卷的快照。创建虚拟机的备份及其磁盘的快照，并将其存储在 yaml 中指定的备份位置。备份将按照 ttl 的规定在系统中保留 30 天。</block>
   <block id="c04e0f40b83a86fd835680d3df9ce399" category="paragraph">备份完成后，其阶段将显示为已完成。</block>
   <block id="a2eabcbade98a44462292c4666e62044" category="inline-image-macro">备份完成</block>
@@ -7778,7 +7775,6 @@
   <block id="0bb0fe78cec7e68d89f6dbb07d2b8093" category="video-title">使用 Trident Protect 的虚拟机灾难恢复</block>
   <block id="b16acd8ae1ca5e379b2e4aa604f8a2ba" category="section-title">使用 ONTAP S3 创建 AppVault</block>
   <block id="472263ee87de0443326619011c98d149" category="paragraph">本节演示如何使用 ONTAP S3 对象存储在 Trident Protect 中设置 AppVault 对象。</block>
-  <block id="c1a6380543e106c0301282521b55a3fc" category="paragraph">使用 oc 命令和下面显示的 yaml 文件为 ONTAP s3 创建密钥和 AppVault 自定义资源。请确保在 trident protect 命名空间中创建它们。</block>
   <block id="4035a79b3668307381cda3c40c13747d" category="paragraph">确保 ONTAP S3 保管库已创建且处于"可用"状态</block>
   <block id="6cd1f4dd55f2126ac98b438f1fa31844" category="inline-image-macro">trident-protect 命名空间中的 OCP-v AppVault</block>
   <block id="c047817699debbb2dda60dae4514bd1c" category="paragraph"><block ref="c047817699debbb2dda60dae4514bd1c" category="inline-image-macro-rx" type="image"></block></block>
@@ -8757,24 +8753,12 @@
   <block id="1772d045ac6084e8616a073ae3aa13a2" category="paragraph">**合规性和审计** 提供工具和功能，帮助组织满足合规性要求并对其数据保护实践进行定期审计。</block>
   <block id="04961098dd1c9db5b3eb5179135f1cf1" category="paragraph">**灾难恢复** 与 ONTAP 的复制功能集成，提供强大的灾难恢复解决方案，即使在发生灾难性事件时也能确保业务连续性。</block>
   <block id="06452dbfecb9925c362f50b4228f4238" category="paragraph">有关 Trident Protect 的完整详细信息，请参阅 NetApp Trident Protect <block ref="22119dfffa935338f489f6ce2e67baee" category="inline-link-macro-rx"></block>。</block>
-  <block id="2ca92584b9f53c63bf549d4b202a2351" category="section-title">NetApp ONTAP 硬件型号和协议支持</block>
-  <block id="78e3871b51a9a03feeb507b46a55c050" category="paragraph">NetApp ONTAP 软件运行在各种硬件型号上，每种型号都旨在满足不同的性能和容量要求。Trident 扩展了其强大的功能，以支持各种 NetApp ONTAP 系统，包括全闪存 FAS (AFF)、全 SAN 阵列 (ASA) 和 ASA R2 系统。这种支持可确保组织能够在容器化环境中充分利用其高性能存储解决方案的潜力。</block>
-  <block id="b8935f18ffe32272a10bdd62b7db4777" category="paragraph">**全闪存 FAS (AFF) 系统** AFF 系统提供卓越的性能和低延迟，使其成为高需求应用的理想选择。</block>
-  <block id="4393a8e49a1de4f5361d9bdd0fad982c" category="paragraph">**All SAN Array (ASA) Systems** ASA 系统专为专用 SAN 环境而设计，可提供强大的性能和可靠性。</block>
-  <block id="6e2dd8dfcfca0792c36dd5ae66a865aa" category="paragraph">**ASA R2 Systems** ASA R2 系统为 SAN 环境提供了增强的特性和功能。</block>
-  <block id="c160a7c3fe76f26a1eb3a7ae8e68161b" category="paragraph">**AFX** NetApp AFX 是一种专为企业 AI 工作负载设计的专用、分解式全闪存存储架构。它提供高性能 NAS，允许独立扩展计算和容量。NetApp AFX 存储系统在存储层的实现方面不同于其他基于 ONTAP 的系统（ASA、AFF 和 FAS）。AFX 使用分布式文件系统，可实现高性能和可扩展性，而其他基于 ONTAP 的系统则使用传统的存储架构。</block>
-  <block id="e7672ad0deaa706df754c867d11571ac" category="list-text">AFF 支持的协议：NFS、CIFS/SMB、iSCSI、FC、NVMe/TCP</block>
-  <block id="edfd90336d93ec40b5ed8bca8679b9aa" category="list-text">ASA 支持的协议：iSCSI、FC、NVMe/TCP</block>
-  <block id="483886e70fa508c09b938eb1394c50f6" category="list-text">ASA R2 支持的协议：iSCSI、FC、NVMe/TCP</block>
-  <block id="1e22e1f992f7e96e5e55bf2d61e4bf47" category="list-text">AFX 支持的协议：从 Trident 25.10 开始，仅支持 NFS 协议；不支持 SMB 协议。</block>
   <block id="0dd6128d6f2eb1e95bb7e4597e1d9e01" category="section-title">适用于 ONTAP 存储的 Trident 驱动程序</block>
   <block id="68edc55766f524a48117d68c7aeaf53f" category="paragraph">Trident 包括以下 CSI 驱动程序，每个驱动程序都能够在后端存储中配置卷</block>
-  <block id="985be8f460623f562d2ea84ef63651c6" category="section-title">对于支持的硬件型号上的 NAS 协议</block>
   <block id="6f6f242b4caf9e6048b5b75b6a40049c" category="list-text">ontap-nas：一个 pvc 映射到 1 个 pv，这是一个专用的 flexvolume</block>
   <block id="8d2475e5fcc85cb7751bf6530341aade" category="list-text">ontap-nas-economy：配置的每个 PV 都是一个 qtree，每个 FlexVolume 具有可配置数量的 qtree（默认值为 200，可配置范围为 50 到 300）。一个 pvc 映射到 1 个 pv，即共享 flexvolume 上的一个 qtree</block>
   <block id="6b35b187dc7a6a13097d957a2cc0ca90" category="admonition">您可以将虚拟机的所有磁盘作为 qtree 放在单个卷中。但是，请注意，Snapshots、Clones 和 Replication 功能不受 Trident 支持。当这些功能由存储管理员管理时，它们不具备 PV 粒度。</block>
   <block id="ad10c066f0a61cd907eb4fc280ac4780" category="list-text">ontap-nas-flexgroup：配置的每个 PV 都是一个完整的 ONTAP FlexGroup，并使用分配给 SVM 的所有聚合。</block>
-  <block id="03d78dff6642af51896e39c5f5f7c5f7" category="section-title">对于支持的硬件型号上的 SAN 协议</block>
   <block id="ee8ff062ef9fb516aaceb92228d88995" category="list-text">ontap-san：一个 pvc 映射到 1 个 pv，即专用 flexvolume 上的 LUN</block>
   <block id="b9d700f45b618e4b31f6fd3bf4882301" category="list-text">ontap-san-economy：一个 pvc 映射到 1 pv，这是共享 flexvolume 上的 LUN。您可以在共享 flexvolume 中有多个 LUN。（默认值为 100，每个 flexvol 卷可配置 50 到 200 个 LUN/PV）</block>
   <block id="c907ece3af5b287acc45d9c2fab7658f" category="admonition">您可以将虚拟机的所有磁盘作为 LUN 放置在单个卷中。但是，此驱动程序虽然支持 Snapshots 和 Clones，但不支持 Replication。当 Replication 由存储管理员管理时，它不是 PV 粒度的。</block>
@@ -9886,4 +9870,16 @@
   <block id="137e4d3e0bc5586af6fc7ca9441511e1" category="sidebar">规模估算准则</block>
   <block id="ec7f55f91b201191775a6197f011f7f7" category="sidebar">ONTAP 集成工具</block>
   <block id="7fb0755110f4a96ae5bd0935a2d5ccbb" category="sidebar">迁移选项</block>
+  <block id="64500b33ac617d44e2ae502732348883" category="list-text"><block ref="64500b33ac617d44e2ae502732348883" category="inline-link-rx"></block></block>
+  <block id="c0ce1b494fcd9e77baa6389056bb4590" category="paragraph">OpenShift 虚拟化虚拟机的永久磁盘可以由使用 <block ref="d66058559be29002c97cec8314567a26" category="inline-link-macro-rx"></block> 集成到 OpenShift 集群的 ONTAP 存储提供支持。在本节中，我们使用 <block ref="c2cd0213dc3e8b35c8b76d6370cfa296" category="inline-link-macro-rx"></block> 将虚拟机及其数据卷备份到</block>
+  <block id="5c96fa5ac807ed29b4b0ff068b21de35" category="inline-link-macro">OpenShift 容器平台文档</block>
+  <block id="e71641623e94ea440f0b781184464bd5" category="paragraph">要创建整个 VM（VM 元数据和 VM 磁盘）的按需备份，请单击 **Backup** 选项卡。这将创建备份自定义资源（CR）。提供了一个示例 yaml 来创建备份 CR。使用此 yaml，将备份指定命名空间中的 VM 及其磁盘。有关详细信息，请参见 <block ref="658222a07b5db4a220ad3b7826613ed3" category="inline-link-macro-rx"></block>。</block>
+  <block id="3d5daa93898f5bf318fa29ecd109d1f3" category="section-title">Trident 对编排器和存储后端的支持</block>
+  <block id="a555fee6c6587118e36d8dd135df1313" category="inline-link-macro">Trident 要求</block>
+  <block id="9abe4911730ca9713a3331cf0eba515d" category="paragraph">有关支持的 Kubernetes 发行版和存储后端，请参阅 <block ref="b842740bc630595775d32ab9da2ba37d" category="inline-link-macro-rx"></block>。</block>
+  <block id="a9918024ce651ba38ef3bcc8cade94c3" category="inline-link-macro">ONTAP NAS 准备文档</block>
+  <block id="c5e5ae90877fb232973188902e5f45bf" category="admonition">Trident 也支持 NetApp <block ref="32e1a1bd45e8cf2cac0c6c03ad06c661" category="inline-link-macro-rx"></block>。有关 AFX 支持要求，请参阅 <block ref="c0260325c7b73c05c3aabbdb7652d210" category="inline-link-macro-rx"></block>。</block>
+  <block id="6e2a3b1094b66d679a2f74a8a08c9246" category="section-title">对于 NAS 协议</block>
+  <block id="5090601a75323a1861526e5add664b7b" category="section-title">对于 SAN 协议</block>
+  <block id="744a96e9ce909d310b032af09b7da629" category="paragraph">**为虚拟机创建 Trident Protect 应用程序**</block>
 </blocks>

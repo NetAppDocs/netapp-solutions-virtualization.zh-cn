@@ -18,7 +18,7 @@ summary: Red Hat OpenShift 虚拟化数据保护与NetApp ONTAP
 
 OpenShift 虚拟化环境中的虚拟机是在 OpenShift 容器平台的工作节点中运行的容器化应用程序。保护虚拟机元数据以及虚拟机的持久磁盘非常重要，以便在它们丢失或损坏时可以恢复它们。
 
-OpenShift 虚拟化虚拟机的持久磁盘可由集成到 OpenShift 集群的ONTAP存储支持，使用link:https://docs.netapp.com/us-en/trident/["Trident犯罪现场调查"]。在本节中我们使用link:https://docs.openshift.com/container-platform/4.14/backup_and_restore/application_backup_and_restore/installing/installing-oadp-ocs.html["OpenShift 数据保护 API (OADP)"]执行虚拟机（包括其数据卷）的备份
+OpenShift 虚拟化虚拟机的永久磁盘可以由使用 link:https://docs.netapp.com/us-en/trident/["Trident犯罪现场调查"] 集成到 OpenShift 集群的 ONTAP 存储提供支持。在本节中，我们使用 link:https://docs.openshift.com/en/documentation/openshift_container_platform/4.14/html/backup_and_restore/backup-restore-overview#application-backup-restore-operations-overview["OpenShift 数据保护 API (OADP)"] 将虚拟机及其数据卷备份到
 
 * ONTAP对象存储
 * 存储网格
@@ -60,7 +60,7 @@ link:https://docs.netapp.com/us-en/trident/["Trident犯罪现场调查"] link:ht
 [[steps-to-create-a-backup-of-a-vm]]
 === 创建虚拟机备份的步骤
 
-要创建整个 VM（VM 元数据和 VM 磁盘）的按需备份，请单击“备份”选项卡。这将创建一个备份自定义资源 (CR)。提供了一个示例 yaml 来创建备份 CR。使用此 yaml，将备份指定命名空间中的 VM 及其磁盘。可以设置其他参数，如下所示link:https://docs.openshift.com/container-platform/4.14/backup_and_restore/application_backup_and_restore/backing_up_and_restoring/oadp-creating-backup-cr.html["文档"]。
+要创建整个 VM（VM 元数据和 VM 磁盘）的按需备份，请单击 **Backup** 选项卡。这将创建备份自定义资源（CR）。提供了一个示例 yaml 来创建备份 CR。使用此 yaml，将备份指定命名空间中的 VM 及其磁盘。有关详细信息，请参见 link:https://docs.openshift.com/en/documentation/openshift_container_platform/4.14/html/backup_and_restore/backup-restore-overview#application-backup-restore-operations-overview["OpenShift 容器平台文档"]。
 
 CSI 将创建支持磁盘的持久卷的快照。创建虚拟机的备份及其磁盘的快照，并将其存储在 yaml 中指定的备份位置。备份将按照 ttl 的规定在系统中保留 30 天。
 
