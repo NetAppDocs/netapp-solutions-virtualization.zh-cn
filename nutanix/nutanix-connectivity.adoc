@@ -1,0 +1,146 @@
+---
+sidebar: sidebar 
+permalink: nutanix/nutanix-connectivity.html 
+keywords: nutanix, ahv, ontap, nfs, netapp, network, vswitch, lacp, jumbo frames, prerequisites 
+summary: 准备您的环境并规划 Nutanix AHV 仅计算主机和 ONTAP 存储控制器之间的网络连接。 
+---
+= 准备部署具有 ONTAP 存储的 Nutanix Cloud Platform
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+查看将 Nutanix AHV 仅计算主机连接到 ONTAP 存储的先决条件和推荐的网络架构。此设计可让您独立于计算扩展存储容量和性能，无需仅为存储增长而添加 Nutanix 节点。
+
+该设计在 Nutanix AHV 仅计算主机和 ONTAP 存储控制器之间使用专用存储网络。存储流量通过专用虚拟交换机（vswitch1）和外部存储 VLAN 与管理和应用流量隔离。ONTAP 通过专用 SVM 数据 LIF 提供 NFSv3 存储服务，而 SVM 管理 LIF 与 REST API 一起用于存储管理和集成。
+
+为了提高弹性和性能，Nutanix 仅计算主机和 ONTAP 控制器在冗余网络路径上使用 LACP（主动/主动）。如果 LACP 不可用，则使用 MAC 固定的主动/主动模式在虚拟交换机层提供负载均衡。存储流量应驻留在专用的非路由 VLAN 上，而管理、实时迁移、灾难恢复复制和应用流量将继续使用标准路由网络。
+
+
+
+[[prerequisites]]
+== 前提条件
+
+在将 ONTAP 存储与 Nutanix Cloud Infrastructure 集成之前，请确保满足以下要求。
+
+*Nutanix 集群*
+
+运行 AHV 的 Nutanix 集群已部署并运行，并满足以下要求：
+
+* 至少三个节点。
+* 计算节点满足 Nutanix 对 CPU、内存、网络和启动设备的最低要求。有关详细信息，请参见“最低计算要求”。
+* 适用的 Nutanix 兼容性矩阵中列出了硬件和软件。请参阅 link:https://portal.nutanix.com/page/compatibility-interoperability-matrix/platform-compatibility/compute-platforms["计算平台的兼容性和互操作性表"^]。
+
+
+*NetApp ONTAP 存储*
+
+NetApp ONTAP 存储已部署并配置为启用 NFS 服务，并满足以下要求：
+
+* 支持的 ONTAP 平台：AFF A 系列（全闪存）、AFF C 系列（全闪存）和 FAS（混合闪存）。
+* ONTAP 运行支持的版本：9.15.1P18 或更高版本、9.16.1P16 或更高版本、9.17.1P8 或更高版本、9.18.1P4 或更高版本，或 9.19.1P2 或更高版本。
+* ONTAP One 许可。
+* ONTAP 存储虚拟机（SVM）被配置为向 Nutanix 计算集群提供存储服务。
+* 一个或多个 FlexVol 卷被导出为 NFS 共享。Nutanix 集群挂载 NFS 导出并将其呈现为工作负载的共享存储。
+* NetApp 强烈建议使用接口组作为 NFS LIF 的主端口。有关详细信息，请参见 link:https://docs.netapp.com/us-en/ontap/networking/combine_physical_ports_to_create_interface_groups.html["组合物理端口以创建 ONTAP 接口组"^]。
+
+
+*网络连接*
+
+* 提供专用存储网络，至少为 10 GbE。建议使用 25 GbE 或更高。
+* 独立接口可用于存储流量。
+* 巨型帧（MTU 9000）在受支持的存储网络中配置一致。
+
+
+[NOTE]
+====
+* 为 ONTAP 存储流量使用专用虚拟交换机，并配置 9000 字节（巨型帧）的 MTU。
+* 为 ONTAP 专用网络启用网络分段后，无法将其禁用。禁用网络分段会使存储专用 IP 无法访问，并可能导致严重的集群服务故障。
+
+
+====
+
+
+[[network-architecture]]
+== 网络架构
+
+下图显示了 Nutanix AHV 节点与 ONTAP 集群之间的连接。
+
+image:nutanix-connectivity-001.png["显示 Nutanix AHV 节点的网络图，其中 vswitch0 和 vswitch1 通过两个外部交换机连接到 ONTAP 9 集群"]
+
+下表介绍了每个网络组件、其配置及其用途。
+
+[cols="25,45,30"]
+|===
+| 组件 | 配置 | 目的 
+
+
+| Nutanix 计算节点 | 用于管理和用户 VM 网络（路由 VLAN）以及存储网络（非路由 VLAN）的绑定 NIC。如果无法使用绑定 NIC，请对虚拟交换机使用双活上行链路。 | 提供网络冗余，同时隔离管理、VM 和存储流量。 
+
+
+| ONTAP 存储控制器 | SVM 管理 LIF 和 SVM 数据 LIF。尽可能使用接口组进行容错和负载平衡。 | 管理 LIF 用于 ONTAP 管理。数据 LIF 为 Nutanix 集群提供 NFSv3 存储访问权限。 
+
+
+| 管理和用户 VM 网络（路由 VLAN） | Prism 管理、CVM 流量、实时迁移和复制流量 | 承载集群管理和虚拟机流量。 
+
+
+| 内部存储网络（非路由） | CVM 到 CVM 通信、AHV 服务、集群节点间流量 | 用于存储和集群服务的专用网络。与用户流量隔离。 
+
+
+| 外部存储网络（非路由 VLAN） | AHV/CVMs 和 ONTAP 之间的 NFSv3 存储流量 | 提供对 ONTAP 存储的低延迟、高性能访问。 
+
+
+| vswitch0 | Nutanix 管理、应用程序流量、实时迁移和复制 | 用于管理和 VM 联网的主虚拟交换机。 
+
+
+| vswitch1 | 专用 NFSv3 存储流量。最少两个物理上行链路。建议使用 LACP（主动/主动）。MTU 9000。 | 专用存储交换机，为 ONTAP 连接提供最佳性能、弹性和流量隔离。 
+|===
+
+
+[[high-level-deployment-steps]]
+== 高级部署步骤
+
+完成以下高级步骤以准备 ONTAP，配置存储网络，并将 Nutanix 主机连接到 ONTAP 存储。
+
+. 部署和配置 ONTAP。
++
+.. 请参阅 link:https://docs.netapp.com/us-en/ontap/quick-start.html["ONTAP 快速入门"^]。
+.. 尽可能创建接口组。请参阅link:https://docs.netapp.com/us-en/ontap/networking/combine_physical_ports_to_create_interface_groups.html["组合物理端口以创建 ONTAP 接口组"^]。
+.. 为 ONTAP 网络创建 SVM。请参阅link:https://docs.netapp.com/us-en/ontap/networking/create_svms.html["为 ONTAP 网络创建 SVM"^]。
+.. 为管理和 NFS 数据创建 ONTAP LIF。请参阅link:https://docs.netapp.com/us-en/ontap/networking/create_a_lif.html["创建ONTAP LIF"^]。
+.. 使用 ONTAP System Manager 添加卷。卷必须使用 UNIX 安全样式来提供 NFSv3 数据。请参阅link:https://docs.netapp.com/us-en/ontap/task_admin_add_a_volume.html["使用 ONTAP System Manager 添加卷"^]和link:https://docs.netapp.com/us-en/ontap/nfs-admin/create-volumes-specified-junction-task.html["使用指定的连接点创建 ONTAP NAS 卷"^]。
+.. 配置导出策略以允许从 Nutanix 仅计算主机进行访问。请参阅 link:https://docs.netapp.com/us-en/ontap/nfs-admin/export-policies-client-access-volumes-concept.html["导出策略如何控制客户端对 ONTAP NFS 卷或 qtree 的访问"^]。
+
+
+. 配置存储网络。
++
+.. 为 NFS 存储流量创建专用非路由 VLAN。请参阅link:https://docs.netapp.com/us-en/ontap/networking/configure_vlans_over_physical_ports.html["创建专用非路由 VLAN"^]。
+.. 配置冗余交换基础设施。
+.. 启用端到端的巨型帧（MTU 9000）。对于 ONTAP，请参阅 link:https://docs.netapp.com/us-en/ontap/networking/change_the_mtu_value_for_ports_in_a_broadcast_domain.html["更改 ONTAP 广播域中端口的 MTU 值"^]。
+
+
+. 配置 Nutanix 主机并将其连接到 ONTAP。
++
+.. 验证与 ONTAP NFS 数据 LIF 的连接。
+.. 验证负载均衡和路径冗余。
+
+
+. 创建专用存储虚拟交换机。
++
+.. 在 Nutanix AHV 上创建 vswitch1。
+.. 请至少分配两个专用物理 NIC。
+.. 在支持的情况下配置 LACP（主动/主动）。
+
+
+. 验证恢复能力。
++
+.. 测试存储路径故障转移。
+.. 确认 AHV 在链路或交换机故障期间自动重新路由存储流量，而不会影响正在运行的 VM。
+
+
+
+
+该架构为 Nutanix 环境提供了高性能、高可用性的存储结构，同时允许计算和存储资源独立扩展。可以通过 ONTAP 扩展来适应存储增长，而无需额外的 Nutanix 仅计算节点，从而降低基础设施成本，同时保持企业级性能和可用性。

@@ -59,8 +59,25 @@ cat /etc/iscsi/initiator.name
 +
 image:proxmox-ontap-iscsi-001.png["iSCSI接口详细信息"]
 
-. 创建 igroup 并填充主机 iSCSI 发起程序。
-. 在 SVM 上创建所需大小的 LUN，并将其呈现给上一步创建的 igroup。确保在ASA系统的安全选项卡中启用反勒索软件保护。对于AFF/ FAS系统，请确保在卷的安全选项卡上启用反勒索软件保护。
+. 创建 OS 类型设置为 `linux`的 igroup，并添加主机 iSCSI 启动器。
++
+Proxmox VE 基于 Debian Linux，因此对于包含 Proxmox VE 主机启动器的 igroup，请使用 `linux` 操作系统类型。在 System Manager 中，选择 *Linux* 作为主机操作系统。如果使用 ONTAP CLI，请运行以下命令。
+
++
+[source, cli]
+----
+lun igroup create -vserver <svm_name> -igroup <igroup_name> -protocol iscsi -ostype linux -initiator <host_iqn_1>,<host_iqn_2>
+----
+. 在 SVM 上创建 OS 类型设置为 `linux`和所需大小的 LUN，并将其呈现给上一步中创建的 igroup。确保在 ASA 系统的安全选项卡上启用了反勒索软件保护。对于 AFF/FAS 系统，请确保在卷的安全选项卡上启用了反勒索软件保护。
++
+在 System Manager 中，选择 *Linux* 作为主机操作系统。如果使用 ONTAP 命令行界面，请运行以下命令。
+
++
+[source, cli]
+----
+lun create -vserver <svm_name> -path /vol/<volume_name>/<lun_name> -size <size> -ostype linux
+lun mapping create -vserver <svm_name> -path /vol/<volume_name>/<lun_name> -igroup <igroup_name>
+----
 +
 image:proxmox-ontap-iscsi-002.png["iscsi lun 详细信息"]
 

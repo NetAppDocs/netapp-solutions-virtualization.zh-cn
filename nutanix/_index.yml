@@ -1,0 +1,30 @@
+---
+indexpage:
+  title: NetApp Nutanix 虚拟化解决方案
+  summary: NetApp Nutanix 虚拟化解决方案演示了如何将 NetApp ONTAP 作为 Nutanix Cloud Platform 的外部
+    NFS 存储，以便您可以独立扩展计算和存储。
+  lead: NetApp Nutanix 虚拟化解决方案演示了如何将 NetApp ONTAP 作为 Nutanix Cloud Platform 的外部 NFS
+    存储，以便您可以独立扩展计算和存储。
+  tiles:
+  - title: 开始使用
+    links:
+    - title: 了解采用 ONTAP 存储的 Nutanix
+      url: nutanix-overview.html
+    - title: Nutanix 云平台文档
+      url: https://portal.nutanix.com/
+  - title: 使用 ONTAP 部署 Nutanix
+    links:
+    - title: 准备部署
+      url: nutanix-connectivity.html
+    - title: 部署 Nutanix 计算集群
+      url: nutanix-deploy-cluster.html
+    - title: 配置 ONTAP 卷和权限
+      url: nutanix-ontap-storage.html
+    - title: 附加 ONTAP NFS 存储
+      url: nutanix-attach-storage.html
+  - title: 规划和保护
+    links:
+    - title: 数据保护、灾难恢复和限制
+      url: nutanix-data-protection.html
+    - title: 为 Nutanix AHV 迁移调整 ONTAP 存储大小
+      url: nutanix-sizing.html

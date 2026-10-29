@@ -1,0 +1,116 @@
+---
+sidebar: sidebar 
+permalink: nutanix/nutanix-overview.html 
+keywords: nutanix, ahv, ontap, nfs, netapp, virtualization, overview, architecture, disaggregated 
+summary: 了解 NetApp ONTAP 存储如何与 Nutanix 云平台集成，以提供外部 NFS 存储并独立扩展计算和存储。 
+---
+= 了解采用 NetApp ONTAP 存储的 Nutanix Cloud Platform
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+采用 NetApp ONTAP 存储的 Nutanix Cloud Platform 提供了一种解耦架构，您可以在其中独立于 Nutanix 计算来扩展存储容量和性能。了解架构、支持的配置以及部署前需要注意的要求。
+
+ONTAP 为托管 Nutanix 虚拟机工作负载提供了可扩展和弹性的存储平台，使组织能够简化存储管理，同时优化容量利用率、性能和数据保护。
+
+通过将 Nutanix 计算与 ONTAP 存储相结合，客户可以利用企业级存储服务、灵活的数据管理和无缝可扩展性，同时保持一致的运营模式。该解决方案使用熟悉的存储概念，如存储虚拟机（SVM）、FlexVol 卷、导出策略和 NFS 数据存储，允许管理员使用已建立的 ONTAP 工具和程序部署和管理存储。这种集成使 Nutanix AHV hypervisor 能够从 ONTAP 的成熟数据服务中受益，同时为虚拟化环境提供灵活高效的基础设施。
+
+
+
+[[introduction]]
+== 简介
+
+了解组织为什么要评估 Nutanix Cloud Platform，它可能带来的计算和存储扩展挑战，以及 NetApp ONTAP 外部存储如何解决这一挑战。
+
+
+
+[[why-organizations-are-reassessing-virtualization]]
+=== 组织为何重新评估虚拟化
+
+在 Broadcom 收购 VMware 之后，虚拟化格局发生了重大变化，促使许多组织重新评估其长期基础架构和云战略。随着企业推进现代化计划，他们正在评估能够提供运营一致性、可扩展性和经济效益的平台，同时最大限度地减少对现有工作负载的中断。无论是受许可变更、成本优化目标、数据中心转型计划的推动，还是需要更高的混合云灵活性，组织都越来越多地寻求能够简化迁移并为其虚拟化环境提供可持续发展路径的解决方案。
+
+
+
+[[nutanix-cloud-platform]]
+=== Nutanix Cloud Platform
+
+Nutanix 云平台（NCP）提供一致的混合多云运营模式，使组织能够跨本地环境和公共云运行应用程序和数据，同时保持通用的管理、运营和治理。通过利用 Nutanix 软件定义架构，客户可以跨环境无缝扩展工作负载，简化基础设施管理，降低运营复杂性。
+
+
+
+[[the-compute-and-storage-scaling-challenge]]
+=== 计算和存储扩展挑战
+
+虚拟化环境中的一个常见挑战是平衡计算和存储需求。传统架构通常要求组织通过扩展计算资源来获得额外的存储容量，从而导致基础设施成本增加。存储密集型工作负载通常需要额外的容量和性能，而不是额外的 CPU 和内存资源。
+
+
+
+[[how-ontap-addresses-the-challenge]]
+=== ONTAP 如何应对挑战
+
+这就是 NetApp ONTAP 存储与 Nutanix Cloud Platform 集成带来巨大价值的地方。ONTAP 提供企业级存储功能，包括高性能、高效率、数据保护、安全性和可扩展性，同时允许存储容量和性能独立于 Nutanix 计算基础架构进行扩展。
+
+
+
+[[example-scenario]]
+=== 示例场景
+
+请考虑以下情形：客户需要相当于八个节点的基础设施资源来满足应用程序计算要求（vCPU 和内存）。但是，由于数据快速增长和存储密集型应用程序，组织需要的存储容量在传统上需要部署额外的节点。这增加了总体拥有成本（TCO），因为客户必须购买额外的计算资源仅仅是为了满足存储需求。通过将 ONTAP 集成到 Nutanix 环境中，组织提供了一个真正分解的架构，可以独立扩展存储，提供所需的容量和存储性能，而无需进行不必要的计算扩展。
+
+
+
+[[supported-workloads-and-use-cases]]
+=== 支持的工作负载和用例
+
+此功能对于广泛的企业应用程序部署非常有价值，包括业务关键型数据库、ERP 平台、Microsoft 应用程序、虚拟桌面基础架构（VDI）、分析工作负载、AI/ML 环境、文件服务和现代容器化应用程序。它还支持关键基础设施计划，如工作负载迁移、灾难恢复、开发和测试环境、数据保护和网络弹性。通过实现计算和存储资源的独立扩展，组织可以优化基础设施投资，在计算集群之间共享一个通用的密集存储池，同时满足传统和现代应用程序的性能、可用性和容量要求。
+
+
+
+[[what-this-solution-covers]]
+=== 本解决方案涵盖的内容
+
+该解决方案描述了将 ONTAP 存储与 Nutanix 云平台进行配置和集成所需的步骤，使基于 NFS 的存储能够用于虚拟化工作负载，同时优化成本、可扩展性和性能。
+
+
+
+[[high-level-architecture]]
+== 高级架构
+
+在此架构中，Nutanix 计算集群使用在 Nutanix 集群上运行虚拟机的 AHV 虚拟机管理程序提供计算层，而 ONTAP 提供外部共享存储层。虚拟机磁盘和数据存储在 NetApp NFSv3 数据存储区中，这些数据存储区由 Nutanix 主机直接挂载。
+
+Nutanix 使用 NFSv3 作为虚拟机 I/O 的高性能数据路径，而 ONTAP REST API 用于存储配置、管理和自动化。ONTAP 提供企业级数据服务，包括快照、克隆、复制、存储效率和无中断操作，独立于 Nutanix 计算基础设施。
+
+image:nutanix-overview-001.png["包含三个 AHV 节点并使用 NFSv3 和 ONTAP REST API 连接到 NetApp ONTAP 9 集群的 Nutanix 计算集群架构图"]
+
+这种分解式架构使客户能够独立扩展计算和存储，优化存储利用率，并利用 ONTAP 经过验证的弹性和数据保护功能。该解决方案支持 NetApp AFF 和 FAS 平台，为虚拟化工作负载、私有云部署和业务关键型应用程序提供灵活的基础。
+
+
+
+[[requirements]]
+== 要求
+
+在使用 Nutanix 计算集群部署 ONTAP 存储之前，请查看以下要求。
+
+* 至少需要一个三节点计算群集。
+* 在 ONTAP 中，存储虚拟机（SVM）为计算集群提供存储。
+* 每个 FlexVol volume 都导出为 NFSv3 共享或导出。
+
+
+
+
+[[configuration-limitations-and-considerations]]
+== 配置限制和注意事项
+
+规划 Nutanix 和 ONTAP 配置时，请牢记以下限制和设计注意事项。
+
+* ONTAP 外部存储无法连接到新的或现有的 Nutanix HCI 集群。Nutanix 计算集群可以部署在 HCI 或外部存储配置中，但计算集群不能同时使用这两种配置。将外部存储添加到现有 HCI 部署需要完全重新部署节点。
+* 只能将单个 ONTAP 集群中的一个 ONTAP SVM 添加到 Nutanix 仅计算集群。
+* 在连接存储容器时，每个 SVM 只能使用一个 LIF。
+* 不支持基于 ONTAP SnapMirror 的灾难恢复和基于 FlexVol 的快照恢复。
+* 多个 Nutanix 计算集群可以使用单个 ONTAP 集群，具体取决于存储容量、性能和设计要求。
+

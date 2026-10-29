@@ -152,7 +152,7 @@ image::proxmox-smp-image2.png[SMP 安装向导]
 
 
 
-. 打开 Web 浏览器，通过输入 `http://<IP address specified during installation>:4001`访问 SMP UI
+. 打开 Web 浏览器，通过输入 `https://<IP address specified during installation>:4001`访问 SMP UI
 +
 .查看 SMP 登录屏幕
 [%collapsible]
@@ -160,6 +160,10 @@ image::proxmox-smp-image2.png[SMP 安装向导]
 image::proxmox-smp-image4.png[SMP 登录屏幕]
 
 ====
+. 使用默认用户名 `admin`和密码 `admin`登录到 SMP。
++
+出现提示时，请更改默认密码。使用 Shift 工具包安装 SMP 时，适用相同的默认凭据。
+
 +
 .查看 SMP 主屏幕
 [%collapsible]

@@ -7119,7 +7119,6 @@
   <block id="0a6a83d62edac699a685a5110adc5b5a" category="list-text">每个控制器创建两个专用于 FC 的 LIF。</block>
   <block id="4a5e89db07ee92045ddc5ac57264b75b" category="inline-image-macro">FC接口详情</block>
   <block id="9ca441070522dd2f1d54b6ab432b7332" category="paragraph"><block ref="9ca441070522dd2f1d54b6ab432b7332" category="inline-image-macro-rx" type="image"></block></block>
-  <block id="d55490705ccca6cce7810fa807fc74cd" category="list-text">创建 igroup 并填充主机 FC 发起程序。</block>
   <block id="1247a43611c0d600007445125567c7d8" category="list-text">在 SVM 上创建所需大小的 LUN，并将其呈现给上一步创建的 igroup。确保在ASA系统的“安全”选项卡上启用反勒索软件保护，并在AFF/ FAS系统的“卷安全”选项卡上启用反勒索软件保护。</block>
   <block id="4d96faf61f4af2b33014302c604ee549" category="inline-image-macro">lun详情</block>
   <block id="c9546f4d399f52fa0fbc3b1d384bbe38" category="paragraph"><block ref="c9546f4d399f52fa0fbc3b1d384bbe38" category="inline-image-macro-rx" type="image"></block></block>
@@ -7146,8 +7145,6 @@
   <block id="2122c33556de1dbae33223ccafc71df3" category="list-text">确保SVM可用且已启用iSCSI协议。跟随 <block ref="7c79a8d96ccab5e00ffe5a51372cb5c5" category="inline-link-macro-rx"></block>。</block>
   <block id="48590fe3408a0ed194b7d763a5f58b44" category="list-text">每个控制器创建两个专用于 iSCSI 的 LIF。</block>
   <block id="851413bf6fa6ef971ec8791be965f7e9" category="paragraph"><block ref="851413bf6fa6ef971ec8791be965f7e9" category="inline-image-macro-rx" type="image"></block></block>
-  <block id="e2975f34bb0c193ad8c157c8c19f7a1a" category="list-text">创建 igroup 并填充主机 iSCSI 发起程序。</block>
-  <block id="022ff6b8a2a7f0f8a870dcecfe149e64" category="list-text">在 SVM 上创建所需大小的 LUN，并将其呈现给上一步创建的 igroup。确保在ASA系统的安全选项卡中启用反勒索软件保护。对于AFF/ FAS系统，请确保在卷的安全选项卡上启用反勒索软件保护。</block>
   <block id="508651d2a8dc6c48c0b3acac0462c605" category="paragraph"><block ref="508651d2a8dc6c48c0b3acac0462c605" category="inline-image-macro-rx" type="image"></block></block>
   <block id="cd76c01fc90f38590f1723a0e3b6c5e3" category="paragraph">完成以下任务，将 iSCSI LUN 配置为 Proxmox VE 中的共享 LVM 存储。</block>
   <block id="30f170d7ac8b903032f54b8a8a70fb1a" category="list-text">使用管理用户界面<block ref="386c071bd7898138d6219d21f97e168d" prefix=" " category="inline-code"></block>单击“数据中心”，选择“存储”，单击“添加”，然后选择“iSCSI”。</block>
@@ -7199,7 +7196,6 @@
   <block id="d985a6fbcfbe393df03f57368e7f04fd" category="list-text">将收集到的主机 NQN 和 WWPN 信息提供给存储管理员，并请求所需大小的 NVMe 命名空间。</block>
   <block id="2ec446f10b7b466ea6a7401bc4407402" category="list-text">确保SVM可用且已启用NVMe协议。请参阅 <block ref="dff9a6cc2313f520177d7aee32699621" category="inline-link-macro-rx"></block>。</block>
   <block id="c8bbdfd862a2945db0df1f19e39be37f" category="paragraph"><block ref="c8bbdfd862a2945db0df1f19e39be37f" category="inline-image-macro-rx" type="image"></block></block>
-  <block id="3e81c631da00b7287028256b42d7f3c0" category="list-text">创建子系统并分配主机 NQN（如果使用 CLI）。请点击上方链接查看详情。</block>
   <block id="b20376398e0425f815da0c982b56b96b" category="list-text">请确保在安全选项卡中启用反勒索软件保护。</block>
   <block id="8d9e6709bc2c4a996ae2505a1837dd74" category="inline-image-macro">反勒索软件状态</block>
   <block id="7e3d11ff5a9754f504115873fa5b8542" category="paragraph"><block ref="7e3d11ff5a9754f504115873fa5b8542" category="inline-image-macro-rx" type="image"></block></block>
@@ -7947,7 +7943,6 @@
   <block id="1d73fea09ff2c41139aaaf8f795e18f8" category="list-text">等待系统自动安装必要的组件。</block>
   <block id="ee16a42e32bf023103544c9f7c590ada" category="list-text">安装完成后，通过单击 *查看* 或打开 Web 浏览器访问 Storage Manager<block ref="17c02bfa253344cd8c235e1435ecfead" prefix=" " category="inline-code"></block></block>
   <block id="344f4624c197942068a6539cdc4138e0" category="paragraph">例如：<block ref="abad16881186eb7f5a53f159fcbe4243" prefix=" " category="inline-code"></block></block>
-  <block id="d82fbaed65c0ae471da1583d14a37bca" category="list-text">打开 Web 浏览器，通过输入<block ref="05b17a751d9f33ab7e7a878a6ab984a2" prefix=" " category="inline-code"></block>访问 SMP UI</block>
   <block id="6e4d0d0f8b4808f7b2807bccfe8483da" category="example-title">查看 SMP 登录屏幕</block>
   <block id="e85bb40f2eb4ebf12cc2fb9761d2a1cd" category="image-alt">SMP 登录屏幕</block>
   <block id="870cd4e95860fe235c8a2e3b15aede36" category="example-title">查看 SMP 主屏幕</block>
@@ -10328,7 +10323,6 @@
   <block id="d6405e5d5ec6aebf79309244812c9f50" category="list-text"><block ref="d6405e5d5ec6aebf79309244812c9f50" category="inline-link-macro-rx"></block></block>
   <block id="0e47570de34d34f503e569132e73b40c" category="inline-link-macro">Proxmox VE 高可用性</block>
   <block id="95ff68ea490d91143431d474341e6917" category="list-text"><block ref="95ff68ea490d91143431d474341e6917" category="inline-link-macro-rx"></block></block>
-  <block id="f535eb1278ad100b4d323539a7942781" category="section-title">2026年10月14日</block>
   <block id="9c6fb696da0cdd15c87ef7016fe4f6ef" category="list-text">为具有 ONTAP SnapMirror 主动同步的 Proxmox VE 添加了业务连续性解决方案。</block>
   <block id="2f8480a0bd37c11da2dff9d9b62c37ea" category="list-text"><block ref="2f8480a0bd37c11da2dff9d9b62c37ea" category="inline-link-macro-rx"></block></block>
   <block id="b9509c2be2f49b59c9f2d64393ee8d8a" category="paragraph">了解具有用于 NAS 的 SnapMirror 活动同步功能的 Proxmox VE stretch 集群如何在零 RPO 的情况下使虚拟机在存储或站点故障期间保持运行。包括 corosync 和 QDevice 设计注意事项、ONTAP Mediator 和 ONTAP Cloud Mediator 选项、用于第 3 层网络的带有 BGP 的 VIP LIF，以及与 MetroCluster 的比较。</block>
@@ -10336,4 +10330,423 @@
   <block id="1bc5e6d2348849b5c1c0bab88934bc0f" category="paragraph">配置仲裁器，保护 NFS SVM，使用 QDevice 构建延伸群集，配置 NFS 共享存储，并使用 Storage Manager for Proxmox 设置 HA 和 VM 备份。</block>
   <block id="5177be93f9cdfe3b7df558b63f798e77" category="sidebar">Proxmox VE 工作负载的业务连续性</block>
   <block id="274fe65c32318cf5c48e4591b8045f37" category="sidebar">使用 NAS 存储配置</block>
+  <block id="97838d03852984f65fe015efab3eba80" category="summary">使用 Prism Element 将 ONTAP NFS 卷作为存储容器附加到 Nutanix 计算集群。</block>
+  <block id="b18bbcdec49ce25933fc3cb2880e3829" category="doc">将 ONTAP NFS 存储附加到 Nutanix 计算集群</block>
+  <block id="f84f4d5b1dbe9f990c8c39397fe00692" category="paragraph">设置 ONTAP 卷并配置连接后，使用 Prism Element 或 Prism Central 将 ONTAP NFS 卷作为存储容器连接到 Nutanix 计算集群。</block>
+  <block id="189451dcfbf73c8ca0df125c3630dff2" category="paragraph">确保满足以下先决条件：</block>
+  <block id="5b41045240da2c16858a76c3a7315e5b" category="list-text">可从 Nutanix 集群访问 ONTAP 集群或 SVM。</block>
+  <block id="0a4a1009a2ed545dfc85afe68492a415" category="list-text">有效的 ONTAP 管理 LIF（IP 地址或 FQDN）可用。</block>
+  <block id="88cde953a67b7d523c1b0de377bef7f5" category="list-text">适当的 ONTAP 凭据可用。</block>
+  <block id="bc5c8741c963c580b76d67338533982d" category="list-text">所需的 FlexVol、qtree 或文件夹导出路径已创建并配置为用于 NFS 访问。</block>
+  <block id="471fb11d929eabe1846676075057e229" category="list-text">登录到 Prism Element Web 控制台。</block>
+  <block id="86248b1d3534066ee794a93966d16996" category="list-text">从主菜单中，选择 *Storage*，然后单击 *+ Attach External Storage*。</block>
+  <block id="afe2be3f17fda6c50527fa0572b0399b" category="list-text">在*初始设置*页面上，查看可用信息，然后单击*下一步*。</block>
+  <block id="e44a01642383cbf10b2aa6ac3aef254a" category="inline-image-macro">附加外部存储向导，初始设置页面</block>
+  <block id="f297526f7767af54bd7d95f6421a2401" category="paragraph"><block ref="f297526f7767af54bd7d95f6421a2401" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="510e0263087017ede813c0551e2ca790" category="list-text">在*连接详情*页面，选择 *NetApp ONTAP* 作为外部存储供应商，然后输入以下值：</block>
+  <block id="c14873ad82550f662ba3fceda63d9bd4" category="list-text">*IP 地址（IPv4）或 FQDN*：输入 ONTAP 集群或 SVM 管理 LIF 地址或 FQDN。</block>
+  <block id="02a1c245020cdbc544434cc5ddeb33b5" category="list-text">*用户名*：输入 ONTAP 服务帐户用户名。</block>
+  <block id="3a3c7df736092f7633a49a023f4f5bcf" category="list-text">*密码*：输入服务帐户密码。</block>
+  <block id="5a378b18f7bf0c4cabc6c655cd2f535e" category="paragraph">单击*下一步*。</block>
+  <block id="49686764afebb22740fe334d7c9e7f8c" category="inline-image-macro">附加外部存储向导，连接详细信息页面</block>
+  <block id="a399af38aee667575173f393bb545e76" category="paragraph"><block ref="a399af38aee667575173f393bb545e76" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="4861503a3f465d8f3482c0ad29995020" category="list-text">在*存储详细信息*页面上，在*外部存储名称*中指定 ONTAP 存储系统的唯一名称，为*导出路径*输入一个或多个存储导出路径，然后单击*添加*。</block>
+  <block id="44545f1794f7b9315b94b6fed2321e6a" category="admonition">支持的导出路径包括 FlexVol 和 qtree 导出路径。</block>
+  <block id="2f59836f0225be101147115bd53ab7ce" category="inline-image-macro">附加外部存储向导，存储详细信息页面显示服务卷导出路径选择</block>
+  <block id="96ed365d0bb5a6bb739d07a824a51201" category="paragraph"><block ref="96ed365d0bb5a6bb739d07a824a51201" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="2f80c7c6141a4d837c0d3b3d563d7ec1" category="list-text">单击*附加*。</block>
+  <block id="f84591921bdb106114beec35c239c189" category="paragraph">系统将 ONTAP 存储连接到 Nutanix 集群。您可以从 Prism Element 中的 *任务* 监控进度和状态信息。</block>
+  <block id="22e4e008a7bf679c77fa0aa44ee55c99" category="inline-image-macro">附加外部存储向导，存储详细信息页面显示选定的导出路径及其容量</block>
+  <block id="f699fb900027f03a5d1c73a1c035147d" category="paragraph"><block ref="f699fb900027f03a5d1c73a1c035147d" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="d500a4dd57bdd348ad2c1ec6c580ec95" category="admonition">该 <block ref="bb0fc0de24da5f7976510a315e4b7120" prefix=" " category="inline-code"></block> 选项用于挂载选项中。</block>
+  <block id="435423e72dc328e48c58b391696afbb2" category="list-text">在配置过程中添加的第一个导出路径将自动指定为默认存储容器，并标记为*默认容器*。</block>
+  <block id="c76d86f9397f068b7ff22b6601aef411" category="list-text">NetApp 建议使用多个 FlexVol 卷作为存储容器来分配 VM 工作负载并平衡容量利用率。</block>
+  <block id="407244745d89ec1c62a378bfd9c4982b" category="list-text">为元数据服务（管理）使用专用卷。</block>
+  <block id="3462594e2b91cfdf8704609ba1a33c12" category="list-text">可以删除导出路径，除非这些路径已分配给集群服务（元数据）卷或默认存储容器。</block>
+  <block id="143058cca38c3e14765cc87eccaea025" category="list-text">当外部存储连接到 Nutanix 计算集群时，无法将其移除。</block>
+  <block id="45872041b55539e7ecf32f329ffb131f" category="list-text">只能将一个 ONTAP 外部存储系统连接到 Nutanix 计算群集。</block>
+  <block id="90d57912caaff09634e842970f84d25f" category="list-text">Nutanix 建议每个节点最多 128 个虚拟机，最多 32 个节点，以及在 DR 集群之间最多 4,800 个 AOS 复制的 vDisks（结合异步和同步复制）。</block>
+  <block id="48901db36539e5b09cdc319a4741e291" category="paragraph">附加存储后，在 Nutanix 云基础架构（NCI）平台上部署 Prism Central 以执行集群管理和配置任务。您还可以通过 Prism Central 连接 ONTAP 存储。</block>
+  <block id="ef54739cb0e82cf668ee8e9322ded296" category="summary">准备您的环境并规划 Nutanix AHV 仅计算主机和 ONTAP 存储控制器之间的网络连接。</block>
+  <block id="4281e247679a4e9f91958cb81df204a8" category="doc">准备部署具有 ONTAP 存储的 Nutanix Cloud Platform</block>
+  <block id="10e42d1cf4c2688d643b5f43089f4441" category="paragraph">查看将 Nutanix AHV 仅计算主机连接到 ONTAP 存储的先决条件和推荐的网络架构。此设计可让您独立于计算扩展存储容量和性能，无需仅为存储增长而添加 Nutanix 节点。</block>
+  <block id="7326e2a7ee83bf39ecbd35e3781e34ad" category="paragraph">该设计在 Nutanix AHV 仅计算主机和 ONTAP 存储控制器之间使用专用存储网络。存储流量通过专用虚拟交换机（vswitch1）和外部存储 VLAN 与管理和应用流量隔离。ONTAP 通过专用 SVM 数据 LIF 提供 NFSv3 存储服务，而 SVM 管理 LIF 与 REST API 一起用于存储管理和集成。</block>
+  <block id="1789a22e63c3bbffdd02ec4f18a611a2" category="paragraph">为了提高弹性和性能，Nutanix 仅计算主机和 ONTAP 控制器在冗余网络路径上使用 LACP（主动/主动）。如果 LACP 不可用，则使用 MAC 固定的主动/主动模式在虚拟交换机层提供负载均衡。存储流量应驻留在专用的非路由 VLAN 上，而管理、实时迁移、灾难恢复复制和应用流量将继续使用标准路由网络。</block>
+  <block id="01156694543097b9445b72943e566e02" category="paragraph">在将 ONTAP 存储与 Nutanix Cloud Infrastructure 集成之前，请确保满足以下要求。</block>
+  <block id="73fa4db6c16918b8b1476cd57c4b80a3" category="paragraph">*Nutanix 集群*</block>
+  <block id="7822a29dbe9ed28f88309d8940333179" category="paragraph">运行 AHV 的 Nutanix 集群已部署并运行，并满足以下要求：</block>
+  <block id="c604e5d03e1e7091ec9908672191982f" category="list-text">至少三个节点。</block>
+  <block id="e0c31f92c2d0b1a49d272890219daf6c" category="list-text">计算节点满足 Nutanix 对 CPU、内存、网络和启动设备的最低要求。有关详细信息，请参见“最低计算要求”。</block>
+  <block id="bc85160904d40313adbdc82e4ecfbb50" category="inline-link-macro">计算平台的兼容性和互操作性表</block>
+  <block id="77ce847edcf2be60ba1cf5baff26d6f7" category="list-text">适用的 Nutanix 兼容性矩阵中列出了硬件和软件。请参阅 <block ref="c81ad5cf378d90ab0d03ced0033acda8" category="inline-link-macro-rx"></block>。</block>
+  <block id="6fcb8ee8bc8725e23730e2b0739522c8" category="paragraph">*NetApp ONTAP 存储*</block>
+  <block id="b5952aa77e54231a64191a542bfb2e4b" category="paragraph">NetApp ONTAP 存储已部署并配置为启用 NFS 服务，并满足以下要求：</block>
+  <block id="24875b4d112506ce2170563900155c60" category="list-text">支持的 ONTAP 平台：AFF A 系列（全闪存）、AFF C 系列（全闪存）和 FAS（混合闪存）。</block>
+  <block id="7992c41569a6bb74bbc75e7082421468" category="list-text">ONTAP 运行支持的版本：9.15.1P18 或更高版本、9.16.1P16 或更高版本、9.17.1P8 或更高版本、9.18.1P4 或更高版本，或 9.19.1P2 或更高版本。</block>
+  <block id="6cf1fc4be2dae301740b386b7b203db5" category="list-text">ONTAP One 许可。</block>
+  <block id="320210f832a34fe880ba0273c10d4711" category="list-text">ONTAP 存储虚拟机（SVM）被配置为向 Nutanix 计算集群提供存储服务。</block>
+  <block id="013c0e655bb0084fe15ffb125726e8c2" category="list-text">一个或多个 FlexVol 卷被导出为 NFS 共享。Nutanix 集群挂载 NFS 导出并将其呈现为工作负载的共享存储。</block>
+  <block id="7e2388a20aef8baa12c86febcb6c7f22" category="inline-link-macro">组合物理端口以创建 ONTAP 接口组</block>
+  <block id="c4ef6228655d857d98dd1f12ad5bbad1" category="list-text">NetApp 强烈建议使用接口组作为 NFS LIF 的主端口。有关详细信息，请参见 <block ref="81b7786f6941e04595c4c2ff6b3de461" category="inline-link-macro-rx"></block>。</block>
+  <block id="d0e5aa254f1ccca87a0cd6748a924c03" category="paragraph">*网络连接*</block>
+  <block id="8a6933d4e0f55d49cafcde07ebe4ce69" category="list-text">提供专用存储网络，至少为 10 GbE。建议使用 25 GbE 或更高。</block>
+  <block id="9f93d1aea77ba6580146236a9c1a9661" category="list-text">独立接口可用于存储流量。</block>
+  <block id="7ef6c69924549f74224057397cbd4cac" category="list-text">巨型帧（MTU 9000）在受支持的存储网络中配置一致。</block>
+  <block id="7d88b061a000ab1d3d13ccc6c8009dee" category="list-text">为 ONTAP 存储流量使用专用虚拟交换机，并配置 9000 字节（巨型帧）的 MTU。</block>
+  <block id="024da6f5a5ca69013333e20d5b21f459" category="list-text">为 ONTAP 专用网络启用网络分段后，无法将其禁用。禁用网络分段会使存储专用 IP 无法访问，并可能导致严重的集群服务故障。</block>
+  <block id="82c161268dfe0b9b1287ad4fe5c236b0" category="section-title">网络架构</block>
+  <block id="ce6e593f91bf8a47c5f1e109124ef518" category="paragraph">下图显示了 Nutanix AHV 节点与 ONTAP 集群之间的连接。</block>
+  <block id="9fa1fa9c342aa04e2ab4321a098f85ad" category="inline-image-macro">显示 Nutanix AHV 节点的网络图，其中 vswitch0 和 vswitch1 通过两个外部交换机连接到 ONTAP 9 集群</block>
+  <block id="4fa6b398ba2977fdc851dc24f10a7934" category="paragraph"><block ref="4fa6b398ba2977fdc851dc24f10a7934" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="af5ff5784a731bc016ed4b6afa56caf3" category="paragraph">下表介绍了每个网络组件、其配置及其用途。</block>
+  <block id="2cb05e4bb7830be982f0922fed86b4cd" category="cell">组件</block>
+  <block id="254f642527b45bc260048e30704edb39" category="cell">配置</block>
+  <block id="e244710138950cf403d4fdca0161c94c" category="cell">Nutanix 计算节点</block>
+  <block id="afa568d367d052961a86faf602d6e17f" category="cell">用于管理和用户 VM 网络（路由 VLAN）以及存储网络（非路由 VLAN）的绑定 NIC。如果无法使用绑定 NIC，请对虚拟交换机使用双活上行链路。</block>
+  <block id="a95a090a8f9e328a5d6ce13cb1d137c9" category="cell">提供网络冗余，同时隔离管理、VM 和存储流量。</block>
+  <block id="a678ef77de622077207781708e3e99b7" category="cell">ONTAP 存储控制器</block>
+  <block id="b1dd4dd40fe36fdb54995a2da5613b7f" category="cell">SVM 管理 LIF 和 SVM 数据 LIF。尽可能使用接口组进行容错和负载平衡。</block>
+  <block id="06f6d3b7ad02108688d9ca2fedc4abf9" category="cell">管理 LIF 用于 ONTAP 管理。数据 LIF 为 Nutanix 集群提供 NFSv3 存储访问权限。</block>
+  <block id="c6d30908fc554df682ad6e9382d0eeb7" category="cell">管理和用户 VM 网络（路由 VLAN）</block>
+  <block id="4dd2a26e244f72edcf2576e5d5cd6702" category="cell">Prism 管理、CVM 流量、实时迁移和复制流量</block>
+  <block id="b1f814e61eab0b9ea2acb2f2d447b717" category="cell">承载集群管理和虚拟机流量。</block>
+  <block id="9bf01d663e7a657ce91486d604bb5a3f" category="cell">内部存储网络（非路由）</block>
+  <block id="25155acb786c092e649b5c745428336e" category="cell">CVM 到 CVM 通信、AHV 服务、集群节点间流量</block>
+  <block id="c0fcc7833ab8cb13aa5722da86b46386" category="cell">用于存储和集群服务的专用网络。与用户流量隔离。</block>
+  <block id="3b71fa87aff883a944c83d389531eb3b" category="cell">外部存储网络（非路由 VLAN）</block>
+  <block id="888f2e6005dbe99e045cac976efc39cf" category="cell">AHV/CVMs 和 ONTAP 之间的 NFSv3 存储流量</block>
+  <block id="1c7429bc15e42100216ac0a060da23dc" category="cell">提供对 ONTAP 存储的低延迟、高性能访问。</block>
+  <block id="923de2f57c729a15244d2d32be13c2f1" category="cell">vswitch0</block>
+  <block id="17ff15338eaa3f0dbdc3a561b4b7c47a" category="cell">Nutanix 管理、应用程序流量、实时迁移和复制</block>
+  <block id="21f1ded6ee5fe47e5454d461d413df35" category="cell">用于管理和 VM 联网的主虚拟交换机。</block>
+  <block id="1fc1c5d87203c86922bf41b7641e6504" category="cell">vswitch1</block>
+  <block id="6124c75321ba55da58785f3a07e604c3" category="cell">专用 NFSv3 存储流量。最少两个物理上行链路。建议使用 LACP（主动/主动）。MTU 9000。</block>
+  <block id="c8774204e3a861f300153a01cafc50fd" category="cell">专用存储交换机，为 ONTAP 连接提供最佳性能、弹性和流量隔离。</block>
+  <block id="24d89b66885ddf758c470311b0e238c5" category="section-title">高级部署步骤</block>
+  <block id="f8098539a697e2e23ff2fbbcdc41ba49" category="paragraph">完成以下高级步骤以准备 ONTAP，配置存储网络，并将 Nutanix 主机连接到 ONTAP 存储。</block>
+  <block id="e22d4898791c63ab332c69b60b6a8774" category="list-text">部署和配置 ONTAP。</block>
+  <block id="718a426d0459c990f966c5aa3b496666" category="inline-link-macro">ONTAP 快速入门</block>
+  <block id="aec4b036c7f7bfbf4f2f37fe95984800" category="list-text">请参阅 <block ref="35a96c1424a5d39370406442822b6766" category="inline-link-macro-rx"></block>。</block>
+  <block id="1adf393ea11e2b1a03a2f42cd137ec43" category="list-text">尽可能创建接口组。请参阅<block ref="81b7786f6941e04595c4c2ff6b3de461" category="inline-link-macro-rx"></block>。</block>
+  <block id="2a4d5c63b1e6241d99e4939d1e02d80a" category="inline-link-macro">为 ONTAP 网络创建 SVM</block>
+  <block id="73358681da1cfcb20b958a561c76414c" category="list-text">为 ONTAP 网络创建 SVM。请参阅<block ref="374c90f8834cdea00a6f60d18a70f604" category="inline-link-macro-rx"></block>。</block>
+  <block id="47514845299a6fb079009508979f3f4e" category="list-text">为管理和 NFS 数据创建 ONTAP LIF。请参阅<block ref="0dd83352fe1a672de604487265159d1a" category="inline-link-macro-rx"></block>。</block>
+  <block id="f162dae9b2713f12b5bb5bfb34ca8116" category="inline-link-macro">使用 ONTAP System Manager 添加卷</block>
+  <block id="b08fa99a736cc3dd29dba13fa709ba16" category="inline-link-macro">使用指定的连接点创建 ONTAP NAS 卷</block>
+  <block id="8ba761e58164d425c600e567b51bde45" category="list-text">使用 ONTAP System Manager 添加卷。卷必须使用 UNIX 安全样式来提供 NFSv3 数据。请参阅<block ref="adc597f3f81344bb5887abb0794ad73c" category="inline-link-macro-rx"></block>和<block ref="6f0dc90b5189dce76a9b1098ae1169a1" category="inline-link-macro-rx"></block>。</block>
+  <block id="af221594fc5a0003396437dfbee347a7" category="inline-link-macro">导出策略如何控制客户端对 ONTAP NFS 卷或 qtree 的访问</block>
+  <block id="de9f3a925790eb0942f4d15299bccd04" category="list-text">配置导出策略以允许从 Nutanix 仅计算主机进行访问。请参阅 <block ref="f51fa1661575b66ec4b4f117ced6c1d4" category="inline-link-macro-rx"></block>。</block>
+  <block id="defaba5f9ab73ddeacbf7e18a4d78c1a" category="list-text">配置存储网络。</block>
+  <block id="8668d8e40858086ff0f44cc7126a8bfb" category="inline-link-macro">创建专用非路由 VLAN</block>
+  <block id="fc06197a100edcd59314f40c205e647d" category="list-text">为 NFS 存储流量创建专用非路由 VLAN。请参阅<block ref="e2f3a3d5ff90e9ab56933021d41612b3" category="inline-link-macro-rx"></block>。</block>
+  <block id="c3f8dc8572c7a9ffbb954a9e7d807d94" category="list-text">配置冗余交换基础设施。</block>
+  <block id="e02dbffb8cc8785729c0a1d016c77018" category="inline-link-macro">更改 ONTAP 广播域中端口的 MTU 值</block>
+  <block id="e79a9284ad5fda895c42ec492c4a75be" category="list-text">启用端到端的巨型帧（MTU 9000）。对于 ONTAP，请参阅 <block ref="ba2bec8a8ab65d996ac1477e07eb5431" category="inline-link-macro-rx"></block>。</block>
+  <block id="660715516ea5b15f3e42792213d071e2" category="list-text">配置 Nutanix 主机并将其连接到 ONTAP。</block>
+  <block id="b5668b17431aae66903055ca3154e818" category="list-text">验证与 ONTAP NFS 数据 LIF 的连接。</block>
+  <block id="704ba3a7d2db8276934ffa82543a1da4" category="list-text">验证负载均衡和路径冗余。</block>
+  <block id="b8bb6bc05a14dc8a4f4374b2a99819b2" category="list-text">创建专用存储虚拟交换机。</block>
+  <block id="cf91b203b11d67e5ebbe25dd364e31e1" category="list-text">在 Nutanix AHV 上创建 vswitch1。</block>
+  <block id="c0472e733dc8e8b474cb2ff6204455ea" category="list-text">请至少分配两个专用物理 NIC。</block>
+  <block id="b4ec9445752af56a85f4eb292f7b1280" category="list-text">在支持的情况下配置 LACP（主动/主动）。</block>
+  <block id="0befe8ce4f5a98b7d04748cf4d9f8283" category="list-text">验证恢复能力。</block>
+  <block id="375252d90edc44fe471a486566cd7321" category="list-text">测试存储路径故障转移。</block>
+  <block id="097de64531dbbf4fb65ec7cfbbd0617a" category="list-text">确认 AHV 在链路或交换机故障期间自动重新路由存储流量，而不会影响正在运行的 VM。</block>
+  <block id="13ae5f91ef4c9979c9b27b7da80642b9" category="paragraph">该架构为 Nutanix 环境提供了高性能、高可用性的存储结构，同时允许计算和存储资源独立扩展。可以通过 ONTAP 扩展来适应存储增长，而无需额外的 Nutanix 仅计算节点，从而降低基础设施成本，同时保持企业级性能和可用性。</block>
+  <block id="c3d9387404c3997bbb5df9608d738492" category="summary">了解采用 ONTAP 外部存储的 Nutanix 的数据保护、灾难恢复和虚拟机迁移的工作原理，以及正式发布时不支持哪些功能。</block>
+  <block id="b03fd488e5c8eadca4d9e0785a4da008" category="doc">Nutanix with ONTAP 的数据保护、灾难恢复、迁移和限制</block>
+  <block id="e9fdd4b4a1f19e027482ec6e585a176b" category="paragraph">了解将 ONTAP 用作 Nutanix 计算集群的外部存储时，数据保护、灾难恢复和 VM 迁移的工作原理，并查看正式发布（GA）时不支持的功能。</block>
+  <block id="7e7397a7b79323762c61941fc0e6b5f9" category="section-title">数据保护</block>
+  <block id="794a3d8583847795adb014e40d9dc85a" category="paragraph">Prism 管理的 VM 快照使用 VM 磁盘的 ONTAP 文件级克隆，而不是 ONTAP 卷快照。Prism 管理快照生命周期，而 ONTAP 提供底层文件克隆功能。</block>
+  <block id="8ba45cc8c2b575e2a515b212df141d8e" category="paragraph">文件克隆是活动文件系统中的可写副本。它本身无法锁定以防止删除，不是 ARP 恢复点，也不会通过 SnapMirror 或 SnapVault 独立保留或保存。每个磁盘都是单独克隆的，因此除非进行协调，否则不会在单个共享时间点捕获跨磁盘的恢复点。ONTAP 卷快照原生提供这些保护。需要不可变、具有勒索软件弹性的长期保留恢复点的客户应考虑等待 ONTAP 快照集成。</block>
+  <block id="c1e3ee060dc65237e26b41548d38cc13" category="admonition">我们计划在未来版本中解决 ONTAP 快照支持的 GA 限制。</block>
+  <block id="71c6167c7d242b9bda11821ec2344b96" category="paragraph">Nutanix 异步 DR 是 GA 发布期间唯一支持的复制方法。ONTAP SnapMirror 不可用。</block>
+  <block id="3f43898082ec1f513a69a8de6ef6f6b5" category="paragraph">SnapMirror 是在站点之间复制 ONTAP 数据的既定选择。它仅复制已更改的块，在传输过程中和目的地保留重复数据删除和压缩所节省的空间，并且可以在辅助系统上保留多个恢复点。由于复制在存储系统上运行，因此主机不必复制数据。对于使用 ONTAP 作为外部存储的客户，这意味着 DR 使用与其 ONTAP 环境其余部分相同的复制、保留和恢复流程。</block>
+  <block id="ba38eee467f32cfe339059ac2583e961" category="admonition">计划在将来的版本中进行 SnapMirror 集成。想要在 ONTAP 复制上标准化 DR 的客户应考虑等待 SnapMirror 集成。</block>
+  <block id="40aeb9ec9c66503ac9e2096f9f50be5e" category="section-title">VM 迁移</block>
+  <block id="2b11abb043cf2a6b03b5db45a499fb15" category="paragraph">在此版本中，虚拟机迁移使用 Nutanix Move。不支持 NetApp Shift 工具包。Shift 工具包与 Nutanix Move 的集成计划在未来版本中发布。它将使用 ONTAP 克隆和分配的块映射，以避免完整数据拷贝并加速迁移。</block>
+  <block id="15954d6859a0fe86dc4697a321cef5d9" category="section-title">GA 不支持的功能</block>
+  <block id="7c8680054f36aa03f6bf693e30d9473d" category="paragraph">对于 NetApp 和 Nutanix 集成，GA 版本不支持以下配置、功能和集成：</block>
+  <block id="a8e21e772918f6400bf2944d13f6cc54" category="list-text">使用多个 NetApp 阵列、每个 Nutanix 集群多个存储虚拟机（SVM）或多个逻辑接口（LIF）的配置</block>
+  <block id="a3e0d31abbc94a19371d4564bfc84cf7" category="list-text">ONTAP 快照和依赖于它们的功能</block>
+  <block id="b5d574f46373cb46cf89b82338cd5825" category="list-text">适用于 Nutanix Kubernetes Platform（NKP）的 NetApp Trident</block>
+  <block id="ee1ef6cf0f3971b44eb2abcac958fb8d" category="list-text">FlexGroup 卷</block>
+  <block id="371711dcb125366b5f6e2979db40f239" category="list-text">NetApp Shift 工具包</block>
+  <block id="6e69b4c6f01283d2e4f5c7224065f7f3" category="summary">使用 Foundation Central 部署 Nutanix 计算集群，然后将其连接到 NetApp ONTAP 存储。</block>
+  <block id="081f6f8cc82e7b3abe6a7365e7f222f6" category="doc">部署具有 ONTAP 存储的 Nutanix 计算集群</block>
+  <block id="e46be2a73a958132d2487a2a93ca5d97" category="paragraph">部署使用 NetApp ONTAP 存储的 Nutanix 计算集群。下载 AOS 和 AHV 安装包，设置 Foundation Central，为计算节点安装映像并将其接入，创建集群，然后将 ONTAP 存储连接到该集群。</block>
+  <block id="e8f43dcb2f62d20ca72e427a9f7c4f32" category="list-text">*下载 AOS 和 AHV 安装软件包。*</block>
+  <block id="91f41053835d014870e967b522fdfa7e" category="inline-link-macro">下载 AOS 和 AHV 安装包</block>
+  <block id="8ffb8af5a4bc29bb7e91a32bcdaa1150" category="paragraph">有关详细信息，请参见<block ref="38f05d1733d5299b87a4cff0ac94ba83" category="inline-link-macro-rx"></block>。</block>
+  <block id="74cb5ebaf42ce83b4e79d177c7f4f1a6" category="list-text">*设置 Foundation Central。*</block>
+  <block id="516dd068aa72e7731a6ba493ae73d1c2" category="paragraph">Nutanix Foundation Central (FCA) 是用于为受支持的 OEM 服务器部署映像并创建 Nutanix 计算集群的推荐部署工具。</block>
+  <block id="a93dba624abd55e9d47b281f4561ed08" category="list-text">下载 Foundation 安装程序捆绑包并部署 Foundation VM。</block>
+  <block id="6d1f66d126a3b8e7f075cad8521ca49f" category="inline-link-macro">Foundation Central 设置</block>
+  <block id="2d1a4348468004e0100cf18fe8688e08" category="list-text">完成 <block ref="f791a23ba9a105ed6ac3a0123bd96460" category="inline-link-macro-rx"></block>。</block>
+  <block id="51234611747f52a35df7a5353ddc8727" category="list-text">根据需要更新管理 IP 地址和网络设置。</block>
+  <block id="d0bce400a8a13ec0e62ee7a7d670380a" category="list-text">使用配置的 IP 地址访问 Foundation Central Web UI。</block>
+  <block id="813481c10c31b37781572d7443dce8ae" category="admonition">如果 Foundation Central 部署失败，请登录到 FCA VM，运行<block ref="ca3845fe3b73258677a5defacd1e25aa" prefix=" " category="inline-code"></block>，然后重新运行安装过程。</block>
+  <block id="e6d89822f35fc247c74d5eb5f74869d4" category="inline-link-macro">安装 Foundation 虚拟机</block>
+  <block id="8157109459babe165ed8f861f20e6248" category="paragraph">有关详细信息，请参见<block ref="15bc47ca8b243dfb544c54d62c121409" category="inline-link-macro-rx"></block>。</block>
+  <block id="d90e0a8c61666878591830dce9cd3707" category="list-text">*上传 AOS 和 AHV 安装映像。*</block>
+  <block id="d223eae137a144267396b169e8e69770" category="paragraph">使用 Foundation Central 映像管理执行以下操作：</block>
+  <block id="749099afebe0e939c40094c1fa5d99d1" category="list-text">将 AOS 和 AHV 映像上传到 Foundation Central。</block>
+  <block id="da3404b398cdfb65fb220e5362f53bcc" category="list-text">验证映像是否可用于部署。</block>
+  <block id="5252d89d1dc2c29e8d6ba1fdb6ccd983" category="list-text">*发现并映像计算节点。*</block>
+  <block id="45215b033870c582d772fd4ff8c33fd2" category="paragraph">*选项 A：硬件提供商（推荐）*</block>
+  <block id="7d92e6a8eacceaf7798bc85191f3de1f" category="inline-link-macro">硬件提供商</block>
+  <block id="250b467585c4c37342b0c2af530e9f7e" category="paragraph">使用 <block ref="35566d01e9acbe2e672b081115ed5fa5" category="inline-link-macro-rx"></block> 自动执行节点映像和载入。</block>
+  <block id="eae6abd2bfb477415259bfe6fbcf86ab" category="list-text">使用 HPE iLO 或 Dell iDRAC 配置硬件提供商连接。</block>
+  <block id="98c80639e9e0be2987dd3c67cecfb769" category="list-text">自动发现目标服务器。</block>
+  <block id="2a99aaaabfcfc9b0889267046004d6cd" category="list-text">选择上传的 AOS 和 AHV 镜像。</block>
+  <block id="a751acdbbb9a841fba8ed42e797f79cb" category="list-text">直接从 Foundation Central 为节点部署映像。</block>
+  <block id="e88bc585491767891c9d1f5757b72130" category="paragraph">*选项 B：手动映像*</block>
+  <block id="b52996994fab6b48cd81e934dee321e6" category="inline-link-macro">手动成像</block>
+  <block id="49baba35db7bcd09b14a4ca25125d9b7" category="paragraph">如果硬件提供程序发现不可用，请使用 <block ref="8f5493e7165305573721d2539a580994" category="inline-link-macro-rx"></block>。</block>
+  <block id="dd0679a0ea834bda0a34b306e7a09346" category="paragraph">在开始之前，请确保满足以下先决条件：</block>
+  <block id="66b62e50b4972a240cbba541d7b7a1b9" category="list-text">已启用 UEFI 启动模式。</block>
+  <block id="8b4000931dce8be969425ca4ea629531" category="list-text">安全启动已禁用。</block>
+  <block id="b0ee2666cf5b9113e191b9c6bda3c001" category="list-text">带外（OOB）和数据网络可达。</block>
+  <block id="1b4490cc35dd9fb01927652019a1d041" category="list-text">主机和 Foundation Central 之间没有时间偏差。</block>
+  <block id="c5b87462ede4de94bca9a532ca933384" category="list-text">每台主机都有一个可用的 AHV IP 地址。</block>
+  <block id="7257449f9518c473a626ee5939a65833" category="admonition">请勿从与默认 VLAN 上的 192.168.5.0/24 地址空间重叠的子网分配 IP 地址。</block>
+  <block id="ec7c19653fc4cdaf314f97c8b8bc29a6" category="list-text">创建安全声明令牌。</block>
+  <block id="05332e7515b61ca00d1c9c56b65eb1d2" category="list-text">在每个计算节点上挂载 AHV 安装 ISO。</block>
+  <block id="e5ede927d4698de51e7de8d6459969d9" category="list-text">手动启动并安装 AHV。</block>
+  <block id="232dae110fed03b1c3e37734f201e395" category="list-text">*加入节点。*</block>
+  <block id="90e33977af6187e71f8c05eb861c7da9" category="paragraph">Onboarding 将发现的服务器注册到 Foundation Central Appliance，并为映像或集群创建工作流做好准备。</block>
+  <block id="03c96cad49b7b47ae1994c9e152b2857" category="list-text">选择已发现的 AHV 主机。</block>
+  <block id="a72fea437a7a18abca4e6a2f54c9fe76" category="list-text">开始载入流程。</block>
+  <block id="fd650d1cbb3cbf981cfc3cbe4f86a5e7" category="list-text">确认所有节点都显示在节点清单下。</block>
+  <block id="ea4ecd2ff157eb206bcc287b669d228f" category="paragraph">载入完成后，主机即已准备好创建集群。</block>
+  <block id="753b99019692770e964d6b456ac85293" category="list-text">*创建 Nutanix 集群。*</block>
+  <block id="f164a43821225ee54e0394a577c959b6" category="list-text">选择已接入的节点。</block>
+  <block id="c04c8f4ee057b9770ef3148a2b7f90b9" category="list-text">单击*创建集群*。</block>
+  <block id="e634053c9c886664389e7b9c974ac9b3" category="list-text">提供集群配置信息。</block>
+  <block id="af7181ced3e0f98f6ca635d584b4ff72" category="list-text">出现提示时，输入控制器 VM (CVM) IP 地址。</block>
+  <block id="6ee0593644601a457512f7c5d05401a5" category="paragraph">群集创建工作流程执行以下操作：</block>
+  <block id="c81e6147899da85d556722d2835a1aa6" category="list-text">部署 CVM。</block>
+  <block id="8227d90a71c897d611deddae88bced89" category="list-text">安装 AOS。</block>
+  <block id="8b64eea0142b42f10433982dcc31e645" category="list-text">配置集群服务。</block>
+  <block id="9f35fbf8e7ac03a5118463910d804eda" category="list-text">执行验证检查。</block>
+  <block id="2bdd53f46f82a16ddd7bbada5efcf2a5" category="inline-image-macro">运行 AHV 的新创建 Nutanix 集群的 Prism Element 主页</block>
+  <block id="14d508cebd5f4c810792d089f979051e" category="paragraph"><block ref="14d508cebd5f4c810792d089f979051e" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="b2b79048cc2b1171fcc1bf747d6a0f9c" category="admonition">请确保节点之间没有时间偏差。时钟同步失败可能导致集群部署失败，需要重新启动进程。</block>
+  <block id="b9e920a3dd1bca0a157befb26f455eaa" category="list-text">*将 ONTAP 存储连接到 Nutanix 计算集群。*</block>
+  <block id="e20f8d43ee05141d2fe59d709a9b6f28" category="paragraph">Nutanix 集群运行后，请执行以下操作：</block>
+  <block id="1a879e5b50f2cf6a7f443d9b5e2419c6" category="list-text">验证所有 AHV 主机和 ONTAP NFS 数据 LIF 之间的连接。</block>
+  <block id="fd9cdf1a9f2060636b550962bad5a182" category="list-text">将 ONTAP NFS 导出添加到 Nutanix 集群。</block>
+  <block id="8c01ab30bb6dad2915cbbf9f5b1c92d1" category="list-text">挂载导出的 FlexVol NFS 共享。</block>
+  <block id="3800b4f56e912a5db25d8a12bdcebbb2" category="list-text">验证读/写访问权限。</block>
+  <block id="c0d0093272a683163e9db60b646dc05b" category="list-text">确认数据存储的可见性和可用性。</block>
+  <block id="0efb367309c5112f30d09fda62dce646" category="paragraph">您可以将挂载的 NFS 存储用于以下用途：</block>
+  <block id="393b74b0f99482a306c16e4ef2a2b1f7" category="list-text">虚拟机工作负载</block>
+  <block id="f7c5fe6bd0c6e625cc9c02ea08a554da" category="list-text">映像存储库</block>
+  <block id="7df96b18c230f90ada0a9e2307226338" category="list-text">模板</block>
+  <block id="98084adef1ea8e4d4e3384364fd3f774" category="list-text">应用程序数据</block>
+  <block id="2a3447e388ce7f3e91b67e86a06a867d" category="paragraph">有关详细过程，请参见 <block ref="3bb6ec5a7295347c11887b87947a5268" category="inline-link-macro-rx"></block>。</block>
+  <block id="90beb67bbb40c624d8407576b3477531" category="summary">创建 ONTAP FlexVol 卷，配置导出策略，并使用 Nutanix 所需的最低 REST API 权限创建 SVM 角色和服务帐户。</block>
+  <block id="92dc1ba23fc901065953a38964070d3d" category="doc">为 Nutanix 配置 ONTAP 卷、导出策略和权限</block>
+  <block id="9099a77440d01e0a7f6e50f384cefdda" category="paragraph">创建和配置 ONTAP 存储卷，配置导出策略，并定义 Nutanix 用于管理 ONTAP 存储的 SVM 角色和服务帐户。完成这些任务后，您可以将 FlexVol 导出作为虚拟机工作负载的共享存储附加到 Nutanix 集群。</block>
+  <block id="2efebf6a87cfa87a05f1ce717a0eb634" category="paragraph">该过程首先创建 ONTAP FlexVol 卷并配置 NFS 导出策略。然后定义所需的 SVM 角色和 REST API 权限，最后将 ONTAP 存储附加到 Nutanix 计算集群。</block>
+  <block id="d0d11c278677bcc01b4088ad0e01a0e7" category="section-title">创建 ONTAP FlexVol 卷</block>
+  <block id="4c8a286e125109320cc853e190bf9d53" category="paragraph">创建所需的 FlexVol 卷并应用推荐的 ONTAP 设置，以优化 Nutanix 工作负载的容量利用率、存储效率和性能。</block>
+  <block id="de4700c2801a5bbb50de45c5214cad13" category="list-text">使用以下设置创建 FlexVol 卷：</block>
+  <block id="51ac4bf63a0c6a9cefa7ba69b4154ef1" category="cell">设置</block>
+  <block id="947a833a137f4ed3e295eacc535ed8bd" category="cell"><block ref="f1e0735081bab920eff76b08a4600c76" prefix="" category="inline-code"></block></block>
+  <block id="1fac41ed156429eae37ffff4c99fde2c" category="cell"><block ref="99c0f62171e34b4ab6a79265f038e3af" prefix="" category="inline-code"></block></block>
+  <block id="7c68df7d17c446f99304ee1dc1498bfc" category="cell">自动调整大小</block>
+  <block id="521c36a31c2762741cf0f8890cbe05e3" category="cell">打开</block>
+  <block id="a85c04491cb5bbcb534dc50b65b97530" category="cell">自动删除</block>
+  <block id="bce6cdbbccc632d1644ba652aca25a21" category="cell"><block ref="210ab9e731c9c36c2c38db15c28a8d1c" prefix="" category="inline-code"></block> /<block ref="1c05b3b1dbdf1a366261edd571c87d43" prefix=" " category="inline-code"></block></block>
+  <block id="43c4c1dbc452be91829f25ee32c2a956" category="cell">卷分层策略</block>
+  <block id="6d576caa9862f6db0177dfaff7abb095" category="cell">仅 Snapshot</block>
+  <block id="1a0347c29b1489fa0ab3d94768b3af37" category="cell"><block ref="902c737cbaa1a86889c41fec210c805f" prefix="" category="inline-code"></block></block>
+  <block id="f4c25546f220bb5d07f94244c9303967" category="cell">自动增长</block>
+  <block id="4c0abf2d4c54820b8d33061abaf30759" category="cell">Snapshot 策略</block>
+  <block id="94196aaec5ec0e56c6e4674450447eed" category="list-text">调配多个 FlexVol 卷并将其添加为存储容器。</block>
+  <block id="07dc5d493e4013e826e06d84243bb40f" category="list-text">至少创建 4 到 8 个 NFSv3 卷来托管虚拟机数据。</block>
+  <block id="473d44bff7d5ab7df1ab806a9eea848f" category="list-text">为 Nutanix 服务或元数据卷使用专用卷。虽然服务数据可以共享数据卷，但建议使用专用卷。</block>
+  <block id="f76a1b79446e5fcd4830de7205aee57f" category="list-text">默认情况下，使用 FlexVol 导出路径。如果使用 qtree，请在附加存储容器时指定 qtree 导出路径。</block>
+  <block id="8e4b6807031f0687bd243567c5d31889" category="list-text">在 ONTAP 节点之间均匀分配卷，交替在不同节点上放置卷，以平衡整个集群的工作负载分布和资源利用率。</block>
+  <block id="54278706e756fc32632e725ac74a7c70" category="section-title">计算服务卷大小</block>
+  <block id="5589ee999b11a39899b74f5ac5667a15" category="paragraph">通过为每个集群节点分配至少 1 TiB（N × 1 TiB）来计算元数据（服务）卷的大小。例如，8 节点集群至少需要 8 TiB 的可用容量。</block>
+  <block id="277cfb06b78e92e9906356782ebd14ff" category="list-text">为 Nutanix 元数据创建单个精简配置的 FlexVol 卷。</block>
+  <block id="e55622ea68ec3d556626db91c3060190" category="list-text">如果没有为服务卷指定专用导出路径，则系统会自动使用为集群服务（元数据）卷配置的第一个导出路径，并将 *Cluster Services* 标记应用于该路径。</block>
+  <block id="25da714eff5c8cf0f1a3bef6c2f571d5" category="list-text">部署后，请勿重命名所选 FlexVol 卷或其关联的导出路径。重命名可能会中断虚拟机 I/O 操作并影响工作负载的可访问性。</block>
+  <block id="5fab8f40aaa759f06d0e9d5803d0e482" category="list-text">用于服务卷的 FlexVol 卷可以使用精简配置进行配置。</block>
+  <block id="03976948c8dc5b708cb61b3194d1bc3a" category="section-title">计算数据卷大小</block>
+  <block id="796e261753c1de28205557620ce4d45a" category="paragraph">数据卷大小调整与数据存储大小调整类似。根据虚拟机的预期数量、其容量要求和预期增长来调整存储容器卷的大小。规划足够的可用空间，以适应虚拟机配置、快照和运营开销，同时将工作负载分布在多个卷上，以支持可扩展性和均衡的资源利用率。</block>
+  <block id="dad2940097284c3b6c8345e293e3cd9e" category="section-title">配置 ONTAP 导出策略</block>
+  <block id="c8d281ad787a7e5e23b6f6d76afe4ff7" category="paragraph">配置导出策略，以便只有 Nutanix CVM 可以访问 NFS 卷。</block>
+  <block id="d54c86c42bb034e2e134a338152314a7" category="paragraph">*数据卷*</block>
+  <block id="ebea75065fb15c7ecfb9b539a76cfd17" category="list-text">创建允许 CVM IP 地址或子网范围的卷级导出策略。</block>
+  <block id="a21de5807356512316ffa48519a7c389" category="list-text">设置以下规则：</block>
+  <block id="4881ae5df68a63d3acf226a4e0e70f74" category="list-text">只读规则<block ref="248ae85cd46aa9db2669ecfda6d5ac2e" prefix="(" category="inline-code"></block>）：<block ref="36bcbb801f5052739af8220c6ea51434" prefix=" " category="inline-code"></block></block>
+  <block id="31db56e3c017f815d12ff1e548f89b27" category="list-text">读写规则<block ref="daf1ece2b63bdb7d527a5f823f4d0b95" prefix="(" category="inline-code"></block>）：<block ref="36bcbb801f5052739af8220c6ea51434" prefix=" " category="inline-code"></block></block>
+  <block id="3b5d875ed67cb591c4ef2944857a2d0b" category="list-text">超级用户：<block ref="36bcbb801f5052739af8220c6ea51434" prefix=" " category="inline-code"></block></block>
+  <block id="d1354ba4b2c70e084937c1e77f0d539d" category="list-text">如果使用了 qtree，请为每个 qtree 创建具有相同权限的专用导出策略规则。</block>
+  <block id="234d205c259293c4fcd5e3d1e2b2314e" category="paragraph">*服务或元数据卷*</block>
+  <block id="410e7876391fd067eff94f7355fe5897" category="list-text">所有 ONTAP NFS 导出应仅允许从 Nutanix CVM IP 地址或指定的 CVM 子网访问。</block>
+  <block id="3fa12f12811769d06524abe06744d029" category="list-text">使用 Prism API 或<block ref="8b8f20398735e0a28ae5337a71b4a5db" prefix=" " category="inline-code"></block>查找 CVM 主机 IP 地址列表以更新导出策略。</block>
+  <block id="77bf0de81d3ac434fb134d139a3442bb" category="section-title">配置 ONTAP 角色和权限</block>
+  <block id="00988a3c5aaaed41af79d9dccdbe0bb4" category="paragraph">为了将 ONTAP 存储连接到 Nutanix 计算集群，Nutanix 使用 ONTAP REST API 进行控制平面操作（虚拟机配置、克隆、快照和存储管理），并将 NFSv3 用于数据路径。</block>
+  <block id="9f8215fbf22053a6bb75c835b970359d" category="paragraph">创建具有最低权限的 ONTAP 角色，以便您无需使用 ONTAP<block ref="21232f297a57a5a743894a0e4a801fc3" prefix=" " category="inline-code"></block> 角色即可在 Nutanix 仅计算集群中执行操作。在 ONTAP 存储端的 SVM 级别需要这些最低角色。</block>
+  <block id="1957b4b90acaa152602ef9151ed827aa" category="list-text">使用默认 ONTAP NFS 配置设置。</block>
+  <block id="bd06250641d7104cbc560dd3ccce5c8a" category="list-text">您还可以使用该<block ref="6173aa5206484b5224450952747c7148" prefix=" " category="inline-code"></block>角色。</block>
+  <block id="b472efad4175e5d5e228f0a56a05b56c" category="section-title">最小 REST API 权限</block>
+  <block id="ad90ef5522a8663d2649151ac94be293" category="paragraph">创建具有最低所需 REST API 权限的自定义 ONTAP SVM 角色，以启用 Nutanix 存储发现、配置、克隆和管理操作。</block>
+  <block id="e5d70720d20baa60b840d30a0254f374" category="cell">REST API 端点</block>
+  <block id="bf733d8a933c1601697f364223fc7ecb" category="cell">访问</block>
+  <block id="363e2cd7817f719f33d63e2e00a604ae" category="cell"><block ref="d48b8c7902dee00442e14d9b1af3af1b" prefix="" category="inline-code"></block></block>
+  <block id="358388857b3167886e81189ce45f87ef" category="cell">只读</block>
+  <block id="803fe6a23d72ffde4f8e3f75af659308" category="cell">群集身份验证和版本验证</block>
+  <block id="bff176118c8043e6d5e6e206169ef3ca" category="cell"><block ref="afc03d1a82dbecc47aa9f8732c12aace" prefix="" category="inline-code"></block></block>
+  <block id="1de81d00e47b4dfc05b7940048245adf" category="cell">监控异步存储操作</block>
+  <block id="ded94fd2265eeb1163edbc94cc4a04ae" category="cell"><block ref="a00c50b90749f90a36742b8673eb5362" prefix="" category="inline-code"></block></block>
+  <block id="135a0938ca14153c3b5cffe6a3d4a752" category="cell">发现 ONTAP 数据 LIF</block>
+  <block id="5171b2271c084b4f83bf2064c3fbc9b4" category="cell"><block ref="91443afe19221b584756b058dec25daa" prefix="" category="inline-code"></block></block>
+  <block id="3cdb55110e0f03268456c135dbdeddd0" category="cell">读取/创建</block>
+  <block id="a3763b6dbd67c7098e9cacdd4e16ab32" category="cell">虚拟机克隆、快照和备份操作</block>
+  <block id="05e30638fc4699fd0f5f46965a7de061" category="cell"><block ref="e4bda0100c995f1a022b02958516473a" prefix="" category="inline-code"></block></block>
+  <block id="904f1356ff49d5d1f567dacaacb6272f" category="cell">卷发现和管理</block>
+  <block id="e034c69dc6c44535ed8fcb28eebc885d" category="cell"><block ref="b411b876fbf8eae92bfaa2e8d8d43f52" prefix="" category="inline-code"></block></block>
+  <block id="22bb71f5bb6dc726ce615387711955e1" category="cell">完全访问权限</block>
+  <block id="8e3e6473250f1c3294023340b704b116" category="cell">创建、修改、读取和删除 Nutanix 管理的文件</block>
+  <block id="66f611f92066b778a2ee33d7d561c388" category="section-title">配置服务帐户</block>
+  <block id="9cee9e02c6cee3e221c414e166cc2a1d" category="paragraph">您可以使用 ONTAP System Manager 或 ONTAP 命令行界面创建角色和用户。</block>
+  <block id="26ed02718973e705cd69ee6e109400e0" category="open-title">System Manager</block>
+  <block id="f606c49f26cc72eebe93a8d7e95cd942" category="list-text">在 SVM 级别创建自定义角色。</block>
+  <block id="33db147c2d843800fccf91edb584070c" category="list-text">选择 *存储 &gt; Storage VM &gt; _指定的 SVM_ &gt; 设置 &gt; 用户和角色*。</block>
+  <block id="398ebb1248b54866ba874a05f89db335" category="list-text">选择*用户和角色*旁边的箭头图标（→）。</block>
+  <block id="a1270bcef444ae8f7e1978d17176ecba" category="list-text">在*角色*下，选择*+添加*。</block>
+  <block id="0607c670bf97cc18aea662bb4a8b1897" category="list-text">定义角色的规则并单击 *Save*。</block>
+  <block id="7574cd284f601a710ac10503b0f739bd" category="inline-image-macro">列出 Nutanix 角色的 REST API 路径和访问级别的 ONTAP System Manager 角色属性页面</block>
+  <block id="dbcd9b01fa038f8f3c830f760a04bf98" category="paragraph"><block ref="dbcd9b01fa038f8f3c830f760a04bf98" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="8407e74fd32f9869d1dc5e18cdf5fe42" category="list-text">将角色映射到 Nutanix 管理员用户。</block>
+  <block id="5e2565ad35410ae55f3c3837d1b9e9aa" category="list-text">在*用户和角色*页面上的*用户*下，选择*+添加*。</block>
+  <block id="e8e5bd346e1cab4305ccd3272259cca8" category="list-text">选择所需的用户名，然后从*角色*下拉菜单中选择在上一步中创建的角色。</block>
+  <block id="3f8f532f90cddcf60cef75113d4629c5" category="list-text">对于用户登录方式，请选择 *HTTP*。</block>
+  <block id="4cc186df234138a57b2e8c5d8e5f7f8d" category="list-text">单击 *Save*。</block>
+  <block id="8295254f89bc1b74a1cae258f93f3745" category="inline-image-macro">ONTAP System Manager 用户和角色页面，显示映射到自定义角色的 Nutanix 用户</block>
+  <block id="94b8a0621e36f76c499ad1a9f9fc878b" category="paragraph"><block ref="94b8a0621e36f76c499ad1a9f9fc878b" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="404b6767f45d89523e5530444aac4093" category="inline-image-macro">显示 SVM 的用户和角色访问级别的 ONTAP System Manager 用户和角色页面</block>
+  <block id="c3088bca5482ea2ea1594bd04273ae87" category="paragraph"><block ref="c3088bca5482ea2ea1594bd04273ae87" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="ad3da557e531e495867ad0fb3ada97cc" category="list-text">运行以下命令以创建角色。将<block ref="f9aa6283cec0ad9cc7e4b9173215222e" prefix=" " category="inline-code"></block>和<block ref="46e6e6ce85951e4a4fb07f51c242d712" prefix=" " category="inline-code"></block>替换为您的 SVM 和角色名称。</block>
+  <block id="5225604484856c358c25a1531e2d0984" category="list-text">创建用户并将其映射到角色。</block>
+  <block id="bedfb2f5b6fb33f637bfadf7329016e2" category="admonition">将 ONTAP 阵列添加到 Nutanix 集群时，需要 ONTAP 服务帐户用户名和密码。在 Prism Element 或 Prism Central 中配置 ONTAP 存储 SVM 时，请使用此用户。</block>
+  <block id="9f0056d1b1d00e12bacf13d8da8397df" category="summary">了解 NetApp ONTAP 存储如何与 Nutanix 云平台集成，以提供外部 NFS 存储并独立扩展计算和存储。</block>
+  <block id="5c2c25319ea82fd6076426390a9f0b07" category="doc">了解采用 NetApp ONTAP 存储的 Nutanix Cloud Platform</block>
+  <block id="a5f4222f42fab14e6e59c309eb489f9c" category="paragraph">采用 NetApp ONTAP 存储的 Nutanix Cloud Platform 提供了一种解耦架构，您可以在其中独立于 Nutanix 计算来扩展存储容量和性能。了解架构、支持的配置以及部署前需要注意的要求。</block>
+  <block id="40082e4dcbc30d3e394d4fc22e349315" category="paragraph">ONTAP 为托管 Nutanix 虚拟机工作负载提供了可扩展和弹性的存储平台，使组织能够简化存储管理，同时优化容量利用率、性能和数据保护。</block>
+  <block id="df49e73834f4040e3051807231098cc1" category="paragraph">通过将 Nutanix 计算与 ONTAP 存储相结合，客户可以利用企业级存储服务、灵活的数据管理和无缝可扩展性，同时保持一致的运营模式。该解决方案使用熟悉的存储概念，如存储虚拟机（SVM）、FlexVol 卷、导出策略和 NFS 数据存储，允许管理员使用已建立的 ONTAP 工具和程序部署和管理存储。这种集成使 Nutanix AHV hypervisor 能够从 ONTAP 的成熟数据服务中受益，同时为虚拟化环境提供灵活高效的基础设施。</block>
+  <block id="2bcf66072fda23991ffc00bd9893a437" category="paragraph">了解组织为什么要评估 Nutanix Cloud Platform，它可能带来的计算和存储扩展挑战，以及 NetApp ONTAP 外部存储如何解决这一挑战。</block>
+  <block id="d953649cb8ecaf5fa66eca0db2578f9c" category="section-title">组织为何重新评估虚拟化</block>
+  <block id="5d2ac342894d4196b1975fd5b28e5bee" category="paragraph">在 Broadcom 收购 VMware 之后，虚拟化格局发生了重大变化，促使许多组织重新评估其长期基础架构和云战略。随着企业推进现代化计划，他们正在评估能够提供运营一致性、可扩展性和经济效益的平台，同时最大限度地减少对现有工作负载的中断。无论是受许可变更、成本优化目标、数据中心转型计划的推动，还是需要更高的混合云灵活性，组织都越来越多地寻求能够简化迁移并为其虚拟化环境提供可持续发展路径的解决方案。</block>
+  <block id="c9a17b790d8bdd8d039c3b068fdfb903" category="section-title">Nutanix Cloud Platform</block>
+  <block id="69215416761133d5c3e9008a4bb8a313" category="paragraph">Nutanix 云平台（NCP）提供一致的混合多云运营模式，使组织能够跨本地环境和公共云运行应用程序和数据，同时保持通用的管理、运营和治理。通过利用 Nutanix 软件定义架构，客户可以跨环境无缝扩展工作负载，简化基础设施管理，降低运营复杂性。</block>
+  <block id="e650846facac8d1bfb846dd4d3b7ae54" category="section-title">计算和存储扩展挑战</block>
+  <block id="cd7ce001bad50e4d3d873f06c73b8899" category="paragraph">虚拟化环境中的一个常见挑战是平衡计算和存储需求。传统架构通常要求组织通过扩展计算资源来获得额外的存储容量，从而导致基础设施成本增加。存储密集型工作负载通常需要额外的容量和性能，而不是额外的 CPU 和内存资源。</block>
+  <block id="ee8daea185cccadd816ee76c012f3ae7" category="section-title">ONTAP 如何应对挑战</block>
+  <block id="682ab0967db2ebed923769bdb0c7b785" category="paragraph">这就是 NetApp ONTAP 存储与 Nutanix Cloud Platform 集成带来巨大价值的地方。ONTAP 提供企业级存储功能，包括高性能、高效率、数据保护、安全性和可扩展性，同时允许存储容量和性能独立于 Nutanix 计算基础架构进行扩展。</block>
+  <block id="707f55faf7b5f019c2bd9320391866ae" category="section-title">示例场景</block>
+  <block id="8943eba6fc27313dd81624add75a051a" category="paragraph">请考虑以下情形：客户需要相当于八个节点的基础设施资源来满足应用程序计算要求（vCPU 和内存）。但是，由于数据快速增长和存储密集型应用程序，组织需要的存储容量在传统上需要部署额外的节点。这增加了总体拥有成本（TCO），因为客户必须购买额外的计算资源仅仅是为了满足存储需求。通过将 ONTAP 集成到 Nutanix 环境中，组织提供了一个真正分解的架构，可以独立扩展存储，提供所需的容量和存储性能，而无需进行不必要的计算扩展。</block>
+  <block id="68403bad1101fc14b65e50cc7012c97f" category="section-title">支持的工作负载和用例</block>
+  <block id="07fa509afe07bd1a5edece90b1dee857" category="paragraph">此功能对于广泛的企业应用程序部署非常有价值，包括业务关键型数据库、ERP 平台、Microsoft 应用程序、虚拟桌面基础架构（VDI）、分析工作负载、AI/ML 环境、文件服务和现代容器化应用程序。它还支持关键基础设施计划，如工作负载迁移、灾难恢复、开发和测试环境、数据保护和网络弹性。通过实现计算和存储资源的独立扩展，组织可以优化基础设施投资，在计算集群之间共享一个通用的密集存储池，同时满足传统和现代应用程序的性能、可用性和容量要求。</block>
+  <block id="d729a5ecf18f1f7b7636dae38975ade5" category="section-title">本解决方案涵盖的内容</block>
+  <block id="da168d451b029c221cbf8cea4acbbe19" category="paragraph">该解决方案描述了将 ONTAP 存储与 Nutanix 云平台进行配置和集成所需的步骤，使基于 NFS 的存储能够用于虚拟化工作负载，同时优化成本、可扩展性和性能。</block>
+  <block id="40af7bf55634bf778fc4f933d2d0e4a2" category="section-title">高级架构</block>
+  <block id="d650960ceaea0568ada5e54f138be398" category="paragraph">在此架构中，Nutanix 计算集群使用在 Nutanix 集群上运行虚拟机的 AHV 虚拟机管理程序提供计算层，而 ONTAP 提供外部共享存储层。虚拟机磁盘和数据存储在 NetApp NFSv3 数据存储区中，这些数据存储区由 Nutanix 主机直接挂载。</block>
+  <block id="246e5f67d71ceeffa74ae0dc846704de" category="paragraph">Nutanix 使用 NFSv3 作为虚拟机 I/O 的高性能数据路径，而 ONTAP REST API 用于存储配置、管理和自动化。ONTAP 提供企业级数据服务，包括快照、克隆、复制、存储效率和无中断操作，独立于 Nutanix 计算基础设施。</block>
+  <block id="f6d74ae4e6a1c2c4baa8e371693e9bce" category="inline-image-macro">包含三个 AHV 节点并使用 NFSv3 和 ONTAP REST API 连接到 NetApp ONTAP 9 集群的 Nutanix 计算集群架构图</block>
+  <block id="e7d7bec2b9ae170ed6bc0577c80008ed" category="paragraph"><block ref="e7d7bec2b9ae170ed6bc0577c80008ed" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="2659da98abc9c08dfbe43a358abef75e" category="paragraph">这种分解式架构使客户能够独立扩展计算和存储，优化存储利用率，并利用 ONTAP 经过验证的弹性和数据保护功能。该解决方案支持 NetApp AFF 和 FAS 平台，为虚拟化工作负载、私有云部署和业务关键型应用程序提供灵活的基础。</block>
+  <block id="6f35fd4aea7586e8cfe094d27efac631" category="paragraph">在使用 Nutanix 计算集群部署 ONTAP 存储之前，请查看以下要求。</block>
+  <block id="d5a4f2a696644d590f1a1b1b914639e7" category="list-text">至少需要一个三节点计算群集。</block>
+  <block id="d7fa6a28e8e7d5e89c8b22431b6e72cb" category="list-text">在 ONTAP 中，存储虚拟机（SVM）为计算集群提供存储。</block>
+  <block id="875b12ce36ccc374fc64cf1a8e4b2258" category="list-text">每个 FlexVol volume 都导出为 NFSv3 共享或导出。</block>
+  <block id="f9316a1a896b138a097aa54b68678814" category="section-title">配置限制和注意事项</block>
+  <block id="677ebf7e0b1a7095fbbae3370f1b4a54" category="paragraph">规划 Nutanix 和 ONTAP 配置时，请牢记以下限制和设计注意事项。</block>
+  <block id="56b1b31f7f7230af5a0d60d2bdaadffa" category="list-text">ONTAP 外部存储无法连接到新的或现有的 Nutanix HCI 集群。Nutanix 计算集群可以部署在 HCI 或外部存储配置中，但计算集群不能同时使用这两种配置。将外部存储添加到现有 HCI 部署需要完全重新部署节点。</block>
+  <block id="c2b0259f0d8d0300ba1762704dc58772" category="list-text">只能将单个 ONTAP 集群中的一个 ONTAP SVM 添加到 Nutanix 仅计算集群。</block>
+  <block id="770b5eba62a050593381c034a6b03696" category="list-text">在连接存储容器时，每个 SVM 只能使用一个 LIF。</block>
+  <block id="04e146fb9f1da75030e5a4dca14107db" category="list-text">不支持基于 ONTAP SnapMirror 的灾难恢复和基于 FlexVol 的快照恢复。</block>
+  <block id="7d20e9fe22670559c1517d1492e04559" category="list-text">多个 Nutanix 计算集群可以使用单个 ONTAP 集群，具体取决于存储容量、性能和设计要求。</block>
+  <block id="03af4ddab612673e89672664295ec4e4" category="summary">当您将 VMware 工作负载迁移到具有 ONTAP 外部存储的 Nutanix AHV 时，请独立调整 Nutanix AHV 计算和 NetApp ONTAP 存储的大小。</block>
+  <block id="052f58ceb417844c33f5d11e8557c0c5" category="doc">为 Nutanix AHV 迁移调整 ONTAP 存储大小</block>
+  <block id="e23cbfa1197def6682c09a40c494bf2a" category="paragraph">当您将 VMware 工作负载迁移到具有 NetApp ONTAP 外部存储的 Nutanix AHV 时，请独立调整计算和存储的大小。Nutanix 计算规模确定所需的 AHV 节点数量和配置，包括控制器虚拟机（CVM）在每个节点上使用的资源。ONTAP 大小调整可解决存储容量、性能和可用性问题。</block>
+  <block id="a4ed853a445efea972a59a797722022f" category="section-title">发现 VMware 工作负载要求</block>
+  <block id="ab15b0e572e9628e796c823d17c8d5fc" category="paragraph">从 VMware vCenter 收集 30 至 90 天的 VM 级性能数据，包括：</block>
+  <block id="2d5b1b35a87e9c35f1b7284220b90df0" category="list-text">*计算*：vCPU、CPU 占用率、内存分配和峰值内存需求。</block>
+  <block id="319f8caa1f829d70f76e85bf7f1ba8c2" category="list-text">*存储容量*：已配置和已消耗的磁盘空间。</block>
+  <block id="4bc8ffebb70b5accd41f5376175bd9b3" category="list-text">*存储性能*：读/写 IOPS、读/写吞吐量、平均 I/O 大小和延迟。</block>
+  <block id="f020a90bc688b239107c00ebc3d9d98e" category="list-text">*工作负载模式*：高峰期、并发工作负载和读/写分布。</block>
+  <block id="b87542b96de79721593dad3534f16124" category="paragraph">使用正在调整大小的工作负载的测量平均 I/O 大小。对于每个 Nutanix 工作负载，不应假设 8 KiB 或 16 KiB 等单一块大小。</block>
+  <block id="9986ccc2895f854058d07e70e2a8ebc2" category="section-title">调整 Nutanix 计算大小</block>
+  <block id="04d8e526599db7192973b90ad308606e" category="inline-link-macro">AHV 节点要求</block>
+  <block id="72fe440d655f1cbeec9ab2d4de51b42e" category="paragraph">根据聚合虚拟机 CPU 和内存需求计算 <block ref="6be2c60eab6837fcca1ca701295f027b" category="inline-link-macro-rx"></block>。包括每个节点上为 CVM 保留的 CPU 和内存，以及 CPU 超额配置、高可用性要求和预期增长。应用 Nutanix 推荐的 CVM 资源预留，以便将其计入每个节点的可用容量。</block>
+  <block id="b681acc252ff9785de9b861a36df55fa" category="paragraph">分别计算 CPU 和内存节点需求。较大的估计值决定了初始集群需求。根据 Nutanix 规模估算指南和 HA 要求验证最终配置。</block>
+  <block id="5b4ae3c76d892cbba6bb9456cfb48998" category="section-title">估算 ONTAP 存储性能</block>
+  <block id="a40b230a89089e457be7e98cf27d3965" category="paragraph">使用以下步骤来确定工作负载的 IOPS、吞吐量、延迟和控制器要求。</block>
+  <block id="b5e8687d1cdf2b1a8cbdc424b949addb" category="list-text">*计算总工作负载 IOPS。*</block>
+  <block id="1ad5fa09ba377526c355359775236672" category="inline-link-macro">NetApp 虚拟机数据收集器（VMDC）</block>
+  <block id="d2ed1183704b41e9abe9e35346f65b41" category="paragraph">在公共时间间隔内跨虚拟机聚合读取和写入 IOPS，以确定实际的并发峰值。使用观察到的总需求，而不是假设每个虚拟机同时达到其单个峰值。使用 <block ref="bd1ff698c2b3acd5af03831af6080933" category="inline-link-macro-rx"></block>、Live Optics 或任何监控工具收集虚拟机磁盘级别的统计数据。</block>
+  <block id="427b078709720263148d9e3f2f82a0d9" category="paragraph">工作负载配置文件示例：</block>
+  <block id="0164aecbc37fdddffa1d43d785464803" category="list-text">VM 数量：500</block>
+  <block id="e33d0efaf7cc674bd7ff8cb42a34a680" category="list-text">每个 VM 的平均 IOPS：100</block>
+  <block id="b9de93a41f4138051496e4eab73c0901" category="list-text">聚合平均 IOPS：50,000</block>
+  <block id="c0aca45f9acea2e1b64f87f9a8bd8e13" category="list-text">观察到的峰值 IOPS：100,000</block>
+  <block id="a63abc889edbfe2457d558bbd7c00071" category="list-text">读/写比率：70% / 30%</block>
+  <block id="0235bd18b20d4a554fc902cef51b5156" category="list-text">平均 I/O 大小：根据工作负载数据测量</block>
+  <block id="b25c27a7b92ba7886a69e10cb120b327" category="list-text">*计算吞吐量。*</block>
+  <block id="9d47a616f69267dd69859c33521b4d54" category="paragraph">如果可用，请使用测量的读/写吞吐量。否则，请使用测量的 I/O 大小进行估算：</block>
+  <block id="aac6a8d1d05a04f46ec918f94e398b64" category="paragraph"><block ref="1385b8ce4e62d638c3de7901573ced45" prefix="" category="inline-code"></block></block>
+  <block id="e45dc9fc154d4bdc4465d10fcc597465" category="paragraph">如果 I/O 大小不同，则分别计算读取吞吐量和写入吞吐量。</block>
+  <block id="bbfc7833a2822beac14bfecce1720bcf" category="list-text">*设置延迟要求。*</block>
+  <block id="f2af8c63b550cbdd0461885f75cdaadf" category="paragraph">基于历史 VMware 性能和应用程序要求制定目标。说明性目标对于通用虚拟机可能为 5 毫秒或更低，对于性能敏感型应用程序可能为 2 毫秒或更低，对于某些关键数据库可能为亚毫秒。这些是服务目标，而非有保证的 ONTAP 性能水平。最终要求应反映应用程序 SLA。</block>
+  <block id="c18a914b885b59e79080dc62eaecbc39" category="list-text">*应用工作负载增长。*</block>
+  <block id="d22b909af4ceeeeacf75b1be19301ba9" category="paragraph">包括预期增长并评估性能波动、后台操作和快照活动。例如，在 100,000 IOPS 基线上增长 30%，预计需求为 130,000 IOPS。</block>
+  <block id="37090d3bd9be28c9fdf7bc6addbec7ef" category="list-text">*选择 ONTAP 控制器。*</block>
+  <block id="6118eedbbc6c3d493adf517737935b24" category="paragraph">根据目标延迟下所需的读/写 IOPS、吞吐量和网络带宽、I/O 特性、存储效率、后台处理、故障转移性能以及预期增长，选择 AFF 平台。使用 NetApp 支持的规模估算工具和平台性能数据验证配置。仅靠 IOPS 不足以确定控制器的选择。</block>
+  <block id="19d59fdcdab2dde245822074dacd5ccf" category="section-title">估算 ONTAP 容量</block>
+  <block id="e0dcdc1198ffc83720f92c5b393cb1ab" category="paragraph">根据已消耗的 VMware 磁盘空间、预计增长、快照保留和预期存储效率来估算容量。可以将 2:1 的存储效率比作为规划假设，但实际结果因工作负载和配置而异。根据预期的保留率和工作负载变化率计算快照和保护容量，而不是应用任意的余量。</block>
+  <block id="1f2a25309f8d01c25be5427a20ddb550" category="paragraph">容量计算示例：</block>
+  <block id="28e7dc62b3f108e6be27c0a7eca6f12d" category="list-text">500 VM × 100 GiB 已消耗：48.8 TiB 逻辑</block>
+  <block id="84ff9ad92ab9c664544ebf3e0ad0dd2d" category="list-text">工作负载增长 30% 后：63.5 TiB 逻辑</block>
+  <block id="6b0a140c838e6ddbc93849fb002746ba" category="list-text">2:1 效率下的估计物理数据：31.7 TiB</block>
+  <block id="c6ebad3a7cd50e43e83ac9e1e9d2433f" category="list-text">80% 利用率下的预计装机可用容量：39.7 TiB</block>
+  <block id="9ba70168cbcc565c313056a5d538aa4f" category="paragraph">80% 的利用率数字预留了容量。这不是额外 20% 的运营开销。请与 NetApp 解决方案架构师或指定的 NetApp 合作伙伴一起验证数据缩减假设、可用容量和平台开销。他们可以使用 NetApp Fusion 调整 ONTAP 系统的大小，并确认容量、性能和可用性要求。</block>
+  <block id="007822c806ef210b6ab100489751a268" category="list-text">创建 OS 类型设置为 <block ref="e206a54e97690cce50cc872dd70ee896" prefix=" " category="inline-code"></block> 的 igroup，并添加主机 FC 启动器。</block>
+  <block id="fba3cc09cd2befce8e9285817c7abedd" category="paragraph">Proxmox VE 基于 Debian Linux，因此对于包含 Proxmox VE 主机启动器的 igroup，请使用<block ref="e206a54e97690cce50cc872dd70ee896" prefix=" " category="inline-code"></block> 操作系统类型。在 System Manager 中，选择 *Linux* 作为主机操作系统。如果使用 ONTAP CLI，请运行以下命令。</block>
+  <block id="7d0c33b86e92ab690d078b8f4cea50b6" category="list-text">在 SVM 上创建 OS 类型设置为<block ref="e206a54e97690cce50cc872dd70ee896" prefix=" " category="inline-code"></block>和所需大小的 LUN，并将其呈现给上一步中创建的 igroup。确保已在 ASA 系统的安全选项卡和 AFF/FAS 系统的卷安全选项卡上启用反勒索软件保护。</block>
+  <block id="a0c2ec2c88ecabc268aec734b715f2f5" category="paragraph">在 System Manager 中，选择 *Linux* 作为主机操作系统。如果使用 ONTAP 命令行界面，请运行以下命令。</block>
+  <block id="12a5429d722c54fc2b990b7192efca4d" category="list-text">创建 OS 类型设置为<block ref="e206a54e97690cce50cc872dd70ee896" prefix=" " category="inline-code"></block>的 igroup，并添加主机 iSCSI 启动器。</block>
+  <block id="d33f5fae66035c7894e165cda83dfd11" category="list-text">在 SVM 上创建 OS 类型设置为<block ref="e206a54e97690cce50cc872dd70ee896" prefix=" " category="inline-code"></block>和所需大小的 LUN，并将其呈现给上一步中创建的 igroup。确保在 ASA 系统的安全选项卡上启用了反勒索软件保护。对于 AFF/FAS 系统，请确保在卷的安全选项卡上启用了反勒索软件保护。</block>
+  <block id="f01e62d2af03bb4b22697c48f88ca7b2" category="list-text">创建 NVMe 命名空间，并将操作系统类型设置为<block ref="e206a54e97690cce50cc872dd70ee896" prefix=" " category="inline-code"></block>。</block>
+  <block id="a19b827bc9a177885b04bbad3fead60c" category="paragraph">Proxmox VE 基于 Debian Linux，因此请对 Proxmox VE 主机访问的命名空间使用<block ref="e206a54e97690cce50cc872dd70ee896" prefix=" " category="inline-code"></block>操作系统类型。在 System Manager 中，选择 *Linux* 作为主机操作系统。如果使用 ONTAP CLI，请指定<block ref="a79a9777f91ffbc41a1711a0b48d4103" prefix=" " category="inline-code"></block>。</block>
+  <block id="3275470801f2bf5dfb90922b4cfeb2dd" category="list-text">创建子系统并将主机操作系统类型设置为<block ref="e206a54e97690cce50cc872dd70ee896" prefix=" " category="inline-code"></block>，分配主机 NQN，并将命名空间映射到该子系统。</block>
+  <block id="2efafcba0dc3ad95e2a3861e0d6d12ee" category="paragraph">当您创建命名空间并选择 *Linux* 作为主机操作系统时，System Manager 会创建子系统。如果您使用 ONTAP CLI，请运行以下命令。</block>
+  <block id="382d8a7d3f9dbae2cd54fe68f087b9e9" category="list-text">打开 Web 浏览器，通过输入<block ref="f7b77b1b2665fa138c722f56e2afbf0a" prefix=" " category="inline-code"></block>访问 SMP UI</block>
+  <block id="bfbae08b49c5869f29c7ef356cf541ba" category="list-text">使用默认用户名<block ref="21232f297a57a5a743894a0e4a801fc3" prefix=" " category="inline-code"></block>和密码<block ref="21232f297a57a5a743894a0e4a801fc3" prefix=" " category="inline-code"></block>登录到 SMP。</block>
+  <block id="214aa82b7e803741efa1b837ff7c9f6f" category="paragraph">出现提示时，请更改默认密码。使用 Shift 工具包安装 SMP 时，适用相同的默认凭据。</block>
+  <block id="c1d5eadc03b8ae8e90a09d7216f26935" category="section-title">2026年10月22日</block>
+  <block id="585eb0ed546547b6782499bbe77004af" category="list-text">为与 Proxmox VE 一起使用的 NVMe 命名空间、NVMe 子系统、LUN 和 igroup 添加了推荐的 ONTAP OS 类型。</block>
+  <block id="c66ca2a188d7348d29ef387e66ba317d" category="list-text"><block ref="2e94ca9f81de016c02e76e148fee1eaf" category="inline-link-macro-rx"></block> == 2026年10月14日</block>
+  <block id="9c23910fefbeeda3ddd579351b6ec0de" category="sidebar">NetApp Nutanix 虚拟化解决方案演示了如何将 NetApp ONTAP 作为 Nutanix Cloud Platform 的外部 NFS 存储，以便您可以独立扩展计算和存储。</block>
+  <block id="d729979f2a5ebe49b7739031bd07bb1b" category="sidebar">NetApp Nutanix 虚拟化解决方案</block>
+  <block id="97a1afd73c2cd01eeba4f33af7085273" category="sidebar">了解采用 ONTAP 存储的 Nutanix</block>
+  <block id="8ff6db39887e6f377cd6bccb51423334" category="sidebar">Nutanix 云平台文档</block>
+  <block id="3792027e94ae6c9190db74074a73a179" category="sidebar">使用 ONTAP 部署 Nutanix</block>
+  <block id="54b6e2a7fb724421b4465be2511dc7df" category="sidebar">部署 Nutanix 计算集群</block>
+  <block id="ce23a175ba3308c055cffed5849cb891" category="sidebar">配置 ONTAP 卷和权限</block>
+  <block id="864a1c8353d9cb6107d0654bb70de59a" category="sidebar">附加 ONTAP NFS 存储</block>
+  <block id="9c5ffdefc6ca815ae609bdfec9a4622c" category="sidebar">规划和保护</block>
+  <block id="4454b239e8242fc257f918e7fbad8787" category="sidebar">数据保护、灾难恢复和限制</block>
+  <block id="098f5a33637670276d04c3dca13babd0" category="sidebar">Nutanix 虚拟化</block>
+  <block id="ee6ba74d15434fa7f9488015f9c2ade7" category="sidebar">关于带 ONTAP 存储的 Nutanix</block>
+  <block id="b6bc930a5d1ecffce002445909a91249" category="sidebar">使用 ONTAP 存储部署 Nutanix</block>
+  <block id="f35ae7427609e0b7edeeb614e901b52b" category="sidebar">使用 NetApp ONTAP 部署 Nutanix Cloud Platform</block>
+  <block id="655f594403daccdc2c80061d472731bc" category="sidebar">数据保护、灾难恢复和限制</block>
+  <block id="0c5410939f2fbf4c292853697d3cbb3c" category="sidebar">结合 ONTAP 的 Nutanix 数据保护、灾难恢复和限制</block>
+  <block id="b148bfd5e1eea585283ef9778eaf950d" category="sidebar">规划用于 AHV 迁移的 ONTAP 存储大小</block>
 </blocks>

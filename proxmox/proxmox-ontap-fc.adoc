@@ -57,8 +57,25 @@ cat /sys/class/fc_host/host*/port_name
 +
 image:proxmox-ontap-fc-001.png["FC接口详情"]
 
-. 创建 igroup 并填充主机 FC 发起程序。
-. 在 SVM 上创建所需大小的 LUN，并将其呈现给上一步创建的 igroup。确保在ASA系统的“安全”选项卡上启用反勒索软件保护，并在AFF/ FAS系统的“卷安全”选项卡上启用反勒索软件保护。
+. 创建 OS 类型设置为  `linux` 的 igroup，并添加主机 FC 启动器。
++
+Proxmox VE 基于 Debian Linux，因此对于包含 Proxmox VE 主机启动器的 igroup，请使用 `linux` 操作系统类型。在 System Manager 中，选择 *Linux* 作为主机操作系统。如果使用 ONTAP CLI，请运行以下命令。
+
++
+[source, cli]
+----
+lun igroup create -vserver <svm_name> -igroup <igroup_name> -protocol fcp -ostype linux -initiator <wwpn_1>,<wwpn_2>
+----
+. 在 SVM 上创建 OS 类型设置为 `linux`和所需大小的 LUN，并将其呈现给上一步中创建的 igroup。确保已在 ASA 系统的安全选项卡和 AFF/FAS 系统的卷安全选项卡上启用反勒索软件保护。
++
+在 System Manager 中，选择 *Linux* 作为主机操作系统。如果使用 ONTAP 命令行界面，请运行以下命令。
+
++
+[source, cli]
+----
+lun create -vserver <svm_name> -path /vol/<volume_name>/<lun_name> -size <size> -ostype linux
+lun mapping create -vserver <svm_name> -path /vol/<volume_name>/<lun_name> -igroup <igroup_name>
+----
 +
 image:proxmox-ontap-fc-002.png["lun详情"]
 

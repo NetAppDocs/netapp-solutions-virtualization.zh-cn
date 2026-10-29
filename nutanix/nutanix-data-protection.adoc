@@ -1,0 +1,66 @@
+---
+sidebar: sidebar 
+permalink: nutanix/nutanix-data-protection.html 
+keywords: nutanix, ontap, data protection, disaster recovery, snapshot, snapmirror, migration, nutanix move, limitations, ga 
+summary: 了解采用 ONTAP 外部存储的 Nutanix 的数据保护、灾难恢复和虚拟机迁移的工作原理，以及正式发布时不支持哪些功能。 
+---
+= Nutanix with ONTAP 的数据保护、灾难恢复、迁移和限制
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+了解将 ONTAP 用作 Nutanix 计算集群的外部存储时，数据保护、灾难恢复和 VM 迁移的工作原理，并查看正式发布（GA）时不支持的功能。
+
+
+
+[[data-protection]]
+== 数据保护
+
+Prism 管理的 VM 快照使用 VM 磁盘的 ONTAP 文件级克隆，而不是 ONTAP 卷快照。Prism 管理快照生命周期，而 ONTAP 提供底层文件克隆功能。
+
+文件克隆是活动文件系统中的可写副本。它本身无法锁定以防止删除，不是 ARP 恢复点，也不会通过 SnapMirror 或 SnapVault 独立保留或保存。每个磁盘都是单独克隆的，因此除非进行协调，否则不会在单个共享时间点捕获跨磁盘的恢复点。ONTAP 卷快照原生提供这些保护。需要不可变、具有勒索软件弹性的长期保留恢复点的客户应考虑等待 ONTAP 快照集成。
+
+
+NOTE: 我们计划在未来版本中解决 ONTAP 快照支持的 GA 限制。
+
+
+
+[[disaster-recovery]]
+== 灾难恢复
+
+Nutanix 异步 DR 是 GA 发布期间唯一支持的复制方法。ONTAP SnapMirror 不可用。
+
+SnapMirror 是在站点之间复制 ONTAP 数据的既定选择。它仅复制已更改的块，在传输过程中和目的地保留重复数据删除和压缩所节省的空间，并且可以在辅助系统上保留多个恢复点。由于复制在存储系统上运行，因此主机不必复制数据。对于使用 ONTAP 作为外部存储的客户，这意味着 DR 使用与其 ONTAP 环境其余部分相同的复制、保留和恢复流程。
+
+
+NOTE: 计划在将来的版本中进行 SnapMirror 集成。想要在 ONTAP 复制上标准化 DR 的客户应考虑等待 SnapMirror 集成。
+
+
+
+[[vm-migrations]]
+== VM 迁移
+
+在此版本中，虚拟机迁移使用 Nutanix Move。不支持 NetApp Shift 工具包。Shift 工具包与 Nutanix Move 的集成计划在未来版本中发布。它将使用 ONTAP 克隆和分配的块映射，以避免完整数据拷贝并加速迁移。
+
+
+
+[[features-not-supported-at-ga]]
+== GA 不支持的功能
+
+对于 NetApp 和 Nutanix 集成，GA 版本不支持以下配置、功能和集成：
+
+* 使用多个 NetApp 阵列、每个 Nutanix 集群多个存储虚拟机（SVM）或多个逻辑接口（LIF）的配置
+* NetApp MetroCluster
+* ONTAP 快照和依赖于它们的功能
+* SnapMirror主动同步
+* ONTAP Select
+* 适用于 Nutanix Kubernetes Platform（NKP）的 NetApp Trident
+* NFSv4.1
+* FlexGroup 卷
+* NetApp Shift 工具包
+

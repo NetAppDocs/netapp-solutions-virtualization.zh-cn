@@ -1,0 +1,24 @@
+---
+section: nutanix
+title: Nutanix 虚拟化
+url: "/nutanix/index.html"
+entries:
+- title: 关于带 ONTAP 存储的 Nutanix
+  url: "/nutanix/nutanix-overview.html"
+- title: 使用 ONTAP 存储部署 Nutanix
+  pdf-filename: 使用 NetApp ONTAP 部署 Nutanix Cloud Platform
+  entries:
+  - title: 准备部署
+    url: "/nutanix/nutanix-connectivity.html"
+  - title: 部署 Nutanix 计算集群
+    url: "/nutanix/nutanix-deploy-cluster.html"
+  - title: 配置 ONTAP 卷和权限
+    url: "/nutanix/nutanix-ontap-storage.html"
+- title: 附加 ONTAP NFS 存储
+  url: "/nutanix/nutanix-attach-storage.html"
+- title: 数据保护、灾难恢复和限制
+  pdf-filename: 结合 ONTAP 的 Nutanix 数据保护、灾难恢复和限制
+  url: "/nutanix/nutanix-data-protection.html"
+- title: 规划用于 AHV 迁移的 ONTAP 存储大小
+  pdf-filename: 为 Nutanix AHV 迁移调整 ONTAP 存储大小
+  url: "/nutanix/nutanix-sizing.html"

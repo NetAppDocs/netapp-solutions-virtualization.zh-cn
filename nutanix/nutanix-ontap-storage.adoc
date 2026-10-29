@@ -1,0 +1,246 @@
+---
+sidebar: sidebar 
+permalink: nutanix/nutanix-ontap-storage.html 
+keywords: nutanix, ontap, flexvol, nfs, export policy, rest api, role, service account, netapp 
+summary: 创建 ONTAP FlexVol 卷，配置导出策略，并使用 Nutanix 所需的最低 REST API 权限创建 SVM 角色和服务帐户。 
+---
+= 为 Nutanix 配置 ONTAP 卷、导出策略和权限
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+创建和配置 ONTAP 存储卷，配置导出策略，并定义 Nutanix 用于管理 ONTAP 存储的 SVM 角色和服务帐户。完成这些任务后，您可以将 FlexVol 导出作为虚拟机工作负载的共享存储附加到 Nutanix 集群。
+
+该过程首先创建 ONTAP FlexVol 卷并配置 NFS 导出策略。然后定义所需的 SVM 角色和 REST API 权限，最后将 ONTAP 存储附加到 Nutanix 计算集群。
+
+
+
+[[create-ontap-flexvol-volumes]]
+== 创建 ONTAP FlexVol 卷
+
+创建所需的 FlexVol 卷并应用推荐的 ONTAP 设置，以优化 Nutanix 工作负载的容量利用率、存储效率和性能。
+
+.步骤
+. 使用以下设置创建 FlexVol 卷：
++
+[cols="40,60"]
+|===
+| 设置 | 配置 
+
+
+| 卷保证 | 无（精简配置） 
+
+
+| `fractional_reserve` | 0% 
+
+
+| `snap_reserve` | 0% 
+
+
+| 自动调整大小 | 打开 
+
+
+| 存储效率 | 已启用 
+
+
+| 自动删除 | `volume` / `oldest_first` 
+
+
+| 卷分层策略 | 仅 Snapshot 
+
+
+| `try_first` | 自动增长 
+
+
+| Snapshot 策略 | 无 
+|===
+
+
+[NOTE]
+====
+* 调配多个 FlexVol 卷并将其添加为存储容器。
+* 至少创建 4 到 8 个 NFSv3 卷来托管虚拟机数据。
+* 为 Nutanix 服务或元数据卷使用专用卷。虽然服务数据可以共享数据卷，但建议使用专用卷。
+* 默认情况下，使用 FlexVol 导出路径。如果使用 qtree，请在附加存储容器时指定 qtree 导出路径。
+* 在 ONTAP 节点之间均匀分配卷，交替在不同节点上放置卷，以平衡整个集群的工作负载分布和资源利用率。
+
+
+====
+
+
+[[calculate-the-service-volume-size]]
+=== 计算服务卷大小
+
+通过为每个集群节点分配至少 1 TiB（N × 1 TiB）来计算元数据（服务）卷的大小。例如，8 节点集群至少需要 8 TiB 的可用容量。
+
+[NOTE]
+====
+* 为 Nutanix 元数据创建单个精简配置的 FlexVol 卷。
+* 如果没有为服务卷指定专用导出路径，则系统会自动使用为集群服务（元数据）卷配置的第一个导出路径，并将 *Cluster Services* 标记应用于该路径。
+* 部署后，请勿重命名所选 FlexVol 卷或其关联的导出路径。重命名可能会中断虚拟机 I/O 操作并影响工作负载的可访问性。
+* 用于服务卷的 FlexVol 卷可以使用精简配置进行配置。
+
+
+====
+
+
+[[calculate-the-data-volume-size]]
+=== 计算数据卷大小
+
+数据卷大小调整与数据存储大小调整类似。根据虚拟机的预期数量、其容量要求和预期增长来调整存储容器卷的大小。规划足够的可用空间，以适应虚拟机配置、快照和运营开销，同时将工作负载分布在多个卷上，以支持可扩展性和均衡的资源利用率。
+
+
+
+[[configure-ontap-export-policies]]
+== 配置 ONTAP 导出策略
+
+配置导出策略，以便只有 Nutanix CVM 可以访问 NFS 卷。
+
+*数据卷*
+
+. 创建允许 CVM IP 地址或子网范围的卷级导出策略。
+. 设置以下规则：
++
+.. 只读规则(`rorule`）： `sys`
+.. 读写规则(`rwrule`）： `sys`
+.. 超级用户： `sys`
+
+
+. 如果使用了 qtree，请为每个 qtree 创建具有相同权限的专用导出策略规则。
+
+
+*服务或元数据卷*
+
+. 创建允许 CVM IP 地址或子网范围的卷级导出策略。
+. 设置以下规则：
++
+.. 只读规则(`rorule`）： `sys`
+.. 读写规则(`rwrule`）： `sys`
+.. 超级用户： `sys`
+
+
+
+
+[NOTE]
+====
+* 所有 ONTAP NFS 导出应仅允许从 Nutanix CVM IP 地址或指定的 CVM 子网访问。
+* 使用 Prism API 或 `ncli`查找 CVM 主机 IP 地址列表以更新导出策略。
+
+
+====
+
+
+[[configure-ontap-roles-and-permissions]]
+== 配置 ONTAP 角色和权限
+
+为了将 ONTAP 存储连接到 Nutanix 计算集群，Nutanix 使用 ONTAP REST API 进行控制平面操作（虚拟机配置、克隆、快照和存储管理），并将 NFSv3 用于数据路径。
+
+创建具有最低权限的 ONTAP 角色，以便您无需使用 ONTAP `admin` 角色即可在 Nutanix 仅计算集群中执行操作。在 ONTAP 存储端的 SVM 级别需要这些最低角色。
+
+[NOTE]
+====
+* 使用默认 ONTAP NFS 配置设置。
+* 您还可以使用该 `vsadmin`角色。
+
+
+====
+
+
+[[minimum-rest-api-permissions]]
+=== 最小 REST API 权限
+
+创建具有最低所需 REST API 权限的自定义 ONTAP SVM 角色，以启用 Nutanix 存储发现、配置、克隆和管理操作。
+
+[cols="35,15,50"]
+|===
+| REST API 端点 | 访问 | 目的 
+
+
+| `/api/cluster` | 只读 | 群集身份验证和版本验证 
+
+
+| `/api/cluster/jobs` | 只读 | 监控异步存储操作 
+
+
+| `/api/network/ip/interfaces` | 只读 | 发现 ONTAP 数据 LIF 
+
+
+| `/api/storage/file/clone` | 读取/创建 | 虚拟机克隆、快照和备份操作 
+
+
+| `/api/storage/volumes` | 只读 | 卷发现和管理 
+
+
+| `/api/storage/volumes/*/files` | 完全访问权限 | 创建、修改、读取和删除 Nutanix 管理的文件 
+|===
+
+
+[[configure-the-service-account]]
+=== 配置服务帐户
+
+您可以使用 ONTAP System Manager 或 ONTAP 命令行界面创建角色和用户。
+
+[role="tabbed-block"]
+====
+.System Manager
+--
+.步骤
+. 在 SVM 级别创建自定义角色。
++
+.. 选择 *存储 > Storage VM > _指定的 SVM_ > 设置 > 用户和角色*。
+.. 选择*用户和角色*旁边的箭头图标（→）。
+.. 在*角色*下，选择*+添加*。
+.. 定义角色的规则并单击 *Save*。
++
+image:nutanix-storage-001.png["列出 Nutanix 角色的 REST API 路径和访问级别的 ONTAP System Manager 角色属性页面"]
+
+
+
+. 将角色映射到 Nutanix 管理员用户。
++
+.. 在*用户和角色*页面上的*用户*下，选择*+添加*。
+.. 选择所需的用户名，然后从*角色*下拉菜单中选择在上一步中创建的角色。
+.. 对于用户登录方式，请选择 *HTTP*。
+.. 单击 *Save*。
++
+image:nutanix-storage-002.png["ONTAP System Manager 用户和角色页面，显示映射到自定义角色的 Nutanix 用户"]
+
++
+image:nutanix-storage-003.png["显示 SVM 的用户和角色访问级别的 ONTAP System Manager 用户和角色页面"]
+
+
+
+
+
+--
+.命令行界面
+--
+.步骤
+. 运行以下命令以创建角色。将 `ntnx-svm`和 `nim-ntnx-role`替换为您的 SVM 和角色名称。
++
+[source, cli]
+----
+security login rest-role create -vserver ntnx-svm -role nim-ntnx-role -api "/api/cluster" -access readonly
+security login rest-role create -vserver ntnx-svm -role nim-ntnx-role -api "/api/cluster/jobs" -access readonly
+security login rest-role create -vserver ntnx-svm -role nim-ntnx-role -api "/api/network/ip/interfaces" -access readonly
+security login rest-role create -vserver ntnx-svm -role nim-ntnx-role -api "/api/storage/file/clone" -access read_create
+security login rest-role create -vserver ntnx-svm -role nim-ntnx-role -api "/api/storage/volumes" -access readonly
+security login rest-role create -vserver ntnx-svm -role nim-ntnx-role -api "/api/storage/volumes/*/files" -access all
+----
+. 创建用户并将其映射到角色。
++
+[source, cli]
+----
+security login create -vserver ntnx-svm -user-or-group-name nim-ntnx-user -application http -authentication-method password -role nim-ntnx-role
+----
+
+
+--
+====
+
+NOTE: 将 ONTAP 阵列添加到 Nutanix 集群时，需要 ONTAP 服务帐户用户名和密码。在 Prism Element 或 Prism Central 中配置 ONTAP 存储 SVM 时，请使用此用户。

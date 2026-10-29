@@ -1,0 +1,81 @@
+---
+sidebar: sidebar 
+permalink: nutanix/nutanix-attach-storage.html 
+keywords: nutanix, prism element, prism central, external storage, ontap, nfs, storage container, attach 
+summary: 使用 Prism Element 将 ONTAP NFS 卷作为存储容器附加到 Nutanix 计算集群。 
+---
+= 将 ONTAP NFS 存储附加到 Nutanix 计算集群
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+设置 ONTAP 卷并配置连接后，使用 Prism Element 或 Prism Central 将 ONTAP NFS 卷作为存储容器连接到 Nutanix 计算集群。
+
+.开始之前
+确保满足以下先决条件：
+
+* 可从 Nutanix 集群访问 ONTAP 集群或 SVM。
+* 有效的 ONTAP 管理 LIF（IP 地址或 FQDN）可用。
+* 适当的 ONTAP 凭据可用。
+* 所需的 FlexVol、qtree 或文件夹导出路径已创建并配置为用于 NFS 访问。
+
+
+.步骤
+. 登录到 Prism Element Web 控制台。
+. 从主菜单中，选择 *Storage*，然后单击 *+ Attach External Storage*。
+. 在*初始设置*页面上，查看可用信息，然后单击*下一步*。
++
+image:nutanix-attach-001.png["附加外部存储向导，初始设置页面"]
+
+. 在*连接详情*页面，选择 *NetApp ONTAP* 作为外部存储供应商，然后输入以下值：
++
+** *IP 地址（IPv4）或 FQDN*：输入 ONTAP 集群或 SVM 管理 LIF 地址或 FQDN。
+** *用户名*：输入 ONTAP 服务帐户用户名。
+** *密码*：输入服务帐户密码。
++
+单击*下一步*。
+
++
+image:nutanix-attach-002.png["附加外部存储向导，连接详细信息页面"]
+
+
+
+. 在*存储详细信息*页面上，在*外部存储名称*中指定 ONTAP 存储系统的唯一名称，为*导出路径*输入一个或多个存储导出路径，然后单击*添加*。
++
+
+NOTE: 支持的导出路径包括 FlexVol 和 qtree 导出路径。
+
++
+image:nutanix-attach-003.png["附加外部存储向导，存储详细信息页面显示服务卷导出路径选择"]
+
+. 单击*附加*。
++
+系统将 ONTAP 存储连接到 Nutanix 集群。您可以从 Prism Element 中的 *任务* 监控进度和状态信息。
+
++
+image:nutanix-attach-004.png["附加外部存储向导，存储详细信息页面显示选定的导出路径及其容量"]
+
++
+
+NOTE: 该  `nconnect` 选项用于挂载选项中。
+
+
+
+[NOTE]
+====
+* 在配置过程中添加的第一个导出路径将自动指定为默认存储容器，并标记为*默认容器*。
+* NetApp 建议使用多个 FlexVol 卷作为存储容器来分配 VM 工作负载并平衡容量利用率。
+* 为元数据服务（管理）使用专用卷。
+* 可以删除导出路径，除非这些路径已分配给集群服务（元数据）卷或默认存储容器。
+* 当外部存储连接到 Nutanix 计算集群时，无法将其移除。
+* 只能将一个 ONTAP 外部存储系统连接到 Nutanix 计算群集。
+* Nutanix 建议每个节点最多 128 个虚拟机，最多 32 个节点，以及在 DR 集群之间最多 4,800 个 AOS 复制的 vDisks（结合异步和同步复制）。
+
+
+====
+附加存储后，在 Nutanix 云基础架构（NCI）平台上部署 Prism Central 以执行集群管理和配置任务。您还可以通过 Prism Central 连接 ONTAP 存储。
