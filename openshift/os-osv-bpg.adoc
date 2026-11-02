@@ -37,7 +37,7 @@ summary: Red Hat OpenShift 虚拟化中虚拟机的最佳实践建议
 [[high-availability-of-vm-workloads]]
 == VM 工作负载的高可用性
 
-OpenShift Virtualization 支持 VM 的实时迁移。实时迁移允许正在运行的虚拟机实例 (VMI) 移动到另一个节点，而不会中断工作负载。迁移有助于集群升级期间或任何需要耗尽节点以进行维护或配置更改时的平稳过渡。实时迁移需要使用提供 ReadWriteMany (RWX) 访问模式的共享存储解决方案。  VM 磁盘应由提供 RWX 访问模式的存储选项支持。 OpenShift Virtualization 将检查 VMI 是否**可实时迁移**，如果是，则 **evictionStrategy** 将设置为 **LiveMigrate**。看link:https://docs.openshift.com/container-platform/latest/virt/live_migration/virt-about-live-migration.html["Red Hat 文档中关于实时迁移部分"]了解详情。
+OpenShift 虚拟化支持虚拟机的实时迁移。实时迁移允许正在运行的虚拟机实例（VMI）移动到另一个节点，而不会中断工作负载。迁移有助于在集群升级期间或在需要排空节点以进行维护或配置更改的任何时候实现平稳过渡。实时迁移需要使用提供 ReadWriteMany（RWX）访问模式的共享存储解决方案。虚拟机磁盘应由提供 RWX 访问模式的存储选项支持。OpenShift 虚拟化将检查 VMI 是否**可实时迁移**，如果是，则 **evictionStrategy** 将设置为 **LiveMigrate**。有关详细信息，请参阅 link:https://docs.redhat.com/en/documentation/openshift_container_platform/4.18/html/virtualization/live-migration#virt-about-live-migration["Red Hat 文档中关于实时迁移部分"]。
 
 使用支持**RWX**访问模式的驱动程序非常重要。有关哪些ONTAP驱动程序支持 RWX 访问模式的更多详细信息，请参阅下面的存储配置部分。
 
