@@ -7151,7 +7151,6 @@
   <block id="832db4bde43bc86202aac28903f6ad92" category="paragraph"><block ref="832db4bde43bc86202aac28903f6ad92" category="inline-image-macro-rx" type="image"></block></block>
   <block id="b1444c57e983d7ad5d6a4e77d854a17d" category="list-text">下面展示了使用 iSCSI 的 LVM 的示例存储配置文件：</block>
   <block id="a528f7490023ea29b4669401b45ee9ac" category="paragraph"><block ref="a528f7490023ea29b4669401b45ee9ac" category="inline-image-macro-rx" type="image"></block></block>
-  <block id="64ccc22e2bdf3bbf557cb20759f28938" category="summary">使用ONTAP为 Proxmox 虚拟环境配置 NFS 存储。此过程包括启用 SVM、创建 LIF、配置导出策略、创建卷以及设置 nConnect 或会话中继以实现容错和性能。</block>
   <block id="5408a39bf56f122d960a359ee9d6e87c" category="doc">为 Proxmox VE 配置 NFS 存储</block>
   <block id="a12cea73407c9f25953e7a79a87c4cee" category="paragraph">使用NetApp ONTAP为 Proxmox 虚拟环境 (VE) 配置 NFS 存储。使用 NFS v4.1 或更高版本进行会话中继，可以提高存储系统的容错能力和性能，并支持多个网络连接。</block>
   <block id="ffe16d29c4eb0209e7b18407a1993121" category="paragraph">ONTAP支持 Proxmox VE 支持的所有 NFS 版本。使用 <block ref="be091303111d9932d160becb02a7fe79" category="inline-link-macro-rx"></block> 为了提高容错能力和性能。会话中继需要 NFS v4.1 或更高版本。</block>
@@ -10749,4 +10748,13 @@
   <block id="64b7d46f4fbb3bbfb1f7fe9b3b41e958" category="list-text"><block ref="cb3802d1a7bf739e4b3a6ba1da19e7c0" category="inline-link-macro-rx"></block> （至少有 3 个裸机工作节点）</block>
   <block id="7756da238192f285286f6b39ec23f1e9" category="list-text">如果所选操作系统未配置启动源，则必须对其进行配置。您可以在 <block ref="2838fc2c11fc0022e7b301427416401f" category="inline-link-macro-rx"></block> 中查看有关所示步骤的详细信息。</block>
   <block id="dd1834cc6cc47e63e9bdb87a7a824cb1" category="paragraph">OpenShift 虚拟化虚拟机的永久磁盘可以由使用 <block ref="d66058559be29002c97cec8314567a26" category="inline-link-macro-rx"></block> 集成到 OpenShift 集群的 ONTAP 存储提供支持。在本节中，我们使用 <block ref="8ef32fe2e3840cfa4e43d46337bc9c59" category="inline-link-macro-rx"></block> 将虚拟机（包括其数据卷）备份到</block>
+  <block id="d78d26040992473a66e62c0861d86500" category="list-text">在为 Proxmox VE 提供 NFS 存储的 SVM 上，保持禁用 NFS v4.2 稀疏文件操作<block ref="03af1c977606f959df9a8906087d8f89" prefix="(" category="inline-code"></block>）。ONTAP 仅支持对整个文件执行 DEALLOCATE 操作，部分文件的 deallocation 请求可能会导致来宾虚拟机中的 I/O 错误和数据损坏。有关详细信息，请参见<block ref="ff7608fcce5dc1b873f9e65c70c5ca53" category="inline-link-macro-rx"></block>。</block>
+  <block id="77036880ace751a72129c1e871c2f418" category="summary">使用 ONTAP 为 Proxmox VE 配置 NFS 存储，包括 SVM、LIF、导出策略、卷以及 nConnect 或会话中继设置。</block>
+  <block id="c9b774560c7aca40e0ff69a271a0a0ad" category="inline-link-macro">关于 NFS v4.2 稀疏文件操作的 NetApp 知识库文章</block>
+  <block id="f67b4c62ba4a50c476386e729cd3b8f8" category="admonition">请勿在为 Proxmox VE 提供 NFS 存储的 SVM 上启用 NFS v4.2 稀疏文件操作<block ref="03af1c977606f959df9a8906087d8f89" prefix="(" category="inline-code"></block>，在 ONTAP 9.12.1 及更高版本中提供）。ONTAP 仅支持对整个文件执行 NFS v4.2 DEALLOCATE 操作。当 Proxmox VE 请求取消分配部分文件时，例如，当客户机操作系统向精简配置磁盘发出 discard 或 TRIM 命令时，ONTAP 会返回 NFS4ERR_IO 错误。该 I/O 错误会通过 QEMU 传递给客户机操作系统，并可能导致数据损坏。此选项默认处于禁用状态。请保持其禁用状态。有关详细信息，请参见<block ref="520d032564875407d97e9bdaa1bdd4c2" category="inline-link-macro-rx"></block>。</block>
+  <block id="095108a49b3393e2c38c3f21a340e412" category="list-text">验证是否在 SVM 上禁用了 NFS v4.2 稀疏文件操作。运行以下命令并确认值为<block ref="075ae3d2fc31640504f814f60e5ef713" prefix=" " category="inline-code"></block>：</block>
+  <block id="e9d5382ebf5fca460dcc4c5e771275a0" category="paragraph">如果值为<block ref="a10311459433adf322f2590a4987c423" prefix=" " category="inline-code"></block>，请运行以下命令以禁用它：</block>
+  <block id="c48b251f1a0e09db59e345d9c01e941c" category="section-title">2026年11月5日</block>
+  <block id="94940fc5e3ed7709a1802b0f6c8c0da3" category="list-text">添加了为 Proxmox VE NFS 存储保持禁用 NFS v4.2 稀疏文件操作的指南。</block>
+  <block id="92a08e70da607bac4fc002495ff52b6b" category="list-text"><block ref="92a08e70da607bac4fc002495ff52b6b" category="inline-link-macro-rx"></block></block>
 </blocks>

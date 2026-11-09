@@ -1,8 +1,8 @@
 ---
 sidebar: sidebar 
 permalink: proxmox/proxmox-ontap-nfs.html 
-keywords: netapp, proxmox, proxmox ve, nfs, ontap, storage, nconnect, session trunking 
-summary: 使用ONTAP为 Proxmox 虚拟环境配置 NFS 存储。此过程包括启用 SVM、创建 LIF、配置导出策略、创建卷以及设置 nConnect 或会话中继以实现容错和性能。 
+keywords: netapp, proxmox, proxmox ve, nfs, ontap, storage, nconnect, session trunking, sparse file operations 
+summary: 使用 ONTAP 为 Proxmox VE 配置 NFS 存储，包括 SVM、LIF、导出策略、卷以及 nConnect 或会话中继设置。 
 ---
 = 为 Proxmox VE 配置 NFS 存储
 :hardbreaks:
@@ -20,6 +20,9 @@ ONTAP支持 Proxmox VE 支持的所有 NFS 版本。使用 link:https://docs.net
 
 如果您是ONTAP新手，请使用系统管理器界面完成这些任务。
 
+
+CAUTION: 请勿在为 Proxmox VE 提供 NFS 存储的 SVM 上启用 NFS v4.2 稀疏文件操作(`-v4.2-sparsefile-ops`，在 ONTAP 9.12.1 及更高版本中提供）。ONTAP 仅支持对整个文件执行 NFS v4.2 DEALLOCATE 操作。当 Proxmox VE 请求取消分配部分文件时，例如，当客户机操作系统向精简配置磁盘发出 discard 或 TRIM 命令时，ONTAP 会返回 NFS4ERR_IO 错误。该 I/O 错误会通过 QEMU 传递给客户机操作系统，并可能导致数据损坏。此选项默认处于禁用状态。请保持其禁用状态。有关详细信息，请参见link:https://kb.netapp.com/on-prem/ontap/da/NAS/NAS-KBs/Does_this_v4.2-sparsefile-ops_perform_ALLOCATE_DEALLOCATE%3F["关于 NFS v4.2 稀疏文件操作的 NetApp 知识库文章"^]。
+
 .ONTAP的 NFS nconnect 选项
 video::f6c9aba3-b070-45d6-8048-b22e001acfd4[panopto,width=360]
 
@@ -30,6 +33,20 @@ video::f6c9aba3-b070-45d6-8048-b22e001acfd4[panopto,width=360]
 完成以下任务，即可在ONTAP上配置 NFS 存储，以便与 Proxmox VE 一起使用。
 
 . 为 NFS 启用 SVM。请参阅 link:https://docs.netapp.com/us-en/ontap/nfs-config/verify-protocol-enabled-svm-task.html["ONTAP 9 文档"]。
+. 验证是否在 SVM 上禁用了 NFS v4.2 稀疏文件操作。运行以下命令并确认值为 `disabled`：
++
+[source, cli]
+----
+vserver nfs show -vserver <svm_name> -fields v4.2-sparsefile-ops
+----
++
+如果值为 `enabled`，请运行以下命令以禁用它：
+
++
+[source, cli]
+----
+vserver nfs modify -vserver <svm_name> -v4.2-sparsefile-ops disabled
+----
 . 每个控制器至少创建两个 LIF。请按照文档中的步骤操作。作为参考，这里是实验室中使用的 LIF 的屏幕截图。
 +
 .显示示例
